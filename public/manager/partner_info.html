@@ -1,0 +1,316 @@
+<?php include_once "config/config.inc.php";?>
+
+<?php include_once "include/header.inc.php";?>
+
+<div class="page-wrapper">
+	<div class="page-content">
+		<!--breadcrumb-->
+		<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+			<div class="breadcrumb-title pe-3">업체정보관리</div>
+			<div class="ps-3">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb mb-0 p-0">
+						<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">업체정보</li>
+					</ol>
+				</nav>
+			</div>
+			<div class="ms-auto">
+
+			</div>
+		</div>
+		<!--end breadcrumb-->
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-12">
+						<h5 class="mb-0 text-primary">
+							업체명: 바짝 성석점
+						</h5>
+					</div>
+				</div>
+
+				<div class="card-body">
+
+					<form action="/module/partner/partner_admin/admin_partner_update.php" enctype="multipart/form-data" method="post" name="form1" id="form1" class="row g-3">
+						<input type="hidden" name="mode" value="modify">
+						<input type="hidden" name="p_no" value="993">
+						<input type="hidden" name="page" value="">
+						<input type="hidden" name="rURL" value=".%2Fpartner_form.html">
+
+						<div class="col-12">
+							<label class="form-label">카테고리1</label>
+							<br>
+							<input class="form-check-input" type="radio" name="kind" value="K01" checked="" onclick="open_sub('K01')">  독서실                                               <input class="form-check-input" type="radio" name="kind" value="K02" onclick="open_sub('K02')">
+							<input class="form-check-input" type="radio" name="kind" value="K03" onclick="open_sub('K03')"> 스터디룸
+							<input class="form-check-input" type="radio" name="kind" value="K04" onclick="open_sub('K04')"> 독서실 + 스터디룸
+						</div>
+
+						<div class="col-md-6">
+							<label class="form-label">업체명</label>
+							<input type="text" name="name" maxlength="50" class="form-control form-control-sm" value="이엘9111">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">홈페이지주소</label>
+							<input type="text" class="form-control form-control-sm" name="homepage" value="http://9">
+							<a href="http://9" target="_blank">[바로가기]</a>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">전화번호</label>
+							<input type="text" class="form-control form-control-sm" name="phone" maxlength="50" value="0254419919">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">사업자번호</label>
+							<input type="text" class="form-control form-control-sm" name="bizno" maxlength="50" value="9">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label" for="ceo">대표자명</label>
+							<input type="text" class="form-control form-control-sm" name="ceo" id="ceo" maxlength="50" value="9">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">대표이메일</label>
+							<input type="email" class="form-control form-control-sm" name="email" maxlength="50" value="exbuilder@naver.com">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">담당자명</label>
+							<input type="text" class="form-control form-control-sm" name="emp_name" value="문정원이사9">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">직책</label>
+							<input type="text" class="form-control form-control-sm" name="emp_duty" maxlength="50" value="9">
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">핸드폰</label>
+							<input type="text" class="form-control form-control-sm" name="emp_hphone" maxlength="50" value="9010-5286-44419">
+							<font color="#ff0000">( - 로 구분)</font>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">담당자이메일</label>
+							<input type="email" class="form-control form-control-sm" name="emp_email" value="exbuilder@naver.com" maxlength="50">
+						</div>
+						<div class="col-md-12">
+							<label class="form-label">우편번호</label>
+							<input type="text" class="form-control form-control-sm" id="zipcode" name="zipcode" value="9" onclick="execDaumPostcode('partner')">
+						</div>
+						<div class="col-md-12">
+							<label class="form-label control-label">도로명주소</label>
+						</div>
+						<div class="col-sm-8 col-xl-8">
+							<input type="text" class="form-control form-control-sm" id="road_address1" name="road_address1" value="9" onclick="execDaumPostcode('partner')">
+						</div>
+						<div class="col-sm-4 col-xl-4">
+							<input type="text" class="form-control form-control-sm" id="road_address2" name="road_address2" value="">
+						</div>
+						<div class="col-12">
+							<label class="form-label mt-3">네이버좌표</label>
+						</div>
+						<div class="col-md-4 col-sm-6">
+							<label class="form-label mb-1">Lat</label>
+							<input type="text" class="form-control form-control-sm" id="map_latitude" name="map_latitude" value="0.0000000000" title="위도">
+						</div>
+						<div class="col-md-4 col-sm-6">
+							<label class="form-label mb-1">Lng</label>
+							<input type="text" class="form-control form-control-sm" id="map_longitude" name="map_longitude" value="0.0000000000" title="경도">
+						</div>
+						<div class="col-md-4 col-sm-12">
+							<button type="submit" class="btn btn-primary px-5 btn-sm mt-4" onclick="open_nmap_pointwindow('993', encodeURIComponent(document.getElementById('address1').value ) + ' ' + encodeURIComponent( document.getElementById('address2').value ), '','map' )">좌표보기</button>
+						</div>
+
+						<div class="col-12">
+							<label class="form-label">오시는길</label>
+							<input type="text" class="form-control form-control-sm" name="road" value="9">
+						</div>
+						<div class="col-12">
+							<label class="form-label">영업시간</label>
+							<input type="text" class="form-control form-control-sm" name="work_time" value="9">
+						</div>
+						<div class="col-12">
+							<label class="form-label">휴무일</label>
+							<input type="text" class="form-control form-control-sm" name="work_close" value="9">
+						</div>
+						<div class="col-12">
+							<label class="form-label">주차정보</label>
+							<input type="text" class="form-control form-control-sm" name="parking" value="9">
+						</div>
+						<div class="col-12">
+							<label class="form-label">상세설명</label>
+							<textarea class="form-control" id="intro" name="intro" cols="70" style="display: none;">&lt;p&gt;&nbsp;9&lt;/p&gt;</textarea><iframe frameborder="0" scrolling="no" style="width: 100%; height: 254px;" src="http://wedding.cafero.kr/module/SmartEditor2.8.2/SmartEditor2SkinEB.html"></iframe>
+							<script type="text/javascript">
+								nhn.husky.EZCreator.createInIFrame({
+									oAppRef: oEditors,
+									elPlaceHolder: "intro",
+									sSkinURI: "http://wedding.cafero.kr/module/SmartEditor2.8.2/SmartEditor2SkinEB.html",
+									htParams : {
+										bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+										bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+										bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+										//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
+										fOnBeforeUnload : function(){
+											//alert("완료!");
+										}
+									}, //boolean
+									fOnAppLoad : function(){
+										//예제 코드
+										//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."]);
+									},
+									fCreator: "createSEditorInIFrame"
+								});
+							</script>
+						</div>
+						<div class="col-12">
+							<label class="form-label">키워드</label>
+							<input type="text" class="form-control form-control-sm" name="keyword" value="9">
+						</div>
+						<div class="col-6">
+							<label class="form-label col-12">공개여부</label>
+							<div class="form-check-inline col-12">
+								<input type="radio" class="form-check-input" name="open" value="Y" checked=""> 공개
+								<input type="radio" class="form-check-input" name="open" value="N"> 비공개
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<label class="form-label col-12">노출순서</label>
+							<div class="form-check-inline col-7 mt-1">
+								<input type="text" class="col-sm-4 form-control form-control-sm" name="seq" id="seq" value="0">
+							</div>
+							<div class="form-check-inline col-2 mt-1">
+								등급
+							</div>
+						</div>
+
+
+						<div class="col-md-12">
+							<label class="form-label">메모</label>
+							<textarea class="form-control" name="memo" rows="3">9</textarea>
+						</div>
+
+						<div class="col-12 text-center">
+							<button type="button" class="btn btn-primary px-5" onclick="formcheck()">정보수정</button>
+							<button type="button" class="btn btn-secondary px-5" onclick="location.href='partner_list.html?mode=modify&amp;p_no=993'">돌아가기</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
+		<img src="//i1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
+	</div>
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script><script charset="UTF-8" type="text/javascript" src="//t1.daumcdn.net/postcode/api/core/210803/1627969912456/210803.js"></script>
+	<script>
+		// 우편번호 찾기 화면을 넣을 element
+		var element_layer = document.getElementById("layer");
+
+		function closeDaumPostcode() {
+			// iframe을 넣은 element를 안보이게 한다.
+			element_layer.style.display = "none";
+		}
+
+		function execDaumPostcode(zipcode_mode) {
+			new daum.Postcode({
+				oncomplete: function(data) {
+					console.log(data)
+					// 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+					// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+					// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+					var fullAddr = data.address; // 최종 주소 변수
+					var extraAddr = ''; // 조합형 주소 변수
+
+					// 기본 주소가 도로명 타입일때 조합한다.
+					if(data.addressType === 'R'){
+						//법정동명이 있을 경우 추가한다.
+						if(data.bname !== ''){
+							extraAddr += data.bname;
+						}
+						// 건물명이 있을 경우 추가한다.
+						if(data.buildingName !== ''){
+							extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+						}
+						// 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+						fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+					}
+
+					// 우편번호와 주소 정보를 해당 필드에 넣는다.
+					switch(zipcode_mode) {
+						case "partner" :
+							$("#zipcode").val(data.zonecode);
+							$("#address1").val(data.autoJibunAddress);
+							$("#address2").focus();
+							$("#road_address1").val(data.roadAddress);
+							$("#road_address2").focus();
+							break;
+						case "company" :
+							$("#zipcode").val(data.zonecode);
+							$("#address1").val(data.address);
+							$("#address2").focus();
+							break;
+						case 2 :
+							$("#zipcode").val(data.zonecode);
+							$("#addr1").val(data.sido);
+							$("#addr2").val(data.sigungu);
+							$("#addr3").val(data.bname);
+							$("#addr4").val(data.address);
+							break;
+						default :
+						case 1 :
+							$("#zipcode").val(data.zonecode);
+							$("#address1").val(data.roadAddress + " " + data.buildingName);
+							$("#address2").val();
+							break;
+					}
+
+
+					/*
+                                    document.getElementById('sample2_postcode').value = data.zonecode; //5자리 새우편번호 사용
+                                    document.getElementById('sample2_address').value = fullAddr;
+                                    document.getElementById('sample2_addressEnglish').value = data.addressEnglish;
+                    */
+					// iframe을 넣은 element를 안보이게 한다.
+					// (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
+					element_layer.style.display = 'none';
+				},
+				width : '100%',
+				height : '100%'
+			}).embed(element_layer);
+
+			// iframe을 넣은 element를 보이게 한다.
+			element_layer.style.display = 'block';
+
+			// iframe을 넣은 element의 위치를 화면의 가운데로 이동시킨다.
+			initLayerPosition();
+		}
+
+		// 브라우저의 크기 변경에 따라 레이어를 가운데로 이동시키고자 하실때에는
+		// resize이벤트나, orientationchange이벤트를 이용하여 값이 변경될때마다 아래 함수를 실행 시켜 주시거나,
+		// 직접 element_layer의 top,left값을 수정해 주시면 됩니다.
+		function initLayerPosition(){
+			var width = 600; //우편번호서비스가 들어갈 element의 width
+			var height = 460; //우편번호서비스가 들어갈 element의 height
+			var borderWidth = 5; //샘플에서 사용하는 border의 두께
+
+			// 위에서 선언한 값들을 실제 element에 넣는다.
+			element_layer.style.width = width + 'px';
+			element_layer.style.height = height + 'px';
+			element_layer.style.border = borderWidth + 'px solid';
+			// 실행되는 순간의 화면 너비와 높이 값을 가져와서 중앙에 뜰 수 있도록 위치를 계산한다.
+			element_layer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width)/2 - borderWidth) + 'px';
+			element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';
+		}
+	</script><!--start overlay-->
+	<div class="search-overlay"></div>
+	<div class="overlay toggle-icon"></div>
+	<!--end overlay-->
+	<!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class="bx bxs-up-arrow-alt"></i></a>
+	<!--End Back To Top Button-->
+	<footer class="page-footer">
+		<p class="mb-0">Copyright © 2021. All right reserved.</p>
+	</footer>
+</div>
+
+
+<?php include_once "include/footer.inc.php";?>
+
+<?php include_once "include/footer_close.inc.php";?>

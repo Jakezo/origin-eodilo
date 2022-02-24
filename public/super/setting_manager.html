@@ -1,0 +1,189 @@
+<?php include_once "config/config.inc.php";?>
+
+<?php include_once "include/header.inc.php";?>
+
+
+<div class="page-wrapper">
+    <div class="page-content">
+
+        <div class="col">
+            <h6 class="mb-0 text-uppercase">관리자목록</h6>
+            <hr>
+            <form method="get" action="/mobile/setting_manager.html" id="search_frm">
+                <div class="col-12 text-right mb-2 row">
+
+                    <div class="col-sm-8 mb-1 text-left">
+                        <input type="text" class="form-control form-control-sm date col-12" name="skey" value="" placeholder="이름, 이메일, 핸드폰, 아이디" onchange="this.form.submit()">
+                    </div>
+                    <div class="col-sm-2 mb-1 text-left">
+                        <button type="button" class="btn btn-sm btn-secondary col-12">검색</button>
+                    </div>
+
+                    <div class="col-sm-2 mb-1 text-left">
+                        <button type="button" class="btn btn-info btn-sm admin_item col-12" aid="">사용자등록</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive-sm">
+                        <table class="table mb-0">
+                            <thead class="table-dark">
+                            <tr>
+                                <th scope="col" class="text-center d-none d-md-table-cell">#</th>
+                                <th scope="col" class="text-center">아이디</th>
+                                <th scope="col" class="text-center">이름</th>
+                                <th scope="col" class="text-center d-none d-sm-table-cell">이메일</th>
+                                <th scope="col" class="text-center d-none d-md-table-cell">휴대폰</th>
+                                <th scope="col" class="text-center ">승인</th>
+                                <th scope="col" class="text-center d-none d-md-table-cell">등록일</th>
+                                <th scope="col" class="text-center d-none d-md-table-cell">최근로그인</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="admin_item" aid="wind486">
+                                <td class="text-center d-none d-md-table-cell" scope="row">12</td>
+                                <td class="text-center">wind486</td>
+                                <td class="text-center">원종오</td>
+                                <td class="text-center d-none d-sm-table-cell"></td>
+                                <td class="text-center d-none d-md-table-cell">010-5768-5785</td>
+                                <td class="text-center">
+                                    <span class="btn btn-xs btn-success">승인</span>
+                                </td>
+                                <td class="text-center d-none d-md-table-cell"> 2021-08-09 </td>
+                                <td class="text-center d-none d-md-table-cell"> 2021-08-11 </td>
+                            </tr>
+                            <tr class="admin_item" aid="kar98k">
+                                <td class="text-center d-none d-md-table-cell" scope="row">11</td>
+                                <td class="text-center">kar98k</td>
+                                <td class="text-center">최봉학</td>
+                                <td class="text-center d-none d-sm-table-cell"></td>
+                                <td class="text-center d-none d-md-table-cell">010-6676-1945</td>
+                                <td class="text-center">
+                                    <span class="btn btn-xs btn-success">승인</span>
+                                </td>
+                                <td class="text-center d-none d-md-table-cell"> 2021-08-09 </td>
+                                <td class="text-center d-none d-md-table-cell"> 2021-08-11 </td>
+                            </tr>
+                            <tr class="admin_item" aid="rushifall">
+                                <td class="text-center d-none d-md-table-cell" scope="row">10</td>
+                                <td class="text-center">rushifall</td>
+                                <td class="text-center">최현우</td>
+                                <td class="text-center d-none d-sm-table-cell">love12545@naver.com</td>
+                                <td class="text-center d-none d-md-table-cell">010-9967-5430</td>
+                                <td class="text-center">
+                                    <span class="btn btn-xs btn-success">승인</span>
+                                </td>
+                                <td class="text-center d-none d-md-table-cell"> 2021-08-09 </td>
+                                <td class="text-center d-none d-md-table-cell"> 2021-08-11 </td>
+                            </tr>
+                            <tr class="admin_item" aid="l930814">
+                                <td class="text-center d-none d-md-table-cell" scope="row">9</td>
+                                <td class="text-center">l930814</td>
+                                <td class="text-center">이하나</td>
+                                <td class="text-center d-none d-sm-table-cell"></td>
+                                <td class="text-center d-none d-md-table-cell">010-6636-9827</td>
+                                <td class="text-center">
+                                    <span class="btn btn-xs btn-success">승인</span>
+                                </td>
+                                <td class="text-center d-none d-md-table-cell"> 2021-08-09 </td>
+                                <td class="text-center d-none d-md-table-cell"> 2021-08-12 </td>
+                            </tr>
+                            <tr class="admin_item" aid="kys6376">
+                                <td class="text-center d-none d-md-table-cell" scope="row">8</td>
+                                <td class="text-center">kys6376</td>
+                                <td class="text-center">김영숙</td>
+                                <td class="text-center d-none d-sm-table-cell"></td>
+                                <td class="text-center d-none d-md-table-cell">010-8837-6376</td>
+                                <td class="text-center">
+                                    <span class="btn btn-xs btn-success">승인</span>
+                                </td>
+                                <td class="text-center d-none d-md-table-cell"> 2021-08-09 </td>
+                                <td class="text-center d-none d-md-table-cell"> - </td>
+                            </tr>
+                            <tr class="admin_item" aid="mkonjibg">
+                                <td class="text-center d-none d-md-table-cell" scope="row">7</td>
+                                <td class="text-center">mkonjibg</td>
+                                <td class="text-center">김현숙</td>
+                                <td class="text-center d-none d-sm-table-cell"></td>
+                                <td class="text-center d-none d-md-table-cell">010-2122-4713</td>
+                                <td class="text-center">
+                                    <span class="btn btn-xs btn-success">승인</span>
+                                </td>
+                                <td class="text-center d-none d-md-table-cell"> 2021-08-09 </td>
+                                <td class="text-center d-none d-md-table-cell"> 2021-08-10 </td>
+                            </tr>
+                            <tr class="admin_item" aid="kuk103">
+                                <td class="text-center d-none d-md-table-cell" scope="row">6</td>
+                                <td class="text-center">kuk103</td>
+                                <td class="text-center">박동원</td>
+                                <td class="text-center d-none d-sm-table-cell"></td>
+                                <td class="text-center d-none d-md-table-cell">010-9093-2763</td>
+                                <td class="text-center">
+                                    <span class="btn btn-xs btn-success">승인</span>
+                                </td>
+                                <td class="text-center d-none d-md-table-cell"> 2021-08-09 </td>
+                                <td class="text-center d-none d-md-table-cell"> 2021-08-11 </td>
+                            </tr>
+                            <tr class="admin_item" aid="seosh0114">
+                                <td class="text-center d-none d-md-table-cell" scope="row">5</td>
+                                <td class="text-center">seosh0114</td>
+                                <td class="text-center">서순환</td>
+                                <td class="text-center d-none d-sm-table-cell"></td>
+                                <td class="text-center d-none d-md-table-cell">010-2969-9214</td>
+                                <td class="text-center">
+                                    <span class="btn btn-xs btn-success">승인</span>
+                                </td>
+                                <td class="text-center d-none d-md-table-cell"> 2021-08-09 </td>
+                                <td class="text-center d-none d-md-table-cell"> - </td>
+                            </tr>
+                            <tr class="admin_item" aid="im1610">
+                                <td class="text-center d-none d-md-table-cell" scope="row">4</td>
+                                <td class="text-center">im1610</td>
+                                <td class="text-center">신상임</td>
+                                <td class="text-center d-none d-sm-table-cell"></td>
+                                <td class="text-center d-none d-md-table-cell">010-8896-0903</td>
+                                <td class="text-center">
+                                    <span class="btn btn-xs btn-success">승인</span>
+                                </td>
+                                <td class="text-center d-none d-md-table-cell"> 2021-08-09 </td>
+                                <td class="text-center d-none d-md-table-cell"> - </td>
+                            </tr>
+                            <tr class="admin_item" aid="yun0203">
+                                <td class="text-center d-none d-md-table-cell" scope="row">3</td>
+                                <td class="text-center">yun0203</td>
+                                <td class="text-center">유수연</td>
+                                <td class="text-center d-none d-sm-table-cell">dbtndus0203@naver.com</td>
+                                <td class="text-center d-none d-md-table-cell">010-9867-5430</td>
+                                <td class="text-center">
+                                    <span class="btn btn-xs btn-success">승인</span>
+                                </td>
+                                <td class="text-center d-none d-md-table-cell"> 2021-08-09 </td>
+                                <td class="text-center d-none d-md-table-cell"> - </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="card-body d-flex justify-content-center">
+
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination pagination-sm">
+                            <li class="page-item active"><a class="page-link">1</a>
+                            </li>
+                            <li class="page-item d-none d-sm-inline-block"><a class="page-link" href="?skey=&amp;page=2">2</a>
+                            </li>
+                        </ul>
+                    </nav>                        </div>
+            </div>
+        </div>
+    </div>
+    <!--end row-->
+</div>
+
+
+<?php include_once "include/footer.inc.php";?>
+
+<?php include_once "include/footer_close.inc.php";?>

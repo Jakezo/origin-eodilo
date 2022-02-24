@@ -1,0 +1,161 @@
+<?php include_once "config/config.inc.php";?>
+
+<?php include_once "include/header.inc.php";?>
+
+		<!--start page wrapper -->
+		<div class="page-wrapper">
+			<div class="page-content">
+
+				<div class="row row-cols-1 row-cols-lg-3" style="font-size:0.8rem">
+					<div class="col">
+						<div class="card radius-10">
+							<div class="card-body">
+								<div class="d-flex align-items-center">
+									<div class="flex-grow-1">
+										<p class="mb-0">현재좌석이용건수</p>
+										<h5 class="font-weight-bold">200<span style="font-size:0.7em">/300좌석</span></h5>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card radius-10">
+							<div class="card-body">
+								<div class="d-flex align-items-center">
+									<div class="flex-grow-2">
+										<p class="mb-0">금일 모바일 이용건수</p>
+										<h5 class="font-weight-bold">23건<span style="font-size:0.7em">/300건</span></h5>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card radius-10">
+							<div class="card-body">
+								<div class="d-flex align-items-center">
+									<div class="flex-grow-4">
+										<p class="mb-0">금일 모바일 매출</p>
+										<h5 class="font-weight-bold">163,352원</h5>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-12 col-lg-9">
+						<div class="card radius-10">
+							<div class="card-header border-bottom-0 bg-transparent">
+								<div class="d-lg-flex align-items-center">
+									<div>
+										<h6 class="font-weight-bold mb-2 mb-lg-0">배치도</h6>
+									</div>
+									<div class="ms-lg-auto mb-2 mb-lg-0">
+										<div class="btn-group-round">
+											<div class="btn-group">
+												룸선택
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-body" style="height:600px;">
+								<div class="col-12  mb-5">
+									<a href="javaScript:;" class="btn btn-sm btn-outline-primary radius-2" data-bs-toggle="modal" data-bs-target="#seatStatusModal" style="width:100px;height:60px;">1</a>
+									<a href="javaScript:;" class="btn btn-sm btn-outline-primary radius-2" data-bs-toggle="modal" data-bs-target="#seatReservFormModal" style="width:100px;height:60px;">2</a>
+								</div>
+
+								<div class="col-12  mb-5">
+									<div class="alert alert-warning">
+										<div>1번 좌석을 선택하면 현재 사용중인 상태를, 2번을 클릭하시면 입실처리 폼을 확인하실 수 있습니다.</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="col-12 col-lg-3">
+						<div class="col cursor-pointer" data-toggle="popover" title="안내" data-content="클릭시 왼쪽 배치도에 해당 룸이 나타남">
+							<div class="card radius-10 overflow-hidden bg-gradient-moonlit">
+								<div class="card-body">
+									<div class="d-flex align-items-center">
+										<div>
+											<p class="mb-0 text-white">룸 M01</p>
+											<h3 class="mb-0 text-white">11/<span style="font-size:14pt;">21</span></h3>
+										</div>
+										<div class="ms-auto text-white"><i class='bx bx-chat font-30'></i>
+										</div>
+									</div>
+									<div class="progress  bg-white-2 radius-10 mt-4" style="height:4.5px;">
+										<div class="progress-bar bg-white" role="progressbar" style="width: 66%"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col cursor-pointer" data-toggle="popover" title="안내" data-content="클릭시 왼쪽 배치도에 해당 룸이 나타남">
+							<div class="card radius-10 overflow-hidden bg-gradient-moonlit">
+								<div class="card-body">
+									<div class="d-flex align-items-center">
+										<div>
+											<p class="mb-0 text-white">룸 M02</p>
+											<h3 class="mb-0 text-white">3/<span style="font-size:14pt;">21</span></h3>
+										</div>
+										<div class="ms-auto text-white"><i class='bx bx-chat font-30'></i>
+										</div>
+									</div>
+									<div class="progress  bg-white-2 radius-10 mt-4" style="height:4.5px;">
+										<div class="progress-bar bg-white" role="progressbar" style="width: 16%"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col cursor-pointer" data-toggle="popover" title="안내" data-content="클릭시 왼쪽 배치도에 해당 룸이 나타남">
+							<div class="card radius-10 overflow-hidden bg-gradient-moonlit">
+								<div class="card-body">
+									<div class="d-flex align-items-center">
+										<div>
+											<p class="mb-0 text-white">룸 W01</p>
+											<h3 class="mb-0 text-white">6/<span style="font-size:14pt;">21</span></h3>
+										</div>
+										<div class="ms-auto text-white"><i class='bx bx-chat font-30'></i>
+										</div>
+									</div>
+									<div class="progress  bg-white-2 radius-10 mt-4" style="height:4.5px;">
+										<div class="progress-bar bg-white" role="progressbar" style="width: 26%"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col cursor-pointer" data-toggle="popover" title="안내" data-content="클릭시 왼쪽 배치도에 해당 룸이 나타남">
+							<div class="card radius-10 overflow-hidden bg-gradient-moonlit">
+								<div class="card-body">
+									<div class="d-flex align-items-center">
+										<div>
+											<p class="mb-0 text-white">룸 W02</p>
+											<h3 class="mb-0 text-white">11/<span style="font-size:14pt;">21</span></h3>
+										</div>
+										<div class="ms-auto text-white"><i class='bx bx-chat font-30'></i>
+										</div>
+									</div>
+									<div class="progress  bg-white-2 radius-10 mt-4" style="height:4.5px;">
+										<div class="progress-bar bg-white" role="progressbar" style="width: 66%"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--end row-->
+
+			</div>
+		</div>
+		<!--end page wrapper -->
+
+
+
+<?php include_once "include/footer.inc.php";?>
+
+<?php include_once "include/footer_close.inc.php";?>

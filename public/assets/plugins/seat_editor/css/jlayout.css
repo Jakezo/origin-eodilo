@@ -1,0 +1,181 @@
+#page {
+    max-width:1000px;
+    width:100%;
+    position: relative;
+    /*border:1px solid red;*/
+}
+
+#page:before {
+    content: "";
+    display: block;
+}
+
+#room_bg {
+    top: 0;
+    left: 0;
+    /*border:1px solid blue;*/
+    position: relative;
+    width: 100%;
+    float: left;
+    overflow: hidden;
+
+}
+
+
+div.wall {
+    position:absolute;
+    width: 100px;
+    height: 10px;
+    border:1px solid #000000;
+    background-color: #000000;
+    cursor: move;
+}
+
+div.pillar1 {
+    position:absolute;
+    width: 60px;
+    height: 60px;
+    border:1px solid #000000;
+    background-color: #000000;
+    border-radius:50%;
+    cursor: move;
+}
+
+div.pillar2 {
+    position:absolute;
+    width: 60px;
+    height: 60px;
+    border:1px solid #000000;
+    background-color: #000000;
+    cursor: move;
+}
+
+div.table {
+    font-size: 20px;
+    position:absolute;
+    width: 100px;
+    height: 70px;
+    border-radius:3%;
+    border:1px solid #000000;
+    background-color: rgba(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    cursor: move;
+}
+
+div.table .status {
+    width: 100%;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+div.table .status .status1 {
+    width:30px;
+    height:10px;
+    border-radius:20%;
+    border:1px solid #aaaaaa;
+    color:#000000;
+    float:left;
+}
+
+div.table .status .status2 {
+    width:30px;
+    height:10px;
+    border-radius:20%;
+    border:1px solid #aaaaaa;
+    color:#000000;
+    float:right;
+}
+
+div.table .name {
+    position: absolute;
+    width:100%;
+    margin-top: 15%;
+    display: inline-block;
+    font-size: 1em;
+    width: 90%;
+    min-height:15pt;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    color:#000000;
+    overflow: hidden;
+}
+
+
+div.table2 {
+    font-size: 20px;
+    position:absolute;
+    width: 200px;
+    height: 120px;
+    border-radius:3%;
+    border:1px solid #000000;
+    background-color: rgba(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    cursor: move;
+}
+
+div.table2 .status {
+    width: 100%;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+div.table2 .status .status1 {
+    width:30px;
+    height:10px;
+    border-radius:20%;
+    border:1px solid #aaaaaa;
+    color:#000000;
+    float:left;
+}
+
+div.table2 .status .status2 {
+    width:30px;
+    height:10px;
+    border-radius:20%;
+    border:1px solid #aaaaaa;
+    color:#000000;
+    float:right;
+}
+
+div.table2 .name {
+    position: absolute;
+    width:100%;
+    margin-top: 15%;
+    display: inline-block;
+    font-size: 1em;
+    width: 90%;
+    min-height:15pt;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    color:#000000;
+    overflow: hidden;
+}
+
+#control_pannel {
+    left : 1000px;
+    top:0px;
+
+    border:1px solid yellow;
+    position: absolute;
+    float: left;
+    width: 200px;
+    margin-left:20px;
+
+}
+
+#control_pannel #edit_pannel {
+    width: 100%;
+    border: 1px solid #000000;
+}
+
+#control_pannel #create_pannel {
+    width: 100%;
+    margin-bottom:10px;
+    border: 1px solid #000000;
+}

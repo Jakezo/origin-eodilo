@@ -1,0 +1,18 @@
+.btn-xs {
+    padding  : .42rem .4rem .4rem;
+    font-size  : .775rem;
+    line-height  : .5;
+    border-radius : .2rem;
+}
+
+/* 이미지 삭제 버튼*/
+.img_item {
+    width:100px;
+    margin-right:10px;
+    position: relative;
+}
+.img_des {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}

@@ -1,0 +1,355 @@
+<?php include_once "config/config.inc.php";?>
+
+<?php include_once "include/header.inc.php";?>
+
+		<!--start page wrapper -->
+		<div class="page-wrapper">
+			<div class="page-content">
+				<!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">룸/좌석관리</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">좌석등급설정</li>
+							</ol>
+						</nav>
+					</div>
+					<div class="ms-auto">
+						<div class="btn-group">
+
+						</div>
+					</div>
+				</div>
+				<!--end breadcrumb-->
+				<div class="row">
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<form name="search" action="<?=$PHP_SELF?>?menu=<?=$menu?>">
+									<input type="hidden" name="mode" value="list">
+									<div class='row'>
+										<div class="col-md-2 col-sm-4 col-xs-12 mt-1">
+
+										</div>
+										<div class="col-md-8 col-sm-4 col-xs-12 mt-1">
+										</div>
+										<div class="col-md-2 col-sm-4 col-xs-12 mt-1 justify-content-right">
+											<a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12" data-bs-toggle="modal" data-bs-target="#seatLevelFormModal">신규</a>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="card-body">
+								<table class="table mb-0 table-striped">
+									<thead>
+										<tr>
+											<th scope="col" class=" text-center">#</th>
+											<th scope="col" class=" text-center">좌석등급명</th>
+											<th scope="col" class=" text-center">요금설정</th>
+											<th scope="col" class=" text-center">관리</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row" class=" text-center">1</th>
+											<td class=" text-center">A형</td>
+											<td class=" text-center"><button class="btn btn-xs btn-danger">미설정</button></td>
+											<td class="col-2 text-center">
+												<button class="btn btn-xs btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#seatLevelFormModal">관리</button>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row" class=" text-center">2</th>
+											<td class=" text-center">B형</td>
+											<td class=" text-center"><button class="btn btn-xs btn-primary">완료</button></td>
+											<td class="col-2 text-center">
+												<button class="btn btn-xs btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#seatLevelFormModal">관리</button>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row" class=" text-center">3</th>
+											<td class=" text-center">C형</td>
+											<td class=" text-center"><button class="btn btn-xs btn-primary">완료</button></td>
+											<td class="col-2 text-center">
+												<button class="btn btn-xs btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#seatLevelFormModal">관리</button>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row" class=" text-center">4</th>
+											<td class=" text-center">스터디룸 A형</td>
+											<td class=" text-center"><button class="btn btn-xs btn-primary">완료</button></td>
+											<td class="col-2 text-center">
+												<button class="btn btn-xs btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#seatLevelFormModal">관리</button>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row" class=" text-center">1</th>
+											<td class=" text-center">스터디룸 B형</td>
+											<td class=" text-center"><button class="btn btn-xs btn-danger">미설정</button></td>
+											<td class="col-2 text-center">
+												<button class="btn btn-xs btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#seatLevelFormModal">관리</button>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row" class=" text-center">2</th>
+											<td class=" text-center">Jacob</td>
+											<td class=" text-center"><button class="btn btn-xs btn-danger">미설정</button></td>
+											<td class="col-2 text-center">
+												<button class="btn btn-xs btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#seatLevelFormModal">관리</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-12 col-md-12">
+								<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+									<ul class="pagination">
+										<li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Prev</a></li>
+										<li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
+										<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
+										<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
+										<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
+										<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
+										<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
+										<li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<!--end row-->
+			</div>
+		</div>
+		<!--end page wrapper -->
+
+
+
+<div class="modal fade" id="seatLevelFormModal" tabindex="-3" aria-labelledby="seatLevelFormModalLabel" style="display: none;z-index:90000;" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="memberRegModalLabel">좌석레벨정보</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<ul class="nav nav-tabs nav-primary navbar-sm" role="tablist">
+					<li class="nav-item" role="presentation">
+						<a class="nav-link active" data-bs-toggle="tab" href="#seatLevelInfo" role="tab" aria-selected="true">
+							<div class="d-flex align-items-center">
+								<div class="tab-icon"><i class="bx bxs-home font-18 me-1"></i>
+								</div>
+								<div class="tab-title">기본정보</div>
+							</div>
+						</a>
+					</li>
+					<li class="nav-item" role="presentation">
+						<a class="nav-link" data-bs-toggle="tab" href="#seatLevelPrice1" role="tab" aria-selected="false">
+							<div class="d-flex align-items-center">
+								<div class="tab-icon"><i class="bx bxs-time font-18 me-1"></i>
+								</div>
+								<div class="tab-title">시간요금표</div>
+							</div>
+						</a>
+					</li>
+					<li class="nav-item" role="presentation">
+						<a class="nav-link" data-bs-toggle="tab" href="#seatLevelPrice2" role="tab" aria-selected="false">
+							<div class="d-flex align-items-center">
+								<div class="tab-icon"><i class="bx bxs-calendar font-18 me-1"></i>
+								</div>
+								<div class="tab-title">기간요금표</div>
+							</div>
+						</a>
+					</li>
+				</ul>
+				<div class="tab-content py-3">
+					<div class="tab-pane fade show active" id="seatLevelInfo" role="tabpanel">
+
+						<form class="row g-3">
+
+							<div class="col-md-12">
+								<div class="alert border-0 border-start border-5 border-primary alert-dismissible fade show">
+									<div>등급명을 저장한후에 금액설정을 할 수 있습니다.</div>
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<label for="inputLastName1" class="form-label">좌석등급명</label>
+								<div class="input-group">
+									<input type="text" class="form-control border-start-0" id="inputLastName1" placeholder="좌석등급명">
+								</div>
+							</div>
+
+							<div class="col-12 text-center">
+								<button type="submit" class="btn btn-warning px-5">확인</button>
+							</div>
+
+							<div class="col-12 text-right">
+								이 좌석등급을 삭제 <button type="button" class="btn btn-xs btn-secondary">삭제</button>
+							</div>
+						</form>
+
+					</div>
+
+					<div class="tab-pane fade" id="seatLevelPrice1" role="tabpanel">
+
+						<div>
+							 <div class="row col-12">
+								 <div class="col-8 text-brown font-18">1시간을 기준으로 요금표 만들기</div>
+								 <div class="col-4 text-right">
+									 <button class="btn btn-sm btn-info">은하표준금액선택</button>
+								 </div>
+							 </div>
+
+							<table class="table mb-0">
+								<thead>
+								<tr>
+									<th scope="col" class="col-2 text-center">#</th>
+									<th scope="col" class="col-3 text-center">합계</th>
+									<th scope="col" class="col-3 text-center">독서실요금</th>
+									<th scope="col" class="col-3 text-center">스터디룸요금</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+									<th scope="row" rowspan="2">기본</th>
+									<td class=" text-center"><input type="number" class="in_price student total col-12" id="price_student_A_t" name="seat_price[student][A][T]" value="" placeholder="학생 요금"></td>
+									<td class=" text-center"><input type="number" class="in_price student rroom col-12" id="price_student_A_r" name="seat_price[student][A][R]" value="" placeholder="학생 독서실요금"></td>
+									<td class=" text-center"><input type="number" class="in_price student sroom col-12" id="price_student_A_s" name="seat_price[student][A][S]" value="" placeholder="학생 스터디룸 요금"></td>
+								</tr>
+								<tr>
+									<td><input type="number" class="in_price adult total col-12" id="price_adult_A_t" name="seat_price[adult][A][T]" value="" placeholder="성인 요금"></td>
+									<td><input type="number" class="in_price adult rroom col-12" id="price_adult_A_r" name="seat_price[adult][A][R]" value="" placeholder="성인 독서실요금"></td>
+									<td><input type="number" class="in_price adult sroom col-12" id="price_adult_A_s" name="seat_price[adult][A][S]" value="" placeholder="성인 스터디룸 요금"></td>
+								</tr>
+								<tr>
+									<th scope="row" rowspan="2">신규</th>
+									<td class=" text-center"><input type="number" class="in_price student total col-12" id="price_student_N_t" name="seat_price[student][N][T]" value="" placeholder="학생 요금"></td>
+									<td class=" text-center"><input type="number" class="in_price student rroom col-12" id="price_student_N_r" name="seat_price[student][N][R]" value="" placeholder="학생 독서실요금"></td>
+									<td class=" text-center"><input type="number" class="in_price student sroom col-12" id="price_student_N_s" name="seat_price[student][N][S]" value="" placeholder="학생 스터디룸 요금"></td>
+								</tr>
+								<tr>
+									<td><input type="number" class="in_price adult total col-12" id="price_adult_N_t" name="seat_price[adult][N][T]" value="" placeholder="성인 요금"></td>
+									<td><input type="number" class="in_price adult rroom col-12" id="price_adult_N_r" name="seat_price[adult][N][R]" value="" placeholder="성인 독서실요금"></td>
+									<td><input type="number" class="in_price adult sroom col-12" id="price_adult_N_s" name="seat_price[adult][N][S]" value="" placeholder="성인 스터디룸 요금"></td>
+								</tr>
+								<tr>
+									<th scope="row" rowspan="2">연장</th>
+									<td class=" text-center"><input type="number" class="in_price student total col-12" id="price_student_X_t" name="seat_price[student][X][T]" value="" placeholder="학생 요금"></td>
+									<td class=" text-center"><input type="number" class="in_price student rroom col-12" id="price_student_X_r" name="seat_price[student][X][R]" value="" placeholder="학생 독서실요금"></td>
+									<td class=" text-center"><input type="number" class="in_price student sroom col-12" id="price_student_X_s" name="seat_price[student][X][S]" value="" placeholder="학생 스터디룸 요금"></td>
+								</tr>
+								<tr>
+									<td><input type="number" class="in_price adult total col-12" id="price_adult_X_t" name="seat_price[adult][X][T]" value="" placeholder="성인 요금"></td>
+									<td><input type="number" class="in_price adult rroom col-12" id="price_adult_X_r" name="seat_price[adult][X][R]" value="" placeholder="성인 독서실요금"></td>
+									<td><input type="number" class="in_price adult sroom col-12" id="price_adult_X_s" name="seat_price[adult][X][S]" value="" placeholder="성인 스터디룸 요금"></td>
+								</tr>
+								<tr>
+									<th scope="row" colspan="2">1시간당 할인율</th>
+									<td class=" text-center">
+										<input type="number" class="in_price student rroom col-12 mb-2" id="rate_student" name="rate_student" value="" placeholder="학생할인율">
+										<input type="number" class="in_price student sroom col-12 mb-2" id="rate_adult" name="rate_adult" value="" placeholder="성인할인율">
+									</td>
+									<td class=" text-center"></td>
+								</tr>
+								</tbody>
+							</table>
+
+							<div class="row justify-content-center my-3">
+								<button type="button" class="btn btn-primary col-5">생성</button>
+							</div>
+
+						</div>
+
+					</div>
+					<div class="tab-pane fade" id="seatLevelPrice2" role="tabpanel">
+						<div class="row col-12">
+							<div class="col-8 text-brown font-18">1일차를 기준으로 요금표 만들기</div>
+							<div class="col-4 text-right">
+								<button class="btn btn-sm btn-info">은하표준금액선택</button>
+							</div>
+						</div>
+
+						<table class="table mb-0">
+							<thead>
+							<tr>
+								<th scope="col" class="col-2 text-center">#</th>
+								<th scope="col" class="col-3 text-center">합계</th>
+								<th scope="col" class="col-3 text-center">독서실요금</th>
+								<th scope="col" class="col-3 text-center">스터디룸요금</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<th scope="row" rowspan="2">기본</th>
+								<td class=" text-center"><input type="number" class="in_price student total col-12" id="price_student_A_t" name="seat_price[student][A][T]" value="" placeholder="학생 요금"></td>
+								<td class=" text-center"><input type="number" class="in_price student rroom col-12" id="price_student_A_r" name="seat_price[student][A][R]" value="" placeholder="학생 독서실요금"></td>
+								<td class=" text-center"><input type="number" class="in_price student sroom col-12" id="price_student_A_s" name="seat_price[student][A][S]" value="" placeholder="학생 스터디룸 요금"></td>
+							</tr>
+							<tr>
+								<td><input type="number" class="in_price adult total col-12" id="price_adult_A_t" name="seat_price[adult][A][T]" value="" placeholder="성인 요금"></td>
+								<td><input type="number" class="in_price adult rroom col-12" id="price_adult_A_r" name="seat_price[adult][A][R]" value="" placeholder="성인 독서실요금"></td>
+								<td><input type="number" class="in_price adult sroom col-12" id="price_adult_A_s" name="seat_price[adult][A][S]" value="" placeholder="성인 스터디룸 요금"></td>
+							</tr>
+							<tr>
+								<th scope="row" rowspan="2">신규</th>
+								<td class=" text-center"><input type="number" class="in_price student total col-12" id="price_student_N_t" name="seat_price[student][N][T]" value="" placeholder="학생 요금"></td>
+								<td class=" text-center"><input type="number" class="in_price student rroom col-12" id="price_student_N_r" name="seat_price[student][N][R]" value="" placeholder="학생 독서실요금"></td>
+								<td class=" text-center"><input type="number" class="in_price student sroom col-12" id="price_student_N_s" name="seat_price[student][N][S]" value="" placeholder="학생 스터디룸 요금"></td>
+							</tr>
+							<tr>
+								<td><input type="number" class="in_price adult total col-12" id="price_adult_N_t" name="seat_price[adult][N][T]" value="" placeholder="성인 요금"></td>
+								<td><input type="number" class="in_price adult rroom col-12" id="price_adult_N_r" name="seat_price[adult][N][R]" value="" placeholder="성인 독서실요금"></td>
+								<td><input type="number" class="in_price adult sroom col-12" id="price_adult_N_s" name="seat_price[adult][N][S]" value="" placeholder="성인 스터디룸 요금"></td>
+							</tr>
+							<tr>
+								<th scope="row" rowspan="2">연장</th>
+								<td class=" text-center"><input type="number" class="in_price student total col-12" id="price_student_X_t" name="seat_price[student][X][T]" value="" placeholder="학생 요금"></td>
+								<td class=" text-center"><input type="number" class="in_price student rroom col-12" id="price_student_X_r" name="seat_price[student][X][R]" value="" placeholder="학생 독서실요금"></td>
+								<td class=" text-center"><input type="number" class="in_price student sroom col-12" id="price_student_X_s" name="seat_price[student][X][S]" value="" placeholder="학생 스터디룸 요금"></td>
+							</tr>
+							<tr>
+								<td><input type="number" class="in_price adult total col-12" id="price_adult_X_t" name="seat_price[adult][X][T]" value="" placeholder="성인 요금"></td>
+								<td><input type="number" class="in_price adult rroom col-12" id="price_adult_X_r" name="seat_price[adult][X][R]" value="" placeholder="성인 독서실요금"></td>
+								<td><input type="number" class="in_price adult sroom col-12" id="price_adult_X_s" name="seat_price[adult][X][S]" value="" placeholder="성인 스터디룸 요금"></td>
+							</tr>
+							<tr>
+								<th scope="row" colspan="2">1시간당 할인율</th>
+								<td class=" text-center">
+									<input type="number" class="in_price student rroom col-12 mb-2" id="rate_student" name="rate_student" value="" placeholder="학생할인율">
+									<input type="number" class="in_price student sroom col-12 mb-2" id="rate_adult" name="rate_adult" value="" placeholder="성인할인율">
+								</td>
+								<td class=" text-center"></td>
+							</tr>
+
+							</tbody>
+						</table>
+
+						<div class="row justify-content-center my-3">
+							<button type="button" class="btn btn-primary col-5">생성</button>
+						</div>
+					</div>
+				</div>
+
+
+
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php include_once "include/footer.inc.php";?>
+
+<?php include_once "include/footer_close.inc.php";?>

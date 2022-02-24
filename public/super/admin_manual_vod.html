@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--favicon-->
+	<link rel="icon" href="assets/images/favicon-32x32.png" type="image/png" />
+	<!--plugins-->
+	<link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+	<link href="assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
+	<link href="assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+	<!-- loader-->
+	<link href="assets/css/pace.min.css" rel="stylesheet" />
+	<script src="assets/js/pace.min.js"></script>
+	<!-- Bootstrap CSS -->
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+	<link href="assets/css/app.css" rel="stylesheet">
+	<link href="assets/css/icons.css" rel="stylesheet">
+	<!-- Theme Style CSS -->
+	<link rel="stylesheet" href="assets/css/dark-theme.css" />
+	<link rel="stylesheet" href="assets/css/semi-dark.css" />
+	<link rel="stylesheet" href="assets/css/header-colors.css" />
+	<title>Synadmin – Bootstrap5 Admin Template</title>
+</head>
+
+<body>
+	<!--wrapper-->
+	<div class="wrapper">
+		<!--sidebar wrapper -->
+		<div class="sidebar-wrapper" data-simplebar="true">
+			<?php include "include/left_menu.inc.php";?>
+		</div>
+		<!--end sidebar wrapper -->
+		<!--start header -->
+		<header>
+			<?php include "include/top_nav.inc.php";?>
+		</header>
+		<!--end header -->
+		<!--start page wrapper -->
+		<div class="page-wrapper">
+			<div class="page-content">
+
+				<!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">온라인메뉴얼</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">동영상메뉴얼</li>
+							</ol>
+						</nav>
+					</div>
+					<div class="ms-auto">
+						<div class="btn-group">
+
+						</div>
+					</div>
+				</div>
+				<!--end breadcrumb-->
+
+				<div class="row">
+
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body">
+								<form name="search" action="<?=$PHP_SELF?>?menu=<?=$menu?>">
+									<input type="hidden" name="mode" value="list">
+									<div class='row'>
+
+										<div class="col-sm-2 col-xs-12 mt-1">
+											<select class="single-select form-control-sm col-12" name="fd" id="fd">
+												<option value="p_name" <?php if( $fd == "p_name" ) {?> selected<?}?>>제목+내용+작성자</option>
+												<option value="p_name" <?php if( $fd == "p_name" ) {?> selected<?}?>>제목</option>
+												<option value="p_emp_name" <?php if( $fd == "p_emp_name" ) {?> selected<?}?>>내용</option>
+												<option value="p_emp_name" <?php if( $fd == "p_emp_name" ) {?> selected<?}?>>작성자</option>
+											</select>
+										</div>
+										<div class="col-md-6 col-sm-5 col-xs-12 mt-1">
+											<input type="text" name="key" value="<?=$key?>" class="form-control form-control-sm col-12">
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-6 mt-1">
+											<button type="submit" class="btn btn-secondary px-2 btn-sm col-12">찾기</button>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-6 mt-1 justify-content-right">
+											<a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12" data-bs-toggle="modal" data-bs-target="#manualFormModal">신규작성</a>
+										</div>
+									</div>
+								</form>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 product-grid">
+					<div class="col">
+						<div class="card">
+							<iframe width="100%"  src="https://www.youtube.com/embed/1NpYpG3bXjM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							<div class="card-body">
+								<h6 class="card-title cursor-pointer">1강. 가맹점 기본정보세팅하기</h6>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card">
+							<iframe width="100%"  src="https://www.youtube.com/embed/1NpYpG3bXjM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							<div class="card-body">
+								<h6 class="card-title cursor-pointer">2강. 룸정보 세팅하기</h6>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card">
+							<iframe width="100%"  src="https://www.youtube.com/embed/1NpYpG3bXjM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							<div class="card-body">
+								<h6 class="card-title cursor-pointer">3강. 좌석등급 및 좌석 설정하기</h6>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card">
+							<iframe width="100%"  src="https://www.youtube.com/embed/1NpYpG3bXjM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							<div class="card-body">
+								<h6 class="card-title cursor-pointer">4강. 사물함 및 사물함 배치도 설정하기</h6>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card">
+							<iframe width="100%"  src="https://www.youtube.com/embed/1NpYpG3bXjM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							<div class="card-body">
+								<h6 class="card-title cursor-pointer">5강. 상품등록하기</h6>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card">
+							<iframe width="100%"  src="https://www.youtube.com/embed/1NpYpG3bXjM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							<div class="card-body">
+								<h6 class="card-title cursor-pointer">6강. 회원관리하기</h6>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card">
+							<iframe width="100%"  src="https://www.youtube.com/embed/1NpYpG3bXjM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							<div class="card-body">
+								<h6 class="card-title cursor-pointer">7강. 이용자정보확인하기</h6>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card">
+							<iframe width="100%"  src="https://www.youtube.com/embed/1NpYpG3bXjM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							<div class="card-body">
+								<h6 class="card-title cursor-pointer">8강. 사용자 입실</h6>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card">
+							<iframe width="100%"  src="https://www.youtube.com/embed/1NpYpG3bXjM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							<div class="card-body">
+								<h6 class="card-title cursor-pointer">9강. 퇴실 / 환불하기</h6>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card">
+							<iframe width="100%"  src="https://www.youtube.com/embed/1NpYpG3bXjM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							<div class="card-body">
+								<h6 class="card-title cursor-pointer">10강. 자리이동 및 시간변경</h6>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card">
+							<iframe width="100%"  src="https://www.youtube.com/embed/1NpYpG3bXjM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							<div class="card-body">
+								<h6 class="card-title cursor-pointer">11강. 정산내용확인하기</h6>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card">
+							<iframe width="100%"  src="https://www.youtube.com/embed/1NpYpG3bXjM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							<div class="card-body">
+								<h6 class="card-title cursor-pointer">12강. 공지사항 등록하기</h6>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card">
+							<iframe width="100%"  src="https://www.youtube.com/embed/1NpYpG3bXjM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							<div class="card-body">
+								<h6 class="card-title cursor-pointer">13강. 1:1문의 답변하기</h6>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+
+			</div>
+		</div>
+
+		<div class="modal fade" id="manualFormModal" tabindex="-2" aria-labelledby="manualFormModalLabel" style="display: none;z-index:90000;" aria-hidden="true">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="manualFormModalLabel">작성하기</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+
+						<div class="col-xs-12 mt-3">
+							<input type="text" name="title" value="<?=$key?>" placeholder="제목" class="form-control form-control-sm col-12">
+						</div>
+						<div class="col-xs-12 mt-3">
+							<input type="text" name="point" value="<?=$key?>" placeholder="작성자" class="form-control form-control-sm col-12">
+						</div>
+
+						<div class="col-xs-12 mt-3">
+							<textarea name="seat_memo" class="form-control"></textarea>
+						</div>
+
+						<div class="col-xs-12 mt-3 text-center">
+							<button type="button" class="btn btn-sm btn-primary">글작성</button>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--end page wrapper -->
+		<? include "include/footer.inc.php";?>
+
+		<? include "include/footer_close.inc.php";?>

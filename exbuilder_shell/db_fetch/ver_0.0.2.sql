@@ -1,0 +1,1 @@
+alter table aaa add `test_name2` varchar(1000) not null default '';

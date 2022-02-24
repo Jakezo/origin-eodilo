@@ -1,0 +1,341 @@
+
+<?php include "include/header.inc.php";?>
+
+<!--end header -->
+
+		<!--start page wrapper -->
+		<div class="page-wrapper">
+			<div class="page-content">
+				<!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">정산</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">현금출납부</li>
+							</ol>
+						</nav>
+					</div>
+					<div class="ms-auto">
+						<button class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#useInfoModal"><i class="lni lni-youtube"></i>도움말</button>
+					</div>
+				</div>
+				<!--end breadcrumb-->
+				<div class="row">
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<form name="search" action="<?=$PHP_SELF?>">
+									<div class='row'>
+										<div class="col-md-2 col-sm-4 col-xs-12 mt-1">
+											<input type="text" name="sdate" id="sdate" value="<?=$sdate?>" placeholder="기간시작일" class="form-control form-control-sm datepicker col-12">
+										</div>
+										<div class="col-md-2 col-sm-4 col-xs-12 mt-1">
+											<input type="text" name="edate" id="edate" value="<?=$edate?>" placeholder="기간종료일" class="form-control form-control-sm datepicker col-12">
+										</div>
+										<div class="col-md-3 col-sm-4 col-xs-12 mt-1">
+											<div class="col-12">
+												<a href="javascript:;" class="btn btn-secondary btn-sm col" onclick="$('#sdate').val('<?=date("Y-m-d")?>');$('#edate').val('<?=date('Y-m-d')?>');">금일</a>
+												<a href="javascript:;" class="btn btn-secondary btn-sm col" onclick="$('#sdate').val('<?=date("Y-m-01")?>');$('#edate').val('<?=date('Y-m-t')?>');">이달</a>
+												<a href="javascript:;" class="btn btn-secondary btn-sm col" onclick="$('#sdate').val('<?=date("Y-01-01")?>');$('#edate').val('<?=date('Y-12-31')?>');">금년</a>
+												<a href="javascript:;" class="btn btn-secondary btn-sm col" onclick="$('#sdate').val('');$('#edate').val('');">전체</a>
+											</div>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-6 mt-1">
+											<button type="submit" class="btn btn-secondary px-2 btn-sm col-12">찾기</button>
+										</div>
+										<div class="col-md-2 col-sm-4 col-xs-12 mt-1 justify-content-right">
+											<a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12" data-bs-toggle="modal" data-bs-target="#cashFormModal">신규/항목관리</a>
+										</div>
+
+									</div>
+								</form>
+							</div>
+							<div class="card-body">
+								<div class="row row-cols-1 row-cols-lg-3">
+									<div class="col">
+										<div class="card radius-10">
+											<div class="card-body">
+												<div class="d-flex align-items-center">
+													<div class="flex-grow-1">
+														<p class="mb-0">입금총액</p>
+														<h4 class="font-weight-bold">32,842</h4>
+													</div>
+													<div class="widgets-icons bg-gradient-blues text-white"><i class="bx bx-message-square-add"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col">
+										<div class="card radius-10">
+											<div class="card-body">
+												<div class="d-flex align-items-center">
+													<div class="flex-grow-1">
+														<p class="mb-0">출금총액</p>
+														<h4 class="font-weight-bold">-16,352</h4>
+													</div>
+													<div class="widgets-icons bg-gradient-burning text-white"><i class="bx bx-message-square-minus"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col">
+										<div class="card radius-10">
+											<div class="card-body">
+												<div class="d-flex align-items-center">
+													<div class="flex-grow-1">
+														<p class="mb-0">차액</p>
+														<h4 class="font-weight-bold">16,352</h4>
+													</div>
+													<div class="widgets-icons bg-gradient-moonlit text-white"><i class="bx bx-message-square-check"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-body">
+								<table class="table mb-0 table-striped">
+									<thead>
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col">날자</th>
+											<th scope="col">구분</th>
+											<th scope="col">내용</th>
+											<th scope="col">입금액</th>
+											<th scope="col">출금액</th>
+											<th scope="col">수정</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row">1</th>
+											<td>2020-10-20</td>
+											<td>청소비</td>
+											<td>조현준씨 비용지급</td>
+											<td>0</td>
+											<td>300,000</td>
+											<td><button class="btn btn-xs btn-primary">수정</button></td>
+										</tr>
+										<tr>
+											<th scope="row">1</th>
+											<td>2020-10-20</td>
+											<td>청소비</td>
+											<td>조현준씨 비용지급</td>
+											<td>0</td>
+											<td>300,000</td>
+											<td><button class="btn btn-xs btn-primary">수정</button></td>
+										</tr>
+										<tr>
+											<th scope="row">1</th>
+											<td>2020-10-20</td>
+											<td>모바일매출</td>
+											<td>10월 20일 모바일매출</td>
+											<td>245,000</td>
+											<td>0</td>
+											<td><button class="btn btn-xs btn-primary">수정</button></td>
+										</tr>
+										<tr>
+											<th scope="row">1</th>
+											<td>2020-10-20</td>
+											<td>매장판매</td>
+											<td>최현우회원 현금구매</td>
+											<td>100,000</td>
+											<td>0</td>
+											<td><button class="btn btn-xs btn-primary">수정</button></td>
+										</tr>
+										<tr>
+											<th scope="row">1</th>
+											<td>2020-10-20</td>
+											<td>청소비</td>
+											<td>조현준씨 비용지급</td>
+											<td>0</td>
+											<td>300,000</td>
+											<td><button class="btn btn-xs btn-primary">수정</button></td>
+										</tr>
+										<tr>
+											<th scope="row">1</th>
+											<td>2020-10-20</td>
+											<td>청소비</td>
+											<td>조현준씨 비용지급</td>
+											<td>0</td>
+											<td>300,000</td>
+											<td><button class="btn btn-xs btn-primary">수정</button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-12 col-md-12">
+								<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+									<ul class="pagination">
+										<li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Prev</a></li>
+										<li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
+										<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
+										<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
+										<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
+										<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
+										<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
+										<li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<!--end row-->
+			</div>
+		</div>
+		<div class="modal fade" id="cashFormModal" tabindex="-3" aria-labelledby="cashFormModalLabel" style="display: none;z-index:90000;" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="cashFormModalLabel">현금출납 등록</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+
+				<ul class="nav nav-tabs nav-primary navbar-sm" role="tablist">
+					<li class="nav-item" role="presentation">
+						<a class="nav-link active" data-bs-toggle="tab" href="#cashInfo" role="tab" aria-selected="true">
+							<div class="d-flex align-items-center">
+								<div class="tab-icon"><i class="bx bxs-home font-18 me-1"></i>
+								</div>
+								<div class="tab-title">정보입력</div>
+							</div>
+						</a>
+					</li>
+
+					<li class="nav-item" role="presentation">
+						<a class="nav-link" data-bs-toggle="tab" href="#cashKind" role="tab" aria-selected="false">
+							<div class="d-flex align-items-center">
+								<div class="tab-icon"><i class="bx bxs-folder-open font-18 me-1"></i>
+								</div>
+								<div class="tab-title">항목관리</div>
+							</div>
+						</a>
+					</li>
+				</ul>
+				<div class="tab-content py-3">
+					<div class="tab-pane fade show active" id="cashInfo" role="tabpanel">
+
+						<form class="row g-3">
+							<div class="col-12">
+
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="sexCheck2" id="sexCheck2" value="option1">
+									<label class="form-check-label" for="sexCheck2">입금</label>
+								</div>
+
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="sexCheck3" id="sexCheck3" value="option1">
+									<label class="form-check-label" for="sexCheck3">출금</label>
+								</div>
+
+							</div>
+							<div class="col-md-12">
+								<label for="inputLastName1" class="form-label">항목</label>
+								<div class="input-group"> <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
+									<input type="text" class="form-control border-start-0" id="inputLastName1" placeholder="항목">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<label for="inputLastName2" class="form-label">금액</label>
+								<div class="input-group"> <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
+									<input type="text" class="form-control border-start-0" id="inputLastName2" placeholder="금액">
+								</div>
+							</div>
+
+							<div class="col-12 text-center">
+								<button type="submit" class="btn btn-warning px-5">확인</button>
+							</div>
+
+							<div class="col-12 text-right">
+								이 항목을 삭제 <button type="button" class="btn btn-xs btn-secondary">삭제</button>
+							</div>
+						</form>
+
+					</div>
+					<div class="tab-pane fade" id="cashKind" role="tabpanel">
+
+						<div class="row">
+
+							<div class="col-md-4 col-sm-3 col-xs-12 mt-1">
+								항목추가
+							</div>
+							<div class="col-md-3 col-sm-3 col-xs-12 mt-1">
+								<select class="form-control form-select-sm">
+									<option>입금</option>
+									<option>출금</option>
+								</select>
+							</div>
+							<div class="col-md-3 col-sm-4 col-xs-12 mt-1">
+								<input type="text" name="point" value="" placeholder="항목명" class="form-control form-control-sm col-12">
+							</div>
+							<div class="col-md-2 col-sm-2 col-xs-6 mt-1 justify-content-right">
+								<a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12" data-bs-toggle="modal" data-bs-target="#memberRegModal">추가</a>
+							</div>
+						</div>
+
+						<table class="table mb-0 table-striped">
+							<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">구분</th>
+								<th scope="col">항목명</th>
+								<th scope="col">관리</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<th scope="row">1</th>
+								<td>입금</td>
+								<td>모바일매출</td>
+								<td><button type="button" class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#memberRegModal">고정</button></td>
+							</tr>
+							<tr>
+								<th scope="row">1</th>
+								<td>출금</td>
+								<td>알바비</td>
+								<td><button type="button" class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#memberRegModal">관리</button></td>
+							</tr>
+							<tr>
+								<th scope="row">1</th>
+								<td>출금</td>
+								<td>청소비</td>
+								<td><button type="button" class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#memberRegModal">관리</button></td>
+							</tr>
+							<tr>
+								<th scope="row">1</th>
+								<td>출금</td>
+								<td>물품구입</td>
+								<td><button type="button" class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#memberRegModal">관리</button></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+
+
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+		<!--end page wrapper -->
+
+<? include "include/footer.inc.php";?>
+
+<? include "include/footer_close.inc.php";?>

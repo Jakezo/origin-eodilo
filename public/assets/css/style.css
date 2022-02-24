@@ -1,0 +1,37 @@
+.btn-xs {
+    padding  : .42rem .4rem .4rem;
+    font-size  : .775rem;
+    line-height  : .5;
+    border-radius : .2rem;
+}
+
+/* 이미지 삭제 버튼*/
+.img_item {
+    width:150px;
+    margin-right:10px;
+    position: relative;
+}
+.img_item img{
+    width:150px;
+    margin-right:10px;
+    position: relative;
+}
+.img_des {
+    position: absolute;
+    top: 10px;
+    left: 130px;
+    /*right: 10px;*/
+}
+
+/* 투명도 주기*/
+.bg-cont-view{
+    background: #f1f1f1;
+    color:black;
+}
+
+/* 오류등 색상 */
+.error_txt{
+    font-weight:500;
+    color:rgb(193, 17, 17);
+}
+

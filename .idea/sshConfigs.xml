@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="boss2.sogero.kr" id="1402c7f8-0497-4144-b3e2-40a88d850525" port="22" nameFormat="DESCRIPTIVE" username="boss2" />
+    </configs>
+  </component>
+</project>
