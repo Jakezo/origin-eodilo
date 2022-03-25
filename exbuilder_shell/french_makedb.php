@@ -11,13 +11,10 @@ $db_name = "boss";
 $source_db = "boss_enha";
 $target_db = "";
 
-
 // 기본데이터베이스백업
 echo "기본데이터베이스 추출\n";
 $command = "mysqldump -u $db_user -p$db_password  $source_db -d > $script_dir/tmp.sql";
 exec($command);
-
-
 
 if( $argv[1] ) {
 
@@ -31,7 +28,6 @@ if( $argv[1] ) {
             mysqli_query($conn, "set session character_set_connection=utf8;");
             mysqli_query($conn, "set session character_set_results=utf8;");
             mysqli_query($conn, "set session character_set_client=utf8;");        
-    
     
             echo " - 확인완료.\n";   
     
@@ -63,7 +59,8 @@ if( $argv[1] ) {
                                 $sql = "update french_managers set 
                                 mn_id = '".$partner_row['p_id']."', 
                                 mn_email = '".$partner_row['p_email']."', 
-                                mn_phone = '".$partner_row['p_phone']."', 
+                                mn_phone = '".$partner_row['p_phone']."',
+                                password ='\$2y\$10\$ulrbDweSDg9F0MBbz7ATg\.fXDwtMJDXpT\/oF\/TY4tqlnB\/8VEl5My', 
                                 created_at=now(), 
                                 updated_at=now() 
                                 where mn_no = 1";
@@ -76,8 +73,6 @@ if( $argv[1] ) {
                             echo $target_db." 데이터가 이미 존재합니다.\n";  
                         }
     
-
-
                     } 
         
                 } else {
@@ -88,8 +83,7 @@ if( $argv[1] ) {
 
                 echo "가맹점이 존재하지 않습니다.\n";
             }
- 
-    
+     
         } else {
             echo " - 메인 데이터베이스 접속불가.\n"; 
             echo " - 확인불가.\n";  
@@ -103,7 +97,5 @@ if( $argv[1] ) {
 
 print("\n\n\n************** 데이터베이스 업데이트 완료 *************\n\n\n");
 exit;
-
-
 
 ?> 

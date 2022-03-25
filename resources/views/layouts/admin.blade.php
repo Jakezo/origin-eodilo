@@ -1869,7 +1869,7 @@
     
     
 function ajax_error(jsonData){
-    alert('여기에 데이터 이동....');
+    
     console.log(jsonData);
     if( typeof jsonData.errors != 'undefined' ){
         // console.log(jsonData.errors)

@@ -238,6 +238,17 @@
                             </div>
                         </div>
 
+                        <div class="col-md-12">
+                            <label class="form-label">출입문타입</label>
+                            <br>
+                            <input class="form-check-input" type="radio" name="door" value="Q" @if( $partner && $partner["p_door"] == "Q" ) checked @endif> QR코드
+                            <input class="form-check-input" type="radio" name="door" value="S" @if( $partner && $partner["p_door"] == "S" ) checked @endif> 비밀번호
+                            <input class="form-check-input" type="radio" name="door" value="B" @if( $partner && $partner["p_door"] == "B" ) checked @endif> 버튼
+                            <input class="form-check-input" type="radio" name="door" value="P" @if( $partner && $partner["p_door"] == "P" ) checked @endif> 지문인식
+                            
+                            
+                        </div>
+
                         <div class='col-sm-12'>
                             <label class="form-label col-12">시설옵션</label>
                             @foreach( $options as $okey => $oval ) 
@@ -368,7 +379,6 @@
             */
 
             formData = $("#form1").serialize();
-            console.log(formData); 
             $.ajax({
                 url: '/partner/update',
                 //processData: false,

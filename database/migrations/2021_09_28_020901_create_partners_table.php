@@ -62,6 +62,8 @@ class CreatePartnersTable extends Migration
             $table->string('p_open_mobile',1)->default('N')->comment('모바일사용여부');
             $table->string('p_open_kiosk',1)->default('N')->comment('키오스크사용여부'); 
 
+            $table->string('p_door',4)->default('')->comment('출입문타입 Q:QR코드,S:비번,B:버튼');
+
             $table->unsignedInteger('p_review_count',)->default(0)->comment('리뷰갯수');
             $table->decimal('p_review_avg')->default(0)->comment('리뷰평점');
 

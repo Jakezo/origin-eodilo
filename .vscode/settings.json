@@ -1,0 +1,17 @@
+{
+	"sqltools.connections": [
+		{
+			"mysqlOptions": {
+				"authProtocol": "default"
+			},
+			"previewLimit": 50,
+			"server": "boltkorea.co.kr",
+			"port": 3306,
+			"driver": "MariaDB",
+			"name": "boltkorea.co.kr",
+			"username": "root",
+			"password": "frmilal1",
+			"database": "mysql"
+		}
+	]
+}

@@ -47,7 +47,6 @@ class FrenchLoginController extends Controller
             return redirect()->intended('/'); //요거는 계속 header 문제를 일으킴.
             //return redirect()->route('partnerhome'); //요거도 마찬가지네 그려.
         } 
-
         return back()->withInput($request->only('login_id', 'remember'));
     }
 

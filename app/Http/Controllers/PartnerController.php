@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Http\Classes\NCPdisk;
+
+
+use App\Http\Controllers\PartnerRegController;
+
+use Exception;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 class PartnerController extends Controller
@@ -207,14 +212,27 @@ class PartnerController extends Controller
         //dd(DB::getQueryLog());
 
         $result = [];
+
+        if( !$request->id || !isset($request->id) || strlen($request->id) < 6  ) {
+
+            $result["result"] = false;
+            $result["partner"] = $request->id;
+            $result["message"] = "아이디는 6자이상 입력해주세요.";
+            return response($result);
+        }
+
+        if( !$request->name || !isset($request->name) || strlen($request->name) < 3  ) {
+
+            $result["result"] = false;
+            $result["partner"] = $request->id;
+            $result["message"] = "가맹점명은 3자이상 입력해주세요.";
+            return response($result);
+        }
+
         if( $request->no ) {
             $partner = \App\Models\Partner::where('p_no', $request->no)->first();
         } else {
 
-            $validatedData = $request->validate([
-                'id' => 'bail|required|min:6|max:20',
-                'name' => 'bail|required'
-            ]);
 
             if( $partner = \App\Models\Partner::where('p_id', $request->id)->first() ) {
                 $result["result"] = false;
@@ -234,7 +252,8 @@ class PartnerController extends Controller
         $partner->p_kind = $request->kind ?? "";
         $partner->p_open_mobile = $request->open_mobile ?? "N";
         $partner->p_open_kiosk = $request->open_kiosk ?? "N";
-
+        $partner->p_door = $request->door ?? "Q";
+        
         $partner->p_name = $request->name ?? "";
         $partner->p_homepage = $request->homepage ?? "";
         $partner->p_phone = $request->phone ?? "";
@@ -273,26 +292,36 @@ class PartnerController extends Controller
 
         $partner->p_state = $request->state ?? "N";
 
+
         if( $partner->p_no ) {
             $result['result'] = $partner->update();
         } else {
             $result['result'] = $partner->save();
+
+            $partnerReg = new PartnerRegController();
+            $partnerReg->defaultReg($partner->p_no);
         }
 
-
         if( $partner->p_id ) {
+
+            ## 디비를 실시간으로 생성.
             $schemaName = "boss_".$partner->p_id;
             $charset = config("database.connections.mysql.charset",'utf8mb4');
             $collation = config("database.connections.mysql.collation",'utf8mb4_unicode_ci');
             //config(["database.connections.mysql.database" => null]);
             $query = "CREATE DATABASE IF NOT EXISTS $schemaName CHARACTER SET $charset COLLATE $collation;";
             DB::statement($query);
-            
-        }
 
-        $data["result"] = false;
+            ## 샘플디비로 부터 복사.            
+            try {
+                $pwd = exec('pwd');
+                $makedb = exec('php '.$pwd.'/../exbuilder_shell/french_makedb.php '.$partner->p_id);
+            } catch(Exception $e) {
+
+            }
+        } 
+
         $data["partner"] = $partner->p_id;
-        $data["message"] = $query;
         return response($result);
         if( $request->rURL ) {
             $result['rURL'] = $request->rURL;

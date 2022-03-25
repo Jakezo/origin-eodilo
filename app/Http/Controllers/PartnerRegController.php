@@ -91,4 +91,33 @@ class PartnerRegController extends Controller
 
         return response($result);
     }
+
+
+    public function defaultReg($partner)
+    {
+        //DB::enableQueryLog();	//query log 시작 선언부
+        //return (DB::getQueryLog());
+        $result = [];
+        $partnerReg = new PartnerReg();
+        $partnerReg->pr_partner = $partner;
+        $partnerReg->pr_sdate = now()->format("Y-m-d H:i:s");
+        $partnerReg->pr_edate = now()->addYear(1)->format("Y-m-d H:i:s");
+
+        $partnerReg->pr_admin = 0;
+        $partnerReg->pr_pay_kind = "R";
+        $partnerReg->pr_pay = "Y";
+
+        $partnerReg->pr_pay_money = 0;
+        $partnerReg->pr_memo = "최초등록";
+
+        $result["partnerReg"] = $partnerReg;
+        $result['result'] = $partnerReg->save();
+
+        if( $partnerReg->pr_edate != "0000-00-00") {
+            $partner = \App\Models\Partner::where('p_no', $partnerReg->pr_partner)->firstOrFail();
+            $partner->p_last_dt = $partnerReg->pr_edate;
+            $result["partner"] = $partner->update();
+        }
+        return response($result);
+    }    
 }
