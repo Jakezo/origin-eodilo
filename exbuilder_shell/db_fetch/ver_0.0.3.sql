@@ -1,0 +1,1 @@
+alter table french_product_orders add `o_pay_cash` int not null default 0 after o_price_total;

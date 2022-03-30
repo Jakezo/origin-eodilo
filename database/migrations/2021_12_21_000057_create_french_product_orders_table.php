@@ -51,6 +51,7 @@ class CreateFrenchProductOrdersTable extends Migration
 
             $table->unsignedInteger('o_price_total')->default(0)->comment('합계금액'); 
 
+            $table->Integer('o_pay_cash')->default(0)->comment('캐쉬사용금액'); 
             $table->Integer('o_pay_point')->default(0)->comment('포인트사용금액'); 
             $table->Integer('o_pay_discount')->default(0)->comment('할인금액'); 
             $table->Integer('o_pay_money')->default(0)->comment('결제금액'); 
