@@ -22,8 +22,9 @@ class CreateMobileReservSeatsTable extends Migration
             $table->unsignedInteger('rv_member_from')->default(0)->comment('회원구분'); // 회원 E, L
             $table->unsignedInteger('rv_member')->default(0)->comment('회원'); // 로컬회원
             $table->string('rv_member_name', 30)->default('')->comment('회원명'); // 로컬회원            
-            $table->string('rv_ageType',1)->default('A')->comment('연령타입'); // A : 성인 S : 학생     
-            $table->string('rv_sex',1)->default('A')->comment('성별'); // A : 성인 S : 학생
+            $table->string('rv_ageType',1)->default('A')->comment('연령타입'); // A : 성인 S : 학생    
+            $table->string('rv_priceType',1)->default('A')->comment('금액타입'); // A : 기본 N : 신규 X: 확장    
+            $table->string('rv_sex',1)->default('A')->comment('성별'); // M : 남자 F : 여자
             $table->string('rv_device_from',1)->default(0)->comment('구매디바이스구분'); // A 창구 ,  M 모바일, K 키오스크
             $table->unsignedInteger('rv_room')->default(0)->comment('룸');
             $table->unsignedInteger('rv_seat')->default(0)->comment('좌석'); 
@@ -40,6 +41,9 @@ class CreateMobileReservSeatsTable extends Migration
             $table->string('rv_state_seat',4)->default('')->comment('상태'); // IN 입실중  OUT 외출중
             $table->string('rv_state_seat_in',0)->default('0000-00-00 00:00:00')->comment('입실일시'); // 외출/복귀시 업데이트
             $table->string('rv_state_seat_out',0)->default('0000-00-00 00:00:00')->comment('외출일시');// 외출/복귀시 업데이트
+            
+            $table->unsignedInteger('rv_duration_time')->default(0)->comment('예약기간-초단위');
+            $table->unsignedInteger('rv_used_time')->default(0)->comment('실제사용기간-초단위');
 
             $table->string('rv_pass',20)->default('')->comment('패스워드');
             $table->datetime('rv_pass_last')->default('0000-00-00 00:00:00')->comment('패스워드유효시간');

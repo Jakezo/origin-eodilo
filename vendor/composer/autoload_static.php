@@ -41,6 +41,7 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         '4a1f389d6ce373bda9e57857d3b61c84' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/helpers.php',
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
         '40275907c8566c390185147049ef6e5d' => __DIR__ . '/..' . '/livewire/livewire/src/helpers.php',
+        'cabeca1d6dd677db00ea3c78d8584e1d' => __DIR__ . '/..' . '/salmanzafar/laravel-mqtt/src/Helper/Helpers.php',
         'e617b14322a074392076a2f38eaf6115' => __DIR__ . '/../..' . '/app/Helper.php',
     );
 
@@ -94,6 +95,7 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
+            'Salman\\Mqtt\\' => 12,
         ),
         'R' => 
         array (
@@ -114,6 +116,7 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
             'PragmaRX\\Google2FA\\' => 19,
             'PhpParser\\' => 10,
             'PhpOption\\' => 10,
+            'PhpMqtt\\Client\\' => 15,
             'ParagonIE\\ConstantTime\\' => 23,
             'PackageVersions\\' => 16,
         ),
@@ -127,6 +130,7 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         ),
         'M' => 
         array (
+            'MyCLabs\\Enum\\' => 13,
             'Monolog\\' => 8,
         ),
         'L' => 
@@ -358,6 +362,10 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
+        'Salman\\Mqtt\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/salmanzafar/laravel-mqtt/src',
+        ),
         'Ramsey\\Uuid\\' => 
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
@@ -415,6 +423,11 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
         ),
+        'PhpMqtt\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-mqtt/client/src',
+            1 => __DIR__ . '/..' . '/php-mqtt/laravel-client/src',
+        ),
         'ParagonIE\\ConstantTime\\' => 
         array (
             0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
@@ -430,6 +443,10 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         'NunoMaduro\\Collision\\' => 
         array (
             0 => __DIR__ . '/..' . '/nunomaduro/collision/src',
+        ),
+        'MyCLabs\\Enum\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/myclabs/php-enum/src',
         ),
         'Monolog\\' => 
         array (
@@ -704,6 +721,7 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         'App\\Admin' => __DIR__ . '/../..' . '/app/Admin.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Classes\\NCPdisk' => __DIR__ . '/../..' . '/app/Http/Classes/NCPdisk.php',
         'App\\Http\\Controllers\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/AdminController.php',
         'App\\Http\\Controllers\\Admin\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/LoginController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
@@ -817,6 +835,8 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         'App\\Models\\FrenchSeatLevel' => __DIR__ . '/../..' . '/app/Models/FrenchSeatLevel.php',
         'App\\Models\\Helpboard' => __DIR__ . '/../..' . '/app/Models/Helpboard.php',
         'App\\Models\\Manager' => __DIR__ . '/../..' . '/app/Models/Manager.php',
+        'App\\Models\\MobileProductOrder' => __DIR__ . '/../..' . '/app/Models/MobileProductOrder.php',
+        'App\\Models\\MobileReservSeat' => __DIR__ . '/../..' . '/app/Models/MobileReservSeat.php',
         'App\\Models\\Partner' => __DIR__ . '/../..' . '/app/Models/Partner.php',
         'App\\Models\\PartnerApply' => __DIR__ . '/../..' . '/app/Models/PartnerApply.php',
         'App\\Models\\PartnerCoupon' => __DIR__ . '/../..' . '/app/Models/PartnerCoupon.php',
@@ -2680,6 +2700,7 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         'Faker\\Provider\\cs_CZ\\Payment' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/cs_CZ/Payment.php',
         'Faker\\Provider\\cs_CZ\\Person' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/cs_CZ/Person.php',
         'Faker\\Provider\\cs_CZ\\PhoneNumber' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/cs_CZ/PhoneNumber.php',
+        'Faker\\Provider\\cs_CZ\\Text' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/cs_CZ/Text.php',
         'Faker\\Provider\\da_DK\\Address' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/da_DK/Address.php',
         'Faker\\Provider\\da_DK\\Company' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/da_DK/Company.php',
         'Faker\\Provider\\da_DK\\Internet' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/da_DK/Internet.php',
@@ -2718,6 +2739,7 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         'Faker\\Provider\\el_GR\\Payment' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/el_GR/Payment.php',
         'Faker\\Provider\\el_GR\\Person' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/el_GR/Person.php',
         'Faker\\Provider\\el_GR\\PhoneNumber' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/el_GR/PhoneNumber.php',
+        'Faker\\Provider\\el_GR\\Text' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/el_GR/Text.php',
         'Faker\\Provider\\en_AU\\Address' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/en_AU/Address.php',
         'Faker\\Provider\\en_AU\\Internet' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/en_AU/Internet.php',
         'Faker\\Provider\\en_AU\\PhoneNumber' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/en_AU/PhoneNumber.php',
@@ -2820,6 +2842,7 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         'Faker\\Provider\\fr_FR\\Payment' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/fr_FR/Payment.php',
         'Faker\\Provider\\fr_FR\\Person' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/fr_FR/Person.php',
         'Faker\\Provider\\fr_FR\\PhoneNumber' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/fr_FR/PhoneNumber.php',
+        'Faker\\Provider\\fr_FR\\Text' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/fr_FR/Text.php',
         'Faker\\Provider\\he_IL\\Address' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/he_IL/Address.php',
         'Faker\\Provider\\he_IL\\Company' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/he_IL/Company.php',
         'Faker\\Provider\\he_IL\\Payment' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/he_IL/Payment.php',
@@ -2835,6 +2858,7 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         'Faker\\Provider\\hu_HU\\Payment' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/hu_HU/Payment.php',
         'Faker\\Provider\\hu_HU\\Person' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/hu_HU/Person.php',
         'Faker\\Provider\\hu_HU\\PhoneNumber' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/hu_HU/PhoneNumber.php',
+        'Faker\\Provider\\hu_HU\\Text' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/hu_HU/Text.php',
         'Faker\\Provider\\hy_AM\\Address' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/hy_AM/Address.php',
         'Faker\\Provider\\hy_AM\\Color' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/hy_AM/Color.php',
         'Faker\\Provider\\hy_AM\\Company' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/hy_AM/Company.php',
@@ -2881,6 +2905,7 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         'Faker\\Provider\\ka_GE\\Payment' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/ka_GE/Payment.php',
         'Faker\\Provider\\ka_GE\\Person' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/ka_GE/Person.php',
         'Faker\\Provider\\ka_GE\\PhoneNumber' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/ka_GE/PhoneNumber.php',
+        'Faker\\Provider\\ka_GE\\Text' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/ka_GE/Text.php',
         'Faker\\Provider\\kk_KZ\\Address' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/kk_KZ/Address.php',
         'Faker\\Provider\\kk_KZ\\Color' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/kk_KZ/Color.php',
         'Faker\\Provider\\kk_KZ\\Company' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/kk_KZ/Company.php',
@@ -2935,6 +2960,7 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         'Faker\\Provider\\nl_BE\\Payment' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/nl_BE/Payment.php',
         'Faker\\Provider\\nl_BE\\Person' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/nl_BE/Person.php',
         'Faker\\Provider\\nl_BE\\PhoneNumber' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/nl_BE/PhoneNumber.php',
+        'Faker\\Provider\\nl_BE\\Text' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/nl_BE/Text.php',
         'Faker\\Provider\\nl_NL\\Address' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/nl_NL/Address.php',
         'Faker\\Provider\\nl_NL\\Color' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/nl_NL/Color.php',
         'Faker\\Provider\\nl_NL\\Company' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/nl_NL/Company.php',
@@ -2981,6 +3007,7 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         'Faker\\Provider\\ru_RU\\Payment' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/ru_RU/Payment.php',
         'Faker\\Provider\\ru_RU\\Person' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/ru_RU/Person.php',
         'Faker\\Provider\\ru_RU\\PhoneNumber' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/ru_RU/PhoneNumber.php',
+        'Faker\\Provider\\ru_RU\\Text' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/ru_RU/Text.php',
         'Faker\\Provider\\sk_SK\\Address' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/sk_SK/Address.php',
         'Faker\\Provider\\sk_SK\\Company' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/sk_SK/Company.php',
         'Faker\\Provider\\sk_SK\\Internet' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/sk_SK/Internet.php',
@@ -3030,6 +3057,7 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         'Faker\\Provider\\uk_UA\\Payment' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/uk_UA/Payment.php',
         'Faker\\Provider\\uk_UA\\Person' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/uk_UA/Person.php',
         'Faker\\Provider\\uk_UA\\PhoneNumber' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/uk_UA/PhoneNumber.php',
+        'Faker\\Provider\\uk_UA\\Text' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/uk_UA/Text.php',
         'Faker\\Provider\\vi_VN\\Address' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/vi_VN/Address.php',
         'Faker\\Provider\\vi_VN\\Color' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/vi_VN/Color.php',
         'Faker\\Provider\\vi_VN\\Internet' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Provider/vi_VN/Internet.php',
@@ -5134,6 +5162,8 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         'Monolog\\SignalHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/SignalHandler.php',
         'Monolog\\Test\\TestCase' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Test/TestCase.php',
         'Monolog\\Utils' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Utils.php',
+        'MyCLabs\\Enum\\Enum' => __DIR__ . '/..' . '/myclabs/php-enum/src/Enum.php',
+        'MyCLabs\\Enum\\PHPUnit\\Comparator' => __DIR__ . '/..' . '/myclabs/php-enum/src/PHPUnit/Comparator.php',
         'Nette\\ArgumentOutOfRangeException' => __DIR__ . '/..' . '/nette/utils/src/exceptions.php',
         'Nette\\DeprecatedException' => __DIR__ . '/..' . '/nette/utils/src/exceptions.php',
         'Nette\\DirectoryNotFoundException' => __DIR__ . '/..' . '/nette/utils/src/exceptions.php',
@@ -5662,6 +5692,42 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         'PharIo\\Version\\VersionConstraintParser' => __DIR__ . '/..' . '/phar-io/version/src/VersionConstraintParser.php',
         'PharIo\\Version\\VersionConstraintValue' => __DIR__ . '/..' . '/phar-io/version/src/VersionConstraintValue.php',
         'PharIo\\Version\\VersionNumber' => __DIR__ . '/..' . '/phar-io/version/src/VersionNumber.php',
+        'PhpMqtt\\Client\\Concerns\\GeneratesRandomClientIds' => __DIR__ . '/..' . '/php-mqtt/client/src/Concerns/GeneratesRandomClientIds.php',
+        'PhpMqtt\\Client\\Concerns\\OffersHooks' => __DIR__ . '/..' . '/php-mqtt/client/src/Concerns/OffersHooks.php',
+        'PhpMqtt\\Client\\Concerns\\TranscodesData' => __DIR__ . '/..' . '/php-mqtt/client/src/Concerns/TranscodesData.php',
+        'PhpMqtt\\Client\\Concerns\\ValidatesConfiguration' => __DIR__ . '/..' . '/php-mqtt/client/src/Concerns/ValidatesConfiguration.php',
+        'PhpMqtt\\Client\\Concerns\\WorksWithBuffers' => __DIR__ . '/..' . '/php-mqtt/client/src/Concerns/WorksWithBuffers.php',
+        'PhpMqtt\\Client\\ConnectionManager' => __DIR__ . '/..' . '/php-mqtt/laravel-client/src/ConnectionManager.php',
+        'PhpMqtt\\Client\\ConnectionSettings' => __DIR__ . '/..' . '/php-mqtt/client/src/ConnectionSettings.php',
+        'PhpMqtt\\Client\\Contracts\\MessageProcessor' => __DIR__ . '/..' . '/php-mqtt/client/src/Contracts/MessageProcessor.php',
+        'PhpMqtt\\Client\\Contracts\\MqttClient' => __DIR__ . '/..' . '/php-mqtt/client/src/Contracts/MqttClient.php',
+        'PhpMqtt\\Client\\Contracts\\Repository' => __DIR__ . '/..' . '/php-mqtt/client/src/Contracts/Repository.php',
+        'PhpMqtt\\Client\\Exceptions\\ClientNotConnectedToBrokerException' => __DIR__ . '/..' . '/php-mqtt/client/src/Exceptions/ClientNotConnectedToBrokerException.php',
+        'PhpMqtt\\Client\\Exceptions\\ConfigurationInvalidException' => __DIR__ . '/..' . '/php-mqtt/client/src/Exceptions/ConfigurationInvalidException.php',
+        'PhpMqtt\\Client\\Exceptions\\ConnectingToBrokerFailedException' => __DIR__ . '/..' . '/php-mqtt/client/src/Exceptions/ConnectingToBrokerFailedException.php',
+        'PhpMqtt\\Client\\Exceptions\\ConnectionNotAvailableException' => __DIR__ . '/..' . '/php-mqtt/laravel-client/src/Exceptions/ConnectionNotAvailableException.php',
+        'PhpMqtt\\Client\\Exceptions\\DataTransferException' => __DIR__ . '/..' . '/php-mqtt/client/src/Exceptions/DataTransferException.php',
+        'PhpMqtt\\Client\\Exceptions\\InvalidMessageException' => __DIR__ . '/..' . '/php-mqtt/client/src/Exceptions/InvalidMessageException.php',
+        'PhpMqtt\\Client\\Exceptions\\MqttClientException' => __DIR__ . '/..' . '/php-mqtt/client/src/Exceptions/MqttClientException.php',
+        'PhpMqtt\\Client\\Exceptions\\PendingMessageAlreadyExistsException' => __DIR__ . '/..' . '/php-mqtt/client/src/Exceptions/PendingMessageAlreadyExistsException.php',
+        'PhpMqtt\\Client\\Exceptions\\PendingMessageNotFoundException' => __DIR__ . '/..' . '/php-mqtt/client/src/Exceptions/PendingMessageNotFoundException.php',
+        'PhpMqtt\\Client\\Exceptions\\ProtocolNotSupportedException' => __DIR__ . '/..' . '/php-mqtt/client/src/Exceptions/ProtocolNotSupportedException.php',
+        'PhpMqtt\\Client\\Exceptions\\ProtocolViolationException' => __DIR__ . '/..' . '/php-mqtt/client/src/Exceptions/ProtocolViolationException.php',
+        'PhpMqtt\\Client\\Exceptions\\RepositoryException' => __DIR__ . '/..' . '/php-mqtt/client/src/Exceptions/RepositoryException.php',
+        'PhpMqtt\\Client\\Facades\\MQTT' => __DIR__ . '/..' . '/php-mqtt/laravel-client/src/Facades/MQTT.php',
+        'PhpMqtt\\Client\\Logger' => __DIR__ . '/..' . '/php-mqtt/client/src/Logger.php',
+        'PhpMqtt\\Client\\Message' => __DIR__ . '/..' . '/php-mqtt/client/src/Message.php',
+        'PhpMqtt\\Client\\MessageProcessors\\BaseMessageProcessor' => __DIR__ . '/..' . '/php-mqtt/client/src/MessageProcessors/BaseMessageProcessor.php',
+        'PhpMqtt\\Client\\MessageProcessors\\Mqtt31MessageProcessor' => __DIR__ . '/..' . '/php-mqtt/client/src/MessageProcessors/Mqtt31MessageProcessor.php',
+        'PhpMqtt\\Client\\MessageType' => __DIR__ . '/..' . '/php-mqtt/client/src/MessageType.php',
+        'PhpMqtt\\Client\\MqttClient' => __DIR__ . '/..' . '/php-mqtt/client/src/MqttClient.php',
+        'PhpMqtt\\Client\\MqttClientServiceProvider' => __DIR__ . '/..' . '/php-mqtt/laravel-client/src/MqttClientServiceProvider.php',
+        'PhpMqtt\\Client\\PendingMessage' => __DIR__ . '/..' . '/php-mqtt/client/src/PendingMessage.php',
+        'PhpMqtt\\Client\\PublishedMessage' => __DIR__ . '/..' . '/php-mqtt/client/src/PublishedMessage.php',
+        'PhpMqtt\\Client\\Repositories\\MemoryRepository' => __DIR__ . '/..' . '/php-mqtt/client/src/Repositories/MemoryRepository.php',
+        'PhpMqtt\\Client\\SubscribeRequest' => __DIR__ . '/..' . '/php-mqtt/client/src/SubscribeRequest.php',
+        'PhpMqtt\\Client\\Subscription' => __DIR__ . '/..' . '/php-mqtt/client/src/Subscription.php',
+        'PhpMqtt\\Client\\UnsubscribeRequest' => __DIR__ . '/..' . '/php-mqtt/client/src/UnsubscribeRequest.php',
         'PhpOption\\LazyOption' => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption/LazyOption.php',
         'PhpOption\\None' => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption/None.php',
         'PhpOption\\Option' => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption/Option.php',
@@ -6340,6 +6406,10 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         'Ramsey\\Uuid\\Validator\\GenericValidator' => __DIR__ . '/..' . '/ramsey/uuid/src/Validator/GenericValidator.php',
         'Ramsey\\Uuid\\Validator\\ValidatorInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/Validator/ValidatorInterface.php',
         'ReturnTypeWillChange' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
+        'Salman\\Mqtt\\Facades\\Mqtt' => __DIR__ . '/..' . '/salmanzafar/laravel-mqtt/src/Facades/Mqtt.php',
+        'Salman\\Mqtt\\MqttClass\\Mqtt' => __DIR__ . '/..' . '/salmanzafar/laravel-mqtt/src/MqttClass/Mqtt.php',
+        'Salman\\Mqtt\\MqttClass\\MqttService' => __DIR__ . '/..' . '/salmanzafar/laravel-mqtt/src/MqttClass/MqttService.php',
+        'Salman\\Mqtt\\MqttServiceProvider' => __DIR__ . '/..' . '/salmanzafar/laravel-mqtt/src/MqttServiceProvider.php',
         'SebastianBergmann\\CliParser\\AmbiguousOptionException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/AmbiguousOptionException.php',
         'SebastianBergmann\\CliParser\\Exception' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/Exception.php',
         'SebastianBergmann\\CliParser\\OptionDoesNotAllowArgumentException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/OptionDoesNotAllowArgumentException.php',

@@ -5,6 +5,9 @@
 @section('title', 'Page Title')
 
 @section('content')
+<style>
+    #room_bg {background-repeat:no-repeat; }
+</style>
     <!--start page wrapper -->
     <div class="wrapper">
         <div class="content p-2">
@@ -20,8 +23,8 @@
                                     <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
                                         <select class="single-select form-control-sm col-12" name="room" id="room" onchange="window.location='{{ $PHP_SELF ?? "" }}?no={{ $_GET['idx'] ?? "" }}&room='+this.value">
                                             <option value=''>룸선택</option>
-                                            <?php foreach( $rooms as $ri => $room ){?>
-                                                <option value='{{ $room->r_no }}' <?if( $no == $room->r_no ) {?> selected<?}?>>{{ $room->r_name }}</option>
+                                            <?php foreach( $room_arr as $ri => $room_info ){?>
+                                                <option value='{{ $room_info->r_no }}' <?if( isset($no) && $no == $room_info->r_no ) {?> selected<?}?>>{{ $room_info->r_name }}</option>
                                             <?php  }?>
                                         </select>
                                     </div>
@@ -40,7 +43,7 @@
 
                                         <link rel="stylesheet" href="/assets/plugins/seat_editor/css/jlayout.css">
                                         <input type="hidden" name="no" id="no" value="{{ $no ?? "" }}?>">
-                                        <div id="room_bg" class="col-sm-8" style="width:100%;height:600px;border:1px solid #cbc7c7;">
+                                        <div id="room_bg" class="col-sm-8" style="background-repeat:no-repeat;background-image:url({{ $bg_url }});width:100%;height:600px;border:1px solid #cbc7c7;">
 
                                         </div>
                                         <div class="guide_txt" style="display:none;">좌석을 추가하시려면 좌석관리에서 등록해주셔야 합니다.</div>
@@ -63,13 +66,15 @@
                                     <div id="create_pannel">
                                         <div class="head">종류</div>
                                         <div class="body">
+                                            {{-- 
                                             <div><button onclick="add_shape('table');">개인좌석 -> 이기능삭제</button></div>
-                                            {{-- <div><button onclick="add_shape('table2');">회의실</button></div>
+                                            <div><button onclick="add_shape('table2');">회의실</button></div>
                                             <div><button onclick="add_shape('wall');">벽</button></div>
                                             <div>
                                                 <button onclick="add_shape('pillar1');">둥근기둥</button>
                                                 <button onclick="add_shape('pillar2');">사각기둥</button>
-                                            </div> --}}
+                                            </div> 
+                                            --}}
                                         </div>
                                     </div>
                             
@@ -129,15 +134,27 @@
                                             </div>
                                         </div>                                        
 
-                                        {{-- <div class="head">재작성</div>
+                                        <!--div class="head">재작성</div>
                                         <div class="body">
                                             <div><button onclick="set_shape();">다시그리기</button></div>
                                             <div><button onclick="delete_shape();">선택삭제</button> <button onclick="delete_shape_all();">모두삭제</button></div>
                                             <div><button onclick="scale_bg(700);">전체 축소</button></div>
                                             <div><button onclick="set_fix();">이동방지</button></div>
-                                        </div>
-                                        --}}
+                                        </div-->
+                                        
                                     </div>
+                                </div>
+
+
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <form class="row g-3">
+                                    <input type="hidden"?    
+                                            <div class="col-12" id="save_pannel">
+                                            <button id="btn_open_bg" type="button" class="btn btn-danger col-12">배경이미지</button>
+                                        </div>
+                                    </form>                                  
                                 </div>
                             </div>
                         </div>
@@ -150,6 +167,40 @@
     </div>
 
     <!--end page wrapper -->
+
+
+
+
+    <div class="modal fade" id="bgModal" tabindex="-3" aria-labelledby="bgModalLabel" style="display: none;z-index:90000;" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bgModalLabel">배경이미지</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="tab-content py-3">
+                        <form method="post" class="row g-3" id="bgform" name="bgform" enctype="multipart/form-data">
+                            <input type="hidden" name="room" value="{{ $no }}">
+
+                            <div class="col-9" id="save_pannel">
+                                <input type="file" name="bg" id="bg" class="form-control">
+                            </div>
+                            <div class="col-3" id="save_pannel">
+                                <button id="btn_upload" type="button" class="btn btn-danger col-12">업로드</button>
+                            </div>
+                        </form>  
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>    
+
 @endsection
 
 
@@ -178,15 +229,15 @@
             $(document).on("click", "#btn_seat_update", function () {
                 seat_update();
             });
-
+            
             $(document).on("click", "#btn_seat_delete", function () {
                 if (confirm("삭제하시겠습니까?") == true) {
                     seat_delete();
                 }
             });
 
-            $('#seatFormModal').on('show.bs.modal', function (e) {
-
+            $(document).on("click", "#btn_open_bg", function () {
+                $("#bgModal").modal("show");
             });
 
         });
@@ -400,23 +451,68 @@
 
         }
 
-        $(document).ready(function(){
+        function upload_bg(){
 
+            if( $("#bg").val() == "" ) {
+                alert("이미지를 선택해주세요.");
+                return false;
+            }
+
+            var form = $('#bgform')[0];
+            var formData = new FormData(form);
+
+            console.log(formData); 
+            $.ajax({
+                url: '/setting/seat/editor/bg_upload',
+                processData: false,
+                contentType: false,
+                data: formData,                
+                type: 'POST',
+                async: true,
+                success: function (res) {
+                    console.log(res.src);
+
+                    $("#room_bg").css({"background": "url("+res.src+")"});
+                  },
+                error: function(xhr, status, msg){
+
+                }
+            });
+        }
+
+        $(document).ready(function(){
+            
             /* 저장 */
             $(document).on("click","#btn_save", function(){
                 save_map();
+            });
+            $(document).on("click","#btn_upload", function(){
+                upload_bg();
             });
 
             $(document).on("dblclick",".shape", function(){
                 open_SeatInfo();
             });
 
-            <?php if( $bg_url ) { ?>
-            // 이거 없어도 될듯.. set_bg('<?=$bg_url?>','<?=$bg_width?>','<?=$bg_height?>');
-            <?}?>
+            @if( $bg_url )
+            //$("#room_bg").css({"background": "url({{ $bg_url }})"});            
+            @endif
+            
+            
+            //$("#room_bg").css({"background": "url({{ $bg_url }})"}); 
+
+            <?php 
+
+            /*
+            if( $bg_url ) { ?>
+             이거 없어도 될듯.. set_bg('<?=$bg_url?>','<?=$bg_width?>','<?=$bg_height?>');
+            <?
+            }
+            */
+            ?>
 
             <?php //if( $no ) { ?>
-                setting_map({{ $no ?? 0 }}, "edit" );
+                setting_map( "edit", {{ $no ?? 0 }} );
             <?//}?>
         });
 

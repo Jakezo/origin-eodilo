@@ -18,6 +18,7 @@ function load_view_map( mode, room ){
 
     // 로딩이미지
     $("#room_bg").hide();
+    //console.log("모드 : "+mode);
     $("#room_bg").html('<div style="width:100%" class="loading"><img src="/assets/plugins/seat_editor/images/loading1.gif" style="width:50%;text-align:center"/></div>');
     //console.log("모드 : "+mode);
     if( mode != undefined && mode != "" ) jlayout.mode = mode;

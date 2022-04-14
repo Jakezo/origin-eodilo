@@ -374,7 +374,7 @@ function redraw_seat(obj_arr_tmp,zoomRate){
 }
 
 
-function setting_map(  mode, no ){
+function setting_map( mode, no ){
     room  = no ?? 0;
-    load_view_map(mode);
+    load_view_map(mode, room);
 }

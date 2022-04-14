@@ -15,8 +15,8 @@ function reload_view_map(){
 
 function load_view_map( mode, room ){
     obj_arr = [];
-
     // 로딩이미지
+
     $("#room_bg").hide();
     $("#room_bg").html('<div style="width:100%" class="loading"><img src="/assets/plugins/seat_editor/images/loading1.gif" style="width:50%;text-align:center"/></div>');
     //console.log("모드 : "+mode);
@@ -24,6 +24,10 @@ function load_view_map( mode, room ){
 
     //var data = "no=" + room;
     var data = "";
+    if( room != undefined ) {
+        data = "room=" + room;
+    }
+
     //console.log("request : " + data);
     //console.log("url : "+'/partner_api/seat/editor_getMapInfo');
     $.ajax({

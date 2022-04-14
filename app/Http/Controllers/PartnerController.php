@@ -213,13 +213,13 @@ class PartnerController extends Controller
 
         $result = [];
 
-        if( !$request->id || !isset($request->id) || strlen($request->id) < 6  ) {
+        // if( !$request->id || !isset($request->id) || strlen($request->id) < 6  ) {
 
-            $result["result"] = false;
-            $result["partner"] = $request->id;
-            $result["message"] = "아이디는 6자이상 입력해주세요.";
-            return response($result);
-        }
+        //     $result["result"] = false;
+        //     $result["partner"] = $request->id;
+        //     $result["message"] = "아이디는 6자이상 입력해주세요.";
+        //     return response($result);
+        // }
 
         if( !$request->name || !isset($request->name) || strlen($request->name) < 3  ) {
 

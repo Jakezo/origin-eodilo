@@ -18,7 +18,7 @@ class CreateFrenchRoomsTable extends Migration
             
             $table->id('r_no')->comment('일련번호번호');
             $table->unsignedInteger('r_partner')->default(0)->comment('파트너번호');
-            $table->string('r_bg',50)->default('')->comment('배경이미지');
+            $table->string('r_bg',255)->default('')->comment('배경이미지');
             $table->string('r_name',50)->default('')->comment('룸이름');
             $table->unsignedInteger('r_seat_count')->default(0)->comment('좌석수');
             $table->char('r_state_mobile',1)->default('Y')->comment('모바일사용여부');

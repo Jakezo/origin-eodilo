@@ -52,7 +52,7 @@ use App\Http\Controllers\Partner\SettingLockerAreaController;
 use App\Http\Controllers\Partner\SettingLockerController;
 use App\Http\Controllers\Partner\SettingProductController;
 
-//use App\Http\Controllers\Partner\MqttController;
+use App\Http\Controllers\Partner\MqttController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Partner\FrenchLoginController;
@@ -90,6 +90,10 @@ use App\Http\Middleware\UserAuthenticate;
 //     Route::post('/userloginok', [LoginController::class, 'userLogin']);
 //     Route::get('/userlogout', [LoginController::class, 'userlogout']);
 // });
+
+Route::prefix('/mqtt')->group(function () {
+    Route::any('/put', [MqttController::class, 'put']);
+});
 
 Route::domain('api.eodilo.com')->group(function () {
     Route::get('/partner/get_list', [PartnerController::class, 'get_list']);
@@ -489,7 +493,8 @@ Route::domain('{account}.partner.eodilo.com')->group(function () {
             Route::post('/infoUpdate', [SettingController::class, 'info_update']);    // 정보업데이트
 
             Route::get('/iot', function () {
-                return view('partner.setting.iot');
+                Route::any('/', [SettingController::class, 'iot']);
+                Route::any('/update', [SettingController::class, 'iot_update']);
             });
 
             Route::prefix('/emp')->group(function () {
@@ -527,6 +532,7 @@ Route::domain('{account}.partner.eodilo.com')->group(function () {
 
                 Route::get('/editor', [SettingSeatController::class, 'editor']);
                 Route::any('/editor/update', [SettingSeatController::class, 'map_save']);
+                Route::any('/editor/bg_upload', [SettingSeatController::class, 'map_bg_upload']);
             });
 
             Route::prefix('/locker_area')->group(function () {

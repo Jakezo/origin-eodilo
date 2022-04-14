@@ -86,7 +86,6 @@
                                     <th scope="col">룸</th>
                                     <th scope="col">좌석등급</th>
                                     <th scope="col">좌석명</th>
-                                    <th scope="col">사용여부</th>
                                     <th scope="col">공개여부</th>
                                     <th scope="col">관리</th>
                                 </tr>
@@ -106,18 +105,15 @@
                                     <td>@if( trim($seat->s_name) ) {{ $seat->s_name  }} @else - @endif</td>
                                     <td>
                                         @if($seat['s_open_mobile'] == "Y")
-                                            <button class="btn btn-xs btn-primary">사용</button>
-                                        @else
-                                            <button class="btn btn-xs btn-secondary">미사용</button>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if($seat['s_open_mobile'] == "Y")
                                         <button class="btn btn-xs btn-primary">모바일</button>
+                                        @else
+                                            <button class="btn btn-xs btn-secondary">모바일</button>
                                         @endif
 
                                         @if($seat['s_open_kiosk'] == "Y")
                                         <button class="btn btn-xs btn-primary">키오스크</button>
+                                        @else
+                                            <button class="btn btn-xs btn-secondary">키오스크</button>
                                         @endif
                                     </td>
                                     <td><a href="javascript:;" class="btn btn-secondary btn-xs seat_item" seat="{{ $seat->s_no ?? '' }}">관리</a></td>
@@ -133,10 +129,22 @@
                                     <input class="form-check-input" type="checkbox" checked="checked" readonly> 선택 좌석을
                                 </div>
                                 <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
+                                    <select class="single-select form-control-sm col-12" name="change_room" id="change_room">
+                                        <option value="">룸전체</option>
+                                        @if( $rooms )
+                                        @foreach( $rooms as $si => $room )
+                                        <option value="{{ $room->r_no }}" <?php if( isset($no) && $no == $room->r_no ) {?> selected<?}?>>{{ $room->r_name }}</option>
+                                        @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
                                     <select class="single-select form-control-sm col-12" name="change_lv" id="change_lv">
 
                                     </select>
                                 </div>
+
                                 <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
                                     <select class="single-select form-control-sm col-12" name="change_st" id="change_st">
                                         <option value="">사용여부변경</option>
@@ -299,8 +307,6 @@
                             </table>
                         </div>
                     </div>
-
-
 
                 </div>
                 <div class="modal-footer">
@@ -511,6 +517,10 @@
                     console.log(res);
                     if (res.result == true) {
                         $('#room option').remove();
+                        
+                        var option = $('<option value="'+room.r_no+'">룸선택</option>');
+                        $('#room').append(option);
+
                         res.rooms.forEach(function(room) {
                             var option = $('<option value="'+room.r_no+'">'+room.r_name+'</option>');
                             $('#room').append(option);

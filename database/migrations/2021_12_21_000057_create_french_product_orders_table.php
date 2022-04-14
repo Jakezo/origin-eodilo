@@ -23,6 +23,7 @@ class CreateFrenchProductOrdersTable extends Migration
             $table->unsignedInteger('o_member')->default(0)->comment('회원'); // 로컬회원
             $table->string('o_member_name', 30)->default('')->comment('회원명'); // 로컬회원            
             $table->string('o_ageType',1)->default('A')->comment('연령타입'); // A : 성인 S : 학생
+            $table->string('o_priceType',1)->default('A')->comment('금액타입'); // A : 기본 N : 신규 X: 확장  
 
             $table->string('o_device_from',1)->default(0)->comment('구매디바이스구분'); // A 창구 ,  M 모바일, K 키오스크
             $table->unsignedInteger('o_room')->default(0)->comment('룸');

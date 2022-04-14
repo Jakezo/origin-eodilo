@@ -151,7 +151,7 @@ class SettingRoomController extends Controller
             for( $i = 0; $i<=$new_seat_count-1; $i++ ) {
                 $FrenchSeat = new FrenchSeat();        
                 $FrenchSeat->s_partner = $request->account ?? "";
-                $FrenchSeat->s_name = "미지정";
+                $FrenchSeat->s_name = $request->name ?? ($FrenchSeat->s_no ?? '');
                 $FrenchSeat->s_room = $FrenchRoom->r_no;
                 $FrenchSeat->s_level = 0;
                 $FrenchSeat->s_state = "Y";

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Config;
 
 class SettingController extends Controller
 {
@@ -22,6 +23,7 @@ class SettingController extends Controller
     public function __construct()
     {
         $this->partner = new Partner();
+        $this->FrenchConfig = new FrenchConfig();
     }
 
     ## 목록
@@ -95,6 +97,36 @@ class SettingController extends Controller
         return response($result);
     }
 
+    ## 목록
+    public function iot(Request $request){
+        //DB::enableQueryLog();	//query log 시작 선언부
 
+        Config::set('database.connections.partner.database',"boss_".$request->account);
+        $data["config"] = $this->FrenchConfig->first();
+        return view('partner.setting.iot',$data);
+    }
+
+
+    ## 검색
+    public function searchLocker(Request $request){
+        //DB::enableQueryLog();	//query log 시작 선언부
+
+        Config::set('database.connections.partner.database',"boss_".$request->account);
+
+        $data["result"] = true;
+        $data["lockers"] = $this->FrenchLocker->select(["french_lockers.*", "la.la_no", "la.la_name"])
+        ->leftjoin('french_locker_areas as la', 'french_lockers.l_area', '=', 'la.la_no')
+            ->where(function ($query) use ($request) {
+                if ($request->q) {
+                    if( $request->fd == "name" ) {
+                        $query->where("l_name", "like", "%" . $request->q . "%");
+                    }
+                }
+            })
+            ->orderBy("l_no","desc")->get();
+
+        return response($data);
+    }
+    
 
 }

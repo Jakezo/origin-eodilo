@@ -1,4 +1,4 @@
-<?
+<?php
 //use Illuminate\Support\Facades\DB;
 
 ## 비디오아이디만 추출

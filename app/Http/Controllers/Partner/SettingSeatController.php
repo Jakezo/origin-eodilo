@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\Config;
 
+use Illuminate\Support\Facades\Storage;
+use App\Http\Classes\NCPdisk;
+
 class SettingSeatController extends Controller
 {
     /**
@@ -188,7 +191,8 @@ class SettingSeatController extends Controller
         if( $request->s_arr ) {
             for( $i = 0 ; $i <= count($request->s_arr)-1; $i++ ) {
                 if( $FrenchSeat = FrenchSeat::where('s_no', $request->s_arr[$i])->firstOrFail() ) {
-                    $FrenchSeat->s_level =  $request->change_lv;
+                    if( $request->change_lv ) $FrenchSeat->s_level =  $request->change_lv;
+                    if( $request->change_room  ) $FrenchSeat->s_room =  $request->change_room;
                     if( $FrenchSeat->update() ) {
                         $change_seat++;
                     }
@@ -214,46 +218,62 @@ class SettingSeatController extends Controller
     ## 목록
     public function editor(Request $request){
         //DB::enableQueryLog();	//query log 시작 선언부
+        $data = [];
+        $data["seats"] = [];
+
+        $NCPdisk = new NCPdisk;
 
         Config::set('database.connections.partner.database',"boss_".$request->account);
+        
+        $data["room_arr"] = $this->FrenchRoom->select("r_no","r_name")
+        ->orderBy("r_name","asc")->get();
 
-        $data["rooms"] = $this->FrenchRoom->select("r_no","r_name")
-            ->orderBy("r_name","asc")->get();
 
-            if( $data["rooms"][0] ) {
-                $data["no"] = $data["rooms"][0]->r_no;
-                $data["bg_url"] = "";
+        if( isset($request->room)  ) {
+            $data["room"] = $this->FrenchRoom->select("r_no","r_name","r_bg")->find($request->room);
+        } else {
+            $data["room"] = $this->FrenchRoom->select("r_no","r_name","r_bg")->orderby("r_no","desc")->limit(1)->first();
+        }
+
+        if( $data["room"] ) {
+            $data["no"] = $data["room"]->r_no;
+            if( $data["room"]->r_bg ) {
+                $data["bg_url"] = $NCPdisk->url($data["room"]->r_bg);
             } else {
-                $data["no"] = "";
-            }
+                $data["bg_url"] = "";
+                
+            }     
+            
+            //아래는 자바스크립트에서 ajax 로 로드하기 때문에 제외합니다.
+            // $data["seats"] = $this->FrenchSeat->select(["french_seats.*", "r.r_no", "r.r_name", "sl.sl_no", "sl.sl_name"])
+            // ->leftjoin('french_rooms as r', 'french_seats.s_room', '=', 'r.r_no')
+            // ->leftjoin('french_seat_levels as sl', 'french_seats.s_level', '=', 'sl.sl_no')
+            // ->where(function ($query) use ($request) {
 
-        $data["seats"] = [];
-        $data["seats"] = $this->FrenchSeat->select(["french_seats.*", "r.r_no", "r.r_name", "sl.sl_no", "sl.sl_name"])
-        ->leftjoin('french_rooms as r', 'french_seats.s_room', '=', 'r.r_no')
-        ->leftjoin('french_seat_levels as sl', 'french_seats.s_level', '=', 'sl.sl_no')
-            ->where(function ($query) use ($request) {
-                if ($request->q) {
-                    if( $request->fd == "name" ) {
-                        $query->where("s_name", "like", "%" . $request->q . "%");
-                    }
-                }
-                if ($request->state) {
-                    if( $request->state == "A" ) {
-                        $query->where("s_sdate",  ">", now());
-                    } elseif( $request->state == "I" ) {
-                        $query->where("s_sdate",  "<=", now());
-                        $query->where("s_edate",  ">=", now());
-                    }  elseif( $request->state == "E" ) {
-                        $query->where("s_edate",  "<", now());
-                    }
-                }
-            })
-            ->orderBy("s_no","desc")->paginate(50);
-        $data['query'] = $request->query;
-        //$i = $this->board->perPage() * ($this->board->currentPage() - 1);
-        $data['start'] = $data["seats"]->total() - $data["seats"]->perPage() * ($data["seats"]->currentPage() - 1);
-        $data['total'] = $data["seats"]->total();
-        $data['param'] = ['state' => $request->state, 'fd' => $request->fd, 'q' => $request->q];
+            //     if ($request->room) {
+            //             $query->where("r_no", $request->room);
+            //     }                
+
+            //     if ($request->q) {
+            //         if( $request->fd == "name" ) {
+            //             $query->where("s_name", "like", "%" . $request->q . "%");
+            //         }
+            //     }
+            //     if ($request->state) {
+            //         if( $request->state == "A" ) {
+            //             $query->where("s_sdate",  ">", now());
+            //         } elseif( $request->state == "I" ) {
+            //             $query->where("s_sdate",  "<=", now());
+            //             $query->where("s_edate",  ">=", now());
+            //         }  elseif( $request->state == "E" ) {
+            //             $query->where("s_edate",  "<", now());
+            //         }
+            //     }
+            // })
+            // ->orderBy("s_no","desc");
+        }
+
+
         return view('partner.setting.seat_editor', $data);
     }
 
@@ -294,6 +314,37 @@ class SettingSeatController extends Controller
         return response($result); 
     }
 
+    ## 목록
+    public function map_bg_upload(Request $request){
+        //DB::enableQueryLog();	//query log 시작 선언부
+
+        Config::set('database.connections.partner.database',"boss_".$request->account);
+
+        $this->FrenchRoom = FrenchRoom::find($request->room);
+
+        $result = [];
+        
+        $NCPdisk = new NCPdisk;
+        
+        $upload_res = $NCPdisk->upload("partner/".$request->account_no."/room", $request->bg);
+
+        //$upload_res = Storage::disk('ncloud')->put($save_filename,$file_contents);
+        if( $upload_res['result'] ) {    
+            $result['result'] = true;
+            $this->FrenchRoom->r_bg = $upload_res['filepath'];
+            if( $res = $this->FrenchRoom->update() ) {
+                $result["src"] = $NCPdisk->url($upload_res['filepath']);
+            } else {
+                $result['result'] = false;
+            }
+
+        } else  {
+            Storage::disk('ncloud')->delete($upload_res['filepath']);
+            $result['result'] = false;
+        }
+        return response($result); 
+    }
+
 
     ## 목록
     public function editor_getMapInfo(Request $request){
@@ -323,6 +374,9 @@ class SettingSeatController extends Controller
         ->leftjoin('french_rooms as r', 'french_seats.s_room', '=', 'r.r_no')
         ->leftjoin('french_seat_levels as sl', 'french_seats.s_level', '=', 'sl.sl_no')
             ->where(function ($query) use ($request) {
+                if ($request->room) {
+                        $query->where("r_no", $request->room);
+                }     
                 if ($request->q) {
                     if( $request->fd == "name" ) {
                         $query->where("s_name", "like", "%" . $request->q . "%");

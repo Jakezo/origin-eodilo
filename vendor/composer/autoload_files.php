@@ -40,5 +40,6 @@ return array(
     '4a1f389d6ce373bda9e57857d3b61c84' => $vendorDir . '/barryvdh/laravel-debugbar/src/helpers.php',
     'ed962a97bd972bc82007176b647d4e36' => $vendorDir . '/facade/ignition/src/helpers.php',
     '40275907c8566c390185147049ef6e5d' => $vendorDir . '/livewire/livewire/src/helpers.php',
+    'cabeca1d6dd677db00ea3c78d8584e1d' => $vendorDir . '/salmanzafar/laravel-mqtt/src/Helper/Helpers.php',
     'e617b14322a074392076a2f38eaf6115' => $baseDir . '/app/Helper.php',
 );
