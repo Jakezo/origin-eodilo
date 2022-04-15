@@ -11,9 +11,19 @@ $db_name = "boss";
 $source_db = "boss_enha";
 $target_db = "";
 
+if( isset($argv[2]) && $argv[2] != "" ) {
+    $tmp = explode("=",$argv[2]);
+    ${$tmp[0]} = $tmp[1];
+} 
+
 // 기본데이터베이스백업
 echo "기본데이터베이스 추출\n";
-$command = "mysqldump -u $db_user -p$db_password  $source_db -d > $script_dir/tmp.sql";
+
+if( $mode == "copy") {
+    $command = "mysqldump -u $db_user -p$db_password  $source_db > $script_dir/tmp.sql";
+} else {
+    $command = "mysqldump -u $db_user -p$db_password  $source_db -d > $script_dir/tmp.sql";
+}
 exec($command);
 
 if( $argv[1] ) {
@@ -54,6 +64,16 @@ if( $argv[1] ) {
                                 $command = "mysql -u $db_user -p$db_password $target_db -f < $script_dir/tmp.sql";
                                 $res = exec($command);
                                    
+
+                                if( $mode == "copy") {
+                                    $sql = "truncate table french_product_orders;";
+                                    $result = mysqli_query($conn, $sql); 
+                                    $sql = "truncate table french_reserv_seats;";
+                                    $result = mysqli_query($conn, $sql); 
+                                    $sql = "truncate table french_managers;";
+                                    $result = mysqli_query($conn, $sql);  
+                                }                              
+
                                 $sql = "insert into french_managers (select * from $source_db.french_managers where mn_no = 1 )";
                                 $result = mysqli_query($conn, $sql);                                   
                                 $sql = "update french_managers set 

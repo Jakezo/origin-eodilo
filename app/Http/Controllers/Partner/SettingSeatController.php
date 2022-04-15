@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Partner;
 use App\Http\Controllers\Controller;
 use App\Models\FrenchRoom;
 use App\Models\FrenchSeat;
+use App\Models\FrenchIot;
 use App\Models\FrenchConfig;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -32,6 +33,7 @@ class SettingSeatController extends Controller
         $this->FrenchConfig = new FrenchConfig();
         $this->FrenchSeat = new FrenchSeat();
         $this->FrenchRoom = new FrenchRoom();
+        $this->FrenchIot = new FrenchIot();
     }
 
     ## 목록
@@ -39,6 +41,14 @@ class SettingSeatController extends Controller
         //DB::enableQueryLog();	//query log 시작 선언부
 
         Config::set('database.connections.partner.database',"boss_".$request->account);
+
+        $data["iots"] = $this->FrenchIot->select(
+            [
+                'i_no as no',
+                'i_name as name'
+            ]
+        )
+        ->get();        
 
         $data["rooms"] = $this->FrenchRoom->select("r_no","r_name")
             ->orderBy("r_name","asc")->get();
@@ -87,6 +97,7 @@ class SettingSeatController extends Controller
             $data["seat"] = $this->FrenchSeat->select(
                     [
                         's_no as no',
+                        's_room as room',
                         's_name as name',
                         's_level as level',
                         's_state as state',
@@ -95,7 +106,8 @@ class SettingSeatController extends Controller
                         's_iot1 as iot1',
                         's_iot2 as iot2',
                         's_iot3 as iot3',
-                        's_iot4 as iot4'
+                        's_iot4 as iot4',
+                        's_iot_ext as iot_ext'
                     ]
                 )
                 ->where("s_no",  $request->no)->first();
@@ -128,6 +140,9 @@ class SettingSeatController extends Controller
         $FrenchSeat->s_iot2 = $request->iot2 ?? "";
         $FrenchSeat->s_iot3 = $request->iot3 ?? "";
         $FrenchSeat->s_iot4 = $request->iot4 ?? "";
+        $FrenchSeat->s_iot_ext = $request->iot_ext ? implode(",",$request->iot_ext) : "";
+
+        
 
         if( isset( $FrenchSeat->s_no ) ) {
             $result['result'] = $FrenchSeat->update();
@@ -186,6 +201,7 @@ class SettingSeatController extends Controller
 
         Config::set('database.connections.partner.database',"boss_".$request->account);
 
+        
         $result = [];
         $change_seat = 0;
         if( $request->s_arr ) {
@@ -193,6 +209,7 @@ class SettingSeatController extends Controller
                 if( $FrenchSeat = FrenchSeat::where('s_no', $request->s_arr[$i])->firstOrFail() ) {
                     if( $request->change_lv ) $FrenchSeat->s_level =  $request->change_lv;
                     if( $request->change_room  ) $FrenchSeat->s_room =  $request->change_room;
+
                     if( $FrenchSeat->update() ) {
                         $change_seat++;
                     }

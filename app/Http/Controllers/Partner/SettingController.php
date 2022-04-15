@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Partner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Partner;
+use App\Models\FrenchConfig;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -99,8 +100,8 @@ class SettingController extends Controller
 
     ## 목록
     public function iot(Request $request){
+        $data["iots"] = [];
         //DB::enableQueryLog();	//query log 시작 선언부
-
         Config::set('database.connections.partner.database',"boss_".$request->account);
         $data["config"] = $this->FrenchConfig->first();
         return view('partner.setting.iot',$data);

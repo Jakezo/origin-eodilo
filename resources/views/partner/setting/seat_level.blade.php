@@ -784,8 +784,9 @@
         }
         
 
-        function seatlevel_price_save() {
-            var req = $("#frm_seatlevel_price_time_save_form").serialize();
+        function seatlevel_price_save(mode) {
+            if( mode == "time" ) var req = $("#frm_seatlevel_price_time_save_form").serialize();
+            if( mode == "day" ) var req = $("#frm_seatlevel_price_day_save_form").serialize();
             console.log(req);
             $.ajax({
                 url: '/setting/seat_level/price_save',

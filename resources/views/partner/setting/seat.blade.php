@@ -207,23 +207,39 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-12">
+                                <div class="col-md-12 row">
                                     <label for="inputLastName2" class="form-label">IOT세팅</label>
 
-                                    <div class="col-12 mb-2">
-                                        <input type="text" class="form-control" name="iot1" id="iot1" placeholder="">
+                                    <div class="col-3">
+                                        <input type="text" class="form-control col-3" name="iot1" id="iot1" placeholder="">
                                     </div>
-                                    <div class="col-12 mb-2">
-                                        <input type="text" class="form-control" name="iot2" id="iot2" placeholder="">
+                                    <div class="col-3">
+                                        <input type="text" class="form-control col-3" name="iot2" id="iot2" placeholder="">
                                     </div>
-                                    <div class="col-12 mb-2">
-                                        <input type="text" class="form-control" name="iot3" id="iot3" placeholder="">
+                                    <div class="col-3 mb-2">
+                                        <input type="text" class="form-control col-3" name="iot3" id="iot3" placeholder="">
                                     </div>
-                                    <div class="col-12 mb-2">
-                                        <input type="text" class="form-control" name="iot4" id="iot4" placeholder="">
+                                    <div class="col-3 mb-2">
+                                        <input type="text" class="form-control col-3" name="iot4" id="iot4" placeholder="">
                                     </div>
 
                                 </div>
+
+                                <div class="col-md-12 mt-3">
+                                    <label for="name" class="form-label">추가 IOT</label>
+                                </div>
+                                <div class="col-12 mt-0">
+                                    @if( $iots )
+                                    @foreach( $iots as $ii => $iot )
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input iot_ext" type="checkbox" name="iot_ext[]" id="iot_ext_{{ $iot['no'] }}" value="{{ $iot['no'] }}">
+                                        <label class="form-check-label" for="iot_ext_{{ $iot['no'] }}">{{ $iot['name'] }}</label>
+                                    </div>
+
+                                    @endforeach
+                                    @endif                                    
+
+                                </div>                                
 
                                 <div class="col-md-12 mt-3">
                                     <label for="name" class="form-label">사용여부</label>
@@ -424,8 +440,11 @@
                         $("#seatDetail_msg").html(xhr.message);
                     }
                 },
-                error: function (xhr, textStatus, errorThrown) {
-                    $("#seatDetail_msg").html(xhr.responseJSON.message);
+                error: function(xhr, status, msg){
+                    console.log(xhr);
+                    console.log(xhr.responseJSON.file);
+                    console.log(xhr.responseJSON.line);
+                    console.log(xhr.responseJSON.message);
                 }
             });
         }
@@ -449,8 +468,11 @@
                         console.log("실패.");
                     }
                 },
-                error: function (xhr, textStatus, errorThrown) {
-                    console.log('PUT error.');
+                error: function(xhr, status, msg){
+                    console.log(xhr);
+                    console.log(xhr.responseJSON.file);
+                    console.log(xhr.responseJSON.line);
+                    console.log(xhr.responseJSON.message);
                 }
             });
         }
@@ -473,6 +495,7 @@
                         //$("#aid").val(res.seat.id).attr("readonly", true);
                         $("#name").val(res.seat.name);
                         $("#level").val(res.seat.level);
+                        $("#room").val(res.seat.room);
                         if( res.seat.open_mobile == "Y") {
                             $("#open_mobile").prop("checked","checked");
                         } else {
@@ -494,6 +517,14 @@
                         $("#iot3").val(res.seat.iot3);
                         $("#iot4").val(res.seat.iot4);
                         //$("#sex").val(res.seat.sex);
+
+                        var iot_ext_arr = res.seat.iot_ext.split(",");
+                        console.log(iot_ext_arr);
+                        $(".iot_ext").prop("checked", false);
+                        for( i=0;i<=iot_ext_arr.length-1;i++){
+                            $(".iot_ext[id='iot_ext_"+iot_ext_arr[i]+"']").prop("checked", true);
+                        }
+
                     } else {
                         $("#seatDetail_msg").html(res.message);
                         console.log("실패.");

@@ -255,8 +255,6 @@ class SettingSeatLevelController extends Controller
             $result['result'] = $SeatLevel->update();
             $result['message'] = $SeatLevel;
 
-            return response($result);
-
         } else {
             $result['result'] = false;
             $result['message'] = "존재하지 않는 등급입니다.";

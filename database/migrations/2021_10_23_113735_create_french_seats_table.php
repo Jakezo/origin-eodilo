@@ -26,6 +26,7 @@ class CreateFrenchSeatsTable extends Migration
             $table->string('s_iot2',20)->default('')->comment("IOT2");
             $table->string('s_iot3',20)->default('')->comment("IOT3");
             $table->string('s_iot4',20)->default('')->comment("IOT4");
+            $table->string('s_iot_ext',50)->default('')->comment("추가IOT");
             $table->string('s_item',10)->default('')->comment('요금종류');
             $table->string('s_device',10)->default('')->comment('노출디바이스');
             $table->string('s_age',10)->default('')->comment('나이구분');

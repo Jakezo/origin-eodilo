@@ -45,6 +45,7 @@ use App\Http\Controllers\Partner\FrenchStatisticsController;
 use App\Http\Controllers\Partner\FrenchAccountBookController;
 
 use App\Http\Controllers\Partner\SettingController;
+use App\Http\Controllers\Partner\SettingIotController;
 use App\Http\Controllers\Partner\SettingRoomController;
 use App\Http\Controllers\Partner\SettingSeatLevelController;
 use App\Http\Controllers\Partner\SettingSeatController;
@@ -492,9 +493,12 @@ Route::domain('{account}.partner.eodilo.com')->group(function () {
 
             Route::post('/infoUpdate', [SettingController::class, 'info_update']);    // 정보업데이트
 
-            Route::get('/iot', function () {
-                Route::any('/', [SettingController::class, 'iot']);
-                Route::any('/update', [SettingController::class, 'iot_update']);
+            Route::prefix('/iot')->group(function () {
+                Route::any('/', [SettingIotController::class, 'index']);
+                Route::any('/getInfo', [SettingIotController::class, 'getInfo']);
+                Route::post('/update', [SettingIotController::class, 'update']);
+                Route::post('/delete', [SettingIotController::class, 'delete']);                
+
             });
 
             Route::prefix('/emp')->group(function () {
