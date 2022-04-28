@@ -81,6 +81,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">구역</th>
                                     <th scope="col">사물함명</th>
+                                    <th scope="col">IOT</th>
                                     <th scope="col">공개여부</th>
                                     <th scope="col">관리</th>
                                 </tr>
@@ -97,6 +98,7 @@
                                     <th>{{ (count($lockers)-$si) }}</th>
                                     <td>{{ $locker->la_name ?? '' }}</td>
                                     <td>{{ $locker->l_name ?? '' }}</td>
+                                    <td>@if( trim($locker->l_iot1) ) {{ $locker->l_iot1  }} @endif / @if( trim($locker->l_iot2) ) {{ $locker->l_iot2  }} @endif</td>                                    
                                     <td>
                                         @if($locker['l_open_mobile'] == "Y")
                                         <button class="btn btn-xs btn-primary">모바일</button>
@@ -113,42 +115,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="card-body">
-                            <div class='row'>
-                                <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
-                                    <input class="form-check-input" type="checkbox" id="gridCheck3"> 선택 사물함을
-                                </div>
-                                <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
-                                    <select class="single-select form-control-xs col-12" name="fd" id="fd">
-                                        <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>등급전체</option>
-                                        <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>A등급</option>
-                                        <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?}?>>B등급</option>
-                                        <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?}?>>C등급</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
-                                    <button type="submit" class="btn btn-secondary px-2 btn-xs col-12">변경</button>
-                                </div>
-                            </div>
 
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12">
-                            <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-                                <ul class="pagination">
-                                    <li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Prev</a></li>
-                                    <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
-                                    <li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
 
                 </div>
@@ -189,15 +156,18 @@
                                     </div>
                                 </div>
 
-
-                                <div class="col-md-12">
+                                <div class="col-md-12 row">
                                     <label for="inputLastName2" class="form-label">IOT세팅</label>
 
-                                    <div class="col-12 mb-2">
-                                        <input type="text" class="form-control" name="iot1" id="iot1" placeholder="">
+                                    <div class="col-3">
+                                        <input type="text" class="form-control form-select-sm col-3" name="iot1" id="iot1" placeholder="">
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control form-select-sm col-3" name="iot2" id="iot2" placeholder="">
                                     </div>
 
                                 </div>
+
 
                                 <div class="col-12">
                                     공개

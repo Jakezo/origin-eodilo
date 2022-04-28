@@ -227,7 +227,7 @@
                             <input type="text" class="form-control form-control-sm" id="map_longitude" name="map_longitude" value="{{ $partner["p_map_longitude"] ?? '' }}" title="경도">
                         </div>
                         <div class="col-md-4 col-sm-12">
-                            <button type="submit" class="btn btn-primary px-5 btn-sm mt-4" onclick="open_nmap_pointwindow('', encodeURIComponent(document.getElementById('address1').value ) + ' ' + encodeURIComponent( document.getElementById('address2').value ), '','map' )">좌표보기</button>
+                            <button type="button" class="btn btn-primary px-5 btn-sm mt-4" onclick="open_nmap_pointwindow('', encodeURIComponent(document.getElementById('address1').value ) + ' ' + encodeURIComponent( document.getElementById('address2').value ), '','map' )">좌표보기</button>
                         </div>
                         <div class='col-sm-12'>
                             <div class="form-check-inline mt-3">
@@ -352,7 +352,7 @@
 
 
 @section('javascript')
-
+    <script src="/assets/js/nmap.js"></script> 
     <script>
         $(document).ready(function() {
             $.ajaxSetup({
@@ -440,11 +440,6 @@
                 });
             }
         }        
-
-
-        setTimeout(function(){
-            fn_visit({{ $partner["p_no"] ?? '' }});
-        },1000);
 
     </script>
 

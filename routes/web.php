@@ -133,6 +133,11 @@ Route::domain('admin.eodilo.com')->group(function () {
 
     });
 
+    Route::prefix('/nmap')->group(function () {
+        Route::any('/nmap_get_point', [PartnerController::class, 'nmap_get_point']);
+    });
+
+
     Route::group(['middleware' => ['admin']], function () {
 
         Route::get('/', [IndexController::class, 'index'])->name("adminhome");

@@ -19,7 +19,8 @@ class CreateFrenchLockersTable extends Migration
             $table->unsignedInteger('l_partner')->default(0)->comment('가맹점번호');
             $table->string('l_name',20)->default('')->comment('사물함이름');
             $table->unsignedInteger('l_area')->default(0)->comment('구역번호');
-            $table->string('l_dvc_no',20)->default('')->comment('디바이스번호');
+            $table->string('l_iot1',20)->default('')->comment('디바이스번호1');
+            $table->string('l_iot2',20)->default('')->comment('디바이스번호2');
             $table->SoftDeletes();
 
             $table->timestamps();

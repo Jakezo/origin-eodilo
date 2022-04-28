@@ -112,7 +112,8 @@ class SettingLockerController extends Controller
         //$FrenchSeat->s_partner = $request->account ?? "";
         $FrenchLocker->l_name = $request->name ?? "";
         $FrenchLocker->l_area = $request->area ?? 0;
-        $FrenchLocker->l_dvc_no = $request->dvc_no ?? "";
+        $FrenchLocker->l_iot1 = $request->iot1 ?? "";
+        $FrenchLocker->l_iot2 = $request->iot2 ?? "";
 
         if( isset( $FrenchLocker->l_no ) ) {
             $result['result'] = $FrenchLocker->update();

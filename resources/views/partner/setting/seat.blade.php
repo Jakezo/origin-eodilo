@@ -84,8 +84,9 @@
                                     </th>
                                     <th scope="col">#</th>
                                     <th scope="col">룸</th>
-                                    <th scope="col">좌석등급</th>
                                     <th scope="col">좌석명</th>
+                                    <th scope="col">좌석등급</th>
+                                    <th scope="col">IOT</th>
                                     <th scope="col">공개여부</th>
                                     <th scope="col">관리</th>
                                 </tr>
@@ -101,8 +102,9 @@
                                     </th>
                                     <th>{{ (count($seats)-$si) }}</th>
                                     <td>{{ $seat->r_name ?? '' }}</td>
-                                    <td>@if( trim($seat->sl_name) ) {{ $seat->sl_name  }} @else - @endif</td>
                                     <td>@if( trim($seat->s_name) ) {{ $seat->s_name  }} @else - @endif</td>
+                                    <td>@if( trim($seat->sl_name) ) {{ $seat->sl_name  }} @else - @endif</td>
+                                    <td>@if( trim($seat->s_iot1) ) {{ $seat->s_iot1  }} @endif / @if( trim($seat->s_iot2) ) {{ $seat->s_iot2  }} @endif</td>
                                     <td>
                                         @if($seat['s_open_mobile'] == "Y")
                                         <button class="btn btn-xs btn-primary">모바일</button>
