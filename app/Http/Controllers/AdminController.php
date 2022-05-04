@@ -31,41 +31,41 @@ class AdminController extends Controller
     public function update(Request $request)
     {
 
-                if($request->$ajax())
-                {
-                    $result = [
-                        'result' => false,
-                        'message' => "정상적인 접근이 아닙니다."];
-                    return response($result);
-                }
+        // if($request->$ajax())
+        // {
+        //     $result = [
+        //         'result' => false,
+        //         'message' => "정상적인 접근이 아닙니다."];
+        //     return response($result);
+        // }
 
         // Validate the request...
         $result = [];
         if( $request->no ) {
-            $admin = \App\Models\Admin::where('admin_no', $request->no)->firstOrFail();
+            $this->admin = \App\Models\Admin::where('admin_no', $request->no)->firstOrFail();
         } else {
-            $admin = \App\Models\Admin;
+            $this->admin = new Admin();
         }
-        $admin->admin_id = $request->aid;
-        $admin->admin_name = $request->name ?? "";
-        $admin->admin_passwd = $request->passwd ? Hash::make($request->passwd) : "";
-        $admin->admin_email = $request->email ?? "";
-        $admin->admin_phone = $request->phone ?? "";
-        $admin->admin_state = $request->state ?? "N";
+        $this->admin->admin_id = $request->aid;
+        $this->admin->admin_name = $request->name ?? "";
+        $this->admin->admin_passwd = $request->passwd ? Hash::make($request->passwd) : "";
+        $this->admin->admin_email = $request->email ?? "";
+        $this->admin->admin_phone = $request->phone ?? "";
+        $this->admin->admin_state = $request->state ?? "N";
 
 
         if( $request->no ) {
-            $admin->admin_no = $request->no;
+            $this->admin->admin_no = $request->no;
             $exist_admin = \App\Models\Admin::select(["admin_no", "admin_id", "admin_passwd"])
                 ->where("admin_id",$request->aid)
                 ->where("admin_no",$request->no)
                 ->first();
-            if( $request->passwd == "" ) $admin->admin_passwd = $exist_admin->admin_passwd;
+            if( $request->passwd == "" ) $this->admin->admin_passwd = $exist_admin->admin_passwd;
             if( $exist_admin  ) {
                 DB::enableQueryLog();	//query log 시작 선언부
-                $result['result'] = $admin->save();
+                $result['result'] = $this->admin->save();
                 return DB::getQueryLog();
-                return response($admin);
+                return response($this->admin);
                 return response($result);
             } else {
                 $result = [
@@ -76,7 +76,7 @@ class AdminController extends Controller
         } else {
             $exist_admin = \App\Models\Admin::select(["admin_no", "admin_id"])->where("admin_id",$request->aid)->first();
             if( !$exist_admin  ) {
-                $result['result'] = $admin->save();
+                $result['result'] = $this->admin->save();
                 return response($result);
             } else {
                 $result = [
@@ -97,8 +97,8 @@ class AdminController extends Controller
         $result = [];
 
         if( $request->no ) {
-            $admin = \App\Models\Admin::where('admin_no', $request->no)->firstOrFail();
-            $result['result'] = $admin->delete();
+            $this->admin = \App\Models\Admin::where('admin_no', $request->no)->firstOrFail();
+            $result['result'] = $this->admin->delete();
         } else {
             $result = [
                 'result' => false,
@@ -119,27 +119,32 @@ class AdminController extends Controller
         }
 */
         // Validate the request...
+
+             
         $result = [];
 
         if( $request->no ) {
-            $admin = \App\Models\Admin::where('admin_no', $request->no)->firstOrFail();
+            $this->admin = \App\Models\Admin::where('admin_no', $request->no)->firstOrFail();
         } else {
-            $admin = new Admin;
+            $this->admin = new Admin;
         }
 
-        $admin->admin_id = $request->aid;
-        $admin->admin_name = $request->name ?? "";
-        $admin->admin_passwd = $request->passwd ? Hash::make($request->passwd) : "";
-        $admin->admin_email = $request->email ?? "";
-        $admin->admin_phone = $request->phone ?? "";
-        $admin->admin_state = $request->state ?? "N";
+        $this->admin->admin_id = $request->aid;
+        $this->admin->admin_name = $request->name ?? "";
+        $this->admin->password = $request->passwd ? Hash::make($request->passwd) : "";
+        $this->admin->admin_email = $request->email ?? "";
+        $this->admin->admin_phone = $request->phone ?? "";
+        $this->admin->admin_state = $request->state ?? "N";
 
-        if( $admin->admin_no ) {
-                $result['result'] = $admin->save();
-                return response($result);
+        
+        if( $this->admin->admin_no ) {
 
+                $result['result'] = $this->admin->update();
+
+
+                return response($result);            
         } else {
-                $result['result'] = $admin->save();
+                $result['result'] = $this->admin->save();
                 return response($result);
         }
 
@@ -150,7 +155,6 @@ class AdminController extends Controller
 
     ## 목록
     public function index(Request $request){
-        //DB::enableQueryLog();	//query log 시작 선언부
         $data["q"] = $request->q ?? "";
         $data["admins"] = [];
         $data["admins"] = $this->admin->select()
@@ -163,7 +167,7 @@ class AdminController extends Controller
                 }
             })
             ->orderBy("admin_no","desc")->get();
-        //dd(DB::getQueryLog());
+
         return view('admin.emp.list', $data);
     }
 

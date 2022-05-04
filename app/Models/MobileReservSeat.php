@@ -12,5 +12,5 @@ class MobileReservSeat extends Model
     protected $primaryKey = 'rv_no';
     public $incrementing = true;
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['created_at','deleted_at'];
 }

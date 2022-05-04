@@ -26,6 +26,8 @@ use App\Http\Controllers\VodboardController;
 use App\Http\Controllers\HelpboardController;
 use App\Http\Controllers\UserMessageController;
 
+use App\Http\Controllers\ReserveController;
+
 use App\Http\Controllers\Partner\MainController;
 use App\Http\Controllers\Partner\FrenchBoardController;
 use App\Http\Controllers\Partner\FrenchNoticeController;
@@ -143,9 +145,9 @@ Route::domain('admin.eodilo.com')->group(function () {
         Route::get('/', [IndexController::class, 'index'])->name("adminhome");
         Route::get('index2', [IndexController::class, 'index2']);
 
-        Route::get('/history', function () {
-            return view('admin.history');
-        });
+        
+
+        Route::get('/history',  [ReserveController::class, 'index']);   
 
         Route::group(['prefix' => '/partner'],function () {
 

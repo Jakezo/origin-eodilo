@@ -85,7 +85,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">룸</th>
                                     <th scope="col">좌석명</th>
-                                    <th scope="col">좌석등급</th>
+                                    <th scope="col">좌석등급/성별/연령</th>
                                     <th scope="col">IOT</th>
                                     <th scope="col">공개여부</th>
                                     <th scope="col">관리</th>
@@ -103,7 +103,7 @@
                                     <th>{{ (count($seats)-$si) }}</th>
                                     <td>{{ $seat->r_name ?? '' }}</td>
                                     <td>@if( trim($seat->s_name) ) {{ $seat->s_name  }} @else - @endif</td>
-                                    <td>@if( trim($seat->sl_name) ) {{ $seat->sl_name  }} @else - @endif</td>
+                                    <td>@if( trim($seat->sl_name) ) {{ $seat->sl_name  }} @else - @endif  / {{ $seat->s_sex }} / {{ $seat->s_age }} </td>
                                     <td>@if( trim($seat->s_iot1) ) {{ $seat->s_iot1  }} @endif / @if( trim($seat->s_iot2) ) {{ $seat->s_iot2  }} @endif</td>
                                     <td>
                                         @if($seat['s_open_mobile'] == "Y")
@@ -243,35 +243,74 @@
 
                                 </div>                                
 
-                                <div class="col-md-12 mt-3">
-                                    <label for="name" class="form-label">사용여부</label>
-                                </div>
-                                <div class="col-12 mt-0">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="state" id="stateY" value="Y">
-                                        <label class="form-check-label" for="stateY">사용</label>
+                                <div class="col-md-12 row">
+
+
+                                    <div class="col-6">
+
+
+                                        <div class="col-md-12 mt-3">
+                                            <label for="state" class="form-label">사용여부</label>
+                                        </div>
+                                        <div class="col-12 mt-0">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="state" id="stateY" value="Y">
+                                                <label class="form-check-label" for="stateY">사용</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="state" id="stateN" value="N">
+                                                <label class="form-check-label" for="stateN">미사용</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="col-md-12 mt-3">
+                                            <label for="name" class="form-label">공개여부</label>
+                                        </div>
+                                        <div class="col-12 mt-0">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" name="open_mobile" id="open_mobile" value="Y">
+                                                <label class="form-check-label" for="stateM">모바일</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" name="open_kiosk" id="open_kiosk" value="Y">
+                                                <label class="form-check-label" for="stateK">키오스크</label>
+                                            </div>
+                                        </div> 
                                     </div>
 
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="state" id="stateN" value="N">
-                                        <label class="form-check-label" for="stateN">미사용</label>
-                                    </div>
-                                </div>
 
-                                <div class="col-12">
-                                    공개
-                                </div>
-                                <div class="col-12 mt-3">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" name="open_mobile" id="open_mobile" value="Y">
-                                        <label class="form-check-label" for="stateM">모바일</label>
-                                    </div>
+                                </div>                                
 
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" name="open_kiosk" id="open_kiosk" value="Y">
-                                        <label class="form-check-label" for="stateK">키오스크</label>
+
+                                <div class="col-md-12 row">
+
+
+                                    <div class="col-6">
+                                        <label for="age" class="form-label">성별</label>
+                                        <div class="input-group">
+                                            <select name="sex" id="sex" class="form-control form-select-sm col-12">
+                                                <option value="A">무관</option>
+                                                <option value="M">남자</option>
+                                                <option value="F">여자</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
+                                    <div class="col-6">
+                                        <label for="sex" class="form-label">연령</label>
+                                        <div class="input-group">
+                                            <select name="age" id="age" class="form-control form-select-sm col-12">
+                                                <option value="">모두</option>
+                                                <option value="A">성인</option>
+                                                <option value="S">학생</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>                                
+
+
 
                                 <div class="col-12 text-center">
                                     <button type="button" id="btn_seat_update" class="btn btn-warning px-5">확인</button>
@@ -518,7 +557,8 @@
                         $("#iot2").val(res.seat.iot2);
                         $("#iot3").val(res.seat.iot3);
                         $("#iot4").val(res.seat.iot4);
-                        //$("#sex").val(res.seat.sex);
+                        $("#sex").val(res.seat.sex);
+                        $("#age").val(res.seat.age);
 
                         var iot_ext_arr = res.seat.iot_ext.split(",");
                         console.log(iot_ext_arr);

@@ -294,7 +294,7 @@
                     console.log(res);
                     if( res.admin != null ) {
                         $("#no").val(res.admin.no);
-                        $("#aid").val(res.admin.aid).attr("readonly", true);
+                        $("#aid").val(res.admin.id).attr("readonly", true);
                         $("#name").val(res.admin.name);
                         $("#email").val(res.admin.email);
                         $("#phone").val(res.admin.phone);

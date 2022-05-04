@@ -101,6 +101,8 @@ class SettingSeatController extends Controller
                         's_name as name',
                         's_level as level',
                         's_state as state',
+                        's_sex as sex',
+                        's_age as age',
                         's_open_mobile as open_mobile',
                         's_open_kiosk as open_kiosk',
                         's_iot1 as iot1',
@@ -134,6 +136,8 @@ class SettingSeatController extends Controller
         $FrenchSeat->s_room = $request->room ?? 0;
         $FrenchSeat->s_level = $request->level ?? 0;
         $FrenchSeat->s_state = $request->state ?? "N";
+        $FrenchSeat->s_age = $request->age ?? "";
+        $FrenchSeat->s_sex = $request->sex ?? "A";
         $FrenchSeat->s_open_mobile = $request->open_mobile ?? "N";
         $FrenchSeat->s_open_kiosk = $request->open_kiosk ?? "N";
         $FrenchSeat->s_iot1 = $request->iot1 ?? "";
