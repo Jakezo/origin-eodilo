@@ -134,6 +134,7 @@ var from = '{{ $from ?? '' }}'
             // 검색 결과 갯수: result.total
             // 첫번째 결과 결과 주소: result.items[0].address
             // 첫번째 검색 결과 좌표: result.items[0].point.y, result.items[0].point.x
+			console.log(result.items[0].point);
             var myaddr = new naver.maps.Point(result.items[0].point.x, result.items[0].point.y);
 
             document.getElementById('x').value = result.items[0].point.x;

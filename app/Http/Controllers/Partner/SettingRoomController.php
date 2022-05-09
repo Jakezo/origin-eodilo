@@ -139,19 +139,25 @@ class SettingRoomController extends Controller
             //$FrenchRoom->r_no = $result['result'];
         }
 
-
         ## 현재해당 룸 좌석의 수가 설정 좌석수보다 적으면 이름없이 추가해줌..
         $FrenchSeatTmp = new FrenchSeat();        
         $seat_count = $FrenchSeatTmp->where("s_room",$FrenchRoom->r_no)->count();
 
-        
-
+        if( $max_data = $FrenchSeatTmp->select("s_name")->orderBy("s_no","desc")->first() ) {
+            $new_name = (int)$max_data->s_name + 1;
+        } else {
+            $new_name = 1;
+        }
         if( $FrenchRoom->r_seat_count > $seat_count ) {
             $new_seat_count = $FrenchRoom->r_seat_count - $seat_count;
+            
+            $x = 20;
+            $y = 20;
+
             for( $i = 0; $i<=$new_seat_count-1; $i++ ) {
                 $FrenchSeat = new FrenchSeat();        
                 $FrenchSeat->s_partner = $request->account ?? "";
-                $FrenchSeat->s_name = $request->name ? $request->name . " " . ($i+1) : ($FrenchSeat->s_no ?? '');
+                $FrenchSeat->s_name = $new_name;
                 $FrenchSeat->s_room = $FrenchRoom->r_no;
                 $FrenchSeat->s_level = 0;
                 $FrenchSeat->s_state = "Y";
@@ -161,7 +167,18 @@ class SettingRoomController extends Controller
                 $FrenchSeat->s_iot2 = "";
                 $FrenchSeat->s_iot3 = "";
                 $FrenchSeat->s_iot4 = "";
+
+                $FrenchSeat->s_map_x = $x;
+                $FrenchSeat->s_map_y = $y;
                 $FrenchSeat->save();
+
+                $new_name++;
+                $x += 120;
+                if( ($i+1) % 8 == 0 ) {
+                    $x = 20;
+                    $y += 100;
+                }
+
             }
 
         }

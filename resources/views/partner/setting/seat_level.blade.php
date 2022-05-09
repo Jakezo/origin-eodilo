@@ -242,7 +242,7 @@
                                 </table>
 
                                 <div class="row justify-content-center my-3">
-                                    <button type="button" id="btn_price_time_make" class="btn btn-primary col-5">생성</button>
+                                    <button type="button" id="btn_price_time_make" class="btn btn-primary col-5">위 기준으로 생성</button>
                                 </div>
 
                                 </form>
@@ -255,8 +255,8 @@
 
                                 </div>
 
-                                <div class="row justify-content-center my-3">
-                                    <button type="button" id="btn_price_day_save" class="btn btn-primary col-5">저장</button>
+                                <div class="row justify-content-center my-3 btn_save_level_price" >
+                                    <button type="button" id="btn_price_time_save" class="btn btn-primary col-5">저장</button>
                                 </div>
                                 </form>
                             </div>
@@ -329,7 +329,7 @@
                                 </table>
 
                                 <div class="row justify-content-center my-3">
-                                    <button type="button" id="btn_price_day_make" class="btn btn-primary col-5">생성</button>
+                                    <button type="button" id="btn_price_day_make" class="btn btn-primary col-5">위 기준으로 생성</button>
                                 </div>
 
                                 </form>
@@ -342,7 +342,7 @@
 
                                 </div>
 
-                                <div class="row justify-content-center my-3">
+                                <div class="row justify-content-center my-3 btn_save_level_price">
                                     <button type="button" id="btn_price_day_save" class="btn btn-primary col-5">저장</button>
                                 </div>
                                 </form>
@@ -378,15 +378,16 @@
                 seatlevel_getInfo(r_no);
                 console.log(r_no);
             });
+
             $(document).on("click", "#btn_seatlevel_update", function () {
                 seatlevel_update();
             });
+
             $(document).on("click", "#btn_seatlevel_delete", function () {
                 if (confirm("삭제하시겠습니까?") == true) {
                     seatlevel_delete();
                 }
             });
-
 
             $(document).on("keyup change", ".in_price.total",  function(){
                 let row = $(this).closest(".price_row");
@@ -469,7 +470,6 @@
                     row.find(".total").val(price_total);
                 }
             });
-            
             
             // 금액관련
             $(document).on("click", "#btn_price_time_make", function () {
@@ -680,7 +680,6 @@
                 return false;
             }
 
-            console.log(req);
             $.ajax({
                 url: '/setting/seat_level/price_make',
                 type: 'POST',
@@ -704,6 +703,8 @@
                         } else if( price_kind == "day" ) {
                             view_price_detail("day", res.price);
                         } 
+
+                        $(".btn_save_level_price").show();
 
                     } else {
                         $("#seatlevelPriceTime_msg").html(xhr.message);
@@ -787,7 +788,6 @@
         function seatlevel_price_save(mode) {
             if( mode == "time" ) var req = $("#frm_seatlevel_price_time_save_form").serialize();
             if( mode == "day" ) var req = $("#frm_seatlevel_price_day_save_form").serialize();
-            console.log(req);
             $.ajax({
                 url: '/setting/seat_level/price_save',
                 type: 'POST',
@@ -797,15 +797,20 @@
                 },
                 data: req,
                 success: function (res, textStatus, xhr) {
-
-                    console.log(res);
-
+                        console.log(res);
                     if (res.result == true) {
-                        $("#seatlevelPriceTime_msg").append("저장이 완료되었습니다.");                    
+                        if( res.price_kind == "time") {
+                            $("#seatlevelPriceTime_msg").html("저장이 완료되었습니다.");  
+                        } else {
+                            $("#seatlevelPriceDay_msg").html("저장이 완료되었습니다.");  
+                        }                  
+
+                        $(".btn_save_level_price").hide();
                         //document.location.reload();
                     } else {
                         $("#seatlevelPriceTime_msg").html(xhr.message);
                     }
+
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     $("#seatlevelPriceTime_msg").html(xhr.responseJSON.message);
