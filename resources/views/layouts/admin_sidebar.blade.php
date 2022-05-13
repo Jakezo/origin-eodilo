@@ -23,6 +23,8 @@
             </li>
             <li> <a href="/history"><i class="bx bx-right-arrow-alt"></i>이용내역보기</a>
             </li>
+            <li> <a href="/buy"><i class="bx bx-right-arrow-alt"></i>구매내역</a>
+            </li>
             <!--li> <a href="use_chart.html"><i class="bx bx-right-arrow-alt"></i>일일차트보기</a>
             </li-->
         </ul>
@@ -54,8 +56,6 @@
             <li> <a href="/member/list"><i class="bx bx-right-arrow-alt"></i>회원관리</a>
             </li>
             <li> <a href="/member/sms"><i class="bx bx-right-arrow-alt"></i>SMS발송</a>
-            </li>
-            <li> <a href="/member/buy"><i class="bx bx-right-arrow-alt"></i>구매내역</a>
             </li>
             <li> <a href="/member/refund"><i class="bx bx-right-arrow-alt"></i>환불신청</a>
             </li>

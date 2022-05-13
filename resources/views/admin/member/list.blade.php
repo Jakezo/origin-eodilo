@@ -78,8 +78,8 @@
                                 @foreach( $users as $ui => $user )
                                 <tr>
                                     <th scope="row">{{ ($start - $ui) }}</th>
-                                    <td>{{ $user['user_id'] }}</td>
-                                    <td><i class="bx bx-mobile-alt"></i> {{ $user['name'] }} <i class="bx bx-tag-alt bxs-tag text-primary"></i></td>
+                                    <td>{{ $user['email'] }}</td>
+                                    <td><i class="bx bx-mobile-alt"></i> {{ $user['nickname'] }} <i class="bx bx-tag-alt bxs-tag text-primary"></i></td>
                                     <td>{{ $user['phone'] }}</td>
                                     <td>{{ $user['birth'] }} ( {{ $user['age'] }}, {{ $user['ageTypeText'] }} )</td>
                                     <td>{{ $user['sex'] }}</td>

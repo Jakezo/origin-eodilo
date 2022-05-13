@@ -223,225 +223,7 @@
         </div>
     </div>
 
-    <!-- 좌석 예약 폼 -->
-    <div class="modal fade" id="seatReservFormModal" tabindex="-1" aria-labelledby="seatFormModalLabel" style="display: none;z-index:100000;" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="seatFormModalLabel">좌석번호 01 / 룸 M01</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body setInfoHtmnl">
 
-                    <div class="row">
-                        <div class="col-7">
-                            <form id="reservationForm" name="reservationForm">
-                        
-                            <!-- 창구 -->
-                            <input type="hidden" name="rv_device_from" id="rv_device_from" value="A">
-                            <input type="hidden" name="rv_birth" id="rv_birth" value="">
-                            <input type="hidden" name="rv_ageType" id="rv_ageType" value="">
-                            <input type="hidden" name="rv_locker" id="rv_locker" value="">
-                            <input type="hidden" name="rv_member" id="rv_member" value="">
-                            <input type="hidden" name="rv_room" id="rv_room" value="">
-                            <input type="hidden" name="rv_seat" id="rv_seat" value="">
-                            <div class="row col-12 mb-2">
-                                <div class="col-4">이용자 <span class="btn_member_register btn btn-xs btn-info" nextStep="reservSeat">등록하기</span></div>
-                                <div class="col-8">
-                                    <input name="rv_member_name" id="rv_member_name" style="ime-mode:disabled;" class="form-control form-control-sm mb-3 col-6 input_member" type="text" placeholder="클릭하여 회원검색" aria-label=".form-control-sm example" data-bs-toggle="modal" data-bs-target="#memberListModal"  search_mode="reservation">
-                                    <div id="rv_birth_txt"></div>                                    
-                                </div>
-                            </div>
-                            <div class="row col-12 mb-2">
-                                <div class="col-4">이용권선택 <span class="btn btn-xs btn-info" id="btn_reserv_buyProduct" nextStep="reservSeat">상품구매</span></div>
-                                <div class="col-8" id="member_products">
-                                    이용자를 먼저 선택해 주세요.
-                                </div>
-                            </div>
-                            <div class="row col-12 mb-2">
-                                <div class="col-4">입실시간</div>
-                                <div class="col-8">
-                                    <div class="form-radio form-radio-inline">
-                                        <input class="form-radio-input" type="radio" name="rv_type" id="rv_type_C" value="C" checked="checked">
-                                        <label class="form-radio-label" for="inlineCheckbox1">현시간부터</label>
-                                    </div>
-                                    <div class="form-radio form-check-inline">
-                                        <input class="form-radio-input" type="radio" name="rv_type" id="rv_type_R" value="R">
-                                        <label class="form-radio-label" for="inlineCheckbox1">예약</label>
-                                    </div>
-
-                                    <input name="rv_sdate" id="rv_sdate" class="form-control form-control-sm mb-3 col-6" type="date" value="<?=date('Y-m-d')?>" placeholder="날자" aria-label=".form-control-sm example">
-                                    <input name="rv_stime" id="rv_stime" class="form-control form-control-sm mb-3 col-6" type="time" id="stime" placeholder="시간" aria-label=".form-control-sm example">
-                                </div>
-                            </div>
-                            <div class="row col-12 mb-2">
-                                <div class="col-4">사용시간</div>
-                                <div class="col-8">
-                                    <select name="rv_duration" id="rv_duration" class="form-select form-select-sm mb-3" aria-label="Default select example">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row col-12 mb-2">
-                                <div class="col-4">퇴실시간</div>
-                                <div class="col-8">
-                                    <input name="rv_edate" id="rv_edate" class="form-control form-control-sm mb-3 col-6" type="date" name="edate" placeholder="날자" aria-label=".form-control-sm example">
-                                    <input name="rv_etime" id="rv_etime" class="form-control form-control-sm mb-3 col-6" type="time" name="etime" placeholder="시간" aria-label=".form-control-sm example">
-                                </div>
-                            </div>
-
-                            <!--div class="row col-12 mb-2">
-                                <div class="col-4">요금</div>
-                                <div class="col-8">
-                                    <input name="rv_price" id="rv_price" class="form-control form-control-sm mb-3 col-6" type="text" placeholder="구매금액" aria-label=".form-control-sm example">
-                                </div>
-                            </div>
-
-                            <div class="row col-12 mb-2">
-                                <div class="col-4">결제</div>
-                                <div class="col-8">
-                                    <select name="rv_pay_kind" id="rv_pay_kind" class="form-select form-select-sm mb-3" aria-label="Default select example">
-                                        <option selected="">결제방법</option>
-                                        <option value="1">현금</option>
-                                        <option value="2">카드</option>
-                                    </select>
-                                </div>
-                            </div>
-
-
-                            <div class="row col-12 mb-2">
-                                <div class="col-4">결제여부</div>
-                                <div class="col-8">
-                                    <select name="rv_pay_state" id="rv_pay_state" class="form-select form-select-sm mb-3" aria-label="Default select example">
-                                        <option value="N">대기</option>
-                                        <option value="Y">완료</option>
-                                    </select>
-                                </div>
-                            </div-->
-
-                            <div class="row justify-content-center mt-3" id="reserveSeat_msg">
-                                
-                            </div>
-
-                            <div class="row justify-content-center">
-                                <button type="button" id="btn_reserv" class="btn btn-primary col-5">확  인 </button>
-                            </div>
-
-                            </form>                            
-                        </div>
-                        <div class="col-5">
-                            시간표 2021-10-10
-                            <div id="time_table">
-                                <!--div class="row border-bottom border-top">
-                                    <div class="col-3 border-right">01</div>
-                                    <div class="col-9 bg-secondar text-white">조현준</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">02</div>
-                                    <div class="col-9 bg-secondary text-white">조현준</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">03</div>
-                                    <div class="col-9 bg-secondary text-white">조현준</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">04</div>
-                                    <div class="col-9 bg-secondary text-white">조현준</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">05</div>
-                                    <div class="col-9 bg-info">조현준</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">06</div>
-                                    <div class="col-9 bg-info">최현우</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">07</div>
-                                    <d-iv class="col-9 bg-info">최현우</d-iv>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">08</div>
-                                    <div class="col-9">최현우</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">09</div>
-                                    <div class="col-9">최현우</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">09:30</div>
-                                    <div class="col-9"><button class="btn btn-xs btn-success" onclick="$('#stime').val('09:30:00')">예약가능</button></div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">10</div>
-                                    <div class="col-9"><button class="btn btn-xs btn-success" onclick="$('#stime').val('10:00:00')">예약가능</button></div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">11</div>
-                                    <div class="col-9"><button class="btn btn-xs btn-success" onclick="$('#stime').val('11:00:00')">예약가능</button></div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">12</div>
-                                    <div class="col-9"><button class="btn btn-xs btn-success" onclick="$('#stime').val('12:00:00')">예약가능</button></div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">13</div>
-                                    <div class="col-9">최현우</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">14</div>
-                                    <div class="col-9">최현우</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">15</div>
-                                    <div class="col-9">최현우</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">16</div>
-                                    <div class="col-9">최현우</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">17</div>
-                                    <div class="col-9">최현우</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">18</div>
-                                    <div class="col-9">최현우</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">19</div>
-                                    <div class="col-9">최현우</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">20</div>
-                                    <div class="col-9">최현우</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">21</div>
-                                    <div class="col-9">최현우</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">22</div>
-                                    <div class="col-9">최현우</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">23</div>
-                                    <div class="col-9">최현우</div>
-                                </div>
-                                <div class="row border-bottom">
-                                    <div class="col-3 border-right">24</div>
-                                    <div class="col-9">최현우</div>
-                                </div-->
-                            </div>
-                            <div class="alert alert-info">시간을 클릭한후 왼쪽 폼에서 수정가능합니다.</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- 회원목록(검색) -->
     <div class="modal fade" id="memberListModal" tabindex="-3" aria-labelledby="memberListModalLabel" style="display: none;z-index:9999999;" aria-hidden="true">
@@ -990,15 +772,16 @@
         </div>
     </div>
 
-    <!-- 좌석상태 -->
-    <div class="modal fade" id="seatStatusModal" tabindex="-2" aria-labelledby="seatStatusModalLabel" style="display: none;z-index:90000;" aria-hidden="true">
-        <div class="modal-dialog modal-md">
+    <!-- 좌석 정보 / 예약 폼 -->
+    <div class="modal fade" id="seatReservFormModal" tabindex="-1" aria-labelledby="seatFormModalLabel" style="display: none;z-index:100000;" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="seatStatusModalLabel">좌석번호 01 / 룸 M01</h5>
+                    <h5 class="modal-title" id="seatFormModalLabel">좌석번호 01 / 룸 M01</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body setInfoHtmnl">
+
 
                     <ul class="nav nav-tabs nav-primary navbar-xs mb-2 pd-0" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -1015,41 +798,33 @@
                                 <div class="d-flex align-items-center">
                                     <div class="tab-icon"><i class="bx bxs-time font-18 me-1"></i>
                                     </div>
-                                    <div class="tab-title">시간보기</div>
+                                    <div class="tab-title">예약 및 시간</div>
                                 </div>
                             </a>
                         </li>
-                    </ul>
-
+                    </ul>                    
                     <div class="tab-content py-3">
+
+                        <!-- 1. 좌석정보보기 -->
                         <div class="tab-pane fade show active" id="seatCurrentInfo" role="tabpanel">
                             <div class="row col-12 mb-2">
-                                <div class="col-8"><h6>이용자 : 조현준</h6></div>
+                                <div class="col-8"><h6>이용자 : <span id="seatCurrentUserName"></span></h6></div>
                                 <div class="col-4 text-right"><span class="btn btn-xs btn-info">외출중</span></div>
                             </div>
                             <div class="row col-12 mb-2">
                                 <div class="col-5">입실시간</div>
-                                <div class="col-7">2020-11-26 10:00</div>
+                                <div class="col-7" id="seatCurrentSdate"></div>
                             </div>
                             <div class="row col-12 mb-2">
                                 <div class="col-5">퇴실예정</div>
-                                <div class="col-7">2020-11-26 17:00</div>
+                                <div class="col-7" id="seatCurrentEdate"></div>
                             </div>
 
                             <hr/>
-                            <div class="row col-12 mb-2">
-                                <div class="col-5">조명(IOT_01)</div>
-                                <div class="col-7">
-
-                                    <div class="form-check form-switch form-switch-md">
-                                        <input class="form-check-input" type="checkbox" id="iot_1">
-                                        <label class="form-check-label" for="iot_1"> 켜짐</label>
-                                    </div>
-                                    <div id="iot_1_msg"></div>
-                                </div>
+                            <div id="seatIotInfo">
                             </div>
 
-                            <div class="row col-12 mb-2">
+                            <!--div class="row col-12 mb-2">
                                 <div class="col-5">전원(IOT_02)</div>
                                 <div class="col-7">
 
@@ -1083,14 +858,14 @@
                                     </div>
 
                                 </div>
-                            </div>
+                            </div-->
 
                             <hr/>
                             <div class="row col-12 mb-2">
                                 <div class="col-12">
                                     <div class="alert alert-warning">
                                         <h6>메모</h6>
-                                        <div>학교에서 바로 오기 때문에 시간변동 가능성 있음 양해바람.</div>
+                                        <div id="seatCurrentMemo">메모없음</div>
                                     </div>
                                 </div>
                             </div>
@@ -1257,113 +1032,218 @@
                             <div class="row col-12 mb-2 d-none seatExt" id="seatExt_MemoForm">
                                 <div class="col-12">
                                     <h6>메모</h6>
-                                    <div class="col-12"><textarea name="seat_memo" class="form-control"></textarea></div>
+                                    <div class="col-12"><textarea id="seat_memo" name="seat_memo" class="form-control"></textarea></div>
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <button type="button" id="btn_save_memo" class="btn btn-sm btn-primary">저장하기</button>
                                 </div>
                             </div>
 
                         </div>
-                        <div class="tab-pane fade show"  id="seatCurrentTime" role="tabpanel">
 
-                            시간표 2021-10-10
-                            <div class="row border-bottom border-top">
-                                <div class="col-3 border-right">01</div>
-                                <div class="col-9 bg-secondar text-white">조현준</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">02</div>
-                                <div class="col-9 bg-secondary text-white">조현준</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">03</div>
-                                <div class="col-9 bg-secondary text-white">조현준</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">04</div>
-                                <div class="col-9 bg-secondary text-white">조현준</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">05</div>
-                                <div class="col-9 bg-info">조현준</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">06</div>
-                                <div class="col-9 bg-info">최현우</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">07</div>
-                                <d-iv class="col-9 bg-info">최현우</d-iv>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">08</div>
-                                <div class="col-9">최현우</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">09</div>
-                                <div class="col-9">최현우</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">09:30<button class="btn btn-xs btn-warning" onclick="$('#stime').val('09:30:00')">현재</button></div>
-                                <div class="col-9"><button class="btn btn-xs btn-success" onclick="$('#stime').val('09:30:00')">예약가능</button></div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">10</div>
-                                <div class="col-9"><button class="btn btn-xs btn-success" onclick="$('#stime').val('09:30:00')">예약가능</button></div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">11</div>
-                                <div class="col-9"><button class="btn btn-xs btn-success" onclick="$('#stime').val('09:30:00')">예약가능</button></div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">12</div>
-                                <div class="col-9"><button class="btn btn-xs btn-success" onclick="$('#stime').val('09:30:00')">예약가능</button></div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">13</div>
-                                <div class="col-9">최현우</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">14</div>
-                                <div class="col-9">최현우</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">15</div>
-                                <div class="col-9">최현우</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">16</div>
-                                <div class="col-9">최현우</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">17</div>
-                                <div class="col-9">최현우</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">18</div>
-                                <div class="col-9">최현우</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">19</div>
-                                <div class="col-9">최현우</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">20</div>
-                                <div class="col-9">최현우</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">21</div>
-                                <div class="col-9">최현우</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">22</div>
-                                <div class="col-9">최현우</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">23</div>
-                                <div class="col-9">최현우</div>
-                            </div>
-                            <div class="row border-bottom">
-                                <div class="col-3 border-right">24</div>
-                                <div class="col-9">최현우</div>
+                        <!-- 2. 예약하기 -->                        
+                        <div class="tab-pane fade show"  id="seatCurrentTime" role="tabpanel">
+                            <div class="row">
+                                <div class="col-7">
+                                    <form id="reservationForm" name="reservationForm">
+                                
+                                    <!-- 창구 -->
+                                    <input type="hidden" name="rv_device_from" id="rv_device_from" value="A">
+                                    <input type="hidden" name="rv_birth" id="rv_birth" value="">
+                                    <input type="hidden" name="rv_ageType" id="rv_ageType" value="">
+                                    <input type="hidden" name="rv_locker" id="rv_locker" value="">
+                                    <input type="hidden" name="rv_member" id="rv_member" value="">
+                                    <input type="hidden" name="rv_room" id="rv_room" value="">
+                                    <input type="hidden" name="rv_seat" id="rv_seat" value="">
+                                    <div class="row col-12 mb-2">
+                                        <div class="col-4">이용자 <span class="btn_member_register btn btn-xs btn-info" nextStep="reservSeat">등록하기</span></div>
+                                        <div class="col-8">
+                                            <input name="rv_member_name" id="rv_member_name" style="ime-mode:disabled;" class="form-control form-control-sm mb-3 col-6 input_member" type="text" placeholder="클릭하여 회원검색" aria-label=".form-control-sm example" data-bs-toggle="modal" data-bs-target="#memberListModal"  search_mode="reservation">
+                                            <div id="rv_birth_txt"></div>                                    
+                                        </div>
+                                    </div>
+                                    <div class="row col-12 mb-2">
+                                        <div class="col-4">이용권선택 <span class="btn btn-xs btn-info" id="btn_reserv_buyProduct" nextStep="reservSeat">상품구매</span></div>
+                                        <div class="col-8" id="member_products">
+                                            이용자를 먼저 선택해 주세요.
+                                        </div>
+                                    </div>
+                                    <div class="row col-12 mb-2">
+                                        <div class="col-4">입실시간</div>
+                                        <div class="col-8">
+                                            <div class="form-radio form-radio-inline">
+                                                <input class="form-radio-input" type="radio" name="rv_type" id="rv_type_C" value="C" checked="checked">
+                                                <label class="form-radio-label" for="inlineCheckbox1">현시간부터</label>
+                                            </div>
+                                            <div class="form-radio form-check-inline">
+                                                <input class="form-radio-input" type="radio" name="rv_type" id="rv_type_R" value="R">
+                                                <label class="form-radio-label" for="inlineCheckbox1">예약</label>
+                                            </div>
+        
+                                            <input name="rv_sdate" id="rv_sdate" class="form-control form-control-sm mb-3 col-6" type="date" value="<?=date('Y-m-d')?>" placeholder="날자" aria-label=".form-control-sm example">
+                                            <input name="rv_stime" id="rv_stime" class="form-control form-control-sm mb-3 col-6" type="time" id="stime" placeholder="시간" aria-label=".form-control-sm example">
+                                        </div>
+                                    </div>
+                                    <div class="row col-12 mb-2">
+                                        <div class="col-4">사용시간</div>
+                                        <div class="col-8">
+                                            <select name="rv_duration" id="rv_duration" class="form-select form-select-sm mb-3" aria-label="Default select example">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row col-12 mb-2">
+                                        <div class="col-4">퇴실시간</div>
+                                        <div class="col-8">
+                                            <input name="rv_edate" id="rv_edate" class="form-control form-control-sm mb-3 col-6" type="date" name="edate" placeholder="날자" aria-label=".form-control-sm example">
+                                            <input name="rv_etime" id="rv_etime" class="form-control form-control-sm mb-3 col-6" type="time" name="etime" placeholder="시간" aria-label=".form-control-sm example">
+                                        </div>
+                                    </div>
+        
+                                    <!--div class="row col-12 mb-2">
+                                        <div class="col-4">요금</div>
+                                        <div class="col-8">
+                                            <input name="rv_price" id="rv_price" class="form-control form-control-sm mb-3 col-6" type="text" placeholder="구매금액" aria-label=".form-control-sm example">
+                                        </div>
+                                    </div>
+        
+                                    <div class="row col-12 mb-2">
+                                        <div class="col-4">결제</div>
+                                        <div class="col-8">
+                                            <select name="rv_pay_kind" id="rv_pay_kind" class="form-select form-select-sm mb-3" aria-label="Default select example">
+                                                <option selected="">결제방법</option>
+                                                <option value="1">현금</option>
+                                                <option value="2">카드</option>
+                                            </select>
+                                        </div>
+                                    </div>
+        
+        
+                                    <div class="row col-12 mb-2">
+                                        <div class="col-4">결제여부</div>
+                                        <div class="col-8">
+                                            <select name="rv_pay_state" id="rv_pay_state" class="form-select form-select-sm mb-3" aria-label="Default select example">
+                                                <option value="N">대기</option>
+                                                <option value="Y">완료</option>
+                                            </select>
+                                        </div>
+                                    </div-->
+        
+                                    <div class="row justify-content-center mt-3" id="reserveSeat_msg">
+                                        
+                                    </div>
+        
+                                    <div class="row justify-content-center">
+                                        <button type="button" id="btn_reserv" class="btn btn-primary col-5">확  인 </button>
+                                    </div>
+        
+                                    </form>                            
+                                </div>
+                                <div class="col-5">
+                                    시간표 2021-10-10
+                                    <div id="time_table">
+                                        <!--div class="row border-bottom border-top">
+                                            <div class="col-3 border-right">01</div>
+                                            <div class="col-9 bg-secondar text-white">조현준</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">02</div>
+                                            <div class="col-9 bg-secondary text-white">조현준</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">03</div>
+                                            <div class="col-9 bg-secondary text-white">조현준</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">04</div>
+                                            <div class="col-9 bg-secondary text-white">조현준</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">05</div>
+                                            <div class="col-9 bg-info">조현준</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">06</div>
+                                            <div class="col-9 bg-info">최현우</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">07</div>
+                                            <d-iv class="col-9 bg-info">최현우</d-iv>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">08</div>
+                                            <div class="col-9">최현우</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">09</div>
+                                            <div class="col-9">최현우</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">09:30</div>
+                                            <div class="col-9"><button class="btn btn-xs btn-success" onclick="$('#stime').val('09:30:00')">예약가능</button></div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">10</div>
+                                            <div class="col-9"><button class="btn btn-xs btn-success" onclick="$('#stime').val('10:00:00')">예약가능</button></div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">11</div>
+                                            <div class="col-9"><button class="btn btn-xs btn-success" onclick="$('#stime').val('11:00:00')">예약가능</button></div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">12</div>
+                                            <div class="col-9"><button class="btn btn-xs btn-success" onclick="$('#stime').val('12:00:00')">예약가능</button></div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">13</div>
+                                            <div class="col-9">최현우</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">14</div>
+                                            <div class="col-9">최현우</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">15</div>
+                                            <div class="col-9">최현우</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">16</div>
+                                            <div class="col-9">최현우</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">17</div>
+                                            <div class="col-9">최현우</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">18</div>
+                                            <div class="col-9">최현우</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">19</div>
+                                            <div class="col-9">최현우</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">20</div>
+                                            <div class="col-9">최현우</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">21</div>
+                                            <div class="col-9">최현우</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">22</div>
+                                            <div class="col-9">최현우</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">23</div>
+                                            <div class="col-9">최현우</div>
+                                        </div>
+                                        <div class="row border-bottom">
+                                            <div class="col-3 border-right">24</div>
+                                            <div class="col-9">최현우</div>
+                                        </div-->
+                                    </div>
+                                    <div class="alert alert-info">시간을 클릭한후 왼쪽 폼에서 수정가능합니다.</div>
+                                </div>
                             </div>
 
                         </div>
@@ -1372,12 +1252,13 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#seatReservFormModal">이좌석 예약하기</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
-
+    
+    
     <!-- 긴급 IOT 세팅 -->
     <div class="modal fade" id="controlGlobalModal" tabindex="-3" aria-labelledby="controlGlobalModalLabel" style="display: none;z-index:90000;" aria-hidden="true">
         <div class="modal-dialog">
@@ -1784,7 +1665,7 @@
 
                     <div class="row col-12 mb-2 d-none seatExt" id="seatExt_MemoForm">
                         <div class="col-12">
-                            <h6>메모</h6>
+                            <h6>메모111</h6>
                             <div class="col-12"><textarea name="seat_memo" class="form-control"></textarea></div>
                         </div>
                     </div>
@@ -2012,8 +1893,7 @@
         } else {
             alert(2);
         }
-     });
-
+    });
 
     function getDuration( mode ){
         let today = new Date();
@@ -2088,6 +1968,8 @@
         var member_search_mode = "";
         var nextStepBuyProudct = "";
 
+
+
         $(document).ready(function(){
             $.ajaxSetup({
                 headers: {
@@ -2141,6 +2023,7 @@
                 
                 if( no ) {
                     seat_getInfo(no, CurrentDate);
+                    seat_getReserveInfo(no, CurrentDate);
                     //$("#seatStatusModal").modal("show");
                 } 
                 setSdateFromCurrentTime();
@@ -2364,32 +2247,11 @@
 
             });
             
-            // 시작시간
-            function resetLastTime(){
-                //$("#seatReservFormModal #rv_stime").val( CurrentTime );
-                duration = $('#rv_duration').val();
-                console.log( "선택된 기간 : " + duration );
-
-                if( product_info ) {
-                    console.log( "상품정보 있음" );
-
-                    if( product_info.o_duration_type == "D") {
-                        setLastTime("D",duration);   
-                    } else {
-                        setLastTime("T",duration);   
-                    }
-
-                    //console.log( "변경시간 : " + DiffDate + " " + DiffTime );
-                    //$("#seatReservFormModal #rv_edate").val( DiffDate );
-                    //$("#seatReservFormModal #rv_etime").val( DiffTime );                    
-
-                } else {
-                    console.log( "상품정보 없음" );
-                    $("#reserveSeat_msg").html( "이용자의 상품을 선택해주세요." );
-                }
-            }
-
-
+            // 메모저장
+            $(document).on("click","#btn_save_memo",function(){
+                setUserResMemo($("#seat_memo").val());
+            });
+            
             // 시간선택
             $(document).on("change","#seatReservFormModal #rv_duration",function(){
                 resetLastTime()
@@ -2405,11 +2267,104 @@
                 reservSeat();
             });
 
+            $(document).on("change",".iot_check",function(){
+                iot_no = $(this).closest(".iot_dev").attr("iot");
+                dev_no = $(this).closest(".iot_dev").attr("dev");
+                status = $(this).prop("checked") ? "O" : "F";
+
+                manager_publish(iot_no,dev_no,status);
+
+            });
+
         });
+
+
+        // 예약상태가져오기
+        function SeatState() {
+
+            formData = new FormData();
+
+            $.ajax({
+                url: '/reservation/reserveSeatState',
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                processData: false,
+                contentType: false,
+                data: formData,
+                type: 'POST',
+                //data: req,
+                success: function (res, textStatus, xhr) {
+                    console.log(res);
+                    if (res.result == true) {
+                        res.seats.forEach(function(seat) {
+                            console.log("예약있는거 확인"+seat.rv_member_name);
+                            //모바일 $('.btn_seat[seat='+seat.s_no+']').children('a').addClass("type-off").removeClass("type-on");
+                            $('.btn_seat[seat='+seat.s_no+']').addClass("on");
+                            $('.btn_seat[seat='+seat.s_no+']').find(".name").html('<span style="font-size:10pt;">'+seat.rv_member_name+'</span>');
+                        });
+                    } else {
+                        $("#eventDetail_msg").html(xhr.message);
+                    }
+                },   
+                error: function (xhr, textStatus, errorThrown) {
+                    $("#eventDetail_msg").html(xhr.responseJSON.message);
+                }
+            });
+        }
+
+
+        // 시작시간
+        function manager_publish(iot_no,dev_no,status){
+
+            formData = new FormData();
+
+            formData.append("iot_no",iot_no );
+            formData.append("dev_no",dev_no );
+            formData.append("status",status );
+
+            $.ajax({
+                url: '/mqtt/publish',
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                processData: false,
+                contentType: false,
+                data: formData,
+                type: 'POST',
+                //data: req,
+                success: function (res, textStatus, xhr) {
+                    console.log(res);
+
+                },           
+  
+            });
+        }
+
+
+        // 시작시간
+        function resetLastTime(){
+            //$("#seatReservFormModal #rv_stime").val( CurrentTime );
+            duration = $('#rv_duration').val();
+            console.log( "선택된 기간 : " + duration );
+
+            if( product_info ) {
+                console.log( "상품정보 있음" );
+
+                if( product_info.o_duration_type == "D") {
+                    setLastTime("D",duration);   
+                } else {
+                    setLastTime("T",duration);   
+                }
+
+                //console.log( "변경시간 : " + DiffDate + " " + DiffTime );
+                //$("#seatReservFormModal #rv_edate").val( DiffDate );
+                //$("#seatReservFormModal #rv_etime").val( DiffTime );                    
+
+            } else {
+                console.log( "상품정보 없음" );
+                $("#reserveSeat_msg").html( "이용자의 상품을 선택해주세요." );
+            }
+        }
         
         // 상품목록가져오기
         function getProduct(){
-            console.log("상품목록...");
             $.ajax({
                 url: '/setting/product/getProduct',
                 type: 'POST',
@@ -2569,6 +2524,7 @@
 
         // 현재시간을 시작시간으로 세팅
         function setSdateFromCurrentTime(){
+
             console.log( "현시간 : " + CurrentDate + " " + CurrentTime );
             $("#seatReservFormModal #rv_sdate").val( CurrentDate );
             $("#seatReservFormModal #rv_stime").val( CurrentTime );
@@ -2795,8 +2751,8 @@
                 if( String(hi).length == 2 ) hh = hi;
                 else if( String(hi).length == 1 ) hh = "0" + hi;
 
-                console.log("시간:"+hh);
-                console.log(seat_info.reserved[hh]);
+                //console.log("시간:"+hh);
+                //console.log(seat_info.reserved[hh]);
 
                 if( seat_info.reserved[hh].length > 0  ) {
                     for(key in seat_info.reserved[hh]){
@@ -2808,10 +2764,10 @@
                             html = html + '</div>';
                         }
 
-                        console.log(seat_info.reserved[hh][key].hi);
+                        //console.log(seat_info.reserved[hh][key].hi);
                         if( seat_info.reserved[hh][key].hi == hh + ":00" ) {
                             exist_hh++;
-                            console.log(hh+" 있음...");
+                            //console.log(hh+" 있음...");
                         }
                     };                
                 } 
@@ -2827,6 +2783,86 @@
                 $('#time_table').append(html);
 
             };    
+        }
+
+        function setUserResMemo(memo) {
+
+            formData = new FormData();
+
+            formData.append("rv",current_rv );
+            formData.append("memo",memo );
+
+            $.ajax({
+                url: '/reservation/setUserResMemo',
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                processData: false,
+                contentType: false,
+                data: formData,
+                type: 'POST',
+                success: function (res, textStatus, xhr) {
+                    console.log(res);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(xhr);
+                    console.log(xhr.responseJSON.file);
+                    console.log(xhr.responseJSON.line);
+                    console.log(xhr.responseJSON.message);
+                }
+            });   
+        }
+
+        var current_rv = 0
+
+        // 해당좌석 예약정보 ( 현시간 예약 정보만 )
+        function seat_getReserveInfo(no){
+
+            $("#seatCurrentUserName").html("예약없음");
+            $("#seatCurrentSdate").html("예약없음");
+            $("#seatCurrentEdate").html("예약없음");
+            $("#seatReservFormModal #seatCurrentMemo").html(""); 
+
+            var req = "seat=" + no ;
+            console.log("예약정보요청 : " + req);
+            $.ajax({
+                url: '/reservation/getSeatReserveInfo',
+                type: 'POST',
+                async: true,
+                beforeSend: function (xhr) {
+                    $("#memberDetail_msg").html("");
+                },
+                data: req,
+                success: function (res, textStatus, xhr) {
+                    
+                    $("#seatIotInfo").empty();
+
+                    console.log("예약정보가져왔음.");
+                    console.log(res.currentReserve);
+
+                    current_rv = res.currentReserve.rv_no
+
+                    if( res.currentReserve.rv_memo ) {
+                        $("#seatReservFormModal #seatCurrentMemo").html(res.currentReserve.rv_memo); 
+                    } else {
+                        $("#seatReservFormModal #seatCurrentMemo").html(""); 
+                    }
+
+                    if( res.currentReserve ) {
+                        $("#seatCurrentUserName").html(res.currentReserve.rv_member_name);
+                        $("#seatCurrentSdate").html(res.currentReserve.rv_sdate);
+                        $("#seatCurrentEdate").html(res.currentReserve.rv_edate);
+                    } else {
+                        $("#seatCurrentUserName").html("예약없음");
+                        $("#seatCurrentSdate").html("예약없음");
+                        $("#seatCurrentEdate").html("예약없음");
+                    }
+
+
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log('PUT error.');
+                }
+            });            
+  
         }
 
         // 상품에서 선택할수 있는 시간 목록세팅
@@ -2863,12 +2899,41 @@
                     
                     seat_info = res;
                     console.log(seat_info);
+
+                    console.log("IOT 정보 ===========");
+                    console.log(res.seat_iot);
+
+                    if( res.seat_iot ) {
+
+                        res.seat_iot.forEach(function (item, index, array) {
+                            console.log("IOT 정보 ");
+                            console.log(item);
+
+                            var html = ''
+                            html += '<div class="row col-12 mb-2 iot_dev" dev="'+item.dev+'" iot="'+item.no+'">';
+                            html += '    <div class="col-5">'+item.name+'</div>';
+                            html += '    <div class="col-7">';
+                            html += '        <div class="form-check form-switch form-switch-md">';
+                            html += '            <input class="form-check-input iot_check" type="checkbox" id="iot_'+item.no+'" value="Y">';
+                            html += '            <label class="form-check-label" for="iot_'+item.no+'"> 켜짐</label>';
+                            html += '        </div>';
+                            html += '        <div id="iot_1_msg"></div>';
+                            html += '    </div>';
+                            html += '</div>';
+
+                            $("#seatIotInfo").append(html);
+                        })                        
+
+                    } else {
+
+                    }       
                     
+
                     $("#reservationForm #rv_seat").val(seat_info.seat.s_no);
                     $("#reservationForm #rv_room").val(seat_info.seat.s_room);
 
                     seat_info.seat.s_name = seat_info.seat.s_name ? seat_info.seat.s_name : seat_info.seat.s_no; 
-                    let selected_seat_name = "좌석 " + seat_info.seat.s_name + " / 룸 " + seat_info.seat.s_room;
+                    let selected_seat_name = "좌석 " + seat_info.seat.s_name + " / " + seat_info.room.r_name;
 
                     $("#seatReservFormModal #seatFormModalLabel").html(selected_seat_name);  
 
@@ -2878,13 +2943,18 @@
                     resrve_setting_time();
                     resved_list();
 
+
+
                     //if( res.result != null ) {
                     //    $("#seatReservFormModal .setInfoHtmnl").val(res.html);
                     //    console.log(req);
                     //} 
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    console.log('PUT error.');
+                    console.log(xhr);
+                    console.log(xhr.responseJSON.file);
+                    console.log(xhr.responseJSON.line);
+                    console.log(xhr.responseJSON.message);
                 }
             });
         }
@@ -3065,7 +3135,14 @@
             if (s == '' || isNaN(s)) return false;
             return true;
           }
-    </script>
+
+
+
+
+        
+        
+        
+        </script>
 
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

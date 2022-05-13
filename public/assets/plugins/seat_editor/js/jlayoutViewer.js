@@ -1,3 +1,5 @@
+jlayout.mode = "viewer";
+
 function add_shape(shapeType){
 
     var pos_x = $("#room_bg").width() / 2;
@@ -21,7 +23,7 @@ function load_view_map( mode, room ){
     //console.log("모드 : "+mode);
     $("#room_bg").html('<div style="width:100%" class="loading"><img src="/assets/plugins/seat_editor/images/loading1.gif" style="width:50%;text-align:center"/></div>');
     //console.log("모드 : "+mode);
-    if( mode != undefined && mode != "" ) jlayout.mode = mode;
+
 
     //var data = "no=" + room;
     var data = "";
@@ -56,6 +58,8 @@ function load_view_map( mode, room ){
                 //console.log(map_data);
                 redraw_seat(res.seats,zoomRate);
 
+
+                SeatState(); //  manager.blade.php 에 예약상태 가져오는 부분
                 //$("#room_bg").height(map_data.bg.height * zoomRate);
 
         },
@@ -162,27 +166,7 @@ $(document).ready(function(){
         $(this).css("border","1px solid red");
 
     }).on("drag",".shape", function(){
-        //console.log("드래그.....");
-        if( select_index != $(this).attr("idx") ) {
-            select_index = $(this).attr("idx");
-            set_edit_value(select_index);
-        }
-
-        // 테이블이면 세로크기 수정 불가
-        if( obj_arr[select_index].type == "table" ) {
-            $("#size_h").attr("readonly",true);
-        }
-
-        $("#edit_pannel #pos_x").val($(this).position().left);
-        $("#edit_pannel #pos_y").val($(this).position().top);
-
-        /* 좌표 정보 변경 */
-        obj_arr[select_index].pos_x = $(this).position().left;
-        obj_arr[select_index].pos_y = $(this).position().top;
-
-        $(".shape").css("border","1px solid #000000");
-        $(this).css("border","1px solid red");
-
+        // viewer 에서 드래그 불가
     });
 
     $(window).bind('wheel', function(event){

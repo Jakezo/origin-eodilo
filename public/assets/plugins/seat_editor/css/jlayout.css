@@ -64,6 +64,16 @@ div.table {
     cursor: move;
 }
 
+div.table.on {
+    border:1px solid #ffffff;
+    background-color: rgba(255, 255, 255);
+}
+
+div.table.on {
+    border:1px solid #508dad;
+    background-color: rgb(155, 238, 253);
+}
+
 div.table .status {
     width: 100%;
     display: inline-block;

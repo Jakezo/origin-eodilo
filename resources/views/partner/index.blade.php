@@ -87,24 +87,6 @@
 
                             </div>
                             
-
-
-                            <div class="col-12  mb-5">
-                                <a href="javaScript:;" class="btn btn-sm btn-outline-primary radius-2" data-bs-toggle="modal" data-bs-target="#seatStatusModal" style="width:100px;height:60px;"></a>
-                                @if( $seats )
-                                @foreach( $seats as $si => $seat )                                
-                                <a href="javaScript:;" class="btn btn-sm btn-outline-primary radius-2 btn_seat" data-bs-toggle="modal" data-bs-target="#seatReservFormModal" seat="{{ $seat['s_no'] ?? "" }}" style="width:100px;height:60px;">{{ $seat['s_name'] ?? "" }}<br/>{{ $seat['s_no'] ?? "" }}</a>
-                                @endforeach
-                                @endif                                      
-
-                                
-                            </div>
-
-                            <div class="col-12  mb-5">
-                                <div class="alert alert-warning">
-                                    <div>1번 좌석을 선택하면 현재 사용중인 상태를, 2번을 클릭하시면 입실처리 폼을 확인하실 수 있습니다.</div>
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -146,7 +128,7 @@
 
 <script src="/assets/plugins/seat_editor/js/jquery.resize.js"></script>
 <script src="/assets/plugins/seat_editor/js/jlayout.js"></script>
-<script src="/assets/plugins/seat_editor/js/jlayoutEditor.js"></script>
+<script src="/assets/plugins/seat_editor/js/jlayoutViewer.js"></script>
 <script>
 
         // function seat_getInfo(no) {
@@ -256,8 +238,6 @@
             // release our intervalID from the variable
             nIntervId = null; 
         }
-
-        
 
 </script>
 

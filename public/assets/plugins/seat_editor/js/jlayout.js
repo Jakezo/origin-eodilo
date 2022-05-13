@@ -78,7 +78,7 @@ function draw_shape(obj_info,zoomRate){
 
     }
     */
-    jlayout.mode = "edit";
+    
     if( html ) {
 
         $("#room_bg").append(html);

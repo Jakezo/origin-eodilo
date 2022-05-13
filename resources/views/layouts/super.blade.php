@@ -1799,11 +1799,7 @@
         var req = "step=logout";
         $.get( "/logout", req, function( res ) {
             console.log(res);
-            var res_info = JSON.parse(res);
-            if( res_info.result == true ){
-                var rURL = res_info.rURL;
-                location.href = "/";
-            }
+            location.href = "/";
         });
     });
 </script>

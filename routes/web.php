@@ -25,10 +25,11 @@ use App\Http\Controllers\StandardPriceController;
 use App\Http\Controllers\VodboardController;
 use App\Http\Controllers\HelpboardController;
 use App\Http\Controllers\UserMessageController;
+use App\Http\Controllers\UserBuyController;
 
 use App\Http\Controllers\ReserveController;
 
-use App\Http\Controllers\Partner\MainController;
+use App\Http\Controllers\Partner\FrenchMainController;
 use App\Http\Controllers\Partner\FrenchBoardController;
 use App\Http\Controllers\Partner\FrenchNoticeController;
 use App\Http\Controllers\Partner\FrenchManagerController;
@@ -55,7 +56,7 @@ use App\Http\Controllers\Partner\SettingLockerAreaController;
 use App\Http\Controllers\Partner\SettingLockerController;
 use App\Http\Controllers\Partner\SettingProductController;
 
-use App\Http\Controllers\Partner\MqttController;
+use App\Http\Controllers\SysMqttController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Partner\FrenchLoginController;
@@ -148,6 +149,7 @@ Route::domain('admin.eodilo.com')->group(function () {
         
 
         Route::get('/history',  [ReserveController::class, 'index']);   
+        Route::get('/buy', [UserBuyController::class, 'index']);
 
         Route::group(['prefix' => '/partner'],function () {
 
@@ -201,9 +203,6 @@ Route::domain('admin.eodilo.com')->group(function () {
             Route::get('/form/{id?}',  [UserController::class, 'form']);
             Route::any('/update', [UserController::class, 'update']);
             Route::get('/sms', [UserMessageController::class, 'index']);
-            Route::get('/buy', function () {
-                return view('admin.member.buy_list');
-            });
             Route::get('/refund', function () {
                 return view('admin.member.refund_list');
             });
@@ -324,20 +323,25 @@ Route::domain('{account}.partner.eodilo.com')->group(function () {
         Route::get('/room/get_list', [SettingRoomController::class, 'get_list']);
         Route::any('/seat_level/get_list', [SettingSeatLevelController::class, 'get_list']);
         Route::get('/locker_area/get_list', [SettingLockerAreaController::class, 'get_list']);
-
         Route::any('/seat/editor_getMapInfo', [SettingSeatController::class, 'editor_getMapInfo']);
+
+
     });
 
     Route::group(['prefix' => '/reservation'],function () {
         Route::any('/getSeatInfo', [FrenchReservationController::class, 'getSeatInfo']);
+        Route::any('/getSeatReserveInfo', [FrenchReservationController::class, 'getSeatReserveInfo']);
+
+        Route::post('/setUserResMemo', [FrenchReservationController::class, 'setUserResMemo']);
+        Route::any('/reserveSeatState', [FrenchReservationController::class, 'reserveSeatState']);
+
+        
 
         // 예약
         Route::any('/reserveSeat', [FrenchReservationController::class, 'reserveSeat']);
     });
 
-    // Route::prefix('/mqtt')->group(function () {
-    //     Route::any('/put', [MqttController::class, 'put']);
-    // });
+
 
     Route::get('/noPartner', function () {
         return view('nopartner.nopartner');
@@ -351,7 +355,7 @@ Route::domain('{account}.partner.eodilo.com')->group(function () {
     
     Route::group(['middleware' => ['partner']], function () {
 
-        Route::get('/', [MainController::class, 'main'])->name("partnerhome");
+        Route::get('/', [FrenchMainController::class, 'main'])->name("partnerhome");
         Route::get('/seatState', [FrenchReservationController::class, 'seatState']);
 
         Route::get('/history', [FrenchHistoryController::class, 'order_list']);
@@ -573,6 +577,18 @@ Route::domain('{account}.partner.eodilo.com')->group(function () {
             });
 
         });
+
+            
+        Route::prefix('/mqtt')->group(function () {
+    
+            // 보안을 위해서 post
+            Route::any('/publish', [SysMqttController::class, 'ManagerPublish']);
+    
+            // 테스트 Route::any('/put', [MqttController::class, 'put']);
+    
+        });
+
+
     });
 
 

@@ -15,18 +15,18 @@
         <div class="page-content">
             <!--breadcrumb-->
             <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-                <div class="breadcrumb-title pe-3">회원구매</div>
+                <div class="breadcrumb-title pe-3">Dash Board</div>
                 <div class="ps-3">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
                             <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">회원구매내역</li>
+                            <li class="breadcrumb-item active" aria-current="page">구매내역보기</li>
                         </ol>
                     </nav>
                 </div>
                 <div class="ms-auto">
-
+                    <button class="btn btn-xs btn-danger btn_manual" rel="10"><i class="lni lni-youtube"></i>도움말</button>
                 </div>
             </div>
             <!--end breadcrumb-->
@@ -34,15 +34,15 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <form name="search" action="">
+                            <form name="search" action="{{ $PHP_SELF ?? '' }}?>">
                                 <div class='row'>
 
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 mt-1">
-                                        <select class="single-select form-control-sm col-12" name="fd" id="fd">
-                                            <option value="">상품구분</option>
-                                            <option value="">시간권</option>
-                                            <option value="">기간권</option>
-                                            <option value="">고정권</option>
+                                        <select class="single-select form-control-sm col-12" name="pkind" id="pkind">
+                                            <option value="">전체상품</option>
+                                            @foreach( $productType as $pk => $pname )
+                                            <option value="{{ $pk }}" @if ( isset($param['pkind']) && $pk == $param['pkind'] ) selected @endif>{{ $pname }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 mt-1">
@@ -53,13 +53,13 @@
                                         </select>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 mt-1">
-                                        <input type="text" name="partner" id="partner" value="" placeholder="가맹점선택" class="form-control form-control-sm datepicker col-12">
+                                        <input type="text" name="partner" id="partner" value="" placeholder="가맹점선택" class="form-control form-control-sm col-12">
                                     </div>
-                                    <div class="col-lg-1 col-md-1 col-sm-3 col-xs-12 mt-1">
-                                        <input type="text" name="sdate" id="sdate" value="" placeholder="기간시작일" class="form-control form-control-sm datepicker col-12">
+                                    <div class="col-md-2 col-sm-4 col-xs-12 mt-1">
+                                        <input type="text" name="sdate" id="sdate" value="{{ $param['sdate'] ?? '' }}" placeholder="기간시작일" class="form-control form-control-sm datepicker col-12">
                                     </div>
-                                    <div class="col-lg-1 col-md-1 col-sm-3 col-xs-12 mt-1">
-                                        <input type="text" name="edate" id="edate" value="" placeholder="기간종료일" class="form-control form-control-sm datepicker col-12">
+                                    <div class="col-md-2 col-sm-4 col-xs-12 mt-1">
+                                        <input type="text" name="edate" id="edate" value="{{ $param['edate'] ?? '' }}" placeholder="기간종료일" class="form-control form-control-sm datepicker col-12">
                                     </div>
                                     <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 mt-1">
                                         <div class="col-12">
@@ -144,115 +144,86 @@
                                     <th scope="col">날자</th>
                                     <th scope="col">상품구분</th>
                                     <th scope="col">구매자</th>
+                                    <th scope="col">연령/성별</th>
                                     <th scope="col">가맹점</th>
                                     <th scope="col">상품금액</th>
                                     <th scope="col">캐쉬</th>
                                     <th scope="col">포인트</th>
                                     <th scope="col">결제금액</th>
                                     <th scope="col">결제방법</th>
+                                    <th scope="col">결제상태</th>
                                     <th scope="col">관리</th>
+                                    <th scope="col">구매일시</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>2020-10-20</td>
-                                    <td>시간권</td>
-                                    <td>조현준</td>
-                                    <td>성석점</td>
-                                    <td>300,000</td>
-                                    <td>-20,000</td>
-                                    <td>-10,000</td>
-                                    <td>270,000</td>
-                                    <td>신용카드</td>
-                                    <td><button class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#memberBuyModal">상세</button> <button class="btn btn-xs btn-primary">카드전표</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>2020-10-20</td>
-                                    <td>시간권</td>
-                                    <td>조현준</td>
-                                    <td>성석점</td>
-                                    <td>300,000</td>
-                                    <td>-20,000</td>
-                                    <td>-10,000</td>
-                                    <td>270,000</td>
-                                    <td>신용카드</td>
-                                    <td><button class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#memberBuyModal">상세</button> <button class="btn btn-xs btn-primary">카드전표</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>2020-10-20</td>
-                                    <td>기간권</td>
-                                    <td>최현우</td>
-                                    <td>성석점</td>
-                                    <td>300,000</td>
-                                    <td>-20,000</td>
-                                    <td>-10,000</td>
-                                    <td>270,000</td>
-                                    <td>현금</td>
-                                    <td><button class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#memberBuyModal">상세</button> <button class="btn btn-xs btn-primary">현금영수증</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>2020-10-20</td>
-                                    <td>기간권</td>
-                                    <td>최현우</td>
-                                    <td>성석점</td>
-                                    <td>300,000</td>
-                                    <td>-20,000</td>
-                                    <td>-10,000</td>
-                                    <td>270,000</td>
-                                    <td>현금</td>
-                                    <td><button class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#memberBuyModal">상세</button> <button class="btn btn-xs btn-primary">현금영수증</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>2020-10-20</td>
-                                    <td>고정권</td>
-                                    <td>오조다</td>
-                                    <td>성석점</td>
-                                    <td>300,000</td>
-                                    <td>-20,000</td>
-                                    <td>-10,000</td>
-                                    <td>270,000</td>
-                                    <td>현금</td>
-                                    <td><button class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#memberBuyModal">상세</button> <button class="btn btn-xs btn-primary">현금영수증</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>2020-10-20</td>
-                                    <td>고정권</td>
-                                    <td>오조다</td>
-                                    <td>성석점</td>
-                                    <td>300,000</td>
-                                    <td>-20,000</td>
-                                    <td>-10,000</td>
-                                    <td>270,000</td>
-                                    <td>카카오페이</td>
-                                    <td><button class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#memberBuyModal">상세</button> <button class="btn btn-xs btn-primary">현금영수증</button></td>
-                                </tr>
+                                    @if( $orders )
+                                    @foreach( $orders as $oi => $order )                                    
+                                    <tr>
+                                        <th scope="row">{{ ($start - $oi) }}</th>
+                                        <td>{{ substr($order['created_at'],0,10) }}</td>                                        
+                                        <!--td>{{ $order['o_no'] }}</td-->
+                                        <td>
+                                            @if($order['o_product_kind'] == "A") 
+                                                하루이용권 
+                                            @elseif($order['o_product_kind'] == "T") 
+                                                시간권 {{ $order['o_duration'] }} 시간
+                                            @elseif($order['o_product_kind'] == "D") 
+                                                기간권 {{ $order['o_duration'] }} 일
+                                            @elseif($order['o_product_kind'] == "F") 
+                                                고정권  {{ $order['o_duration'] }} M
+                                            @elseif($order['o_product_kind'] == "P") 
+                                                정액권   {{ $order['o_duration'] }} Points
+                                            @endif
+                                        </td>
+                                        <td member="{{ $order['o_member'] }}">
+                                            {{ $order['o_member_name'] }}
+                                        </td>
+                                        <td>
+                                            @if($order['o_ageType'] == "A") 성인 @elseif($order['o_ageType'] == "S") 학생 @endif
+                                        </td>
+                                        <td member="{{ $order['o_partner]'] }}">
+                                            {{ $order['p_name'] }}
+                                        </td>
+                                        <td>{{ number_format($order['o_price_total']) }}</td>
+                                        <td>{{ number_format($order['o_pay_cash']) }}</td>
+                                        <td>{{ number_format($order['o_pay_point']) }}</td>
+                                        <td class="align-right">{{ number_format($order['o_pay_money']) }}</td>
+                                        <td>
+                                            @if($order['o_pay_state'] == "Y") 
+                                                결제완료 
+                                            @elseif($order['o_pay_state'] == "N") 
+                                                미결제
+                                            @else
+                                                -
+                                            @endif
+                                        </td>  
+                                        <td>
+                                            @if($order['o_pay_kind'] == "LCASH") 
+                                                방문현금 
+                                            @elseif($order['o_pay_kind'] == "LCARD") 
+                                                방문카드
+                                            @else
+                                                {{ $order['o_pay_kind'] }}
+                                            @endif
+                                        </td>                                               
+                                        <td><button class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#memberBuyModal">상세</button> <button class="btn btn-xs btn-primary">카드전표</button></td>
+                                        <td>{{ $order['created_at'] }}</td>
+                                    </tr>
+                                    @endforeach
+                                    @endif      
                                 </tbody>
                             </table>
                         </div>
+
+                        @foreach($errors->all() as $error)
+                            {{ $error }}
+                        @endforeach
+                        <div class="card-body d-flex justify-content-center">
+                            {{ $orders->appends($param)->links() }}
+                        </div>                        
                     </div>
 
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12">
-                            <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-                                <ul class="pagination">
-                                    <li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Prev</a></li>
-                                    <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
-                                    <li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
             </div>

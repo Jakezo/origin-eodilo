@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Config;
 use App\Models\FrenchRoom;
 use App\Models\FrenchSeat;
 
-class MainController extends Controller
+class FrenchMainController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -58,9 +58,7 @@ class MainController extends Controller
             return view('partner.errorpartner.error_door',$data);
         }
 
-
         Config::set('database.connections.partner.database',"boss_".$request->account);
-
 
         $data["rooms"] = $this->FrenchRoom->all();
         // $data["seats"] = $this->FrenchSeat->select(["french_seats.*", "r.r_no", "r.r_name", "sl.sl_no", "sl.sl_name"])

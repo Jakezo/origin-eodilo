@@ -1,3 +1,4 @@
+jlayout.mode = "edit";
 function add_shape(shapeType){
 
     var pos_x = $("#room_bg").width() / 2;

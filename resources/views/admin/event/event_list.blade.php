@@ -92,7 +92,7 @@
                                         <img src="{{ $event['e_img1'] }}" style="height:20px;">
                                         @endif
                                     </td>
-                                    <td>{{ $event['e_sdate'] }} ~ {{ $event['e_edate'] }}</td>
+                                    <td>{{ $event['e_title'] }}</td>
                                     <td class="text-center">@if($event['e_type'] == "P" ) 금액할인 @elseif($event['e_type'] == "R" )  할인율 @endif</td>
                                     <td class="text-center">{{ substr($event['created_at'],0,16) }}</td>
                                     <td class="text-center"><button class="btn btn-xs btn-secondary event_item" event="{{ $event['e_no'] }}" data-bs-toggle="modal" data-bs-target="#eventFormModal">관리</button></td>
