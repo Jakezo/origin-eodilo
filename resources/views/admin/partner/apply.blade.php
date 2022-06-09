@@ -78,7 +78,7 @@
                                 @foreach( $partner_apply as $ri => $partner_app )
                                 <tr>
                                     <th scope="row" class="col text-center">{{ (count($partner_apply)-$ri) }}</th>
-                                    <td class="col ">{{ $partner_app['app_title'] }} </td>
+                                    <td class="col " data-bs-toggle="modal" data-bs-target="#applyModal">{{ $partner_app['app_title'] }} </td>
                                     <td class="col "> 
                                     @if( $partner_app['app_state'] == "N" )
                                     <span>운영예정</span>
@@ -111,71 +111,29 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="applyModalLabel">회원정보</h5>
+                    <h5 class="modal-title" id="applyModalLabel">신청정보</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
-                    <ul class="nav nav-tabs nav-primary navbar-sm" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active" data-bs-toggle="tab" href="#primaryhome" role="tab" aria-selected="true">
-                                <div class="d-flex align-items-center">
-                                    <div class="tab-icon"><i class="bx bxs-home font-18 me-1"></i>
-                                    </div>
-                                    <div class="tab-title">기본정보</div>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
+
                     <div class="tab-content py-3">
                         <div class="tab-pane fade show active" id="primaryhome" role="tabpanel">
 
-
-                            <form action="/partner" class="row g-3" name="partner_app" id="partner_app" >
                                 <div class="col-md-6">
-                                    <label for="inputLastName1" class="form-label">제목</label>
+                                    <label for="inputLastName1" class="form-label">가맹점명</label>
                                     <div class="input-group"> <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
                                         <input type="text" name="title" value="" class="form-control border-start-0" id="inputLastName1" placeholder="제목">
                                     </div>
                                 </div>
-                                 <div class="col-md-6">
-                                    <label for="inputLastName1" class="form-label">이름</label>
-                                    <div class="input-group"> <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
-                                        <input type="text" name="name" value="" class="form-control border-start-0" id="inputLastName1" placeholder="이름">
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <label for="inputPhoneNo" class="form-label">연락처</label>
-                                    <div class="input-group"> <span class="input-group-text bg-transparent"><i class="bx bxs-microphone"></i></span>
-                                        <input type="text" name="phone" value="" class="form-control border-start-0" id="inputPhoneNo" placeholder="휴대폰번호">
-                                    </div>
-                                </div>
+
                                 <div class="col-12">
                                     <label for="inputEmailAddress" class="form-label">주소(예정주소)</label>
                                     <div class="input-group"> <span class="input-group-text bg-transparent"><i class="bx bxs-message"></i></span>
                                         <input type="text" name="address" value="" class="form-control border-start-0" id="inputEmailAddress" placeholder="주소">
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <label for="inputChoosePassword" class="form-label">상태</label>
-                                    <div class='col-sm-12'>
-                            <div class="form-check-inline mt-3">
-                            <input type="radio" class='form-check-input' id="stateY" name="state" value="Y">현재운영중
-                            <input type="radio" class='form-check-input' id="stateN" name="state" value="N" checked> 운영예정
                             </div>
-                                </div>
-
-                            </div>
-
-                     <!--잘모르겠음--><div class="col-12 text-center text-danger" id="adminDetail_msg"></div>
-
-                                <div class="col-12 text-center">
-                                    <button type="button" class="btn btn-danger px-5" id="btn_partner_apply">신청</button>
-                                </div>
-                            </form>
-
-
-                        </div>
 
                         </div>
 
