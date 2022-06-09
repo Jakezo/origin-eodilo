@@ -61,7 +61,7 @@
                                         <button type="submit" class="btn btn-secondary px-2 btn-sm col-12">찾기</button>
                                     </div>
                                     <div class="col-md-2 col-sm-4 col-xs-12 mt-1 justify-content-right">
-                                        <a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12" data-bs-toggle="modal" data-bs-target="#cashFormModal">신규/항목관리</a>
+                                        <a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12" data-bs-toggle="modal" data-bs-target="#accountbookFormModal">신규/항목관리</a>
                                     </div>
 
                                 </div>
@@ -161,18 +161,18 @@
             <!--end row-->
         </div>
     </div>
-    <div class="modal fade" id="cashFormModal" tabindex="-3" aria-labelledby="cashFormModalLabel" style="display: none;z-index:90000;" aria-hidden="true">
+    <div class="modal fade" id="accountbookFormModal" tabindex="-3" aria-labelledby="accountbookFormModalLabel" style="display: none;z-index:90000;" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="cashFormModalLabel">현금출납 등록</h5>
+                    <h5 class="modal-title" id="accountbookFormModalLabel">현금출납 등록</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
                     <ul class="nav nav-tabs nav-primary navbar-sm" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link active" data-bs-toggle="tab" href="#cashInfo" role="tab" aria-selected="true">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#accountbookInfo" role="tab" aria-selected="true">
                                 <div class="d-flex align-items-center">
                                     <div class="tab-icon"><i class="bx bxs-home font-18 me-1"></i>
                                     </div>
@@ -182,7 +182,7 @@
                         </li>
 
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#cashKind" role="tab" aria-selected="false">
+                            <a class="nav-link" data-bs-toggle="tab" href="#accountbookKind" role="tab" aria-selected="false">
                                 <div class="d-flex align-items-center">
                                     <div class="tab-icon"><i class="bx bxs-folder-open font-18 me-1"></i>
                                     </div>
@@ -192,7 +192,7 @@
                         </li>
                     </ul>
                     <div class="tab-content py-3">
-                        <div class="tab-pane fade show active" id="cashInfo" role="tabpanel">
+                        <div class="tab-pane fade show active" id="accountbookInfo" role="tabpanel">
 
                             <form class="row g-3" id="ab_form" name="ab_form" onsubmit="return false;">
                             <input type="hidden" type="radio" name="no" id="a_no" value="">
@@ -251,7 +251,7 @@
                             </form>
 
                         </div>
-                        <div class="tab-pane fade" id="cashKind" role="tabpanel">
+                        <div class="tab-pane fade" id="accountbookKind" role="tabpanel">
 
                             <div class="row">
                                 <form class="row g-3" id="div_form" name="div_form" onsubmit="return false;">
@@ -320,7 +320,7 @@
                 var ab_no = $(this).attr("no");
                 console.log(ab_no);
                 ab_getInfo(ab_no);
-                $("#cashFormModal").modal("show");
+                $("#accountbookFormModal").modal("show");
             });            
 
             $(document).on("click","#btn_div_add", function(){
@@ -350,7 +350,7 @@
 
             console.log(req);
             $.ajax({
-                url : '/cash/getInfo',
+                url : '/accountbook/getInfo',
                 type: 'POST',
                 async: true,
                 beforeSend: function (xhr) {
@@ -382,7 +382,7 @@
         function ab_add(){
             var req = $("#ab_form").serialize();
             console.log(req);
-            var url = '/cash/update'
+            var url = '/accountbook/update'
             $.ajax({
                 url: url,
                 data: req,
@@ -398,7 +398,7 @@
                         $("#ab_form input[name='cont']").focus();                        
                         $("#ab_form input[name='amount']").val("");
                     } else {
-                        msgAccountBook(res.message);
+                        $("#msgAccountBook").html(res.message);
                         console.log(res.message);
                     }
                 },
@@ -451,7 +451,7 @@
         function div_add(){
             var req = $("#div_form").serialize();
             console.log(req);
-            var url = '/cash/div/update'
+            var url = '/accountbook/div/update'
             $.ajax({
                 url: url,
                 data: req,
@@ -479,7 +479,7 @@
             var req = "no=" + no;
             
             console.log(req);
-            var url = '/cash/div/delete'
+            var url = '/accountbook/div/delete'
             $.ajax({
                 url: url,
                 data: req,
@@ -539,7 +539,7 @@
         
         function div_list(){
             var req = $("#div_form").serialize();
-            var url = '/cash/div/list'
+            var url = '/accountbook/div/list'
             $.ajax({
                 url: url,
                 data: req,

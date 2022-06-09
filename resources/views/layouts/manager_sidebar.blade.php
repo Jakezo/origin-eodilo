@@ -68,7 +68,7 @@
             </li>
             <li> <a href="/calculate/month"><i class="bx bx-right-arrow-alt"></i>월별정산내역</a>
             </li>
-            <li> <a href="/cash/"><i class="bx bx-right-arrow-alt"></i>현금출납부</a>
+            <li> <a href="/accountbook"><i class="bx bx-right-arrow-alt"></i>현금출납부</a>
             </li>
         </ul>
     </li>

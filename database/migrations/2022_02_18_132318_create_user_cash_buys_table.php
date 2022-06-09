@@ -25,6 +25,8 @@ class CreateUserCashBuysTable extends Migration
             $table->string('cb_friend_email',50)->default('')->comment('요청대상메일');
             $table->string('cb_friend_phone',20)->default('')->comment('요청대상휴대폰');
             $table->string('cb_friend_link')->default('')->comment('요청링크');
+            $table->char('cb_friend_read',1)->default('N')->comment('확인여부');
+            $table->char('cb_friend_complete',1)->default('N')->comment('요청응답완료');
             $table->SoftDeletes();            
             $table->timestamps();
         });

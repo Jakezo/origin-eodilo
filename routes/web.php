@@ -222,6 +222,9 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
             Route::get('/month', function () {
                 return view('admin.statistics.month');
             });
+            Route::get('/cash', function () {
+                return view('admin.statistics.month');
+            });
 
         });
 
@@ -401,7 +404,7 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
             });
         });
 
-        Route::prefix('/cash')->group(function () {
+        Route::prefix('/accountbook')->group(function () {
             Route::get('/', [FrenchAccountBookController::class, 'index']);
             Route::any('/getInfo', [FrenchAccountBookController::class, 'getInfo']);
             Route::any('/update', [FrenchAccountBookController::class, 'update']);

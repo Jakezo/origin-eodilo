@@ -2202,7 +2202,7 @@
                             
                         })   
                                        
-                            manager_subscribe(iot_no,dev_no);                      
+                            //manager_subscribe(iot_no,dev_no);                      
 
                     } else {
 
@@ -2940,8 +2940,7 @@
                             iot_no = item.no;
                             dev_no = item.dev;
 
-
-                            manager_subscribe(iot_no,dev_no);  
+                            //manager_subscribe(iot_no,dev_no);  
                         })                        
 
                     } else {

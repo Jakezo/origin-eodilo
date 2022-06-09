@@ -190,7 +190,7 @@
                                     @foreach( $partner_apply["data"] as $ci => $apply )
                                     <tr>
                                         <th scope="row" class="col-1 text-center">10</th>
-                                        <td class="col-2">{{ $apply['app_title'] }} </td>
+                                        <td class="col-2"><a href="/partner/apply">{{ $apply['app_title'] }}</a> </td>
                                         <td class="col-1">{{ $apply['app_name'] }} </td>
                                         <td class="col-1 text-center">{{ substr($apply['created_at'],5,11) }}</td>
                                         <td class="col-1 text-center">

@@ -1976,7 +1976,7 @@ function ajax_error(jsonData){
     // 회원정보 팝업창        
     function user_viewer(id){
         var url = "/member/user_info?id=" + id;
-        window.open(url,"popup_user_"+ id,"width=900,height=800")
+        window.open(url,"popup_user_"+ id,"width=1200,height=800")
     }
 
 </script>

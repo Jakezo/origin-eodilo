@@ -48,7 +48,6 @@ if( !class_exists("IOT") ) {
             $rtn = [];
 
             $client_id = "";
-            
             $mqtt->ConnectAndSubscribe($topic, function($topic, $message){
 
                 if($message == "end"){
@@ -68,7 +67,6 @@ if( !class_exists("IOT") ) {
                 return $topic;
 
             }, $client_id);     
-
             //$mqtt->loop(true);
             return $rtn;
         }

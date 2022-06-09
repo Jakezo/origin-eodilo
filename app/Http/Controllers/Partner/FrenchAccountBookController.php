@@ -99,7 +99,7 @@ class FrenchAccountBookController extends Controller
         //dd(DB::getQueryLog());
 
 
-        return view('partner.cash.list' , $data);
+        return view('partner.accountbook.list' , $data);
     }
 
     ## 폼을 위한 정보
