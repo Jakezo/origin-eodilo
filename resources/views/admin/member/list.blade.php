@@ -85,7 +85,7 @@
                                     <td>{{ $user['sex'] }}</td>
                                     <td>{{ substr($user['login_last'],0,10) }}</td>
                                     <td>{{ $user['created_at'] }}</td>
-                                    <td><a href="/member/form/{{ $user['id'] }}" class="btn btn-xs btn-primary">수정</button></td>
+                                    <td><button type="button" class="btn btn-xs btn-primary user_view" id="{{ $user['id'] ?? '' }}">정보</button></td>
                                 </tr>
                                 @endforeach
                                 @endif

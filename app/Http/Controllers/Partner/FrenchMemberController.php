@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Partner;
 use App\Http\Controllers\Controller;
 use App\Models\FrenchMember;
 use App\Models\FrenchProductOrder;
+use App\Models\FrenchReservSeat;
+use App\Models\User_cash;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +28,7 @@ class FrenchMemberController extends Controller
     {
         $this->FrenchMember = new FrenchMember();
         $this->FrenchProductOrder = new FrenchProductOrder();
+        $this->FrenchReservSeat = new FrenchReservSeat();
     }
 
 
@@ -293,6 +296,70 @@ class FrenchMemberController extends Controller
             'mb_state as state', 
             'mb_memo as memo'])
             ->where("mb_no",  $request->no)->first();
+
+            $data["orders"] = $this->FrenchProductOrder::where("o_member", $request->no)
+            ->where(function ($query) use ($request) {
+                if ($request->q) {
+                        $query->where("o_member_name", "like", "%" . $request->q . "%");
+                            //->orwhere("o_title", "like", "%" . $request->q . "%")
+                }
+                if ($request->sdate) {
+                    $query->where( DB::raw("date_format(french_product_orders.created_at,'%Y-%m-%d')"),  ">=", $request->sdate);
+                }
+                if ($request->edate) {
+                    $query->where( DB::raw("date_format(french_product_orders.created_at,'%Y-%m-%d')"),  "<=", $request->edate);
+                }
+            })
+            ->leftjoin('french_members', 'french_members.mb_no', '=', 'french_product_orders.o_member')
+            ->orderBy("o_no","desc")->get();
+
+
+            $data["reservs"] = $this->FrenchReservSeat::where("rv_member", $request->no)->where("rv_member_from", "<>","M")
+            ->select(['french_reserv_seats.*','french_rooms.r_name','french_seats.s_name'])
+            ->where(function ($query) use ($request) {
+                if ($request->q) {
+                        $query->where("rv_member_name", "like", "%" . $request->q . "%");
+                            //->orwhere("o_title", "like", "%" . $request->q . "%")
+                }
+                if ($request->sdate) {
+    
+                    $query->where(DB::raw("date_format(rv_sdate,'%Y-%m-%d')"), ">=", $request->sdate)
+                    ->orWhere(DB::raw("date_format(rv_edate,'%Y-%m-%d')"), '>=', $request->sdate);   
+                }
+                if ($request->edate) {
+    
+                    $query->where(DB::raw("date_format(rv_sdate,'%Y-%m-%d')"), "<=", $request->edate)
+                    ->orWhere(DB::raw("date_format(rv_edate,'%Y-%m-%d')"), '<=', $request->edate);                   
+                }
+    
+                if ($request->pkind) {
+                        $query->where("o_product_kind", $request->pkind);
+                }            
+    
+                if ($request->pay_state) {
+                    $query->where("o_pay_state", $request->pay_state);
+                }
+            })
+            ->leftjoin('french_rooms', 'french_rooms.r_no', '=', 'french_reserv_seats.rv_room')
+            ->leftjoin('french_seats', 'french_seats.s_no', '=', 'french_reserv_seats.rv_seat')
+            ->orderBy("rv_no","desc")->get();
+
+            // $data["cash_total"]= \App\Models\User_cash::select(DB::raw("sum(mp_point) as sum"))
+            // ->where('mp_member', $request->no)
+            // ->first();
+
+            // $data["cashes"] = \App\Models\User_cash::where('mp_member', $request->no)
+            // ->where(function ($query) use ($request) {
+            //     if( $request->mode == "out" ) {
+            //         $query->where("mp_point", "<" , 0);
+            // }elseif( $request->mode == "in" ) {
+            //         $query->where("mp_point", ">", 0);
+            // }
+            // })
+            // ->orderBy("mp_no","desc")
+            // ->get();
+
+
 
         if( $data['member']['birth'] && $data['member']['birth']!="0000-00-00" ) {
             $data['member']['age'] = \Carbon\Carbon::createFromFormat('Y-m-d', $data['member']['birth'])->age;

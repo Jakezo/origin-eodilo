@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="app-title">회원관리</div>
                             </div>
-                            <div class="col text-center" data-bs-toggle="modal" data-bs-target="#controlGlobalModal">
+                            <div class="col text-center btn_util_iotControll" data-bs-toggle="modal" data-bs-target="#controlGlobalModal">
                                 <div class="app-box mx-auto bg-gradient-lush text-white"><i class='bx bx-shield'></i>
                                 </div>
                                 <div class="app-title">긴급IOT</div>

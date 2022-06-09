@@ -16,60 +16,60 @@
             <div class="dash-wrapper bg-dark">
                 <div class="row row-cols-1 row-cols-md-2 row-cols-xl-5 row-cols-xxl-5">
 
-                    <a href="admin_member_list.html">
+                    <a href="/member/list">
                         <div class="col border-end border-light-2">
                             <div class="card bg-transparent shadow-none mb-0">
                                 <div class="card-body text-center">
                                     <p class="mb-1 text-white">금일 회원가입</p>
-                                    <h3 class="mb-3 text-white">345</h3>
-                                    <p class="font-13 text-white">이달 2,350 건 / 총 1,111,111 건</p>
+                                    <h3 class="mb-3 text-white">{{ number_format($users["count_today"]) }}</h3>
+                                    <p class="font-13 text-white">이달 {{ number_format($users["count_month"]) }} 건 / 총 {{ number_format($users["count_month"]) }} 건</p>
                                 </div>
                             </div>
                         </div>
                     </a>
-                    <a href="admin_use_history.html">
+                    <a href="/history">
                         <div class="col border-end border-light-2">
                             <div class="card bg-transparent shadow-none mb-0">
                                 <div class="card-body text-center">
                                     <p class="mb-1 text-white">금일 이용내역</p>
-                                    <h3 class="mb-3 text-white">345</h3>
-                                    <p class="font-13 text-white">이달 2,350 건 / 총 1,111,111 건</p>
+                                    <h3 class="mb-3 text-white">{{ number_format($reserves["count_today"]) }}</h3>
+                                    <p class="font-13 text-white">이달 {{ number_format($reserves["count_month"]) }} 건 / 총 {{ number_format($reserves["count_month"]) }} 건</p>
                                 </div>
                             </div>
                         </div>
                     </a>
-                    <a href="admin_sell_list_day.html">
+                    <a href="#">
                         <div class="col border-end border-light-2">
                             <div class="card bg-transparent shadow-none mb-0">
                                 <div class="card-body text-center">
                                     <p class="mb-1 text-white">금일 예상수수료</p>
-                                    <h3 class="mb-3 text-white">345,000</h3>
-                                    <p class="font-13 text-white">이달 2,350,0000 건</p>
-
+                                    <h3 class="mb-3 text-white">{{ number_format($reserves["count_today"]) }}</h3>
+                                    <p class="font-13 text-white">이달 {{ number_format($reserves["count_month"]) }} 건 / 총 {{ number_format($reserves["count_month"]) }} 건</p>
                                 </div>
                             </div>
                         </div>
                     </a>
-                    <a href="/service_listsdm.html">
+                    <a href="/partner/apply">
                         <div class="col border-end border-light-2">
                             <div class="card bg-transparent shadow-none mb-0">
                                 <div class="card-body text-center">
                                     <p class="mb-1 text-white">신규 가맹점 신청</p>
-                                    <h3 class="mb-3 text-white">3</h3>
-                                    <p class="font-13 text-white">이달 1,009 건 / 총 123,000 건</p>
-
+                                    <h3 class="mb-3 text-white">{{ number_format($partner_apply["count_today"]) }}</h3>
+                                    <p class="font-13 text-white">이달 {{ number_format($partner_apply["count_month"]) }} 건 / 총 {{ number_format($partner_apply["count_month"]) }} 건</p>
+                                
                                 </div>
                             </div>
                         </div>
                     </a>
-                    <a href="/service_listsdm.html">
+                    <a href="/customer/member">
                         <div class="col col-md-12">
                             <div class="card bg-transparent shadow-none mb-0">
                                 <div class="card-body text-center">
                                     <p class="mb-1 text-white">신규 고객문의</p>
-                                    <h3 class="mb-3 text-white">1</h3>
-                                    <p class="font-13 text-white">금일 123 건 / 이달 1,000,222 건</p>
-                                </div>
+                                    <h3 class="mb-3 text-white">{{ number_format($customs["count_today"]) }}</h3>
+                                    <p class="font-13 text-white">이달 {{ number_format($customs["count_month"]) }} 건 / 총 {{ number_format($customs["count_month"]) }} 건</p>
+                                
+                                 </div>
                             </div>
                         </div>
                     </a>
@@ -84,7 +84,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div>
-                                    <h6 class="mb-3">신규고객문의</h6>
+                                    <h6 class="mb-3">고객문의</h6>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center" style="border:1px solid #000000;">
@@ -99,25 +99,21 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @if( $customs["data"] )
+                                    @foreach( $customs["data"] as $ci => $custom )
                                     <tr>
                                         <th scope="row" class="col-1 text-center">10</th>
-                                        <td class="col-2">질문입니다. </td>
-                                        <td class="col-1 text-center">04-10 00:00</td>
-                                        <td class="col-1 text-center"><button class="btn btn-xs btn-danger">신규</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" class="text-center">9</th>
-                                        <td>질문질문.....</td>
-                                        <td class="text-center">04-10 00:00</td>
-                                        <td class="text-center"><button class="btn btn-xs btn-secondary">답변</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" class="text-center">8</th>
-                                        <td>답변기다립니다. </td>
-                                        <td class="text-center">04-10 00:00</td>
-                                        <td class="text-center"><button class="btn btn-xs btn-secondary">답변</button></td>
-                                    </tr>
-
+                                        <td class="col-2"><a href="/customer/member/view/{{ $custom['q_no'] }}">{{ $custom['q_cont'] }}</a> </td>
+                                        <td class="col-1 text-center">{{ substr($custom['created_at'],5,11) }}</td>
+                                        <td class="col-1 text-center">
+                                            @if( $custom['a_answer'] == "Y" )
+                                                <button class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#boardQnaModal">답변완료</button>
+                                            @else
+                                                <button class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#boardQnaModal">신규</button>
+                                            @endif                                            
+                                    </tr>                                    
+                                    @endforeach
+                                    @endif
                                     </tbody>
                                 </table>
 
@@ -131,7 +127,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div>
-                                    <h6 class="mb-3">신규가맹점문의</h6>
+                                    <h6 class="mb-3">가맹점문의</h6>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center" style="border:1px solid #000000;">
@@ -146,25 +142,21 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <th scope="row" class="col-1 text-center">10</th>
-                                        <td class="col-2">질문입니다. </td>
-                                        <td class="col-1 text-center">04-10 00:00</td>
-                                        <td class="col-1 text-center"><button class="btn btn-xs btn-danger">신규</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" class="text-center">9</th>
-                                        <td>질문질문.....</td>
-                                        <td class="text-center">04-10 00:00</td>
-                                        <td class="text-center"><button class="btn btn-xs btn-secondary">답변</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" class="text-center">8</th>
-                                        <td>답변기다립니다. </td>
-                                        <td class="text-center">04-10 00:00</td>
-                                        <td class="text-center"><button class="btn btn-xs btn-secondary">답변</button></td>
-                                    </tr>
-
+                                        @if( $custom2s["data"] )
+                                        @foreach( $custom2s["data"] as $ci => $custom2 )
+                                        <tr>
+                                            <th scope="row" class="col-1 text-center">10</th>
+                                            <td class="col-2"><a href="/customer/partner/view/{{ $custom2['q_no'] }}">{{ $custom2['q_cont'] }}</a> </td>
+                                            <td class="col-1 text-center">{{ substr($custom2['created_at'],5,11) }}</td>
+                                            <td class="col-1 text-center">
+                                                @if( $custom2['a_answer'] == "Y" )
+                                                    <button class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#boardQnaModal">답변완료</button>
+                                                @else
+                                                    <button class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#boardQnaModal">신규</button>
+                                                @endif                                            
+                                        </tr>                                    
+                                        @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
 
@@ -178,7 +170,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div>
-                                    <h6 class="mb-3">신규 가맹점 개설신청</h6>
+                                    <h6 class="mb-3">추가신청</h6>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center" style="border:1px solid #000000;">
@@ -187,34 +179,29 @@
                                     <thead class="table-dark">
                                     <tr>
                                         <th scope="col" class="text-center">#</th>
-                                        <th scope="col">기존운영자</th>
+                                        <th scope="col" class="text-center">지점명</th>
                                         <th scope="col" class="text-center">작성자</th>
                                         <th scope="col" class="text-center">작성일시</th>
                                         <th scope="col" class="text-center">처리</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @if( $partner_apply["data"] )
+                                    @foreach( $partner_apply["data"] as $ci => $apply )
                                     <tr>
-                                        <th scope="row" class="col text-center">10</th>
-                                        <td class="col ">기존운영 </td>
-                                        <td class="col  text-center">김부천</td>
-                                        <td class="col  text-center">2020-04-10</td>
-                                        <td scope="col" class="text-center"><button class="btn btn-xs btn-danger">신규</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" class="col-2 text-center">9</th>
-                                        <td class="col ">신규개점 </td>
-                                        <td class="col  text-center">이서울</td>
-                                        <td class="col  text-center">2020-04-10</td>
-                                        <td scope="col" class="text-center"><button class="btn btn-xs btn-secondary">완료</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" class="text-center">8</th>
-                                        <td class="col ">신규개점 </td>
-                                        <td class="text-center">임고양</td>
-                                        <td class="text-center">2020-04-10</td>
-                                        <td scope="col" class="text-center"><button class="btn btn-xs btn-secondary">완료</button></td>
-                                    </tr>
+                                        <th scope="row" class="col-1 text-center">10</th>
+                                        <td class="col-2">{{ $apply['app_title'] }} </td>
+                                        <td class="col-1">{{ $apply['app_name'] }} </td>
+                                        <td class="col-1 text-center">{{ substr($apply['created_at'],5,11) }}</td>
+                                        <td class="col-1 text-center">
+                                            @if( $apply['a_answer'] == "Y" )
+                                                <button class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#boardQnaModal">답변완료</button>
+                                            @else
+                                                <button class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#boardQnaModal">신규</button>
+                                            @endif                                            
+                                    </tr>                                    
+                                    @endforeach
+                                    @endif                                        
 
                                     </tbody>
                                 </table>

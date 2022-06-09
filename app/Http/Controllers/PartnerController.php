@@ -172,7 +172,11 @@ class PartnerController extends Controller
         foreach(  $data["partners"] as $partner ) {
 
             ## 지역명
-            $partner->p_area = explode(" ", $partner->p_address1);
+            if( $partner->p_address1 ) {
+                $partner->p_area = explode(" ", $partner->p_address1);  
+            } else {
+                $partner->p_area = [];
+            }
 
             if( $partner->p_last_dt != "0000-00-00") {
                 $last_dt = new Carbon($partner->p_last_dt);
@@ -339,6 +343,9 @@ class PartnerController extends Controller
         $partner->p_open_mobile = $request->open_mobile ?? "N";
         $partner->p_open_kiosk = $request->open_kiosk ?? "N";
         $partner->p_door = $request->door ?? "Q";
+
+
+
         
         $partner->p_name = $request->name ?? "";
         $partner->p_homepage = $request->homepage ?? "";

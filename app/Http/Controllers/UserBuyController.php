@@ -25,8 +25,7 @@ class UserBuyController extends Controller
         //DB::enableQueryLog();	//query log 시작 선언부
         $data["orders"] = [];
 
-
-        $data["orders"] = $this->MobileProductOrder->select(DB::raw("sum(o_price_total), sum(o_pay_cash), sum(o_price_total), sum(o_price_total), sum(o_price_total), ") )
+        $data["orders"] = $this->MobileProductOrder->select(DB::raw("sum(o_price_total), sum(o_pay_cash), sum(o_price_total), sum(o_price_total), sum(o_price_total) ") )
         ->where(function ($query) use ($request) {
             if ($request->q) {
                     $query->where("o_member_name", "like", "%" . $request->q . "%");
@@ -48,7 +47,7 @@ class UserBuyController extends Controller
         })
         ->leftjoin('users', 'users.id', '=', 'mobile_product_orders.o_member')
         ->leftjoin('partners', 'partners.p_no', '=', 'mobile_product_orders.o_partner')
-        ->orderBy("o_no","desc")->paginate(6);
+        ->orderBy("o_no","desc")->paginate(20);
 
 
 

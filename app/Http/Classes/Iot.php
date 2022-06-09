@@ -43,6 +43,43 @@ if( !class_exists("IOT") ) {
         }
 
 
+        public function Subscribe($topic){
+            $mqtt = new Mqtt();
+            $rtn = [];
+
+            $client_id = "";
+            
+            $mqtt->ConnectAndSubscribe($topic, function($topic, $message){
+
+                if($message == "end"){
+                    $rtn = [
+                        'topic' => $topic,
+                        'message' => $message
+                    ];
+                }else if($message == "no"){
+                    $rtn = [
+                        'topic' => $topic,
+                        'message' => $message
+                    ];
+                }else{
+                    return "end";
+                }
+                
+                return $topic;
+
+            }, $client_id);     
+
+            //$mqtt->loop(true);
+            return $rtn;
+        }
+
+
+
+
+
+
+
+
         public function deviceIOT($seat, $iot, $status){
 
             Config::set('database.connections.partner.database', "boss_" . $this->partner->p_id);

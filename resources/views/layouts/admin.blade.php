@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <!-- Required meta tags -->
@@ -1930,6 +1930,13 @@ function ajax_error(jsonData){
         $("#partnerSearchModal").modal("hide");
     });
 
+
+    // 회원정보 띄우기
+    $(document).on("click",".user_view",function(){
+        var id = $(this).attr('id');
+        user_viewer(id);
+    });
+
     $(document).on("click",".input_partner",function(){
         partner_search_mode = $(this).attr("search_mode");
         console.log(partner_search_mode)
@@ -1964,6 +1971,14 @@ function ajax_error(jsonData){
             */
         });
     });    
+
+
+    // 회원정보 팝업창        
+    function user_viewer(id){
+        var url = "/member/user_info?id=" + id;
+        window.open(url,"popup_user_"+ id,"width=900,height=800")
+    }
+
 </script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 

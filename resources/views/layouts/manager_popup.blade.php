@@ -81,7 +81,31 @@
 <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap-switch-button@1.1.0/dist/bootstrap-switch-button.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @yield('javascript')
+<script>
+function ajax_error(jsonData){
+    
+    console.log(jsonData);
+    if( typeof jsonData.errors != 'undefined' ){
+        // console.log(jsonData.errors)
+        $('.feedback_red').remove()
+        $.each(jsonData.errors, function(k,v){
+            $('#'+k).after("<div class='feedback_red'>"+v[0]+"</div>")
+        })
 
+        return true
+    }
+    else if( typeof jsonData.message != 'undefined' ){
+        switch(jsonData.message){
+            case "Unauthenticated.":
+                location.href="/"
+            break;
+
+            default:
+            alert("An unknown error has occurred.")
+        }
+    }
+}
+</script>
 </body>
 
 </html>

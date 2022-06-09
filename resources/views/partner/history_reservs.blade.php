@@ -121,12 +121,12 @@
                                     <td><span room="{{ $reserv['rv_room'] }}">{{ $reserv['r_name'] }}</span> / <span seat="{{ $reserv['s_name'] }}">{{ $reserv['rv_seat'] }}</span></td>
                                     <td>{{ $reserv['rv_locker'] }}</td>
                                     <td>
-                                        @if($reserv['rv_state'] == "R") 
-                                            <span class="btn btn-xs btn-R" data-bs-toggle="modal" data-bs-target="#useInfoModal">예약</span>
+                                        @if($reserv['rv_state'] == "A") 
+                                            <span class="btn btn-xs btn-warning btn-R" data-bs-toggle="modal" data-bs-target="#useInfoModal">예약</span>
                                         @elseif($reserv['rv_state'] == "U") 
-                                            <span class="btn btn-xs btn-U" data-bs-toggle="modal" data-bs-target="#useInfoModal">사용중</span>
+                                            <span class="btn btn-xs btn-primary btn-U" data-bs-toggle="modal" data-bs-target="#useInfoModal">사용중</span>
                                         @elseif($reserv['rv_state'] == "X") 
-                                            <span class="btn btn-xs btn-X" data-bs-toggle="modal" data-bs-target="#useInfoModal">종료</span>
+                                            <span class="btn btn-xs btn-secondary btn-X" data-bs-toggle="modal" data-bs-target="#useInfoModal">종료</span>
                                         @endif
                                     </td>
                                     <td>

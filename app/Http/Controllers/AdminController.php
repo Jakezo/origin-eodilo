@@ -60,7 +60,7 @@ class AdminController extends Controller
                 ->where("admin_id",$request->aid)
                 ->where("admin_no",$request->no)
                 ->first();
-            if( $request->passwd == "" ) $this->admin->admin_passwd = $exist_admin->admin_passwd;
+            if( $request->passwd != "" ) $this->admin->admin_passwd = Hash::make($request->passwd);
             if( $exist_admin  ) {
                 DB::enableQueryLog();	//query log 시작 선언부
                 $result['result'] = $this->admin->save();

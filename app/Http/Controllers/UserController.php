@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Str;
+use App\Models\Custom;
 
 class UserController extends Controller
 {
@@ -35,8 +36,8 @@ class UserController extends Controller
             ->where(function ($query) use ($request) {
                 if ($request->q) {
 
-                    if( $request->fd == "user_id" ) {
-                        $query->where("user_id", "like", "%".$request->q."%");
+                    if( $request->fd == "id" ) {
+                        $query->where("id", "like", "%".$request->q."%");
                     } elseif( $request->fd == "name" ) {
                         $query->where("name", "like", "%".$request->q."%");
                     } elseif( $request->fd == "email" ) {
@@ -46,7 +47,7 @@ class UserController extends Controller
                     } elseif( $request->fd == "nickname" ) {
                         $query->where("nickname", "like", "%".$request->q."%");
                     } else {
-                        $query->where("user_id", "like", "%".$request->q."%")
+                        $query->where("id", "like", "%".$request->q."%")
                         ->orwhere("name", "like", "%".$request->q."%")
                         ->orwhere("email", "like", "%".$request->q."%")
                         ->orwhere("phone", "like", "%".$request->q."%");
@@ -57,7 +58,7 @@ class UserController extends Controller
                     $query->where("state", $request->state);
                 }
             })
-            ->orderBy("id","desc")->paginate(10)->setPath('')->appends(request()->query());
+            ->orderBy("id","desc")->paginate(10);
 
         foreach( $data["users"] as $user ) {
             if( $user->birth ) {
@@ -93,12 +94,7 @@ class UserController extends Controller
             $user = \App\Models\User::where('id', $request->id)->first();
         } else {
 
-            $validatedData = $request->validate([
-                'user_id' => 'bail|required|min:6|max:20',
-                'name' => 'bail|required'
-            ]);
-
-            if( $user = \App\Models\User::where('user_id', $request->user_id)->first() ) {
+            if( $user = \App\Models\User::find($request->user_id) ) {
                 $result["result"] = false;
                 $result["message"] = "이미 존재하는 아이디입니다.";
                 return response($result);
@@ -108,10 +104,11 @@ class UserController extends Controller
                 return response($result);
             } else {
                 $user = new User();
+                $user->id = $request->id;
             }
         }
 
-        $user->user_id = $request->user_id;
+        
         if( $request->passwd ) $user->password = Hash::make($request->passwd) ?? "";
         $user->name = $request->name ?? "";
         $user->phone = $request->phone ?? "";
@@ -136,6 +133,239 @@ class UserController extends Controller
 
         return response($result);
     }
+
+    ## 정보변경폼
+    public function info(Request $request){
+
+        $data["result"] = true;
+        $data["user"] = $this->user::where("id",  $request->id)->first();
+        if( $data["user"] ) {
+
+        if( $data['user']['birth'] && $data['user']['birth']!="0000-00-00" ) {
+            $data['user']['age'] = \Carbon\Carbon::createFromFormat('Y-m-d', $data['user']['birth'])->age;
+            if( $data['user']['age'] > 18 ) $data['user']['ageType'] = "A";
+            else $data['user']['ageType'] = "S";
+        } else {
+            $data['user']['ageType'] = "A";
+        }
+        if( $data['user']['ageType'] == "A") {
+            $data['user']['ageTypeText'] = "성인";
+        } elseif( $data['user']['ageType'] == "S") {
+            $data['user']['ageTypeText'] = "학생";
+        }
+
+        } else {
+
+        }
+        return view('admin.member.userView', $data);
+    }
+
+    ## 구매내역
+    public function products(Request $request){
+
+        $data["result"] = true;
+        $data["orders"] = [];
+        $data["user"] = $this->user::where("id",  $request->id)->first();
+        if( $data["user"] ) {
+
+            $data["orders"] = \App\Models\MobileProductOrder::select("mobile_product_orders.*","users.id", "users.name","partners.p_no", "partners.p_name", "partners.p_id")
+            ->where("o_member",$data["user"]["id"])
+            ->where(function ($query) use ($request) {
+                if ($request->q) {
+                        $query->where("o_member_name", "like", "%" . $request->q . "%");
+                            //->orwhere("o_title", "like", "%" . $request->q . "%")
+                }
+                if ($request->sdate) {
+                    $query->where( DB::raw("date_format(mobile_product_orders.created_at,'%Y-%m-%d')"),  ">=", $request->sdate);
+                }
+                if ($request->edate) {
+                    $query->where( DB::raw("date_format(mobile_product_orders.created_at,'%Y-%m-%d')"),  "<=", $request->edate);
+                }
+                if ($request->pkind) {
+                        $query->where("o_product_kind", $request->pkind);
+                }            
+    
+                //  if ($request->state) {
+                //     if( $request->state == "A" ) {
+                //         $query->where("o_duration", "<", "%" . $request->q . "%");
+                //     } elseif( $request->state == "N" ) {
+                //         $query->where("e_title", "like", "%" . $request->q . "%");
+                //     }  elseif( $request->state == "Y" ) {
+                //         $query->where("e_cont", "like", "%" . $request->q . "%");
+                //     }
+    
+                //     $query->where("o_state", $request->state);
+                //  }         
+    
+                if ($request->pay_state) {
+                    $query->where("o_pay_state", $request->pay_state);
+                }
+            })
+            ->leftjoin('users', 'users.id', '=', 'mobile_product_orders.o_member')
+            ->leftjoin('partners', 'partners.p_no', '=', 'mobile_product_orders.o_partner')
+            ->orderBy("o_no","desc")->paginate(10);
+    
+            $data['productType'] = Config::get('product.productType');
+    
+            $data['start'] = $data["orders"]->total() - $data["orders"]->perPage() * ($data["orders"]->currentPage() - 1);
+            $data['total'] = $data["orders"]->total();
+            $data['param'] = [
+                'id' => $request->id, 
+                'sdate' => $request->sdate, 
+                'edate' => $request->edate,  
+                'pkind' => $request->pkind,             
+                'fd' => $request->fd, 
+                'q' => $request->q];
+
+        } else {
+
+        }
+        return view('admin.member.userProducts', $data);
+    }    
+
+
+
+    ## 예약내역
+    public function reserves(Request $request){
+
+        $data["result"] = true;
+        $data["reserves"] = [];
+        $data["user"] = $this->user::where("id",  $request->id)->first();
+        if( $data["user"] ) {
+
+            $data["reserves"] = \App\Models\MobileReservSeat::where("rv_member",$data["user"]["id"])
+            ->select("mobile_reserv_seats.*","mobile_reserv_seats.created_at as reserved_at",
+            "partners.p_no","partners.p_id","partners.p_name",
+            "users.id","users.nickname","users.email","users.nickname","users.phone", "users.sex", "users.birth" )
+                ->leftjoin('partners', 'rv_partner', '=', 'partners.p_no')
+                ->leftjoin('users', 'rv_member', '=', 'users.id')
+                ->where(function ($query) use ($request) {
+                    if ($request->q) {
+                        if( $request->fd == "name" ) {
+                            $query->where("nickname", "like", "%" . $request->q . "%")
+                                ->orwhere("name", "like", "%" . $request->q . "%");                        
+                        }  elseif( $request->fd == "id" ) {
+                            $query->where("users.id", "like", "%" . $request->q . "%");
+                        } else {
+                            $query->where("nickname", "like", "%" . $request->q . "%")
+                                ->orwhere("name", "like", "%" . $request->q . "%")
+                                ->orwhere("users.id", "like", "%" . $request->q . "%");
+                        }
+                    }
+                    if ($request->sdate) {
+                        $query->where( DB::raw("date_format(mobile_reserv_seats.rv_sdate,'%Y-%m-%d')"),  ">=", $request->sdate);
+                    }
+                    if ($request->edate) {
+                        $query->where( DB::raw("date_format(mobile_reserv_seats.rv_sdate,'%Y-%m-%d')"),  "<=", $request->edate);
+                    }
+    
+                    if ($request->state) {
+    
+                        if( $request->state == "A" ) {
+                            $query->where("c_sdate",  ">", now());
+                        } elseif( $request->state == "I" ) {
+                            $query->where("c_sdate",  "<=", now());
+                            $query->where("c_edate",  ">=", now());
+                        }  elseif( $request->state == "E" ) {
+                            $query->where("c_edate",  "<", now());
+                        }
+    
+                    }
+                })
+                ->orderBy("rv_no","desc")->paginate(1);
+    
+            $data['query'] = $request->query;
+            //$i = $this->board->perPage() * ($this->board->currentPage() - 1);
+            $data['start'] = $data["reserves"]->total() - $data["reserves"]->perPage() * ($data["reserves"]->currentPage() - 1);
+            $data['total'] = $data["reserves"]->total();
+            $data['param'] = [
+                    'id' => $request->id, 
+                    'sdate' => $request->sdate, 
+                    'edate' => $request->edate, 
+                    'fd' => $request->fd, 
+                    'q' => $request->q];
+
+        } else {
+
+        }
+
+        return view('admin.member.userReserveSeats', $data);
+    }    
+
+    ## 예약내역
+    public function cashes(Request $request){
+
+        $data["result"] = true;
+        $data["cashes"] = [];
+        $data["user"] = $this->user::where("id",  $request->id)->first();
+        if( $data["user"] ) {
+
+            $data["cash_total"]= \App\Models\User_cash::select(DB::raw("sum(mp_point) as sum"))
+            ->where('mp_member', $request->id)
+            ->first();
+
+            $data["cashes"] = \App\Models\User_cash::where('mp_member', $request->id)
+            ->where(function ($query) use ($request) {
+                if( $request->mode == "out" ) {
+                    $query->where("mp_point", "<" , 0);
+            }elseif( $request->mode == "in" ) {
+                    $query->where("mp_point", ">", 0);
+            }
+            })
+            ->orderBy("mp_no","desc")->paginate(10);
+
+            $data['query'] = $request->query;
+            //$i = $this->board->perPage() * ($this->board->currentPage() - 1);
+            $data['start'] = $data["cashes"]->total() - $data["cashes"]->perPage() * ($data["cashes"]->currentPage() - 1);
+            $data['total'] = $data["cashes"]->total();
+            $data['param'] = [
+                    'id' => $request->id, 
+                    'sdate' => $request->sdate, 
+                    'edate' => $request->edate, 
+                    'fd' => $request->fd, 
+                    'q' => $request->q];
+
+
+
+        } else {
+
+        }
+
+        return view('admin.member.userCashes', $data);
+    }    
+
+    ## 이용문의
+    public function customs(Request $request){
+
+        $data["result"] = true;
+        $data["customs"] = [];
+        $data["user"] = $this->user::where("id",  $request->id)->first();
+        if( $data["user"] ) {
+
+            $data["customs"] = \App\Models\Custom::where("q_member",$request->id)
+                ->orderBy("q_no","desc")->paginate(10);
+        
+            $data['query'] = $request->query;
+            $data['start'] = $data["customs"]->total() - $data["customs"]->perPage() * ($data["customs"]->currentPage() - 1);
+            $data['total'] = $data["customs"]->total();
+            $data["customs"]->perPage();
+            $data['param'] = [                    'id' => $request->id, 'kind' => $request->kind, 'fd' => $request->fd, 'q' => $request->q];
+
+
+            $kind_categorys = config("custom.custom_categorys");
+
+            foreach( $data["customs"] as $custom ) {
+                $custom->q_kind_text = $kind_categorys[$custom->q_kind];
+                $custom->q_cont =  Str::limit($custom->q_cont, 30,"...");
+            }
+
+        } else {
+
+        }
+
+        return view('admin.member.userCustoms', $data);
+    }    
+
 
     ## 폼을 위한 정보
     public function form(Request $request){

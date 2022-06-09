@@ -21,7 +21,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1">
                                     <p class="mb-0">현재좌석이용건수</p>
-                                    <h5 class="font-weight-bold">200<span style="font-size:0.7em">/300좌석</span></h5>
+                                    <h5 class="font-weight-bold"><span id="count_used">200</span><span style="font-size:0.7em">/<span id="count_seat">300</span>좌석</span></h5>
                                 </div>
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-2">
                                     <p class="mb-0">금일 모바일 이용건수</p>
-                                    <h5 class="font-weight-bold">23건<span style="font-size:0.7em">/300건</span></h5>
+                                    <h5 class="font-weight-bold"><span id="count_today_mobile">23</span>건<span style="font-size:0.7em">/<span id="count_today_all">300</span>건</span></h5>
                                 </div>
                             </div>
                         </div>
@@ -222,13 +222,27 @@
 
                            // $("shape[seat='"+rsv.seat+"']").
                         });
+
+                        if ( res.count_used != undefined ) {
+                            // 현재사용중
+                            $("#count_used").html(res.count_used);
+
+                            // 총 좌석
+                            $("#count_seat").html(res.count_seat);
+
+                            // 금일 누적
+                            $("#count_today_mobile").html(res.count_today_mobile);
+                            $("#count_today_all").html(res.count_today_all);
+                            
+                        }
                     }         
 
                 });
         }
 
-        let nIntervId;
-        setInterval(function()
+        var nIntervId;
+        get_SeatState();
+        nIntervId = setInterval(function()
         {
             get_SeatState();
         },10000);

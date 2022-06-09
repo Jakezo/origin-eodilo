@@ -26,8 +26,6 @@ class FrenchSettingController extends Controller
     }
 
 
-
-
     ## 폼을 위한 정보
     public function getInfo(Request $request){
 

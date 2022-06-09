@@ -1,6 +1,6 @@
 <!-- Stored in resources/views/child.blade.php -->
 
-@extends('layouts.super')
+@extends('layouts.admin')
 
 @section('title', 'Page Title')
 

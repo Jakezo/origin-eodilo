@@ -41,7 +41,7 @@ class FrenchReservationController extends Controller
         //$this->FrenchRerservation = new FrenchMember();
     }
 
-    ## 폼을 위한 정보
+    ## 좌석에 대한 정보
     public function getSeatInfo(Request $request){
         Config::set('database.connections.partner.database',"boss_".$request->account);
 
@@ -240,7 +240,71 @@ class FrenchReservationController extends Controller
         return response($data);
 
     }
+
+    // 강제입실
+    public function reserveEntranceState(Request $request)
+    {
+        $data = [];
+
+        if( !$request->sdate ) $request->sdate = date("Y-m-d");
+        if( !$request->stime ) $request->stime = date("H:i:s");
+        $dt = $request->sdate . " " . $request->stime;
+
+        Config::set('database.connections.partner.database',"boss_".$request->account);
+
+        ## 현재시간 예약정보
+        $data['currentReserve'] = \App\Models\FrenchReservSeat::find($request->rv);
+
+        $data['currentReserve']->rv_state_seat = "IN";
+        if( $data['currentReserve']->rv_state == "A" ) {
+            $data['currentReserve']->rv_state = "U";
+            if( $data['currentReserve']->rv_state_seat_in == null || $data['currentReserve']->rv_state_seat_in=="" )  $data['currentReserve']->rv_state_seat_in = $dt;
+        }
+
+
+        $freserv_ok = $data['currentReserve']->update();
+
+        if( $freserv_ok ) {
+
+            if( $data['currentReserve']->rv_device_from == "M"){
+
+
+                $data["partner"] = \App\Models\Partner::select("p_no","p_id","p_name")->where('p_id', $request->account)->first();
+
+                $this->MobileReservSeat = \App\Models\MobileReservSeat::where("rv_partner" , $data["partner"]->p_no)
+                ->where("rv_partner_rv" , $request->rv)
+                ->first();            
+
+                $this->MobileReservSeat->rv_state_seat = "IN";
+                if( $this->MobileReservSeat->rv_state == "A" ) {
+                    $this->MobileReservSeat->rv_state = "U";
+                    if( $this->MobileReservSeat->rv_state_seat_in == null || $this->MobileReservSeat->rv_state_seat_in=="" ) $this->MobileReservSeat->rv_state_seat_in = $dt;
+                }
+                $mreserv_ok = $this->MobileReservSeat->update();
+
+                $data["result"] = true;
+                return response($data);                
+            } 
+
+
+
+            // 문열기 실행
+            // $IOT = new IOT();
+            // $IOT->setPartner($this->partner->p_no);
+            // $IOT->seatIOT($this->FrenchReservSeat->rv_seat, "room_door", "O");
+            // $IOT->seatIOT($this->FrenchReservSeat->rv_seat, "light", "O");
+        }        
+
+
+
+        $data["result"] = false;
+        $data["seats"] = $dt;
+
+        return response($data);
+
+    }    
     
+   
     
     ## 현재시간 좌석의 예약정보
     public function getSeatReserveInfo(Request $request){
@@ -253,7 +317,8 @@ class FrenchReservationController extends Controller
         $edate = $request->rv_edate . " " . $request->rv_etime;
 
         ## 현재시간 예약정보
-        $data['currentReserve'] = \App\Models\FrenchReservSeat::where("rv_seat", $request->seat)
+        $data['currentReserve'] = \App\Models\FrenchReservSeat::
+        where("rv_seat", $request->seat)
         ->where('rv_sdate', '<=', now())
         ->where('rv_edate', '>=', now())->first();
 
@@ -266,6 +331,8 @@ class FrenchReservationController extends Controller
 
         Config::set('database.connections.partner.database',"boss_".$request->account);
 
+        $partner_info = \App\Models\Partner::select("p_no","p_id","p_name")->where('p_id', $request->account)->first();
+        
         $FrenchReservSeat = new FrenchReservSeat;
        
         if( !$request->rv_seat ) {
@@ -415,7 +482,8 @@ class FrenchReservationController extends Controller
             return response($result); 
         }
         
-        $FrenchReservSeat->rv_partner = 0;
+
+        $FrenchReservSeat->rv_partner = $partner_info-p_no;
         $FrenchReservSeat->rv_order = $request->rv_product;
         $FrenchReservSeat->rv_member_from = "L";
 
@@ -489,31 +557,31 @@ class FrenchReservationController extends Controller
 
 
 
-    ## 현재 예약상태 가져오기
-    public function seatState(Request $request){
+    ## 현재 예약상태 가져오기 main 컨ㅌ롤러로 옮김.
+    // public function seatState(Request $request){
 
-        Config::set('database.connections.partner.database',"boss_".$request->account);
+    //     Config::set('database.connections.partner.database',"boss_".$request->account);
 
-        $FrenchReservSeat = new FrenchReservSeat;
+    //     $FrenchReservSeat = new FrenchReservSeat;
         
-        // 현재시간으로 부터 1시간이내 예약내역
-        $sdate = Carbon::now()->format('Y-m-d H:i:s');
-        $edate = Carbon::now()->addHours(1)->format('Y-m-d H:i:s');
+    //     // 현재시간으로 부터 1시간이내 예약내역
+    //     $sdate = Carbon::now()->format('Y-m-d H:i:s');
+    //     $edate = Carbon::now()->addHours(1)->format('Y-m-d H:i:s');
         
-        $result['result'] = false;
-        $result['message'] = "$sdate $edate"; 
+    //     $result['result'] = false;
+    //     $result['message'] = "$sdate $edate"; 
 
-        $result['result'] = true;
-        $result['rsvs'] = \App\Models\FrenchReservSeat::where(function($query) use( $sdate, $edate ){
-                // $query->where(function($query2) use( $sdate, $edate ){
-                //     $query2->where('rv_sdate', '>=', $sdate)->where('rv_sdate', '<=', $edate);
-                // })
-                // ->orwhere(function($query2) use( $sdate, $edate ){
-                //     $query2->where('rv_edate', '>=', $sdate)->where('rv_edate', '<=', $edate);
-                // });
-        })->get();
-        return response($result);
-    } 
+    //     $result['result'] = true;
+    //     $result['rsvs'] = \App\Models\FrenchReservSeat::where(function($query) use( $sdate, $edate ){
+    //             // $query->where(function($query2) use( $sdate, $edate ){
+    //             //     $query2->where('rv_sdate', '>=', $sdate)->where('rv_sdate', '<=', $edate);
+    //             // })
+    //             // ->orwhere(function($query2) use( $sdate, $edate ){
+    //             //     $query2->where('rv_edate', '>=', $sdate)->where('rv_edate', '<=', $edate);
+    //             // });
+    //     })->get();
+    //     return response($result);
+    // } 
 
 
     function setUserResMemo(Request $request){

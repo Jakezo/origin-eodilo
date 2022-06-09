@@ -21,11 +21,9 @@
         <ul>
             <li> <a href="/"><i class="bx bx-right-arrow-alt"></i>이용현황보기</a>
             </li>
-            <li> <a href="/history"><i class="bx bx-right-arrow-alt"></i>이용내역보기</a>
+            <li> <a href="/history/reservs"><i class="bx bx-right-arrow-alt"></i>좌석이용내역보기</a>
             </li>
             <li> <a href="/history/orders"><i class="bx bx-right-arrow-alt"></i>상품구매내역보기</a>
-            </li>
-            <li> <a href="/history/reservs"><i class="bx bx-right-arrow-alt"></i>좌석이용내역보기</a>
             </li>
             <!--li> <a href="use_chart.html"><i class="bx bx-right-arrow-alt"></i>일일차트보기</a>
             </li-->

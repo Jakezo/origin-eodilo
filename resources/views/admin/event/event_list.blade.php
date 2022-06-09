@@ -42,17 +42,17 @@
                                 <div class='row'>
                                     <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
                                         <select class="single-select form-control-sm col-12" name="state" id="state">
-                                            <option value="" <?php if( isset($param['state']) && $param['state'] == "" ) {?> selected<?}?>>전체</option>
-                                            <option value="A" <?php if( isset($param['state']) && $param['state'] == "A" ) {?> selected<?}?>>예정</option>
-                                            <option value="I" <?php if( isset($param['state']) && $param['state'] == "I" ) {?> selected<?}?>>진행</option>
-                                            <option value="E" <?php if( isset($param['state']) && $param['state'] == "E" ) {?> selected<?}?>>종료</option>
+                                            <option value="" @if( isset($param['state']) && $param['state'] == "" ) selected @endif>전체</option>
+                                            <option value="A" @if( isset($param['state']) && $param['state'] == "A" ) selected @endif>예정</option>
+                                            <option value="I" @if( isset($param['state']) && $param['state'] == "I" ) selected @endif>진행</option>
+                                            <option value="E" @if( isset($param['state']) && $param['state'] == "E" ) selected @endif>종료</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2 col-sm-6 col-xs-12 mt-1">
                                         <select class="single-select form-control-sm col-12" name="fd" id="fd">
-                                            <option value="" <?php if( !isset($param['fd']) && $param['fd'] == "" ) {?> selected<?}?>>제목+내용</option>
-                                            <option value="title" <?php if( isset($param['fd']) && $param['fd'] == "title" ) {?> selected<?}?>>제목</option>
-                                            <option value="cont" <?php if( isset($param['fd']) && $param['fd'] == "cont" ) {?> selected<?}?>>내용</option>
+                                            <option value="" @if( !isset($param['fd']) && $param['fd'] == "" ) selected @endif>제목+내용</option>
+                                            <option value="title" @if( isset($param['fd']) && $param['fd'] == "title" ) selected @endif>제목</option>
+                                            <option value="cont" @if( isset($param['fd']) && $param['fd'] == "cont" ) selected @endif>내용</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4 col-sm-6 col-xs-12 mt-1">
@@ -73,10 +73,8 @@
                                 <thead>
                                 <tr>
                                     <th scope="col" class="text-center">#</th>
-                                    <th scope="col">기간</th>
-                                    <th scope="col">이미지</th>
+                                    <th scope="col">날자</th>
                                     <th scope="col">제목</th>
-                                    <th scope="col" class="text-center">할인</th>
                                     <th scope="col" class="text-center">등록일시</th>
                                     <th scope="col" class="text-center">관리</th>
                                 </tr>
@@ -92,8 +90,7 @@
                                         <img src="{{ $event['e_img1'] }}" style="height:20px;">
                                         @endif
                                     </td>
-                                    <td>{{ $event['e_title'] }}</td>
-                                    <td class="text-center">@if($event['e_type'] == "P" ) 금액할인 @elseif($event['e_type'] == "R" )  할인율 @endif</td>
+                                    <td>{{ $event['e_sdate'] }}</td>
                                     <td class="text-center">{{ substr($event['created_at'],0,16) }}</td>
                                     <td class="text-center"><button class="btn btn-xs btn-secondary event_item" event="{{ $event['e_no'] }}" data-bs-toggle="modal" data-bs-target="#eventFormModal">관리</button></td>
                                 </tr>
@@ -129,7 +126,7 @@
                     {{csrf_field()}}
                     <input type="hidden" name="no" id="no" value="">
                     <div class="col-xs-12 mt-3">
-                        <input name="partner_name" id="partner_name" style="ime-mode:disabled;" class="input_partner form-control form-control-sm mb-3 col-6" type="text" placeholder="클릭하여 가맹점검색" aria-label=".form-control-sm example" data-bs-toggle="modal" data-bs-target="#partnerSearchModal" search_mode="event">
+                        <input name="partner_name" id="partner_name" style="ime-mode:disabled;" class="input_partner form-control form-control-sm mb-3 col-6" type="text" placeholder="클릭하여 파트너검색" aria-label=".form-control-sm example" data-bs-toggle="modal" data-bs-target="#partnerSearchModal" search_mode="event">
                     </div>
 
                     <div class="col-xs-12 mt-3">
@@ -301,6 +298,7 @@
 
         function event_delete() {
             var req = $("#frm_event").serialize();
+            console.log("데이터....");
             console.log(req);
             $.ajax({
                 url: '/event/delete',

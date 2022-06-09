@@ -54,7 +54,6 @@ class SettingIotController extends Controller
     }
 
 
-
     ## 목록 위한 정보
     public function get_list(Request $request){
 
@@ -166,6 +165,24 @@ class SettingIotController extends Controller
         }
 
         return response($result);
+    }
+
+
+
+
+
+    ## 전체 IOT 컨트롤
+    public function get_all_iot(Request $request){
+
+        Config::set('database.connections.partner.database',"boss_".$request->account);
+
+        $data["result"] = true;
+        $data["iots"] = [];
+        $data["iots"] = $this->FrenchIot->select("i_no","i_name","i_sex","i_type","i_iot1","i_iot2","i_iot3","i_iot4")
+            ->orderBy("i_name","asc")->get();
+
+        return response($data);
+
     }
 
 

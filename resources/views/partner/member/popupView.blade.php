@@ -209,7 +209,7 @@
     
                         </div>
                         <div class="tab-pane fade" id="primarybuy" role="tabpanel">
-    
+
                             <table class="table mb-0 table-striped">
                                 <thead>
                                 <tr>
@@ -221,34 +221,43 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>20-10-17 00:00:00</td>
-                                    <td>3시간권</td>
-                                    <td>24분</td>
-                                    <td><button type="button" class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#memberRegModal">사용중</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>20-10-17 00:00:00</td>
-                                    <td>3시간권</td>
-                                    <td>0분</td>
-                                    <td><button type="button" class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#memberRegModal">이용완료</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>20-10-17 00:00:00</td>
-                                    <td>3시간권</td>
-                                    <td>0분</td>
-                                    <td><button type="button" class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#memberRegModal">이용완료</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>20-10-17 00:00:00</td>
-                                    <td>1개월권</td>
-                                    <td>12일</td>
-                                    <td><button type="button" class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#memberRegModal">이용완료</button></td>
-                                </tr>
+                                    @if( $orders )
+                                    @foreach( $orders as $oi => $order )         
+                                    <tr>
+                                        <th scope="row">{{ (count($orders) - $oi) }}</th>
+                                        <td>{{ $order['created_at'] }}</td>
+                                        <td>
+                                            @if($order['o_product_kind'] == "A") 
+                                                하루이용권 
+                                            @elseif($order['o_product_kind'] == "T") 
+                                                시간권 {{ $order['o_duration'] }} 시간
+                                            @elseif($order['o_product_kind'] == "D") 
+                                                기간권 {{ $order['o_duration'] }} 일
+                                            @elseif($order['o_product_kind'] == "F") 
+                                                고정권  {{ $order['o_duration'] }} M
+                                            @elseif($order['o_product_kind'] == "P") 
+                                                정액권   {{ $order['o_duration'] }} Points
+                                            @endif
+    
+                                        </td>
+                                        <td>
+                                            @if($order['o_product_kind'] == "A") 
+                                                <span class="btn btn-xs @if( $order['o_remainder_day'] > 0 ) btn-info @else btn-secondary @endif">{{ $order['o_remainder_day'] }} / {{ $order['o_duration'] }}</span> 회
+                                            @elseif($order['o_product_kind'] == "T") 
+                                                <span class="btn btn-xs @if( $order['o_remainder_time'] > 0 ) btn-info @else btn-secondary @endif">{{ $order['o_remainder_time'] }} / {{ $order['o_duration'] }}</span> 시간
+                                            @elseif($order['o_product_kind'] == "D") 
+                                                <span class="btn btn-xs @if( $order['o_remainder_day'] > 0 ) btn-info @else btn-secondary @endif">{{ $order['o_remainder_day'] }} / {{ $order['o_duration'] }}</span> 일
+                                            @elseif($order['o_product_kind'] == "F") 
+                                                -
+                                            @elseif($order['o_product_kind'] == "P") 
+                                                <span class="btn btn-xs @if( $order['o_remainder_point'] > 0 ) btn-info @else btn-secondary @endif">{{ $order['o_remainder_point'] }} / {{ $order['o_duration'] }}</span> P
+                                            @endif
+                                        </td>   
+                                        <td><button type="button" class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#memberRegModal">사용중</button></td>
+                                    </tr>
+
+                                    @endforeach
+                                    @endif  
                                 </tbody>
                             </table>
                         </div>
@@ -258,42 +267,44 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">입실</th>
-                                    <th scope="col">퇴실</th>
+                                    <th scope="col">예약일시</th>
+                                    <th scope="col">입실일시</th>
                                     <th scope="col">상태</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @if( $reservs )
+                                @foreach( $reservs as $ri => $reserv )                                       
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td>20-10-17 00:00:00</td>
-                                    <td>20-10-17 00:00:00</td>
-                                    <td><button type="button" class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#memberRegModal">예약</button></td>
+                                    <th scope="row">{{ (count($reservs) - $ri) }}</th>
+                                    <td>{{ substr($reserv['rv_sdate'],5,11) }} ~ {{ substr($reserv['rv_edate'],5,11) }}</td>    
+                                    <td>{{ substr($reserv['rv_state_seat_in'],5,11) }} ~ {{ substr($reserv['rv_state_seat_out'],5,11) }}</td>                                    
+                                    <td>
+                                        @if($reserv['rv_state'] == "A") 
+                                            <span class="btn btn-xs btn-warning btn-R" data-bs-toggle="modal" data-bs-target="#useInfoModal">예약</span>
+                                        @elseif($reserv['rv_state'] == "U") 
+                                            <span class="btn btn-xs btn-primary btn-U" data-bs-toggle="modal" data-bs-target="#useInfoModal">사용중</span>
+                                        @elseif($reserv['rv_state'] == "M") 
+                                            <span class="btn btn-xs btn-secondary btn-M" data-bs-toggle="modal" data-bs-target="#useInfoModal">이동</span>
+                                        @elseif($reserv['rv_state'] == "X") 
+                                            <span class="btn btn-xs btn-secondary btn-X" data-bs-toggle="modal" data-bs-target="#useInfoModal">종료</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($reserv['rv_state_seat'] == "IN") 
+                                            <span class="btn btn-xs btn-in">{{ $reserv['rv_state_seat'] }}</span>
+                                        @elseif($reserv['rv_state_seat'] == "OUT") 
+                                            <span class="btn btn-xs btn-out">{{ $reserv['rv_state_seat'] }}</span>
+                                        @endif
+                                    </td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>20-10-17 00:00:00</td>
-                                    <td>20-10-17 00:00:00</td>
-                                    <td><button type="button" class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#memberRegModal">사용중</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>20-10-17 00:00:00</td>
-                                    <td>20-10-17 00:00:00</td>
-                                    <td><button type="button" class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#memberRegModal">종료</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>20-10-17 00:00:00</td>
-                                    <td>20-10-17 00:00:00</td>
-                                    <td><button type="button" class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#memberRegModal">종료</button></td>
-                                </tr>
+                                @endforeach
+                                @endif     
                                 </tbody>
                             </table>
                         </div>
                         <div class="tab-pane fade" id="primarycustom" role="tabpanel">
-    
-                            <table class="table mb-0 table-striped">
+                                <table class="table mb-0 table-striped">
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>

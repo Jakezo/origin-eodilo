@@ -55,6 +55,24 @@ class SysMqttController extends Controller
           $client_id = 0;
           $output = $IOT->Publish($topic, $message, $client_id) ;
 
+
+          
+          return response($output);
+
+    }
+
+    // 가맹점관리자가 IOT 컨트롤
+    public function ManagerSubscribe(request $request){
+
+          // 문열기 실행
+          $IOT = new IOT();
+          $IOT->setPartner($this->partner->p_no);
+
+          $topic = $IOT->FrenchConfig->cf_iot_base . '/' . $request->dev_no;
+
+          //$client_id = 0;
+          $output = $IOT->Subscribe($topic) ;
+
           return response($output);
 
     }

@@ -18,11 +18,11 @@ class CreatePartnersTable extends Migration
             $table->id('p_no')->comment('일련번호');;
 
             $table->string('p_id', 20)->default('')->unique()->comment('아이디');
-            $table->string('p_name', 20)->default('')->comment('가맹점명');
+            $table->string('p_name', 20)->default('')->comment('파트너명');
             $table->string('p_bizno', 20)->default('')->comment('사업자번호');
             $table->string('p_ceo', 20)->default('')->comment('대표자명');
             $table->string('p_email', 50)->default('')->comment('대표이메일');
-            $table->string('p_passwd', 20)->default('')->comment('가맹점번호');
+            $table->string('p_passwd', 20)->default('')->comment('파트너번호');
             $table->char('p_type', 1)->default('')->comment('타입');
             $table->string('p_img1', 100)->default('')->comment('대표이미지');
             $table->string('p_phone', 20)->default('')->comment('연락처');
@@ -61,8 +61,6 @@ class CreatePartnersTable extends Migration
 
             $table->string('p_open_mobile',1)->default('N')->comment('모바일사용여부');
             $table->string('p_open_kiosk',1)->default('N')->comment('키오스크사용여부'); 
-
-            $table->string('p_door',4)->default('')->comment('출입문타입 Q:QR코드,S:비번,B:버튼');
 
             $table->unsignedInteger('p_review_count',)->default(0)->comment('리뷰갯수');
             $table->decimal('p_review_avg')->default(0)->comment('리뷰평점');

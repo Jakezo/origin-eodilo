@@ -73,6 +73,7 @@
                                 <thead>
                                 <tr>
                                     <th scope="col" class="text-center">#</th>
+                                    <th scope="col">구분</th>
                                     <th scope="col">제목</th>
                                     <th scope="col" class="text-center">작성자</th>
                                     <th scope="col" class="text-center">작성일시</th>
@@ -85,7 +86,8 @@
                                 @foreach( $customs as $ci => $custom )
                                 <tr>
                                     <th scope="row" class="text-center">{{ ($start - $ci) }}</th>
-                                    <td><a href="/customer/member/view/{{ $custom['q_no'] }}">{{ $custom['q_title'] }}</a></td>
+                                    <td>{{ $custom['q_kind_text'] }}</td>
+                                    <td><a href="/customer/member/view/{{ $custom['q_no'] }}">{{ $custom['q_cont'] }}</a></td>
                                     <td class="text-center">{{ $custom['q_uname'] }}</td>
                                     <td class="text-center">{{ substr($custom['created_at'],0,16) }}</td>
                                     <td class="text-center">

@@ -104,7 +104,7 @@ Route::domain('api.eodilo.com')->group(function () {
 });
 
 // 시스템관리자
-Route::domain('admin.eodilo.com')->group(function () {
+Route::domain('admin.'.env('APP_HOST'))->group(function () {
 
     /*
         Route::get('/', function () {
@@ -145,8 +145,6 @@ Route::domain('admin.eodilo.com')->group(function () {
 
         Route::get('/', [IndexController::class, 'index'])->name("adminhome");
         Route::get('index2', [IndexController::class, 'index2']);
-
-        
 
         Route::get('/history',  [ReserveController::class, 'index']);   
         Route::get('/buy', [UserBuyController::class, 'index']);
@@ -203,6 +201,14 @@ Route::domain('admin.eodilo.com')->group(function () {
             Route::get('/form/{id?}',  [UserController::class, 'form']);
             Route::any('/update', [UserController::class, 'update']);
             Route::get('/sms', [UserMessageController::class, 'index']);
+
+            Route::any('/user_info', [UserController::class, 'info']); 
+            Route::any('/user_buyProducts', [UserController::class, 'products']);   
+            Route::any('/user_reserveSeats', [UserController::class, 'reserves']);     
+            Route::any('/user_cashes', [UserController::class, 'cashes']);  
+            Route::any('/user_customs', [UserController::class, 'customs']);            
+            //Route::any('/popupInfo', [FrenchMemberController::class, 'viewInfo']);
+            
             Route::get('/refund', function () {
                 return view('admin.member.refund_list');
             });
@@ -311,21 +317,17 @@ Route::domain('admin.eodilo.com')->group(function () {
 
     });   
 
-
-
 });
 
 
 // 시스템관리자
-Route::domain('{account}.partner.eodilo.com')->group(function () {
+Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
 
     Route::prefix('/partner_api')->group(function () {
         Route::get('/room/get_list', [SettingRoomController::class, 'get_list']);
         Route::any('/seat_level/get_list', [SettingSeatLevelController::class, 'get_list']);
         Route::get('/locker_area/get_list', [SettingLockerAreaController::class, 'get_list']);
         Route::any('/seat/editor_getMapInfo', [SettingSeatController::class, 'editor_getMapInfo']);
-
-
     });
 
     Route::group(['prefix' => '/reservation'],function () {
@@ -334,14 +336,11 @@ Route::domain('{account}.partner.eodilo.com')->group(function () {
 
         Route::post('/setUserResMemo', [FrenchReservationController::class, 'setUserResMemo']);
         Route::any('/reserveSeatState', [FrenchReservationController::class, 'reserveSeatState']);
-
-        
+        Route::any('/reserveEntranceState', [FrenchReservationController::class, 'reserveEntranceState']);
 
         // 예약
         Route::any('/reserveSeat', [FrenchReservationController::class, 'reserveSeat']);
     });
-
-
 
     Route::get('/noPartner', function () {
         return view('nopartner.nopartner');
@@ -356,9 +355,8 @@ Route::domain('{account}.partner.eodilo.com')->group(function () {
     Route::group(['middleware' => ['partner']], function () {
 
         Route::get('/', [FrenchMainController::class, 'main'])->name("partnerhome");
-        Route::get('/seatState', [FrenchReservationController::class, 'seatState']);
+        Route::get('/seatState', [FrenchMainController::class, 'seatState']);
 
-        Route::get('/history', [FrenchHistoryController::class, 'order_list']);
         Route::get('/history/orders', [FrenchHistoryController::class, 'order_list']);
         Route::get('/history/reservs', [FrenchHistoryController::class, 'reserv_list']);
 
@@ -508,7 +506,11 @@ Route::domain('{account}.partner.eodilo.com')->group(function () {
                 Route::any('/', [SettingIotController::class, 'index']);
                 Route::any('/getInfo', [SettingIotController::class, 'getInfo']);
                 Route::post('/update', [SettingIotController::class, 'update']);
-                Route::post('/delete', [SettingIotController::class, 'delete']);                
+                Route::post('/delete', [SettingIotController::class, 'delete']);   
+                
+                // 긴급IOT 를 위하여
+                Route::any('/get_all', [SettingIotController::class, 'get_all_iot']);
+
 
             });
 
@@ -583,6 +585,9 @@ Route::domain('{account}.partner.eodilo.com')->group(function () {
     
             // 보안을 위해서 post
             Route::any('/publish', [SysMqttController::class, 'ManagerPublish']);
+            
+            // 보안을 위해서 post
+            Route::any('/subscribe/{dev_no?}/{iot_no?}', [SysMqttController::class, 'ManagerSubscribe']);
     
             // 테스트 Route::any('/put', [MqttController::class, 'put']);
     

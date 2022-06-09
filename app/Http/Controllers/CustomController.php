@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class CustomController extends Controller
 {
@@ -42,6 +43,14 @@ class CustomController extends Controller
                 }
             })
             ->orderBy("q_no","desc")->paginate(10);
+
+
+            $kind_categorys = config("custom.custom_categorys");
+
+            foreach( $data["customs"] as $custom ) {
+                $custom->q_kind_text = $kind_categorys[$custom->q_kind];
+                $custom->q_cont =  Str::limit($custom->q_cont, 30,"...");
+            }
 
         $data['query'] = $request->query;
         //$i = $this->board->perPage() * ($this->board->currentPage() - 1);

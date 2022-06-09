@@ -809,7 +809,11 @@
                         <div class="tab-pane fade show active" id="seatCurrentInfo" role="tabpanel">
                             <div class="row col-12 mb-2">
                                 <div class="col-8"><h6>이용자 : <span id="seatCurrentUserName"></span></h6></div>
-                                <div class="col-4 text-right"><span class="btn btn-xs btn-info">외출중</span></div>
+                                <div class="col-4 text-right" id="currentState"><span class="btn btn-xs btn-info" id="currentStateBtn">외출중</span></div>
+                            </div>
+                            <div class="row col-12 mb-2">
+                                <div class="col-5">예약시간</div>
+                                <div class="col-7" id="seatReserveTime"></div>
                             </div>
                             <div class="row col-12 mb-2">
                                 <div class="col-5">입실시간</div>
@@ -821,46 +825,24 @@
                             </div>
 
                             <hr/>
+
+                            <form id="form_entrance">
+                            <input name="rv" type="hidden">
+                            <div class="row col-12 mb-2">
+                                <div class="col-12">선택한 시간부터 입실로 변경</div>
+                                <div class="col-12">
+                                    <input name="rv_sdate" id="sdate" class="form-control form-control-sm mb-3 col-3" type="date" value="<?=date('Y-m-d')?>" placeholder="날자" aria-label=".form-control-sm example">
+                                    <input name="rv_stime" id="stime" class="form-control form-control-sm mb-3 col-3" type="time" id="stime" placeholder="시간" aria-label=".form-control-sm example">
+                                    <button type="button" class="tbn btn-sm btn-warning btn_entrance" class="btn btn-sm btn-warning col-12 mx-1 mb-1">입실</button>
+                                </div>
+                            </div>
+                            </form>
+                            
+                            
                             <div id="seatIotInfo">
                             </div>
-
-                            <!--div class="row col-12 mb-2">
-                                <div class="col-5">전원(IOT_02)</div>
-                                <div class="col-7">
-
-                                    <div class="form-check form-switch form-switch-md">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault2">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault"> 켜짐</label>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class="row col-12 mb-2">
-                                <div class="col-5">인터넷(IOT_03)</div>
-                                <div class="col-7">
-
-                                    <div class="form-check form-switch form-switch-md">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault3">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault"> 켜짐</label>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class="row col-12 mb-2">
-                                <div class="col-5">환풍기(IOT_04)</div>
-                                <div class="col-7">
-
-                                    <div class="form-check form-switch form-switch-md">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault4">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault"> 켜짐</label>
-                                    </div>
-
-                                </div>
-                            </div-->
-
                             <hr/>
+
                             <div class="row col-12 mb-2">
                                 <div class="col-12">
                                     <div class="alert alert-warning">
@@ -1268,201 +1250,67 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <form class="row g-3">
+                        <div class="tab-content py-3">
+                            <div class="tab-pane fade show active" id="iotInfo" role="tabpanel">
 
-                    <div class="tab-content py-3">
-                        <div class="tab-pane fade show active" id="seatLevelInfo" role="tabpanel">
+                                    <div class="row col-12 mb-2">
+                                        <div class="col-5">조명(IOT_01)</div>
+                                        <div class="col-7">
 
-                            <form class="row g-3">
+                                            <div class="form-check form-switch form-switch-md">
+                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                                <label class="form-check-label" for="flexSwitchCheckDefault"> 켜짐</label>
+                                            </div>
 
-
-                                <div class="row col-12 mb-2">
-                                    <div class="col-5">조명(IOT_01)</div>
-                                    <div class="col-7">
-
-                                        <div class="form-check form-switch form-switch-md">
-                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                            <label class="form-check-label" for="flexSwitchCheckDefault"> 켜짐</label>
                                         </div>
-
                                     </div>
-                                </div>
 
-                                <div class="row col-12 mb-2">
-                                    <div class="col-5">전원(IOT_02)</div>
-                                    <div class="col-7">
+                                    <div class="row col-12 mb-2">
+                                        <div class="col-5">전원(IOT_02)</div>
+                                        <div class="col-7">
 
-                                        <div class="form-check form-switch form-switch-md">
-                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                            <label class="form-check-label" for="flexSwitchCheckDefault"> 켜짐</label>
+                                            <div class="form-check form-switch form-switch-md">
+                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                                <label class="form-check-label" for="flexSwitchCheckDefault"> 켜짐</label>
+                                            </div>
+
                                         </div>
-
                                     </div>
-                                </div>
 
-                                <div class="row col-12 mb-2">
-                                    <div class="col-5">인터넷(IOT_03)</div>
-                                    <div class="col-7">
+                                    <div class="row col-12 mb-2">
+                                        <div class="col-5">인터넷(IOT_03)</div>
+                                        <div class="col-7">
 
-                                        <div class="form-check form-switch form-switch-md">
-                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                            <label class="form-check-label" for="flexSwitchCheckDefault"> 켜짐</label>
+                                            <div class="form-check form-switch form-switch-md">
+                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                                <label class="form-check-label" for="flexSwitchCheckDefault"> 켜짐</label>
+                                            </div>
+
                                         </div>
-
                                     </div>
-                                </div>
 
-                                <div class="row col-12 mb-2">
-                                    <div class="col-5">환풍기(IOT_04)</div>
-                                    <div class="col-7">
+                                    <div class="row col-12 mb-2">
+                                        <div class="col-5">환풍기(IOT_04)</div>
+                                        <div class="col-7">
 
-                                        <div class="form-check form-switch form-switch-md">
-                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                            <label class="form-check-label" for="flexSwitchCheckDefault"> 켜짐</label>
+                                            <div class="form-check form-switch form-switch-md">
+                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                                <label class="form-check-label" for="flexSwitchCheckDefault"> 켜짐</label>
+                                            </div>
+
                                         </div>
-
                                     </div>
-                                </div>
-
-                                <div class="col-12 text-center">
-                                    <button type="submit" class="btn btn-warning px-5">확인</button>
-                                </div>
-
-
-                            </form>
-
-                        </div>
-
-                        <div class="tab-pane fade" id="seatLevelPrice1" role="tabpanel">
-
-                            <div>
-                                <div style="width:100%;text-align:left; font-size:12pt;padding:10px;color:#d07070">1시간을 기준으로 요금표 만들기</div>
-
-                                <table class="table mb-0">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col" class="col-2 text-center">#</th>
-                                        <th scope="col" class="col-3 text-center">합계</th>
-                                        <th scope="col" class="col-3 text-center">독서실요금</th>
-                                        <th scope="col" class="col-3 text-center">스터디룸요금</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row" rowspan="2">기본</th>
-                                        <td class=" text-center"><input type="number" class="in_price student total col-12" id="price_student_A_t" name="seat_price[student][A][T]" value="" placeholder="학생 요금"></td>
-                                        <td class=" text-center"><input type="number" class="in_price student rroom col-12" id="price_student_A_r" name="seat_price[student][A][R]" value="" placeholder="학생 독서실요금"></td>
-                                        <td class=" text-center"><input type="number" class="in_price student sroom col-12" id="price_student_A_s" name="seat_price[student][A][S]" value="" placeholder="학생 스터디룸 요금"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="number" class="in_price adult total col-12" id="price_adult_A_t" name="seat_price[adult][A][T]" value="" placeholder="성인 요금"></td>
-                                        <td><input type="number" class="in_price adult rroom col-12" id="price_adult_A_r" name="seat_price[adult][A][R]" value="" placeholder="성인 독서실요금"></td>
-                                        <td><input type="number" class="in_price adult sroom col-12" id="price_adult_A_s" name="seat_price[adult][A][S]" value="" placeholder="성인 스터디룸 요금"></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" rowspan="2">신규</th>
-                                        <td class=" text-center"><input type="number" class="in_price student total col-12" id="price_student_N_t" name="seat_price[student][N][T]" value="" placeholder="학생 요금"></td>
-                                        <td class=" text-center"><input type="number" class="in_price student rroom col-12" id="price_student_N_r" name="seat_price[student][N][R]" value="" placeholder="학생 독서실요금"></td>
-                                        <td class=" text-center"><input type="number" class="in_price student sroom col-12" id="price_student_N_s" name="seat_price[student][N][S]" value="" placeholder="학생 스터디룸 요금"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="number" class="in_price adult total col-12" id="price_adult_N_t" name="seat_price[adult][N][T]" value="" placeholder="성인 요금"></td>
-                                        <td><input type="number" class="in_price adult rroom col-12" id="price_adult_N_r" name="seat_price[adult][N][R]" value="" placeholder="성인 독서실요금"></td>
-                                        <td><input type="number" class="in_price adult sroom col-12" id="price_adult_N_s" name="seat_price[adult][N][S]" value="" placeholder="성인 스터디룸 요금"></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" rowspan="2">연장</th>
-                                        <td class=" text-center"><input type="number" class="in_price student total col-12" id="price_student_X_t" name="seat_price[student][X][T]" value="" placeholder="학생 요금"></td>
-                                        <td class=" text-center"><input type="number" class="in_price student rroom col-12" id="price_student_X_r" name="seat_price[student][X][R]" value="" placeholder="학생 독서실요금"></td>
-                                        <td class=" text-center"><input type="number" class="in_price student sroom col-12" id="price_student_X_s" name="seat_price[student][X][S]" value="" placeholder="학생 스터디룸 요금"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="number" class="in_price adult total col-12" id="price_adult_X_t" name="seat_price[adult][X][T]" value="" placeholder="성인 요금"></td>
-                                        <td><input type="number" class="in_price adult rroom col-12" id="price_adult_X_r" name="seat_price[adult][X][R]" value="" placeholder="성인 독서실요금"></td>
-                                        <td><input type="number" class="in_price adult sroom col-12" id="price_adult_X_s" name="seat_price[adult][X][S]" value="" placeholder="성인 스터디룸 요금"></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" colspan="2">1시간당 할인율</th>
-                                        <td class=" text-center">
-                                            <input type="number" class="in_price student rroom col-12 mb-2" id="rate_student" name="rate_student" value="" placeholder="학생할인율">
-                                            <input type="number" class="in_price student sroom col-12 mb-2" id="rate_adult" name="rate_adult" value="" placeholder="성인할인율">
-                                        </td>
-                                        <td class=" text-center"></td>
-                                    </tr>
-
-                                    </tbody>
-                                </table>
-
-                                <div class="row justify-content-center my-3">
-                                    <button type="button" class="btn btn-primary col-5">생성</button>
-                                </div>
 
                             </div>
 
                         </div>
-                        <div class="tab-pane fade" id="seatLevelPrice2" role="tabpanel">
-                            <div style="width:100%;text-align:left; font-size:12pt;padding:10px;color:#d07070">1일차를 기준으로 요금표 만들기</div>
 
-                            <table class="table mb-0">
-                                <thead>
-                                <tr>
-                                    <th scope="col" class="col-2 text-center">#</th>
-                                    <th scope="col" class="col-3 text-center">합계</th>
-                                    <th scope="col" class="col-3 text-center">독서실요금</th>
-                                    <th scope="col" class="col-3 text-center">스터디룸요금</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th scope="row" rowspan="2">기본</th>
-                                    <td class=" text-center"><input type="number" class="in_price student total col-12" id="price_student_A_t" name="seat_price[student][A][T]" value="" placeholder="학생 요금"></td>
-                                    <td class=" text-center"><input type="number" class="in_price student rroom col-12" id="price_student_A_r" name="seat_price[student][A][R]" value="" placeholder="학생 독서실요금"></td>
-                                    <td class=" text-center"><input type="number" class="in_price student sroom col-12" id="price_student_A_s" name="seat_price[student][A][S]" value="" placeholder="학생 스터디룸 요금"></td>
-                                </tr>
-                                <tr>
-                                    <td><input type="number" class="in_price adult total col-12" id="price_adult_A_t" name="seat_price[adult][A][T]" value="" placeholder="성인 요금"></td>
-                                    <td><input type="number" class="in_price adult rroom col-12" id="price_adult_A_r" name="seat_price[adult][A][R]" value="" placeholder="성인 독서실요금"></td>
-                                    <td><input type="number" class="in_price adult sroom col-12" id="price_adult_A_s" name="seat_price[adult][A][S]" value="" placeholder="성인 스터디룸 요금"></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" rowspan="2">신규</th>
-                                    <td class=" text-center"><input type="number" class="in_price student total col-12" id="price_student_N_t" name="seat_price[student][N][T]" value="" placeholder="학생 요금"></td>
-                                    <td class=" text-center"><input type="number" class="in_price student rroom col-12" id="price_student_N_r" name="seat_price[student][N][R]" value="" placeholder="학생 독서실요금"></td>
-                                    <td class=" text-center"><input type="number" class="in_price student sroom col-12" id="price_student_N_s" name="seat_price[student][N][S]" value="" placeholder="학생 스터디룸 요금"></td>
-                                </tr>
-                                <tr>
-                                    <td><input type="number" class="in_price adult total col-12" id="price_adult_N_t" name="seat_price[adult][N][T]" value="" placeholder="성인 요금"></td>
-                                    <td><input type="number" class="in_price adult rroom col-12" id="price_adult_N_r" name="seat_price[adult][N][R]" value="" placeholder="성인 독서실요금"></td>
-                                    <td><input type="number" class="in_price adult sroom col-12" id="price_adult_N_s" name="seat_price[adult][N][S]" value="" placeholder="성인 스터디룸 요금"></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" rowspan="2">연장</th>
-                                    <td class=" text-center"><input type="number" class="in_price student total col-12" id="price_student_X_t" name="seat_price[student][X][T]" value="" placeholder="학생 요금"></td>
-                                    <td class=" text-center"><input type="number" class="in_price student rroom col-12" id="price_student_X_r" name="seat_price[student][X][R]" value="" placeholder="학생 독서실요금"></td>
-                                    <td class=" text-center"><input type="number" class="in_price student sroom col-12" id="price_student_X_s" name="seat_price[student][X][S]" value="" placeholder="학생 스터디룸 요금"></td>
-                                </tr>
-                                <tr>
-                                    <td><input type="number" class="in_price adult total col-12" id="price_adult_X_t" name="seat_price[adult][X][T]" value="" placeholder="성인 요금"></td>
-                                    <td><input type="number" class="in_price adult rroom col-12" id="price_adult_X_r" name="seat_price[adult][X][R]" value="" placeholder="성인 독서실요금"></td>
-                                    <td><input type="number" class="in_price adult sroom col-12" id="price_adult_X_s" name="seat_price[adult][X][S]" value="" placeholder="성인 스터디룸 요금"></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" colspan="2">1시간당 할인율</th>
-                                    <td class=" text-center">
-                                        <input type="number" class="in_price student rroom col-12 mb-2" id="rate_student" name="rate_student" value="" placeholder="학생할인율">
-                                        <input type="number" class="in_price student sroom col-12 mb-2" id="rate_adult" name="rate_adult" value="" placeholder="성인할인율">
-                                    </td>
-                                    <td class=" text-center"></td>
-                                </tr>
-
-                                </tbody>
-                            </table>
-
-                            <div class="row justify-content-center my-3">
-                                <button type="button" class="btn btn-primary col-5">생성</button>
-                            </div>
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-warning px-5">확인</button>
                         </div>
-                    </div>
 
+                    </form>
 
 
 
@@ -1806,6 +1654,8 @@
     </div>
 </div>
 
+
+
 <!--end switcher-->
 <!-- Bootstrap JS -->
 <script src="/assets/js/bootstrap.bundle.min.js"></script>
@@ -1968,8 +1818,6 @@
         var member_search_mode = "";
         var nextStepBuyProudct = "";
 
-
-
         $(document).ready(function(){
             $.ajaxSetup({
                 headers: {
@@ -1977,6 +1825,18 @@
                 }
             });
             
+
+            // 긴급IOT 띄우기
+            
+            $(document).on("click",".btn_util_iotControll",function(){
+                getAllIOT();
+            });
+
+            // 강제예약
+            $(document).on("click",".btn_entrance",function(){
+                EntranceState();
+            });            
+
             // 회원정보 띄우기
             $(document).on("click",".btn_member_register",function(){
                 mreg_next_mode = true;
@@ -2273,10 +2133,93 @@
                 status = $(this).prop("checked") ? "O" : "F";
 
                 manager_publish(iot_no,dev_no,status);
-
             });
 
+
+
+  
+
         });
+
+
+        
+        // 예약상태가져오기
+        function getAllIOT() {
+
+            $.ajax({
+                url: '/setting/iot/get_all',
+                type: 'POST',
+                async: true,
+                beforeSend: function (xhr) {
+
+                },
+                //data: req,
+                success: function (res, textStatus, xhr) {
+                    $("#iotInfo").empty();
+                    if( res.iots ) {
+
+                        res.iots.forEach(function (item, index, array) {
+                            console.log("IOT 정보 ");
+                            console.log(item);
+
+                            var html = ''
+                            html += '<div class="row col-12 mb-2 iot_dev" dev="'+item.i_iot1+'" iot="'+item.i_iot2+'">';
+                            html += '    <div class="col-5">'+item.i_name+'</div>';
+                            html += '    <div class="col-7">';
+                            html += '        <div class="form-check form-switch form-switch-md">';
+                            html += '            <input class="form-check-input iot_check" type="checkbox" id="iot_'+item.i_iot2+'" value="Y">';
+                            html += '            <label class="form-check-label" for="iot_'+item.i_iot2+'"> 켜짐</label>';
+                            html += '        </div>';
+                            html += '        <div id="iot_1_msg"></div>';
+                            html += '    </div>';
+                            html += '</div>';
+                            $("#iotInfo").append(html);
+                        })          
+
+                        var iot_no = 0;
+                        var dev_no = 0;                        
+
+                        // 상태확인
+                        res.iots.forEach(function (item, index, array) {
+                            console.log("IOT 장비 : "+item.i_iot1+' / '+item.i_iot2 + "추가");
+
+                            var html = ''
+                            html += '<div class="row col-12 mb-2 iot_dev" dev="'+item.i_iot1+'" iot="'+item.i_iot2+'">';
+                            html += '    <div class="col-5">'+item.i_name+'</div>';
+                            html += '    <div class="col-7">';
+                            html += '        <div class="form-check form-switch form-switch-md">';
+                            html += '            <input class="form-check-input iot_check" type="checkbox" id="iot_'+item.i_iot2+'" value="Y">';
+                            html += '            <label class="form-check-label" for="iot_'+item.i_iot2+'"> 켜짐</label>';
+                            html += '        </div>';
+                            html += '        <div id="iot_1_msg"></div>';
+                            html += '    </div>';
+                            html += '</div>';
+                            $("#iotInfo").append(html);
+                            console.log("IOT 장비 : "+item.i_iot1+' / '+item.i_iot2 + "추가완료");
+
+                            iot_no = item.i_iot1;
+                            dev_no = item.i_iot2;
+                            
+                        })   
+                                       
+                            manager_subscribe(iot_no,dev_no);                      
+
+                    } else {
+
+                    }       
+
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(xhr);
+                    console.log(xhr.responseJSON.file);
+                    console.log(xhr.responseJSON.line);
+                    console.log(xhr.responseJSON.message);
+                }
+            });
+
+            
+        }
+
 
 
         // 예약상태가져오기
@@ -2311,16 +2254,43 @@
             });
         }
 
+        // 예약상태변경(강제입실)
+        function EntranceState() {
+
+            var form = $('#form_entrance')[0];
+            var formData = new FormData(form);   
+            $.ajax({
+                url: '/reservation/reserveEntranceState',
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                processData: false,
+                contentType: false,
+                data: formData,
+                type: 'POST',
+                //data: req,
+                success: function (res, textStatus, xhr) {
+                    console.log(res);
+                    if (res.result == true) {
+                        document.location.reload();
+                    } else {
+                        $("#eventDetail_msg").html(xhr.message);
+                    }
+                },   
+                error: function (xhr, textStatus, errorThrown) {
+                    $("#eventDetail_msg").html(xhr.responseJSON.message);
+                }
+            });
+        }
+
 
         // 시작시간
         function manager_publish(iot_no,dev_no,status){
 
             formData = new FormData();
-
             formData.append("iot_no",iot_no );
             formData.append("dev_no",dev_no );
             formData.append("status",status );
 
+            console.log("IOT AJAX 으로 호출.."+iot_no+"..."+dev_no+"..."+status);
             $.ajax({
                 url: '/mqtt/publish',
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -2330,6 +2300,7 @@
                 type: 'POST',
                 //data: req,
                 success: function (res, textStatus, xhr) {
+                    console.log("IOT 결과..");
                     console.log(res);
 
                 },           
@@ -2337,6 +2308,32 @@
             });
         }
 
+
+
+        // MQTT 상태조회
+        function manager_subscribe(iot_no,dev_no){
+            console.log("mqtt 상태확인");
+
+            formData = new FormData();
+            formData.append("iot_no",iot_no );
+
+            $.ajax({
+                url: '/mqtt/subscribe/'+dev_no+"/"+iot_no,
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                processData: false,
+                contentType: false,
+                data: formData,
+                type: 'POST',
+                async: false,
+                //data: req,
+                success: function (res, textStatus, xhr) {
+                    console.log("mqtt 상태확인 리턴정보");
+                    console.log(res);
+
+                },           
+  
+            });
+        }
 
         // 시작시간
         function resetLastTime(){
@@ -2840,6 +2837,14 @@
 
                     current_rv = res.currentReserve.rv_no
 
+                    if( res.currentReserve.rv_state == "A") {
+                        $("#currentState").html('<span class="btn btn-xs btn-secondary">예약중</span>')
+                    } else if( res.currentReserve.rv_state == "U") {
+                        $("#currentState").html('<span class="btn btn-xs btn-success">사용중</span>')
+                    } else {
+                        $("#currentState").html('<span class="btn btn-xs btn-secondary">상태없음</span>')
+                    }
+
                     if( res.currentReserve.rv_memo ) {
                         $("#seatReservFormModal #seatCurrentMemo").html(res.currentReserve.rv_memo); 
                     } else {
@@ -2847,13 +2852,18 @@
                     }
 
                     if( res.currentReserve ) {
+
+                        $("#form_entrance input[name='rv']").val(res.currentReserve.rv_no);
                         $("#seatCurrentUserName").html(res.currentReserve.rv_member_name);
                         $("#seatCurrentSdate").html(res.currentReserve.rv_sdate);
                         $("#seatCurrentEdate").html(res.currentReserve.rv_edate);
+
                     } else {
+
                         $("#seatCurrentUserName").html("예약없음");
                         $("#seatCurrentSdate").html("예약없음");
                         $("#seatCurrentEdate").html("예약없음");
+
                     }
 
 
@@ -2922,6 +2932,16 @@
                             html += '</div>';
 
                             $("#seatIotInfo").append(html);
+
+                            iot_no = item.no;
+                            dev_no = item.dev;
+
+
+                            iot_no = item.no;
+                            dev_no = item.dev;
+
+
+                            manager_subscribe(iot_no,dev_no);  
                         })                        
 
                     } else {

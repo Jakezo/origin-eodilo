@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Partner;
 use App\Http\Controllers\Controller;
 use App\Models\FrenchProductOrder;
 use App\Models\FrenchReservSeat;
+use App\Models\MobileReservSeat;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -63,7 +64,7 @@ class FrenchHistoryController extends Controller
             }
         })
         ->leftjoin('french_members', 'french_members.mb_no', '=', 'french_product_orders.o_member')
-        ->orderBy("o_no","desc")->paginate(6);
+        ->orderBy("o_no","desc")->paginate(20);
 
         $data['productType'] = Config::get('product.productType');
 
@@ -127,7 +128,7 @@ class FrenchHistoryController extends Controller
         ->leftjoin('french_members', 'french_members.mb_no', '=', 'french_reserv_seats.rv_member')
         ->leftjoin('french_rooms', 'french_rooms.r_no', '=', 'french_reserv_seats.rv_room')
         ->leftjoin('french_seats', 'french_seats.s_no', '=', 'french_reserv_seats.rv_seat')
-        ->orderBy("rv_no","desc")->paginate(6);
+        ->orderBy("rv_no","desc")->paginate(20);
 
         $data['productType'] = Config::get('product.productType');
 
@@ -145,13 +146,22 @@ class FrenchHistoryController extends Controller
 
         for( $i = 0; $i<=count($data["reservs"])-1; $i++ ) {
 
-            if( $data["reservs"][$i]["rv_sdate"] > $now ) {
-                $data["reservs"][$i]["rv_state"] = "R";
-            } elseif( $data["reservs"][$i]["rv_sdate"] >= $now &&  $data["reservs"][$i]["rv_edate"] <= $now  ) {
-                $data["reservs"][$i]["rv_state"] = "U";                
-            } elseif( $data["reservs"][$i]["rv_edate"] <= $now ) {
-                $data["reservs"][$i]["rv_state"] = "X";                
+            // if( $data["reservs"][$i]["rv_sdate"] > $now ) {
+            //     $data["reservs"][$i]["rv_state"] = "예약";
+            // } elseif( $data["reservs"][$i]["rv_sdate"] >= $now &&  $data["reservs"][$i]["rv_edate"] <= $now  ) {
+            //     $data["reservs"][$i]["rv_state"] = "사용중";                
+            // } elseif( $data["reservs"][$i]["rv_edate"] <= $now ) {
+            //     $data["reservs"][$i]["rv_state"] = "종료";                
+            // } 
+
+            if( $data["reservs"][$i]["rv_state"] == "A" ) {
+                $data["reservs"][$i]["rv_state_text"] = "예약";
+            } elseif( $data["reservs"][$i]["rv_state"] == "U"  ) {
+                $data["reservs"][$i]["rv_state_text"] = "사용중";                
+            } elseif( $data["reservs"][$i]["rv_state"] == "X" ) {
+                $data["reservs"][$i]["rv_state_text"] = "종료";                
             } 
+
         }
             
             
