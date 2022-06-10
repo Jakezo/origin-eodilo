@@ -22,6 +22,7 @@ use App\Http\Controllers\Partner_ReviewController;
 use App\Http\Controllers\PartnerCouponController;
 use App\Http\Controllers\StandardProductController;
 use App\Http\Controllers\StandardPriceController;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\VodboardController;
 use App\Http\Controllers\HelpboardController;
 use App\Http\Controllers\UserMessageController;
@@ -226,6 +227,8 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
                 return view('admin.statistics.month');
             });
 
+            Route::get('/cashbuy', [StatisticsController::class, 'cashbuy']);
+
         });
 
         Route::prefix('/calculate')->group(function () {
@@ -393,6 +396,7 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
         Route::prefix('/statistics')->group(function () {
             Route::any('/day', [FrenchStatisticsController::class, 'sales_day']); // 일매출
             Route::any('/month', [FrenchStatisticsController::class, 'sales_month']); // 월매출
+            
         });
 
         Route::prefix('/calculate')->group(function () {

@@ -72,6 +72,8 @@
             </li>
             <li> <a href="/statistics/month"><i class="bx bx-right-arrow-alt"></i>월별매출내역</a>
             </li>
+            <li> <a href="/statistics/cashbuy"><i class="bx bx-right-arrow-alt"></i>캐쉬구매내역</a>
+            </li>
         </ul>
     </li>
     <li>

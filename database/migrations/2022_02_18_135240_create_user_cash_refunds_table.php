@@ -21,7 +21,7 @@ class CreateUserCashRefundsTable extends Migration
             $table->char('cr_refund',1)->default('N')->comment('구매/결제여부');
             $table->Integer('cr_manager',)->default(0)->comment('담당자');
             $table->string('cr_bank',50)->default('')->comment('환불계좌은행');
-            $table->string('cr_back_account',50)->default('')->comment('환불계좌번호');
+            $table->string('cr_bank_account',50)->default('')->comment('환불계좌번호');
             $table->SoftDeletes();            
             $table->timestamps();
         });
