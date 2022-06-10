@@ -51,13 +51,13 @@
                                             <option value="">현금결제</option>
                                         </select>
                                     </div>
-                                    <div class="col-lg-1 col-md-1 col-sm-3 col-xs-12 mt-1">
+                                    <div class="col-lg-2 col-md-1 col-sm-3 col-xs-12 mt-1">
                                         <input type="text" name="sdate" id="sdate" value="" placeholder="기간시작일" class="form-control form-control-sm datepicker col-12">
                                     </div>
-                                    <div class="col-lg-1 col-md-1 col-sm-3 col-xs-12 mt-1">
+                                    <div class="col-lg-2 col-md-1 col-sm-3 col-xs-12 mt-1">
                                         <input type="text" name="edate" id="edate" value="" placeholder="기간종료일" class="form-control form-control-sm datepicker col-12">
                                     </div>
-                                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 mt-1">
+                                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 mt-1">
                                         <div class="col-12">
                                             <a href="javascript:;" class="btn btn-secondary btn-sm col" onclick="$('#sdate').val('{{ date("Y-m-d") }}');$('#edate').val('<?=date('Y-m-d')?>');">금일</a>
                                             <a href="javascript:;" class="btn btn-secondary btn-sm col" onclick="$('#sdate').val('{{ date("Y-m-01") }}');$('#edate').val('<?=date('Y-m-t')?>');">이달</a>

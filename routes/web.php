@@ -27,7 +27,7 @@ use App\Http\Controllers\VodboardController;
 use App\Http\Controllers\HelpboardController;
 use App\Http\Controllers\UserMessageController;
 use App\Http\Controllers\UserBuyController;
-
+use App\Http\Controllers\UserCashController;
 use App\Http\Controllers\ReserveController;
 
 use App\Http\Controllers\Partner\FrenchMainController;
@@ -210,9 +210,10 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
             Route::any('/user_customs', [UserController::class, 'customs']);            
             //Route::any('/popupInfo', [FrenchMemberController::class, 'viewInfo']);
             
-            Route::get('/refund', function () {
-                return view('admin.member.refund_list');
-            });
+            Route::get('/refund', [UserCashController::class, 'refund']);  
+            Route::post('/refund/getInfo', [UserCashController::class, 'refund_getInfo']);  
+            Route::post('/refund/update', [UserCashController::class, 'refund_update']);  
+
         });
 
         Route::prefix('/statistics')->group(function () {
