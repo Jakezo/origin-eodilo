@@ -188,10 +188,6 @@ class UserController extends Controller
             if( $response !== FALSE ) {
                     $json = json_decode($contents); 
 
-                    // $table->char('a_send',1)->default('N')->comment('전송여부');
-                    // $table->char('a_receive',1)->default('N')->comment('발송여부');
-                    // $table->string('a_multicast_id',50)->default('')->comment('메세지묶음구분');
-                    // $table->string('a_message_id',50)->default('')->comment('메세지아이디');           
                     $UserAlarm = new \App\Models\UserAlarm;
                     $UserAlarm->a_member = $user->id ?? 0;
                     $UserAlarm->a_kind = "P";
@@ -200,14 +196,15 @@ class UserController extends Controller
                     $UserAlarm->a_multicast_id = $json->multicast_id;
                     //$UserAlarm->a_canolical_ids = $json->canolical_ids;
 
-                    $UserAlarm->a_message_id = $json->results[0]->message_id;
 
                     if( $json->success == 1 ) {
                         $UserAlarm->a_send = "Y";
+                        $UserAlarm->a_message_id = urldecode($json->results[0]->message_id);
                     } else {
                         $UserAlarm->a_send = "N";
+                        $UserAlarm->a_message_id = 0;
                     }
-                        $UserAlarm->save();
+                    $UserAlarm->save();
 
             
             } else {
@@ -260,6 +257,100 @@ class UserController extends Controller
         }
         return view('admin.member.userView', $data);
     }
+
+    ## 구매내역
+    public function alarm_list(Request $request){
+
+        $data["result"] = true;
+        $data["alarms"] = [];
+
+
+            $data["alarms"] = \App\Models\UserAlarm::select("user_alarms.*","users.id", "users.name")
+            ->where(function ($query) use ($request) {
+                if ($request->q) {
+                        $query->where("users.name", "like", "%" . $request->q . "%")
+                        ->orwhere("users.nickname", "like", "%" . $request->q . "%")
+                        ->orwhere("users.email", "like", "%" . $request->q . "%");
+                }
+                if ($request->sdate) {
+                    $query->where( DB::raw("date_format(user_alarms.created_at,'%Y-%m-%d')"),  ">=", $request->sdate);
+                }
+                if ($request->edate) {
+                    $query->where( DB::raw("date_format(user_alarms.created_at,'%Y-%m-%d')"),  "<=", $request->edate);
+                }
+                if ($request->kind) {
+                        $query->where("a_kind", $request->kind);
+                }            
+
+            })
+            ->leftjoin('users', 'users.id', '=', 'user_alarms.a_member')
+            ->orderBy("a_no","desc")->paginate(10);
+    
+            $data['productType'] = Config::get('product.productType');
+    
+            $data['start'] = $data["alarms"]->total() - $data["alarms"]->perPage() * ($data["alarms"]->currentPage() - 1);
+            $data['total'] = $data["alarms"]->total();
+            $data['param'] = [
+                'id' => $request->id, 
+                'sdate' => $request->sdate, 
+                'edate' => $request->edate,  
+                'kind' => $request->kind,             
+                'fd' => $request->fd, 
+                'q' => $request->q];
+
+
+        return view('admin.member.alarm_list', $data);
+
+    }    
+
+
+    ## 구매내역
+    public function alarms(Request $request){
+
+        $data["result"] = true;
+        $data["alarms"] = [];
+        $data["user"] = $this->user::where("id",  $request->id)->first();
+        if( $data["user"] ) {
+
+            $data["alarms"] = \App\Models\UserAlarm::select("user_alarms.*","users.id", "users.name")
+            ->where("a_member",$data["user"]["id"])
+            ->where(function ($query) use ($request) {
+                if ($request->q) {
+                        $query->where("users.name", "like", "%" . $request->q . "%")
+                        ->orwhere("users.nickname", "like", "%" . $request->q . "%")
+                        ->orwhere("users.email", "like", "%" . $request->q . "%");
+                }
+                if ($request->sdate) {
+                    $query->where( DB::raw("date_format(user_alarms.created_at,'%Y-%m-%d')"),  ">=", $request->sdate);
+                }
+                if ($request->edate) {
+                    $query->where( DB::raw("date_format(user_alarms.created_at,'%Y-%m-%d')"),  "<=", $request->edate);
+                }
+                if ($request->kind) {
+                        $query->where("a_kind", $request->kind);
+                }            
+
+            })
+            ->leftjoin('users', 'users.id', '=', 'user_alarms.a_member')
+            ->orderBy("a_no","desc")->paginate(10);
+    
+            $data['productType'] = Config::get('product.productType');
+    
+            $data['start'] = $data["alarms"]->total() - $data["alarms"]->perPage() * ($data["alarms"]->currentPage() - 1);
+            $data['total'] = $data["alarms"]->total();
+            $data['param'] = [
+                'id' => $request->id, 
+                'sdate' => $request->sdate, 
+                'edate' => $request->edate,  
+                'kind' => $request->kind,             
+                'fd' => $request->fd, 
+                'q' => $request->q];
+
+        } else {
+
+        }
+        return view('admin.member.userAlarms', $data);
+    }    
 
     ## 구매내역
     public function products(Request $request){

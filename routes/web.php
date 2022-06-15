@@ -201,7 +201,7 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
             Route::get('/list',  [UserController::class, 'index']);            
             Route::get('/form/{id?}',  [UserController::class, 'form']);
             Route::any('/update', [UserController::class, 'update']);
-            Route::get('/sms', [UserMessageController::class, 'index']);
+            Route::get('/alarm', [UserController::class, 'alarm_list']);
 
             Route::any('/user_info', [UserController::class, 'info']); 
             Route::any('/user_push_sender', [UserController::class, 'push_sender']); 
@@ -210,6 +210,7 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
             Route::any('/user_buyProducts', [UserController::class, 'products']);   
             Route::any('/user_reserveSeats', [UserController::class, 'reserves']);     
             Route::any('/user_cashes', [UserController::class, 'cashes']);  
+            Route::any('/user_alarms', [UserController::class, 'alarms']);  
             Route::any('/user_customs', [UserController::class, 'customs']);            
             //Route::any('/popupInfo', [FrenchMemberController::class, 'viewInfo']);
             

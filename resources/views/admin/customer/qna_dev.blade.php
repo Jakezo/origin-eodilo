@@ -68,7 +68,7 @@
                             </form>
                         </div>
                         <div class="card-body">
-                            <div>총 {{ isset($total) ? number_format($total) : '' }} 건  <a target="_blank" href="https://docs.google.com/spreadsheets/d/12_MjxFUjM7NzJccwLXPbIDHyVJHg5ypjELY57UBHC3Q/edit?usp=sharing" class="btn btn-success">어디로 개발 IA</a></div>
+                            <div>총 {{ isset($total) ? number_format($total) : '' }} 건  <a target="_blank" href="https://docs.google.com/spreadsheets/d/1_7Yqo8GRJl6bt7lx_mUSwbxJ8yNiAXq7XfPJfXPtM_o/edit?usp=sharing" class="btn btn-success">어디로 개발 IA</a></div>
                             <table class="table mb-0 table-striped">
                                 <thead>
                                 <tr>

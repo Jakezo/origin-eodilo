@@ -63,7 +63,7 @@
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#primaryalarm" role="tab" aria-selected="false">
+                    <a class="nav-link" href="/member/user_alarms?id={{ $user['id'] }}" role="tab" aria-selected="false">
                         <div class="d-flex align-items-center">
                             <div class="tab-icon"><i class="bx bxs-microphone font-18 me-1"></i>
                             </div>
@@ -117,55 +117,67 @@
 						</div>
 						<div style="clear:both"></div>
 	
-						<div class="form-group mt-2">
-							<label for="aid" class="col-sm-12 control-label">옵션파라미터1</label>
-							<div class="col-sm-12 row">
-								<div class="col">
-									<input type="text" name="pkey[]" value="" placeholder="키" class="form-control form-control-sm">
-								</div>
-								<div class="col">
-									<input type="text" name="pval[]" value="" placeholder="값" class="form-control form-control-sm">
-								</div>
-							</div>						
-						</div>
-						<div class="form-group mt-2">
-							<label for="aid" class="col-sm-12 control-label">옵션파라미터2</label>
-							<div class="col-sm-12 row">
-								<div class="col">
-									<input type="text" name="pkey[]" value="" placeholder="키" class="form-control form-control-sm">
-								</div>
-								<div class="col">
-									<input type="text" name="pval[]" value="" placeholder="값" class="form-control form-control-sm">
-								</div>
-							</div>						
-						</div>
-						<div class="form-group mt-2">
-							<label for="aid" class="col-sm-12 control-label">옵션파라미터3</label>
-							<div class="col-sm-12 row">
-								<div class="col">
-									<input type="text" name="pkey[]" value="" placeholder="키" class="form-control form-control-sm">
-								</div>
-								<div class="col">
-									<input type="text" name="pval[]" value="" placeholder="값" class="form-control form-control-sm">
-								</div>
-							</div>						
-						</div>
-						<div class="form-group mt-2">
-							<label for="aid" class="col-sm-12 control-label">중요도</label>
-							<div class="col-sm-12 row">
-								<div class="btn-group btn-group-sm" role="group">
-									<input type="radio" class="btn-check" name="priority" id="priority_H" value="high" checked="checked">
-									<label class="btn btn-outline-primary" for="priority_H">높음</label>
-									<input type="radio" class="btn-check" name="priority" id="priority_M" value="normal">
-									<label class="btn btn-outline-primary" for="priority_M">보통</label>
-								</div>
-							</div>						
-						</div>
-						<div class="col-sm-12 mt-3" id="pushDetail_msg">토큰 : {{ $user['push_token'] }}</div>
-	
-						<div class="form-group mt-2">
-							<button type="button" onclick="app_push()" class="btn btn-sm btn-primary" id="btn_admin_update">확인</button>	
-						</div>
+
+                          <p>
+                            <a class="btn btn-secondary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                옵션사용
+                              </a>                            
+
+                          </p>
+                          <div class="collapse" id="collapseExample">
+                            <div class="form-group mt-2">
+                                <label for="aid" class="col-sm-12 control-label">옵션파라미터1</label>
+                                <div class="col-sm-12 row">
+                                    <div class="col">
+                                        <input type="text" name="pkey[]" value="" placeholder="키" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" name="pval[]" value="" placeholder="값" class="form-control form-control-sm">
+                                    </div>
+                                </div>						
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="aid" class="col-sm-12 control-label">옵션파라미터2</label>
+                                <div class="col-sm-12 row">
+                                    <div class="col">
+                                        <input type="text" name="pkey[]" value="" placeholder="키" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" name="pval[]" value="" placeholder="값" class="form-control form-control-sm">
+                                    </div>
+                                </div>						
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="aid" class="col-sm-12 control-label">옵션파라미터3</label>
+                                <div class="col-sm-12 row">
+                                    <div class="col">
+                                        <input type="text" name="pkey[]" value="" placeholder="키" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" name="pval[]" value="" placeholder="값" class="form-control form-control-sm">
+                                    </div>
+                                </div>						
+                            </div>
+                          </div>
+
+                            <div class="col-sm-12 mt-3" id="pushDetail_msg">토큰 : {{ substr($user['push_token'],0,20) }} .. {{ substr($user['push_token'],strlen($user['push_token'])-20,20) }}</div>
+
+                            <div class="form-group mt-2">
+                                <div class="col-sm-12 row">
+                                    <div class="col">
+                                        <label class="form-label col-12">중요도</label>
+                                        <div class="form-check-inline col-12">
+                                            <input type="radio" class="form-check-input" name="priority" id="priority_H" value="high" checked="checked"> 높음
+                                            <input type="radio" class="form-check-input" name="priority" id="priority_M" value="normal"> 보통
+                                        </div>
+                                    </div>
+                                    <div class="col d-grid gap-2">
+                                        <button type="button" onclick="app_push()" class="btn btn-md btn-primary col-xs-12" id="btn_admin_update">발송</button>	
+                                    </div>
+                                </div>						
+                            </div>
+
+
 
 						</form>
 
@@ -198,8 +210,11 @@
 				url	: "/member/user_push_proc", 
 				type: "post", 
 				data  : req, 
-				success: function(res) {					
+				success: function(res) {		
+					console.log(res)			
 					res_info = JSON.parse(res);
+					console.log(res_info)
+                    if( res_info )
 					console.log(res_info.results)
 					var msg = "";
 					msg += "multicast_id : " + res_info.multicast_id + ".<br>";

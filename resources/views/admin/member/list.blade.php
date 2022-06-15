@@ -47,7 +47,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-3 col-sm-5 col-xs-12 mt-1">
-                                        <input type="text" name="q" value="{{ isset($q) && $q }}" class="form-control form-control-sm col-12">
+                                        <input type="text" name="q" value="{{ $param['q'] ?? "" }}" class="form-control form-control-sm col-12">
                                     </div>
                                     <div class="col-md-2 col-sm-2 col-xs-6 mt-1">
                                         <button type="submit" class="btn btn-secondary px-2 btn-sm col-12">찾기</button>

@@ -55,7 +55,7 @@
         <ul>
             <li> <a href="/member/list"><i class="bx bx-right-arrow-alt"></i>회원관리</a>
             </li>
-            <li> <a href="/member/sms"><i class="bx bx-right-arrow-alt"></i>SMS발송</a>
+            <li> <a href="/member/alarm"><i class="bx bx-right-arrow-alt"></i>SMS발송</a>
             </li>
             <li> <a href="/member/refund"><i class="bx bx-right-arrow-alt"></i>환불신청</a>
             </li>

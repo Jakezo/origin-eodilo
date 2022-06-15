@@ -11,11 +11,7 @@
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
-                    @if( isset( $member['name'] ) )
-                    <li class="breadcrumb-item active" aria-current="page">{{ $member['name']  ?? '' }} ({{ $member['id']  ?? '' }})</li>
-                    @else
-                    <li class="breadcrumb-item active" aria-current="page">신규가입</li>
-                    @endif
+                    <li class="breadcrumb-item active" aria-current="page">{{ $user['nickname'] ?? ( $user['name'] ?? $user['email'] ) }} ({{ $user['id']  ?? '' }})</li>
                 </ol>
             </nav>
         </div>
@@ -67,7 +63,7 @@
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#primaryalarm" role="tab" aria-selected="false">
+                    <a class="nav-link" href="/member/user_alarms?id={{ $user['id'] }}" role="tab" aria-selected="false">
                         <div class="d-flex align-items-center">
                             <div class="tab-icon"><i class="bx bxs-microphone font-18 me-1"></i>
                             </div>
