@@ -204,6 +204,9 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
             Route::get('/sms', [UserMessageController::class, 'index']);
 
             Route::any('/user_info', [UserController::class, 'info']); 
+            Route::any('/user_push_sender', [UserController::class, 'push_sender']); 
+            Route::any('/user_push_proc', [UserController::class, 'push_proc']); 
+
             Route::any('/user_buyProducts', [UserController::class, 'products']);   
             Route::any('/user_reserveSeats', [UserController::class, 'reserves']);     
             Route::any('/user_cashes', [UserController::class, 'cashes']);  

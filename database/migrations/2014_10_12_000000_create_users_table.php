@@ -33,6 +33,7 @@ class CreateUsersTable extends Migration
             $table->string('memo')->default('')->comment('메모');
             $table->string('tags',10)->default('')->comment('태그');
             $table->rememberToken();
+            $table->string('push_token',255)->default('')->comment('푸쉬토큰');
             $table->SoftDeletes();
             $table->timestamps();
         });

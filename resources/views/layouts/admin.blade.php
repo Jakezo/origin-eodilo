@@ -1979,6 +1979,13 @@ function ajax_error(jsonData){
         window.open(url,"popup_user_"+ id,"width=1200,height=800")
     }
 
+    // 회원메세지발송    
+    function open_member_push( id ){
+        var url = "/member/user_push_sender?id=" + id;
+        window.open(url,"popup_user_"+ id,"width=1200,height=800")
+    }
+
+
 </script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 

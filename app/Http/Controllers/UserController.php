@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Custom;
+use App\Models\UserAlarm;
 
 class UserController extends Controller
 {
@@ -133,6 +134,106 @@ class UserController extends Controller
 
         return response($result);
     }
+
+
+    ## 푸쉬발송하기
+    public function push_proc(Request $request){
+
+        $data["result"] = true;
+        $user = $this->user::where("id",  $request->id)->first();
+        
+
+        if( $user ) {
+
+            if( $request->token ) {
+                $token = $request->token;
+            } else {
+                $token = $user->push_token;
+            }
+
+
+            $url = "https://fcm.googleapis.com/fcm/send";
+            $serverKey = '	AAAA-GcZL8g:APA91bGUrUi14FUUV949DJr6uh387gXv-G9D8ZIpxq4aV6aBfE4A_x_nCQB4GSAkmVylcCUEfuSwZgje6yt55SDCZPD4zocTiIJQf4Rf3UTgtI47NjU5OJoqXorm-Cv6cUZDP5HCpRHt';
+            $notification = array('title' => $request->title , 'body' => $request->body, 'sound' => 'default', 'badge' => '1');
+            
+            $data = [];
+            if( $request->pkey ) {
+                for( $i=0;$i<=count($request->pkey)-1;$i++){
+                        $data[$request->pkey[$i]] = $request->pval[$i];
+                }
+            } else {
+                $data = null;
+            }
+            
+            $arrayToSend = array('to' => $token, 'notification' => $notification, 'data' => $data,  'priority'=> ($request->priority ?? "high") );
+            $json = json_encode($arrayToSend);
+                     
+            $headers = array();
+            $headers[] = 'Content-Type: application/json';
+            $headers[] = 'Authorization: key='. $serverKey;
+            
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST,"POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+            curl_setopt($ch, CURLOPT_HTTPHEADER,$headers);
+            //curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+            //Send the request
+
+            ob_start();
+            $response = curl_exec($ch);
+            $contents = ob_get_contents();
+
+            //Close request
+            if( $response !== FALSE ) {
+                    $json = json_decode($contents); 
+
+                    // $table->char('a_send',1)->default('N')->comment('전송여부');
+                    // $table->char('a_receive',1)->default('N')->comment('발송여부');
+                    // $table->string('a_multicast_id',50)->default('')->comment('메세지묶음구분');
+                    // $table->string('a_message_id',50)->default('')->comment('메세지아이디');           
+                    $UserAlarm = new \App\Models\UserAlarm;
+                    $UserAlarm->a_member = $user->id ?? 0;
+                    $UserAlarm->a_kind = "P";
+                    $UserAlarm->a_title = $request->title;
+                    $UserAlarm->a_body = $request->body;
+                    $UserAlarm->a_multicast_id = $json->multicast_id;
+                    //$UserAlarm->a_canolical_ids = $json->canolical_ids;
+
+                    $UserAlarm->a_message_id = $json->results[0]->message_id;
+
+                    if( $json->success == 1 ) {
+                        $UserAlarm->a_send = "Y";
+                    } else {
+                        $UserAlarm->a_send = "N";
+                    }
+                        $UserAlarm->save();
+
+            
+            } else {
+                die(curl_error($ch));
+            }
+            curl_close($ch);
+            
+        } else {
+
+        }
+
+    }
+
+    ## 푸쉬발송폼
+    public function push_sender(Request $request){
+
+        $data["result"] = true;
+        $data["user"] = $this->user::where("id",  $request->id)->first();
+        if( $data["user"] ) {
+
+        } else {
+
+        }
+        return view('admin.member.userPushSender', $data);
+    }
+
 
     ## 정보변경폼
     public function info(Request $request){
@@ -272,7 +373,7 @@ class UserController extends Controller
     
                     }
                 })
-                ->orderBy("rv_no","desc")->paginate(1);
+                ->orderBy("rv_no","desc")->paginate(10);
     
             $data['query'] = $request->query;
             //$i = $this->board->perPage() * ($this->board->currentPage() - 1);

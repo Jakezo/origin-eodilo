@@ -80,7 +80,12 @@
                                     <th scope="row">{{ ($start - $ui) }}</th>
                                     <td>{{ $user['email'] }}</td>
                                     <td><i class="bx bx-mobile-alt"></i> {{ $user['nickname'] }} <i class="bx bx-tag-alt bxs-tag text-primary"></i></td>
-                                    <td>{{ $user['phone'] }}</td>
+                                    <td>{{ $user['phone'] }}
+                                        @if( strlen( $user['push_token'] ) > 10 )
+                                            <input type="button" class='btn btn-info btn-xs' value="Push" onclick="open_member_push('{{ $user['id'] }}')">
+                                        @endif
+
+                                    </td>
                                     <td>{{ $user['birth'] }} ( {{ $user['age'] }}, {{ $user['ageTypeText'] }} )</td>
                                     <td>{{ $user['sex'] }}</td>
                                     <td>{{ substr($user['login_last'],0,10) }}</td>
