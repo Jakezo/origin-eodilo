@@ -153,8 +153,13 @@ class UserController extends Controller
 
 
             $url = "https://fcm.googleapis.com/fcm/send";
-            $serverKey = '	AAAA-GcZL8g:APA91bGUrUi14FUUV949DJr6uh387gXv-G9D8ZIpxq4aV6aBfE4A_x_nCQB4GSAkmVylcCUEfuSwZgje6yt55SDCZPD4zocTiIJQf4Rf3UTgtI47NjU5OJoqXorm-Cv6cUZDP5HCpRHt';
-            $notification = array('title' => $request->title , 'body' => $request->body, 'sound' => 'default', 'badge' => '1');
+            $serverKey = 'AAAA-GcZL8g:APA91bGUrUi14FUUV949DJr6uh387gXv-G9D8ZIpxq4aV6aBfE4A_x_nCQB4GSAkmVylcCUEfuSwZgje6yt55SDCZPD4zocTiIJQf4Rf3UTgtI47NjU5OJoqXorm-Cv6cUZDP5HCpRHt';
+            $notification = array(
+                'title' => $request->title , 
+                'body' => $request->body, 
+                'sound' => 'default', 
+                'badge' => '1', 
+                'click_action' => 'FLUTTER_NOTIFICATION_CLICK');
             
             $data = [];
             if( $request->pkey ) {
@@ -182,11 +187,12 @@ class UserController extends Controller
 
             ob_start();
             $response = curl_exec($ch);
-            $contents = ob_get_contents();
+            $response = ob_get_clean();
+            
 
             //Close request
             if( $response !== FALSE ) {
-                    $json = json_decode($contents); 
+                    $json = json_decode($response); 
 
                     $UserAlarm = new \App\Models\UserAlarm;
                     $UserAlarm->a_member = $user->id ?? 0;
@@ -205,6 +211,8 @@ class UserController extends Controller
                         $UserAlarm->a_message_id = 0;
                     }
                     $UserAlarm->save();
+
+                    echo $response;
 
             
             } else {

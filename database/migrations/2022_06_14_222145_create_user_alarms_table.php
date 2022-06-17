@@ -18,6 +18,7 @@ class CreateUserAlarmsTable extends Migration
             $table->id('a_no')->comment('일련번호');
             $table->unsignedInteger('a_member')->default(0)->comment('회원');
             $table->char('a_kind',1)->default('P')->comment('종류 P:푸시, M:문자, K:카카오알림톡');
+            $table->char('a_type',1)->default('0')->comment('0:아이콘없음 1:경고 2:알림 3:완료');
          
             $table->string('a_title',100)->default('')->comment('제목');
             $table->string('a_body',255)->default('')->comment('내용');

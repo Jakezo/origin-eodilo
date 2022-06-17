@@ -32,6 +32,11 @@ class CreateUsersTable extends Migration
             $table->string('state',1)->default('A')->comment('상태');
             $table->string('memo')->default('')->comment('메모');
             $table->string('tags',10)->default('')->comment('태그');
+            
+            $table->char('alarm_email',1)->default('Y')->comment('이메일수신');
+            $table->char('alarm_sms',1)->default('Y')->comment('SMS수신');
+            $table->char('alarm_push',1)->default('Y')->comment('푸쉬수신');
+
             $table->rememberToken();
             $table->string('push_token',255)->default('')->comment('푸쉬토큰');
             $table->SoftDeletes();
