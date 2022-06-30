@@ -158,19 +158,29 @@ class UserController extends Controller
                 'title' => $request->title , 
                 'body' => $request->body, 
                 'sound' => 'default', 
-                'badge' => '1', 
-                'click_action' => 'FLUTTER_NOTIFICATION_CLICK');
+                'badge' => '1');
             
             $data = [];
             if( $request->pkey ) {
                 for( $i=0;$i<=count($request->pkey)-1;$i++){
                         $data[$request->pkey[$i]] = $request->pval[$i];
                 }
+                if( isset( $data["page"] ) ) {
+                    $data['click_action'] = 'FLUTTER_NOTIFICATION_CLICK';
+                    $data['title'] = $request->title;
+                    $data['body'] = $request->body;
+                }
+
             } else {
                 $data = null;
             }
             
-            $arrayToSend = array('to' => $token, 'notification' => $notification, 'data' => $data,  'priority'=> ($request->priority ?? "high") );
+            $arrayToSend = array(
+                'to' => $token, 
+                'notification' => $notification, 
+                'data' => $data,  
+                'priority'=> "high" 
+            );
             $json = json_encode($arrayToSend);
                      
             $headers = array();
@@ -622,12 +632,11 @@ class UserController extends Controller
                         ->orwhere("p_email", "like", "%".$request->q."%")
                         ->orwhere("p_phone", "like", "%".$request->q."%");
                 }
-          
             })
             ->orderBy("p_name","asc")->get();
 
         return response($data);
-    } 
+    }
 
     // 회원가입을 위해
 

@@ -251,10 +251,13 @@
                                 <input type="hidden" name="no" class="sl_no">   
                                 <input type="hidden" name="price_kind" value="time">    
                                 {{csrf_field()}}                                    
+                                <div id="seatlevelPriceTime">
+
+                                </div>
+                               
                                 <div id="seatlevelPriceTime_msg">
 
                                 </div>
-
                                 <div class="row justify-content-center my-3 btn_save_level_price" >
                                     <button type="button" id="btn_price_time_save" class="btn btn-primary col-5">저장</button>
                                 </div>
@@ -338,6 +341,9 @@
                                 <input type="hidden" name="no" class="sl_no">   
                                 <input type="hidden" name="price_kind" value="day"> 
                                 {{csrf_field()}}                                    
+                                <div id="seatlevelPriceDay">
+
+                                </div>                                 
                                 <div id="seatlevelPriceDay_msg">
 
                                 </div>
@@ -670,7 +676,7 @@
         }
 
         function seatlevel_price_make(price_kind) {
-            console.log("모드:"+price_kind);
+
             if( price_kind == "time" ) {
                 var req = $("#frm_seatlevel_price_time_form").serialize();
             } else if( price_kind == "day" ) {
@@ -694,8 +700,6 @@
                 data: req,
                 success: function (res, textStatus, xhr) {
 
-                    console.log(res);
-
                     if (res.result == true) {
 
                         if( price_kind == "time" ) {
@@ -706,6 +710,8 @@
 
                         $(".btn_save_level_price").show();
 
+                        $("#seatlevelPriceDay_msg").html("반드시 저장해주세요.");
+                        $("#seatlevelPriceTime_msg").html("반드시 저장해주세요.");
                     } else {
                         $("#seatlevelPriceTime_msg").html(xhr.message);
                     }
@@ -717,7 +723,20 @@
         }
 
         function view_price_detail(price_kind, price) {
-            
+            var last_i = 23;
+            var unit = "시간";
+
+            if( price_kind == "time") {
+                $("#seatlevelPriceTime_msg").html("정보가 존재하지 않습니다.");    
+                last_i = 23;
+                unit = "시간";
+            } 
+            if( price_kind == "day") {
+                $("#seatlevelPriceDay_msg").html("정보가 존재하지 않습니다.");  
+                last_i = 31;
+                unit = "일";
+            }
+
             if( price  == "" || price== null ) {
                 if( price_kind == "time") {
                     $("#seatlevelPriceTime_msg").html("정보가 존재하지 않습니다.");    
@@ -726,18 +745,20 @@
                     $("#seatlevelPriceDay_msg").html("정보가 존재하지 않습니다.");  
                 }
             }
-            for( var i = 1; i <= 23; i++ ) {
+
+            console.log("구분"+price_kind + "/" + last_i + "/" + unit);
+
+            for( var i = 1; i <= last_i; i++ ) {
 
                 if( price[i] == null ) {
                     price[i] = [];
                 }
 
-                console.log(price[i]);
                 var html = '';
                 html +=  '<table class="table mb-0">';
                 html +=  '    <tbody>';
                 html +=  '    <tr>';
-                html +=  '        <th scope="row" colspan="3">'+i+'시간금액</th>';
+                html +=  '        <th scope="row" colspan="3">'+i+' '+unit+' 금액</th>';
                 html +=  '    </tr>';                                
                 html +=  '    <tr>';
                 html +=  '        <th scope="row" rowspan="2">기본</th>';
@@ -775,15 +796,16 @@
                 html +=  '    </tbody>';
                 html +=  '</table>';
 
+                console.log(price[i],html);
+
                 if( price_kind == "time") {
-                    $("#seatlevelPriceTime_msg").append( html );    
+                    $("#seatlevelPriceTime").append( html );    
                 } 
                 if( price_kind == "day") {
-                    $("#seatlevelPriceDay_msg").append( html );  
+                    $("#seatlevelPriceDay").append( html );  
                 }
             }
         }
-        
 
         function seatlevel_price_save(mode) {
             if( mode == "time" ) var req = $("#frm_seatlevel_price_time_save_form").serialize();

@@ -74,7 +74,7 @@ class CustomdevController extends Controller
         }
 
         $custom->q_partner = $request->partner ?? 0;
-        $custom->q_member = $request->member ?? 0;
+        $custom->q_member = Auth::guard("admin")->user()->admin_no ?? 0;
         $custom->q_uname = $request->uname ?? "";
         $custom->q_title = $request->title ?? "";
         $custom->q_cont = $request->cont ?? "";
