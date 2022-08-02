@@ -130,12 +130,7 @@
 
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="type" id="typeD" value="D">
-                                        <label class="form-check-label" for="typeD">출입문</label>
-                                    </div>
-
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="type" id="typeD" value="D">
-                                        <label class="form-check-label" for="typeD">출입문</label>
+                                        <label class="form-check-label" for="typeD">현관출입문</label>
                                     </div>
 
                                     <div class="form-check form-check-inline">

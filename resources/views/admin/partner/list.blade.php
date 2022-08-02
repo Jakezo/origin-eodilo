@@ -65,6 +65,7 @@
                                 <th class="d-none d-md-table-cell" scope="col">번호</th>
                                 <th scope="col" class="text-center">상태</th>
                                 <th scope="col" class="d-none d-md-table-cell text-center">ID</th>
+                                <th scope="col" class="text-center">브랜드</th>
                                 <th scope="col" class="text-center">파트너명</th>
                                 <th class="d-none d-lg-table-cell" scope="col">지역</th>
                                 <th class="d-none d-md-table-cell" scope="col">연락처</th>
@@ -84,10 +85,11 @@
                                 @endif
                                 </td>
                                 <td class="d-none d-md-table-cell "><a href="/partner/form/{{ $partner['p_no'] ?? '' }}">{{ $partner['p_id'] ?? '' }}</span></a></td>
+                                <td><a href="/partner/form/{{ $partner['p_no'] ?? '' }}"><span style="font-size:11pt;font-weight:500;color:#000000;">{{ $partner['p_brand'] ?? '' }}</span></a></td>
                                 <td><a href="/partner/form/{{ $partner['p_no'] ?? '' }}"><span style="font-size:11pt;font-weight:500;color:#000000;">{{ $partner['p_name'] ?? '' }}</span></a></td>
                                 <td class="d-none d-lg-table-cell">{{ $partner['p_address1'] ?? '' }}</td>
                                 <td class="d-none d-md-table-cell">{{ $partner['p_phone'] ?? '' }}</td>
-                                <td><a href="//{{ $partner['p_id'] ?? '' }}.partner.{{ env('APP_HOST') }}" target="_blank" class="btn btn-primary btn-xs">들어가기</a></td>
+                                <td><a href="http://{{ $partner['p_id'] ?? '' }}.partner.{{ env('APP_HOST') }}" target="_blank" class="btn btn-primary btn-xs">들어가기</a></td>
                             </tr>
                             @endforeach
                             @endif

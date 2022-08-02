@@ -30,16 +30,16 @@ class SettingProductController extends Controller
 
         $result = [];
 
-        $FrenchProduct = FrenchProduct::firstOrFail();
-        if( $FrenchProduct = FrenchProduct::firstOrFail() ) {
+        $FrenchProduct = FrenchProduct::first();
+        if( $FrenchProduct = FrenchProduct::first() ) {
             $result['result'] = true;
-            $result['data'] = [
-                "A" => explode(",",$FrenchProduct->prd_A),
-                "D" => explode(",",$FrenchProduct->prd_D),
-                "T" => explode(",",$FrenchProduct->prd_T),
-                "F" => explode(",",$FrenchProduct->prd_F),
-                "P" => explode(",",$FrenchProduct->prd_P)  
-            ];
+
+            if( $FrenchProduct->prd_A ) $result['data']['A'] = explode(",",$FrenchProduct->prd_A);
+            if( $FrenchProduct->prd_D ) $result['data']['D'] = explode(",",$FrenchProduct->prd_D);
+            if( $FrenchProduct->prd_T ) $result['data']['T'] = explode(",",$FrenchProduct->prd_T);
+            if( $FrenchProduct->prd_F ) $result['data']['F'] = explode(",",$FrenchProduct->prd_F);
+            if( $FrenchProduct->prd_P ) $result['data']['P'] = explode(",",$FrenchProduct->prd_P);
+
         } else {
             $result['result'] = false;
             $result['data'] = [];

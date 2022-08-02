@@ -44,8 +44,13 @@ class CreateFrenchReservSeatsTable extends Migration
             $table->unsignedInteger('rv_duration_time')->default(0)->comment('예약기간-초단위');
             $table->unsignedInteger('rv_used_time')->default(0)->comment('실제사용기간-초단위');            
             
+            $table->bigInteger('rv_revenue')->default(0)->comment('정산-수익');
+            $table->bigInteger('rv_commission')->default(0)->comment('정산-수수료');
             $table->string('rv_calc',1)->default('N')->comment('정산여부');// 은하에서 정산여부
+            $table->string('rv_calc_date',1)->default('0000-00-00')->comment('정산기준일'); // 
+
             $table->string('rv_calc_dt',0)->default('0000-00-00 00:00:00')->comment('정산일');// 은하에서 정산일시
+
             $table->string('rv_memo',255)->comment('메모'); 
 
             $table->SoftDeletes();

@@ -132,7 +132,7 @@
                                 <div class="col-md-6">
                                     <label for="birth" class="form-label">생년월일</label>
                                     <div class="input-group"> <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
-                                        <input type="date" class="form-control border-start-0 datepicker" name="birth" id="birth" value="{{ $member['birth']  ?? '' }}"  placeholder="생년월일">
+                                        <input type="text" class="form-control border-start-0 datepicker" name="birth" id="birth" value="{{ $member['birth']  ?? '' }}"  placeholder="생년월일">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -221,7 +221,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @if( $orders )
+                                    @if( isset( $orders ) )
                                     @foreach( $orders as $oi => $order )         
                                     <tr>
                                         <th scope="row">{{ (count($orders) - $oi) }}</th>
@@ -273,7 +273,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @if( $reservs )
+                                @if( isset( $reservs ) )
                                 @foreach( $reservs as $ri => $reserv )                                       
                                 <tr>
                                     <th scope="row">{{ (count($reservs) - $ri) }}</th>
@@ -529,7 +529,7 @@ $(document).ready(function(){
     });
 
     $(document).on("click","#btn_member_update",function(){
-        console.log("qwer1");
+        console.log("한번들어옴..");
         member_update();
         console.log("qwer2");
     });
@@ -578,6 +578,7 @@ function member_getInfoView(member){
 
 function member_update(){
     var req = $("#frm_member").serialize();
+    console.log(req)
     $("#memberDetail_msg").html("").addClass("d-none");
     $.ajax({
         url: '/member/update',
@@ -588,10 +589,11 @@ function member_update(){
         },
         data: req,
         success: function (res, textStatus, xhr) {
+            console.log(res)
 
             if( res.result == true ) {
                 //document.location.reload();
-                opener.member_info = res.member;
+                member_info = res.member;
 
                 // 가입후 바로 상품구매창...( 그러나 좌석먼저 선택이라면 의미 없음 )
                 // 선택된 회원이 있다면 선택
@@ -613,6 +615,7 @@ function member_update(){
                 //$("#productBuyFormModal").modal("show");
 
                 var nextStep = $("#nextStep").val();
+                console.log("nextStep :" + nextStep);
 
                 if( nextStep == "reservSeat") {
                     member_getProducts(member_info.no);
@@ -620,9 +623,7 @@ function member_update(){
                 } else {
                     location.href = "/member/popupInfo?no=" + member_info.no;
                 }
-                
-                
-                
+
             } else {
                 $("#memberDetail_msg").html( res.message ).removeClass("d-none");
             }

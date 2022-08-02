@@ -38,16 +38,16 @@
                             <form name="search" action="">
                                 <div class='row'>
                                     <div class="col-md-2 col-sm-4 col-xs-12 mt-1">
-                                        <input type="text" name="sdate" id="sdate" value="" placeholder="기간시작일" class="form-control form-control-sm datepicker col-12">
+                                        <input type="text" name="sdate" id="sdate" value="{{ $param['sdate'] ?? '' }}" placeholder="기간시작일" class="form-control form-control-sm datepicker col-12">
                                     </div>
                                     <div class="col-md-2 col-sm-4 col-xs-12 mt-1">
-                                        <input type="text" name="edate" id="edate" value="" placeholder="기간종료일" class="form-control form-control-sm datepicker col-12">
+                                        <input type="text" name="edate" id="edate" value="{{ $param['edate'] ?? ''  }}" placeholder="기간종료일" class="form-control form-control-sm datepicker col-12">
                                     </div>
                                     <div class="col-md-3 col-sm-4 col-xs-12 mt-1">
                                         <div class="col-12">
-                                            <a href="javascript:;" class="btn btn-secondary btn-sm col" onclick="$('#sdate').val('<?=date("Y-m-d")?>');$('#edate').val('<?=date('Y-m-d')?>');">금일</a>
-                                            <a href="javascript:;" class="btn btn-secondary btn-sm col" onclick="$('#sdate').val('<?=date("Y-m-01")?>');$('#edate').val('<?=date('Y-m-t')?>');">이달</a>
-                                            <a href="javascript:;" class="btn btn-secondary btn-sm col" onclick="$('#sdate').val('<?=date("Y-01-01")?>');$('#edate').val('<?=date('Y-12-31')?>');">금년</a>
+                                            <a href="javascript:;" class="btn btn-secondary btn-sm col" onclick="$('#sdate').val('{{ date("Y-m-d") }}');$('#edate').val('<?=date('Y-m-d')?>');">금일</a>
+                                            <a href="javascript:;" class="btn btn-secondary btn-sm col" onclick="$('#sdate').val('{{ date("Y-m-01") }}');$('#edate').val('<?=date('Y-m-t')?>');">이달</a>
+                                            <a href="javascript:;" class="btn btn-secondary btn-sm col" onclick="$('#sdate').val('{{ date("Y-01-01") }}');$('#edate').val('<?=date('Y-12-31')?>');">금년</a>
                                             <a href="javascript:;" class="btn btn-secondary btn-sm col" onclick="$('#sdate').val('');$('#edate').val('');">전체</a>
                                         </div>
                                     </div>
@@ -64,136 +64,46 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">정산일</th>
+                                    <th scope="col">가맹점</th>
                                     <th scope="col">사용인원</th>
-                                    <th scope="col">사용시간</th>
+                                    <th scope="col">누적사용시간</th>
                                     <th scope="col">누적매출</th>
                                     <th scope="col">수수료</th>
-                                    <th scope="col">정산금액</th>
-                                    <th scope="col">상태</th>
+                                    <th scope="col">가맹점정산</th>
+                                    <th scope="col">내역보기</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @if( isset( $sales ) )
+                                @foreach( $sales as $si => $sale )
                                 <tr>
-                                    <th scope="row">10</th>
-                                    <td>2020-10-10</td>
-                                    <td>16</td>
-                                    <td>230</td>
-                                    <td>3,849,000</td>
-                                    <td>384,900</td>
-                                    <td>3,519,000</td>
-                                    <td><button class="btn btn-xs btn-danger">정산중</button></td>
+                                    <td scope="row">{{ (count($sales)-$si) }}</td>
+                                    <td>{{ $sale['std_date'] }}</td>
+                                    <td><i class="bx bx-building"></i> {{ $sale['p_name'] }}</td>
+                                    <td class="text-right">{{ $sale['count_rv'] }}</td>
+                                    <td class="text-right">{{ $sale['sum_time'] }}</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td><button class="btn btn-xs btn-danger">내역보기</button></td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">9</th>
-                                    <td>2020-10-09</td>
-                                    <td>16</td>
-                                    <td>230</td>
-                                    <td>3,849,000</td>
-                                    <td>384,900</td>
-                                    <td>3,519,000</td>
-                                    <td><button class="btn btn-xs btn-secondary">입금완료</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">8</th>
-                                    <td>2020-10-08</td>
-                                    <td>16</td>
-                                    <td>230</td>
-                                    <td>3,849,000</td>
-                                    <td>384,900</td>
-                                    <td>3,519,000</td>
-                                    <td><button class="btn btn-xs btn-secondary">입금완료</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">7</th>
-                                    <td>2020-10-07</td>
-                                    <td>16</td>
-                                    <td>230</td>
-                                    <td>3,849,000</td>
-                                    <td>384,900</td>
-                                    <td>3,519,000</td>
-                                    <td><button class="btn btn-xs btn-secondary">입금완료</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">6</th>
-                                    <td>2020-10-06</td>
-                                    <td>16</td>
-                                    <td>230</td>
-                                    <td>3,849,000</td>
-                                    <td>384,900</td>
-                                    <td>3,519,000</td>
-                                    <td><button class="btn btn-xs btn-secondary">입금완료</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">5</th>
-                                    <td>2020-10-05</td>
-                                    <td>16</td>
-                                    <td>230</td>
-                                    <td>3,849,000</td>
-                                    <td>384,900</td>
-                                    <td>3,519,000</td>
-                                    <td><button class="btn btn-xs btn-secondary">입금완료</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">4</th>
-                                    <td>2020-10-04</td>
-                                    <td>16</td>
-                                    <td>230</td>
-                                    <td>3,849,000</td>
-                                    <td>384,900</td>
-                                    <td>3,519,000</td>
-                                    <td><button class="btn btn-xs btn-secondary">입금완료</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>2020-10-03</td>
-                                    <td>16</td>
-                                    <td>230</td>
-                                    <td>3,849,000</td>
-                                    <td>384,900</td>
-                                    <td>3,519,000</td>
-                                    <td><button class="btn btn-xs btn-secondary">입금완료</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>2020-10-02</td>
-                                    <td>16</td>
-                                    <td>230</td>
-                                    <td>3,849,000</td>
-                                    <td>384,900</td>
-                                    <td>3,519,000</td>
-                                    <td><button class="btn btn-xs btn-secondary">입금완료</button></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>2020-10-01</td>
-                                    <td>16</td>
-                                    <td>230</td>
-                                    <td>3,849,000</td>
-                                    <td>384,900</td>
-                                    <td>3,519,000</td>
-                                    <td><button class="btn btn-xs btn-secondary">입금완료</button></td>
-                                </tr>
+                                @endforeach
+                                @endif                                    
+
                                 </tbody>
                             </table>
                         </div>
+
+                        @foreach($errors->all() as $error)
+                            {{ $error }}
+                        @endforeach
+                        <div class="card-body d-flex justify-content-center">
+                            {{ $sales->appends($param)->links() }}
+                        </div>    
+
                     </div>
 
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12">
-                            <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-                                <ul class="pagination">
-                                    <li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Prev</a></li>
-                                    <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
-                                    <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
-                                    <li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+
 
                 </div>
             </div>

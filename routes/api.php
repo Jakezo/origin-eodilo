@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Iot\IotLogController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -27,6 +28,10 @@ Route::any('/join/checkDupPhone', [UserController::class, 'checkDupPhone']);
 Route::any('/join/checkDupEmail', [UserController::class, 'checkDupEmail']);
 Route::any('/join/checkDupNickName', [UserController::class, 'checkDupNickName']);
 Route::any('/join/regist', [UserController::class, 'regist']);
+
+/* IOT 로그관련 */
+Route::any('/iotlog', [IotLogController::class, 'input']);
+Route::any('/iotlog/form', [IotLogController::class, 'form']);
 
 
 // Route::middleware(['auth:sanctum'])->group(function () {

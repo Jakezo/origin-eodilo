@@ -61,24 +61,6 @@
 <script src="/assets/js/app.js"></script>
 
 <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap-switch-button@1.1.0/dist/bootstrap-switch-button.min.js"></script>
-
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-@yield('javascript')
-
-
-<!-- Bootstrap JS -->
-<script src="/assets/js/bootstrap.bundle.min.js"></script>
-<!--plugins-->
-<script src="/assets/js/jquery.min.js"></script>
-<script src="/assets/plugins/simplebar/js/simplebar.min.js"></script>
-<script src="/assets/plugins/metismenu/js/metisMenu.min.js"></script>
-<script src="/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
-<!--script src="/assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script-->
-<!--script src="/assets/js/index5.js"></script-->
-<!--app JS-->
-<script src="/assets/js/app.js"></script>
-
-<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap-switch-button@1.1.0/dist/bootstrap-switch-button.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @yield('javascript')
 <script>

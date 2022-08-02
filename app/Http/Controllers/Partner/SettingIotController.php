@@ -25,6 +25,8 @@ class SettingIotController extends Controller
     public function __construct()
     {
         $this->FrenchIot = new FrenchIot();
+        $this->FrenchSeat = new FrenchSeat();
+        
     }
 
     ## 목록
@@ -180,6 +182,29 @@ class SettingIotController extends Controller
         $data["iots"] = [];
         $data["iots"] = $this->FrenchIot->select("i_no","i_name","i_sex","i_type","i_iot1","i_iot2","i_iot3","i_iot4")
             ->orderBy("i_name","asc")->get();
+
+        $data["seats"] = [];
+        $data["seats"] = $this->FrenchSeat->select(["french_seats.*", "r.r_no", "r.r_name", "sl.sl_no", "sl.sl_name"])
+        ->leftjoin('french_rooms as r', 'french_seats.s_room', '=', 'r.r_no')
+        ->leftjoin('french_seat_levels as sl', 'french_seats.s_level', '=', 'sl.sl_no')
+            ->where(function ($query) use ($request) {
+                if ($request->q) {
+                    if( $request->fd == "name" ) {
+                        $query->where("s_name", "like", "%" . $request->q . "%");
+                    }
+                }
+                if ($request->state) {
+                    if( $request->state == "A" ) {
+                        $query->where("s_sdate",  ">", now());
+                    } elseif( $request->state == "I" ) {
+                        $query->where("s_sdate",  "<=", now());
+                        $query->where("s_edate",  ">=", now());
+                    }  elseif( $request->state == "E" ) {
+                        $query->where("s_edate",  "<", now());
+                    }
+                }
+            })
+            ->orderBy("s_no","desc")->get();
 
         return response($data);
 

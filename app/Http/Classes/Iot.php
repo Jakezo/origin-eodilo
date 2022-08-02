@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Config;
 //use PhpMqtt\Client\Facades\MQTT;
 
 use Salman\Mqtt\MqttClass\Mqtt;
+use App\Models\IotLog;
 
 if( !class_exists("IOT") ) {
 
@@ -40,6 +41,30 @@ if( !class_exists("IOT") ) {
             $mqtt = new Mqtt();
             $output = $mqtt->ConnectAndPublish($topic, $message, $client_id);
             return $output;
+        }
+
+        public function PublishNew($topic, $dev, $iot, $status){
+            $mqtt = new Mqtt();
+
+            $topic = $this->FrenchConfig->cf_iot_base . '/' . $dev;
+            $snum = $status.$iot;
+    
+            // 이때 우리 쪽 요청정보를 등록하고 ID 값을 사용한다.
+            $IotLog = new \App\Models\IotLog();         
+            $IotLog->log_partner = 0;      
+            $IotLog->log_base = $this->FrenchConfig->cf_iot_base;    
+            $IotLog->log_dev = $dev;      
+            $IotLog->log_iot = $iot;      
+            $IotLog->log_request = $status;     
+            $IotLog->save();
+
+            // 메세지에 id 를 적용한다.
+            $client_id = $IotLog->log_no;
+            $message = "{service:'EODILO', snum:'".$snum."', id:'".$IotLog->log_no."'}";  
+           
+            $return["result"] = $mqtt->ConnectAndPublish($topic, $message, $client_id);
+            $return["log"] = $IotLog;
+            return $return;
         }
 
 
@@ -98,14 +123,16 @@ if( !class_exists("IOT") ) {
             }
 
             $topic = $this->FrenchConfig->cf_iot_base . '/' . $this->FrenchRoom->r_iot1;
-            $device =$this->FrenchRoom->r_iot2;
+            $iot =$this->FrenchRoom->r_iot2;
+
+            $id = 0;
 
             if( $status == "O" ) {
-                $snum = $status.$device;
-                $message = "{snum:'".$snum."', id:'1'}";
+                $snum = $status.$iot;
+                $message = "{snum:'".$snum."', id:'$id'}";
             } elseif( $status == "F" ) {
-                $snum = $status.$device;
-                $message = "{snum:'".$snum."', id:'1'}";
+                $snum = $status.$iot;
+                $message = "{snum:'".$snum."', id:'$id'}";
             } else {
                 return response()->json([
                     "result" => false,
@@ -165,12 +192,12 @@ if( !class_exists("IOT") ) {
                 $this->FrenchRoom = FrenchRoom::find($this->FrenchSeat->s_room);
 
                 $topic = $this->FrenchConfig->cf_iot_base . '/' . $this->FrenchRoom->r_iot1;
-                $device =$this->FrenchRoom->r_iot2;
+                $iot = $this->FrenchRoom->r_iot2;
             }
 
             if( $iot == "light" ) {
                 $topic = $this->FrenchConfig->cf_iot_base . '/' . $this->FrenchSeat->s_iot1;
-                $device = $this->FrenchSeat->s_iot2;
+                $iot = $this->FrenchSeat->s_iot2;
             }
 
             //$topic = '19/C0';
@@ -180,10 +207,10 @@ if( !class_exists("IOT") ) {
             // 조명 C0 / 0017
             // 출입문 D2 / D21
             if( $status == "O" ) {
-                $snum = $status.$device;
+                $snum = $status.$iot;
                 $message = "{snum:'".$snum."', id:'1'}";
             } elseif( $status == "F" ) {
-                $snum = $status.$device;
+                $snum = $status.$iot;
                 $message = "{snum:'".$snum."', id:'1'}";
             } else {
                 return response()->json([
@@ -194,6 +221,12 @@ if( !class_exists("IOT") ) {
             }
 
 
+            return response()->json([
+                "result" => false,
+                "message" => "테스트중입니다.",
+            ]);            
+
+           
             $client_id = 1;
             $output = $this->Publish($topic, $message, $client_id);
 

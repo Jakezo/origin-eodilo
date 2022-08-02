@@ -33,6 +33,8 @@ class CreateMobileProductOrdersTable extends Migration
             $table->Integer('o_duration')->default(0)->comment('기간');  
             $table->string('o_duration_type',1)->default('')->comment('기간종류'); // D , M  
 
+                        
+            $table->Integer('o_remainder')->default(0)->comment('잔여존재통합');
             $table->Integer('o_remainder_time')->default(0)->comment('잔여시간');
             $table->Integer('o_remainder_day')->default(0)->comment('잔여기간'); 
             $table->Integer('o_remainder_point')->default(0)->comment('잔여포인트'); 
@@ -43,7 +45,6 @@ class CreateMobileProductOrdersTable extends Migration
 
             $table->unsignedInteger('o_price_seat')->default(0)->comment('좌석금액'); 
 
-
             $table->string('o_locker_use',1)->default('N')->comment('사물함사용여부'); 
             $table->Integer('o_locker')->default(0)->comment('사물함번호'); 
             $table->string('o_locker_name',10)->default('')->comment('사물함명'); 
@@ -51,9 +52,12 @@ class CreateMobileProductOrdersTable extends Migration
 
             $table->unsignedInteger('o_price_total')->default(0)->comment('합계금액'); 
 
+            $table->Integer('o_coupon')->default(0)->comment('쿠폰번호');
+            $table->unsignedInteger('o_coupon_discount')->default(0)->comment('쿠폰할인'); 
+
             $table->Integer('o_pay_cash')->default(0)->comment('캐쉬사용금액'); 
             $table->Integer('o_pay_point')->default(0)->comment('포인트사용금액'); 
-            $table->Integer('o_pay_discount')->default(0)->comment('할인금액'); 
+            $table->Integer('o_pay_discount')->default(0)->comment('할인금액');
             $table->Integer('o_pay_money')->default(0)->comment('결제금액'); 
 
             $table->string('o_pay_kind',10)->default('LCASH')->comment('결제방법'); // LCASH 가맹점 현금 LCARD 가맹점카드

@@ -16,12 +16,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
 
-class StatisticsController extends Controller
+class CalculateController extends Controller
 {
     public function __construct()
     {
-        $this->FrenchProductOrder = new FrenchProductOrder();
-        $this->FrenchReservSeat = new FrenchReservSeat();  
         $this->MobileProductOrder = new MobileProductOrder();
         $this->MobileReservSeat = new MobileReservSeat();     
     }
@@ -62,7 +60,7 @@ class StatisticsController extends Controller
             'fd' => $request->fd, 
             'q' => $request->q];
 
-        return view('admin.statistics.day',$data);
+        return view('admin.calculate.day',$data);
 
     }
 
@@ -105,58 +103,8 @@ class StatisticsController extends Controller
             'fd' => $request->fd, 
             'q' => $request->q];
 
-        return view('admin.statistics.month',$data);
+        return view('admin.calculate.month',$data);
 
     }
-
-    public function cashbuy(Request $request)
-    {
-
-        $data["result"] = true;
-        $data["cashbuys"] = \App\Models\UserCashBuy::where('cb_pay', "Y")
-        ->where(function ($query) use ($request) {
-
-            if ($request->q) {
-                $query->where("users.id", "like", "%".$request->q."%")
-                ->orwhere("users.name", "like", "%".$request->q."%")
-                ->orwhere("users.nickname", "like", "%".$request->q."%")
-                ->orwhere("users.phone", "like", "%".$request->q."%")
-                ->orwhere("sb_friend_name", "like", "%".$request->q."%")
-                ->orwhere("sb_friend_phone", "like", "%".$request->q."%");
-            }
-            if ($request->sdate) {
-                $query->where( DB::raw("date_format(cb_pay_at,'%Y-%m-%d')"),  ">=", $request->sdate);
-            }
-            if ($request->edate) {
-                $query->where( DB::raw("date_format(cb_pay_at,'%Y-%m-%d')"),  "<=", $request->edate);
-            }
-
-            if ($request->friend ) {
-                    $query->where("cb_friend", $request->friend);
-            }                    
-
-            // if( $request->mode == "out" ) {
-            //     $query->where("mp_point", "<" , 0);
-            // }elseif( $request->mode == "in" ) {
-            //         $query->where("mp_point", ">", 0);
-            // }
-        })
-        ->leftjoin('users', 'users.id', '=', 'user_cash_buys.cb_member')
-        ->orderBy("cb_no","desc")->paginate(10);
-
-        $data['friend'] = $request->friend;
-        $data['query'] = $request->query;
-        //$i = $this->board->perPage() * ($this->board->currentPage() - 1);
-        $data['start'] = $data["cashbuys"]->total() - $data["cashbuys"]->perPage() * ($data["cashbuys"]->currentPage() - 1);
-        $data['total'] = $data["cashbuys"]->total();
-        $data['param'] = [
-                'sdate' => $request->sdate, 
-                'edate' => $request->edate, 
-                'firend' => $request->firend, 
-                'fd' => $request->fd, 
-                'q' => $request->q];
-
-        return view('admin.statistics.cashbuy',$data);
-
-    }    
+   
 }

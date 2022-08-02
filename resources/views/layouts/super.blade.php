@@ -93,7 +93,7 @@
                                         <label class="form-radio-label" for="inlineCheckbox1">예약</label>
                                     </div>
 
-                                    <input class="form-control form-control-sm mb-3 col-6" type="date" value="<?=date('Y-m-d')?>" placeholder="날자" aria-label=".form-control-sm example">
+                                    <input class="form-control form-control-sm mb-3 col-6" type="text" value="<?=date('Y-m-d')?>" placeholder="날자" aria-label=".form-control-sm example">
                                     <input class="form-control form-control-sm mb-3 col-6" type="time" id="stime" placeholder="시간" aria-label=".form-control-sm example">
                                 </div>
                             </div>
@@ -110,7 +110,7 @@
                             <div class="row col-12 mb-2">
                                 <div class="col-4">퇴실시간</div>
                                 <div class="col-8">
-                                    <input class="form-control form-control-sm mb-3 col-6" type="date" name="edate" placeholder="날자" aria-label=".form-control-sm example">
+                                    <input class="form-control form-control-sm mb-3 col-6" type="text" name="edate" placeholder="날자" aria-label=".form-control-sm example">
                                     <input class="form-control form-control-sm mb-3 col-6" type="time" name="etime" placeholder="시간" aria-label=".form-control-sm example">
                                 </div>
                             </div>

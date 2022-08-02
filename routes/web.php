@@ -7,6 +7,8 @@ use Inertia\Inertia;
 use App\Http\Controllers;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminAlarmController;
+
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PartnerController;
@@ -23,6 +25,7 @@ use App\Http\Controllers\PartnerCouponController;
 use App\Http\Controllers\StandardProductController;
 use App\Http\Controllers\StandardPriceController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\CalculateController;
 use App\Http\Controllers\VodboardController;
 use App\Http\Controllers\HelpboardController;
 use App\Http\Controllers\UserMessageController;
@@ -46,6 +49,7 @@ use App\Http\Controllers\Partner\FrenchHistoryController;
 use App\Http\Controllers\Partner\FrenchHelpboardController;
 use App\Http\Controllers\Partner\FrenchVodboardController;
 use App\Http\Controllers\Partner\FrenchStatisticsController;
+use App\Http\Controllers\Partner\FrenchCalculateController;
 use App\Http\Controllers\Partner\FrenchAccountBookController;
 
 use App\Http\Controllers\Partner\SettingController;
@@ -141,7 +145,6 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
         Route::any('/nmap_get_point', [PartnerController::class, 'nmap_get_point']);
     });
 
-
     Route::group(['middleware' => ['admin']], function () {
 
         Route::get('/', [IndexController::class, 'index'])->name("adminhome");
@@ -151,7 +154,6 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
         Route::get('/buy', [UserBuyController::class, 'index']);
 
         Route::group(['prefix' => '/partner'],function () {
-
             //Route::any('/login', [PartnerController::class, 'login']);
             Route::get('/form/{no?}',  [PartnerController::class, 'form']);
             Route::get('/photo/{no?}',  [PartnerController::class, 'photo']);
@@ -198,6 +200,7 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
         });
 
         Route::prefix('/member')->group(function () {
+            
             Route::get('/list',  [UserController::class, 'index']);            
             Route::get('/form/{id?}',  [UserController::class, 'form']);
             Route::any('/update', [UserController::class, 'update']);
@@ -220,14 +223,13 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
 
         });
 
+
+
         Route::prefix('/statistics')->group(function () {
 
-            Route::get('/day', function () {
-                return view('admin.statistics.day');
-            });
-            Route::get('/month', function () {
-                return view('admin.statistics.month');
-            });
+            Route::get('/day', [StatisticsController::class, 'day']);
+            Route::get('/month', [StatisticsController::class, 'month']);
+
             Route::get('/cash', function () {
                 return view('admin.statistics.month');
             });
@@ -237,12 +239,10 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
         });
 
         Route::prefix('/calculate')->group(function () {
-            Route::get('/day', function () {
-                return view('admin.calculate.day');
-            });
-            Route::get('/month', function () {
-                return view('admin.calculate.month');
-            });
+
+            Route::get('/day', [CalculateController::class, 'day']);
+            Route::get('/month', [CalculateController::class, 'month']);            
+
         });
 
         Route::prefix('/community')->group(function () {
@@ -326,6 +326,11 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
             Route::post('/delete', [AdminController::class, 'delete']);
         });
 
+        Route::prefix('/alarm')->group(function () {
+            Route::get('/', [AdminAlarmController::class, 'index']);
+            Route::any('/getNewNotifications', [AdminAlarmController::class, 'getNewNotifications']);
+        });
+
     });   
 
 });
@@ -398,6 +403,10 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
             Route::any('/searchLocker', [SettingLockerController::class, 'searchLocker']); // 좌석검색
         });
 
+        Route::prefix('/dayEnd')->group(function () {
+            Route::get('/', [FrenchStatisticsController::class, 'dayEnd']);
+        });
+        
         Route::prefix('/statistics')->group(function () {
             Route::any('/day', [FrenchStatisticsController::class, 'sales_day']); // 일매출
             Route::any('/month', [FrenchStatisticsController::class, 'sales_month']); // 월매출
@@ -405,12 +414,9 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
         });
 
         Route::prefix('/calculate')->group(function () {
-            Route::get('/day', function () {
-                return view('partner.calculate.day');
-            });
-            Route::get('/month', function () {
-                return view('partner.calculate.month');
-            });
+            Route::get('/day', [FrenchCalculateController::class, 'day']); // 일매출
+            Route::get('/month', [FrenchCalculateController::class, 'month']); // 월매출
+
         });
 
         Route::prefix('/accountbook')->group(function () {
@@ -597,6 +603,9 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
     
             // 보안을 위해서 post
             Route::any('/publish', [SysMqttController::class, 'ManagerPublish']);
+            Route::any('/publish_status', [SysMqttController::class, 'ManagerPublishStatus']);  // 상태확인
+
+            
             
             // 보안을 위해서 post
             Route::any('/subscribe/{dev_no?}/{iot_no?}', [SysMqttController::class, 'ManagerSubscribe']);

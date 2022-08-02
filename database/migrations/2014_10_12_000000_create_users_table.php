@@ -37,6 +37,11 @@ class CreateUsersTable extends Migration
             $table->char('alarm_sms',1)->default('Y')->comment('SMS수신');
             $table->char('alarm_push',1)->default('Y')->comment('푸쉬수신');
 
+            $table->string('google_id', 100)->nullable();
+            $table->string('naver_id', 100)->nullable();
+            $table->string('kakao_id', 100)->nullable();
+            $table->string('apple_id', 100)->nullable();
+                        
             $table->rememberToken();
             $table->string('push_token',255)->default('')->comment('푸쉬토큰');
             $table->SoftDeletes();

@@ -35,6 +35,7 @@ class CreateFrenchProductOrdersTable extends Migration
             $table->Integer('o_duration')->default(0)->comment('기간');  
             $table->string('o_duration_type',1)->default('')->comment('기간종류'); // D , M  
 
+            $table->Integer('o_remainder')->default(0)->comment('잔여존재통합');
             $table->Integer('o_remainder_time')->default(0)->comment('잔여시간');
             $table->Integer('o_remainder_day')->default(0)->comment('잔여기간'); 
             $table->Integer('o_remainder_point')->default(0)->comment('잔여포인트'); 
@@ -52,6 +53,10 @@ class CreateFrenchProductOrdersTable extends Migration
 
             $table->unsignedInteger('o_price_total')->default(0)->comment('합계금액'); 
 
+
+            $table->Integer('o_coupon')->default(0)->comment('쿠폰번호');
+            $table->unsignedInteger('o_coupon_discount')->default(0)->comment('쿠폰할인');             
+            
             $table->Integer('o_pay_cash')->default(0)->comment('캐쉬사용금액'); 
             $table->Integer('o_pay_point')->default(0)->comment('포인트사용금액'); 
             $table->Integer('o_pay_discount')->default(0)->comment('할인금액'); 

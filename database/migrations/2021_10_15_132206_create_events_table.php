@@ -30,7 +30,7 @@ class CreateEventsTable extends Migration
             $table->string('e_img2',100)->default('')->comment('상세이미지1');
             $table->string('e_img3',100)->default('')->comment('상세이미지2');
 
-            $table->string('e_read',1)->default('N')->comment('조회여부');
+            $table->string('e_open',1)->default('N')->comment('공개여부');
             $table->timestamps();
         });
     }

@@ -61,7 +61,16 @@ class FrenchMemberController extends Controller
             return "True request!";
         }
 */
+
         $result = [];
+
+        if( !$request->name || !$request->phone ) {
+            $result = [
+                'result' => false,
+                'message' => "이름과 핸드폰은 필수항목입니다."
+            ]; 
+            return response($result);    
+        }
 
         if( $request->no ) {
             
@@ -85,7 +94,7 @@ class FrenchMemberController extends Controller
             }
            
 
-        } elseif( $request->name && $request->phone ) {
+        } else {
 
             $FrenchMember = \App\Models\FrenchMember::where('mb_name', $request->name)->where('mb_phone', $request->phone)->first();
             if( $FrenchMember ) {
@@ -94,7 +103,7 @@ class FrenchMemberController extends Controller
                     'message' => '이미 존재하는 회원입니다.( '.$FrenchMember->mb_name.' / '.$FrenchMember->mb_phone.' / '.$FrenchMember->created_at.' ) '
                 ]; 
                 return response($result);                
-            }
+            }              
 
             $FrenchMember = \App\Models\FrenchMember::where('mb_phone', $request->phone)->first();
             if( $FrenchMember ) {
@@ -105,6 +114,7 @@ class FrenchMemberController extends Controller
                 return response($result);                
             }
         
+ 
             $FrenchMember = \App\Models\FrenchMember::where('mb_email', $request->email)->first();
             if( $FrenchMember ) {
                 $result = [
@@ -113,10 +123,10 @@ class FrenchMemberController extends Controller
                 ]; 
                 return response($result);                
             }
-
+ 
             $FrenchMember = new FrenchMember;
 
-        }
+        } 
 
         if( !$request->no ) {
             $FrenchMember->mb_id = "mb_".uniqid();
@@ -127,30 +137,26 @@ class FrenchMemberController extends Controller
             $FrenchMember->password = Hash::make($request->passwd);
         } 
 
+
         $FrenchMember->mb_birth = $request->birth ?? "";
         $FrenchMember->mb_sex = $request->sex ?? "";
         $FrenchMember->mb_email = $request->email ?? "";
         $FrenchMember->mb_phone = $request->phone ?? "";
         $FrenchMember->mb_state = $request->state ?? "N"; 
-        $FrenchMember->mb_tags = implode(",", $request->tags); 
+
+        if( isset($request->tags) ) $FrenchMember->mb_tags = implode(",", $request->tags); 
+        else $FrenchMember->mb_tags = "";
+
         $FrenchMember->mb_memo = $request->memo ?? ""; 
 
         //DB::enableQueryLog();	//query log 시작 선언부   
         
         if( $FrenchMember->mb_no ) {
-
-            $result = [
-                'result' => false,
-                'message' => '11111'
-            ]; 
-            return response($result);         
-
             $result['result'] = $FrenchMember->update();
         } else {
             $result['result'] = $FrenchMember->save();
         }
  
-
         if( $result['result'] ) {
             $result['member'] = [
                 'no' => $FrenchMember->mb_no,

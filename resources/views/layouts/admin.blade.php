@@ -1972,6 +1972,54 @@ function ajax_error(jsonData){
         });
     });    
 
+    function getNewNotifications() {
+
+        formData = new FormData();
+
+        $("#header_notification").empty();
+        $.ajax({
+            url: '/alarm/getNewNotifications',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            processData: false,
+            contentType: false,
+            data: formData,
+            type: 'POST',
+            success: function (res, textStatus, xhr) {
+                console.log(res);
+                if( res.result == true )  {
+                    $.each(res.alarms, function(idx, item){
+                        var html = '';
+                        html += '<a class="dropdown-item" href="javascript:;">';
+                        html += '    <div class="d-flex align-items-center">';
+                        html += '        <div class="notify bg-light-primary text-primary"><i class="bx bx-group"></i>';
+                        html += '        </div>';
+                        html += '        <div class="flex-grow-1">';
+                        html += '            <h6 class="msg-name">'+item.a_title+'<span class="msg-time float-end">14 Sec';
+                        html += '                    ago</span></h6>';
+                        html += '            <p class="msg-info">5 new user registered</p>';
+                        html += '        </div>';
+                        html += '    </div>';
+                        html += '</a>';
+        
+                        $("#header_notification").append(html);
+                    }); 
+
+                }     
+
+
+
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log(xhr);
+                console.log(xhr.responseJSON.file);
+                console.log(xhr.responseJSON.line);
+                console.log(xhr.responseJSON.message);
+            }
+        });   
+    }
+
+    getNewNotifications();
+
 
     // 회원정보 팝업창        
     function user_viewer(id){
@@ -1984,6 +2032,8 @@ function ajax_error(jsonData){
         var url = "/member/user_push_sender?id=" + id;
         window.open(url,"popup_user_"+ id,"width=1200,height=800")
     }
+
+
 
 
 </script>

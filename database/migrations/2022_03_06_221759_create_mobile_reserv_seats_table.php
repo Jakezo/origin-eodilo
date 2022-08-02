@@ -51,7 +51,10 @@ class CreateMobileReservSeatsTable extends Migration
             $table->string('rv_calc',1)->default('N')->comment('정산여부');// 은하에서 정산여부
             $table->string('rv_calc_dt',0)->default('0000-00-00 00:00:00')->comment('정산일');// 은하에서 정산일시
             $table->string('rv_memo',255)->comment('메모'); 
-
+            
+            $table->unsignedInteger('rv_alrarm_05')->default(0)->comment('알라람발송여부: 05분전');
+            $table->unsignedInteger('rv_alarm_30')->default(0)->comment('알라람발송여부: 30분전');
+            
             $table->SoftDeletes();
             $table->timestamps();
         });

@@ -137,7 +137,7 @@
                         <div class="col-md-6">
                             <label for="birth" class="form-label">생년월일</label>
                             <div class="input-group">
-                                <input type="date" class="form-control datepicker" name="birth" id="birth" value="{{ $user['birth']  ?? '' }}"  placeholder="생년월일">
+                                <input type="text" class="form-control datepicker" name="birth" id="birth" value="{{ $user['birth']  ?? '' }}"  placeholder="생년월일">
                             </div>
                         </div>
                         

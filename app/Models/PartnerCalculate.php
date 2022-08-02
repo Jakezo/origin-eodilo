@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Branch_locker extends Model
+class PartnerCalculate extends Model
 {
-    use HasFactory;
+    protected $primaryKey = 'cal_no';
+    public $incrementing = true;
 }

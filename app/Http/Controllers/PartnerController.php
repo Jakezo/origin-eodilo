@@ -173,10 +173,12 @@ class PartnerController extends Controller
 
             ## 지역명
             if( $partner->p_address1 ) {
-                $partner->p_area = explode(" ", $partner->p_address1);  
+                $tmp = explode(" ", $partner->p_address1);  
+                $partner->p_area = ($tmp[0] ?? "") . " " . ($tmp[1] ?? "");   
             } else {
-                $partner->p_area = [];
+                $partner->p_area = "";
             }
+
 
             if( $partner->p_last_dt != "0000-00-00") {
                 $last_dt = new Carbon($partner->p_last_dt);
@@ -320,9 +322,10 @@ class PartnerController extends Controller
         }
 
         if( $request->no ) {
-            $partner = \App\Models\Partner::where('p_no', $request->no)->first();
-        } else {
 
+            $partner = \App\Models\Partner::where('p_no', $request->no)->first();
+
+        } else {
 
             if( $partner = \App\Models\Partner::where('p_id', $request->id)->first() ) {
                 $result["result"] = false;
@@ -336,6 +339,7 @@ class PartnerController extends Controller
                 $partner = new Partner();
                 $partner->p_id = $request->id;
             }
+            
         }
 
         if( $request->passwd ) $partner->p_passwd = $request->passwd ?? "";
@@ -344,9 +348,7 @@ class PartnerController extends Controller
         $partner->p_open_kiosk = $request->open_kiosk ?? "N";
         $partner->p_door = $request->door ?? "Q";
 
-
-
-        
+        $partner->p_brand = $request->brand ?? "";
         $partner->p_name = $request->name ?? "";
         $partner->p_homepage = $request->homepage ?? "";
         $partner->p_phone = $request->phone ?? "";
@@ -381,10 +383,14 @@ class PartnerController extends Controller
         $partner->p_parking = $request->parking ?? "";
         $partner->p_keyword = $request->keyword ?? "";
         $partner->p_seq = $request->seq ?? 0;
-        $partner->p_memo = $request->memo ?? "";
-
         $partner->p_state = $request->state ?? "N";
 
+
+        $partner->p_deadline_time = $request->deadline_time ?? "00:00:00";
+        $partner->p_commission = $request->commission ?? "0.0";
+
+
+        $partner->p_memo = $request->memo ?? "";
 
         if( $partner->p_no ) {
             $result['result'] = $partner->update();
@@ -416,13 +422,7 @@ class PartnerController extends Controller
 
         $data["partner"] = $partner;
         return response($result);
-        if( $request->rURL ) {
-            $result['rURL'] = $request->rURL;
-        } else {
-            $result['rURL'] = "";
-        }
 
-        return response($result);
     }
 
     public function delete(Request $request)

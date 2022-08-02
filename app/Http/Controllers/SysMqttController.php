@@ -51,15 +51,27 @@ class SysMqttController extends Controller
           $topic = $IOT->FrenchConfig->cf_iot_base . '/' . $request->dev_no;
           $snum = $request->status.$request->iot_no;
 
-          $message = "{snum:'".$snum."', id:'1'}";  
-          $client_id = 0;
-          $output = $IOT->Publish($topic, $message, $client_id) ;
-
-
-          
+          $output = $IOT->PublishNew($topic, $request->dev_no, $request->iot_no, $request->status);
+         
           return response($output);
 
     }
+
+    // 가맹점관리자가 IOT 컨트롤
+    public function ManagerPublishStatus(request $request){
+        $IotLog = \App\Models\IotLog::find($request->no);
+        if( $IotLog ) {
+            $return["result"] = true;
+            $return["no"] = $IotLog->log_no;
+            $return["data"] = $IotLog->log_status;
+        } else {
+            $return["result"] = false;
+            $return["message"] = "해당로그가 없습니다.";
+        }
+        return response($IotLog->log_status);
+    }
+
+    
 
     // 가맹점관리자가 IOT 컨트롤
     public function ManagerSubscribe(request $request){

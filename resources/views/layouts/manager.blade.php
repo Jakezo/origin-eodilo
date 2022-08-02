@@ -403,7 +403,7 @@
                                 <div class="col-md-6">
                                     <label for="birth" class="form-label">생년월일</label>
                                     <div class="input-group"> <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
-                                        <input type="date" class="form-control border-start-0 datepicker" name="birth" id="birth"  placeholder="생년월일">
+                                        <input type="text" class="form-control border-start-0 datepicker" name="birth" id="birth"  placeholder="생년월일">
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -831,7 +831,7 @@
                             <div class="row col-12 mb-2">
                                 <div class="col-12">선택한 시간부터 입실로 변경</div>
                                 <div class="col-12">
-                                    <input name="rv_sdate" id="sdate" class="form-control form-control-sm mb-3 col-3" type="date" value="<?=date('Y-m-d')?>" placeholder="날자" aria-label=".form-control-sm example">
+                                    <input name="rv_sdate" id="sdate" class="form-control form-control-sm mb-3 col-3" type="text" value="<?=date('Y-m-d')?>" placeholder="날자" aria-label=".form-control-sm example">
                                     <input name="rv_stime" id="stime" class="form-control form-control-sm mb-3 col-3" type="time" id="stime" placeholder="시간" aria-label=".form-control-sm example">
                                     <button type="button" class="tbn btn-sm btn-warning btn_entrance" class="btn btn-sm btn-warning col-12 mx-1 mb-1">입실</button>
                                 </div>
@@ -1062,7 +1062,7 @@
                                                 <label class="form-radio-label" for="inlineCheckbox1">예약</label>
                                             </div>
         
-                                            <input name="rv_sdate" id="rv_sdate" class="form-control form-control-sm mb-3 col-6" type="date" value="<?=date('Y-m-d')?>" placeholder="날자" aria-label=".form-control-sm example">
+                                            <input name="rv_sdate" id="rv_sdate" class="form-control form-control-sm mb-3 col-6" type="text" value="<?=date('Y-m-d')?>" placeholder="날자" aria-label=".form-control-sm example">
                                             <input name="rv_stime" id="rv_stime" class="form-control form-control-sm mb-3 col-6" type="time" id="stime" placeholder="시간" aria-label=".form-control-sm example">
                                         </div>
                                     </div>
@@ -1076,7 +1076,7 @@
                                     <div class="row col-12 mb-2">
                                         <div class="col-4">퇴실시간</div>
                                         <div class="col-8">
-                                            <input name="rv_edate" id="rv_edate" class="form-control form-control-sm mb-3 col-6" type="date" name="edate" placeholder="날자" aria-label=".form-control-sm example">
+                                            <input name="rv_edate" id="rv_edate" class="form-control form-control-sm mb-3 col-6" type="text" name="edate" placeholder="날자" aria-label=".form-control-sm example">
                                             <input name="rv_etime" id="rv_etime" class="form-control form-control-sm mb-3 col-6" type="time" name="etime" placeholder="시간" aria-label=".form-control-sm example">
                                         </div>
                                     </div>
@@ -1243,7 +1243,7 @@
     
     <!-- 긴급 IOT 세팅 -->
     <div class="modal fade" id="controlGlobalModal" tabindex="-3" aria-labelledby="controlGlobalModalLabel" style="display: none;z-index:90000;" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="controlGlobalModalLabel">긴급IOT컨트롤</h5>
@@ -2180,22 +2180,22 @@
                         var dev_no = 0;                        
 
                         // 상태확인
-                        res.iots.forEach(function (item, index, array) {
-                            console.log("IOT 장비 : "+item.i_iot1+' / '+item.i_iot2 + "추가");
+                        res.seats.forEach(function (item, index, array) {
+                            console.log("IOT 장비 : "+item.s_iot1+' / '+item.i_iot2 + "추가");
 
                             var html = ''
-                            html += '<div class="row col-12 mb-2 iot_dev" dev="'+item.i_iot1+'" iot="'+item.i_iot2+'">';
-                            html += '    <div class="col-5">'+item.i_name+'</div>';
+                            html += '<div class="row col-12 mb-2 iot_dev" dev="'+item.s_iot1+'" iot="'+item.s_iot2+'">';
+                            html += '    <div class="col-5">'+item.r_name+' / '+item.s_name+'</div>';
                             html += '    <div class="col-7">';
                             html += '        <div class="form-check form-switch form-switch-md">';
-                            html += '            <input class="form-check-input iot_check" type="checkbox" id="iot_'+item.i_iot2+'" value="Y">';
-                            html += '            <label class="form-check-label" for="iot_'+item.i_iot2+'"> 켜짐</label>';
+                            html += '            <input class="form-check-input iot_check" type="checkbox" id="iot_'+item.s_iot2+'" value="Y">';
+                            html += '            <label class="form-check-label" for="iot_'+item.s_iot2+'"> 켜짐</label>';
                             html += '        </div>';
                             html += '        <div id="iot_1_msg"></div>';
                             html += '    </div>';
                             html += '</div>';
                             $("#iotInfo").append(html);
-                            console.log("IOT 장비 : "+item.i_iot1+' / '+item.i_iot2 + "추가완료");
+                            console.log("IOT 장비 : "+item.s_iot1+' / '+item.s_iot2 + "추가완료");
 
                             iot_no = item.i_iot1;
                             dev_no = item.i_iot2;
@@ -2282,7 +2282,7 @@
         }
 
 
-        // 시작시간
+        // MQTT 실행
         function manager_publish(iot_no,dev_no,status){
 
             formData = new FormData();
@@ -2290,7 +2290,7 @@
             formData.append("dev_no",dev_no );
             formData.append("status",status );
 
-            console.log("IOT AJAX 으로 호출.."+iot_no+"..."+dev_no+"..."+status);
+            console.log("IOT 호출.."+iot_no+"..."+dev_no+"..."+status);
             $.ajax({
                 url: '/mqtt/publish',
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -2302,12 +2302,37 @@
                 success: function (res, textStatus, xhr) {
                     console.log("IOT 결과..");
                     console.log(res);
+                    setTimeout("manager_publish_status("+res.log.log_no+")", 3000); 
+
+                }
+
+  
+            });
+        }
+        // IOT 결과조회
+        function manager_publish_status(no){
+            console.log("mqtt 상태확인");
+
+            formData = new FormData();
+            formData.append("no",no );
+
+            $.ajax({
+                url: '/mqtt/publish_status',
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                processData: false,
+                contentType: false,
+                data: formData,
+                type: 'POST',
+                async: false,
+                //data: req,
+                success: function (res, textStatus, xhr) {
+                    console.log("mqtt 상태확인 리턴정보");
+                    console.log(res);
 
                 },           
   
             });
         }
-
 
 
         // MQTT 상태조회

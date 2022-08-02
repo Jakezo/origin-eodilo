@@ -65,7 +65,7 @@
                                         <tr>
                                             <th scope="row">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="T_{{ $i }}" name="T[]" value="{{ $i }}" @if( in_array($i,$data['T']) ) checked="checked" @endif>
+                                                    <input class="form-check-input" type="checkbox" id="T_{{ $i }}" name="T[]" value="{{ $i }}" @if( isset($data['T']) && in_array($i,$data['T']) ) checked="checked" @endif>
                                                 </div>
                                             </th>
                                             <th>{{ $i }}시간</th>
@@ -98,13 +98,13 @@
                                         <tr>
                                             <th scope="row">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="D_{{ $i }}" name="D[]" value="{{ $i }}" @if( in_array($i,$data['D']) ) checked="checked" @endif>
+                                                    <input class="form-check-input" type="checkbox" id="D_{{ $i }}" name="D[]" value="{{ $i }}" @if( isset($data['D']) && in_array($i,$data['D']) ) checked="checked" @endif>
                                                 </div>
                                             </th>
                                             <th>{{ ($i) }}일</th>
                                             <th>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="D_{{ ($i+1) }}" name="D[]" value="{{ ($i+1) }}" @if( in_array(($i+1),$data['D']) ) checked="checked" @endif>
+                                                    <input class="form-check-input" type="checkbox" id="D_{{ ($i+1) }}" name="D[]" value="{{ ($i+1) }}" @if( isset($data['D']) && in_array(($i+1),$data['D']) ) checked="checked" @endif>
                                                 </div>
                                             </th>
                                             <th>{{ ($i+1) }}일</th>
@@ -134,7 +134,7 @@
                                         <tr>
                                             <th scope="row">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="F_{{ $i }}" name="F[]" value="{{ $i }}" @if( in_array($i,$data['F']) ) checked="checked" @endif>
+                                                    <input class="form-check-input" type="checkbox" id="F_{{ $i }}" name="F[]" value="{{ $i }}" @if( isset($data['F']) && in_array($i,$data['F']) ) checked="checked" @endif>
                                                 </div>
                                             </th>
                                             <th>{{ $i }}개월</th>
@@ -163,7 +163,7 @@
                                         <tr>
                                             <th scope="row">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="P_{{ $i }}" name="P[]" value="{{ $i }}" @if( in_array($i,$data['P']) ) checked="checked" @endif>
+                                                    <input class="form-check-input" type="checkbox" id="P_{{ $i }}" name="P[]" value="{{ $i }}" @if( isset($data['P']) &&  in_array($i,$data['P']) ) checked="checked" @endif>
                                                 </div>
                                             </th>
                                             <th>{{ $i }} 포인트</th>

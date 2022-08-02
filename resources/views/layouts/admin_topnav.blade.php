@@ -62,64 +62,10 @@
                                 <p class="msg-header-clear ms-auto">Marks all as read</p>
                             </div>
                         </a>
-                        <div class="header-notifications-list">
-                            <a class="dropdown-item" href="javascript:;">
-                                <div class="d-flex align-items-center">
-                                    <div class="notify bg-light-primary text-primary"><i class="bx bx-group"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="msg-name">조현준님이 회원가입하셧습니다.<span class="msg-time float-end">14 Sec
-												ago</span></h6>
-                                        <p class="msg-info">5 new user registered</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item" href="javascript:;">
-                                <div class="d-flex align-items-center">
-                                    <div class="notify bg-light-danger text-danger"><i class="bx bx-cart-alt"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="msg-name">최현우님이 3개월권을 구매하셨습니다. <span class="msg-time float-end">2 min
-												ago</span></h6>
-                                        <p class="msg-info">You have recived new orders</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item" href="javascript:;">
-                                <div class="d-flex align-items-center">
-                                    <div class="notify bg-light-success text-success"><i class="bx bx-file"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="msg-name">곰탱이님이 외출 복귀하셨습니다.<span class="msg-time float-end">19 min
-												ago</span></h6>
-                                        <p class="msg-info">The pdf files generated</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item" href="javascript:;">
-                                <div class="d-flex align-items-center">
-                                    <div class="notify bg-light-warning text-warning"><i class="bx bx-send"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="msg-name">곰탱이님이 외출하셨습니다. <span class="msg-time float-end">28 min
-												ago</span></h6>
-                                        <p class="msg-info">5.1 min avarage time response</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item" href="javascript:;">
-                                <div class="d-flex align-items-center">
-                                    <div class="notify bg-light-info text-info"><i class="bx bx-home-circle"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="msg-name">조현준님이 구매 취소하셨습니다. <span
-                                                    class="msg-time float-end">2 hrs ago</span></h6>
-                                        <p class="msg-info">Your new product has approved</p>
-                                    </div>
-                                </div>
-                            </a>
+                        <div class="header-notifications-list" id="header_notification">
+
                         </div>
-                        <a href="javascript:;">
+                        <a href="/alarm">
                             <div class="text-center msg-footer">View All Notifications</div>
                         </a>
                     </div>

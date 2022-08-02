@@ -135,7 +135,7 @@
                         <button type="button" class="btn btn-sm btn-secondary" onclick="get_date('M', 3)">3개월</button>
                         <button type="button" class="btn btn-sm btn-secondary" onclick="get_date('M', 6)">6개월</button>
                     <div class="col-xs-12 mt-3">
-                        <input type="date" name="edate" id="edate" value="" placeholder="기간종료일" class="form-control form-control-sm datepicker col-12">
+                        <input type="text" name="edate" id="edate" value="" placeholder="기간종료일" class="form-control form-control-sm datepicker col-12">
                     </div>
 
                     <div class="col-xs-12 mt-3">

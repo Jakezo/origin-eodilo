@@ -4,11 +4,12 @@ print("\n\n\n************** 데이터베이스 업데이트 시작 *************
 $script_dir = dirname(__FILE__);
 
 $db_host = "localhost";
-$db_user = "boss";
+$db_user = "bossdev";
 $db_password = "rhaxoddl91";
 $db_name = "boss";
 
-$source_db = "boss_enha";
+$source_partner = "enha44";
+$source_db = "boss_" . $source_partner;
 $target_db = "";
 
 if( isset($argv[2]) && $argv[2] != "" ) {
@@ -20,15 +21,15 @@ if( isset($argv[2]) && $argv[2] != "" ) {
 echo "기본데이터베이스 추출\n";
 
 if( $mode == "copy") {
-    $command = "mysqldump -u $db_user -p$db_password  $source_db > $script_dir/tmp.sql";
+    $command = "mysqldump -u $db_user -p$db_password  $source_db > $script_dir/db_source/tmp.sql";
 } else {
-    $command = "mysqldump -u $db_user -p$db_password  $source_db -d > $script_dir/tmp.sql";
+    $command = "mysqldump -u $db_user -p$db_password  $source_db -d > $script_dir/db_source/tmp.sql";
 }
 exec($command);
 
 if( $argv[1] ) {
 
-    if( trim($argv[1]) != "enha" ) {
+    if( trim($argv[1]) != $source_partner ) {
 
         $target_db = "boss_".$argv[1];
         echo "타겟 가맹점 존재여부 확인";
@@ -61,7 +62,7 @@ if( $argv[1] ) {
                         
                                 // 타겟데이터베이스에 적용
                                 echo $target_db." 데이터베이스 업데이트\n";
-                                $command = "mysql -u $db_user -p$db_password $target_db -f < $script_dir/tmp.sql";
+                                $command = "mysql -u $db_user -p$db_password $target_db -f < $script_dir/db_source/tmp.sql";
                                 $res = exec($command);
                                    
 

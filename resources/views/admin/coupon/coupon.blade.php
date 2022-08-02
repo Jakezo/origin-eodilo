@@ -130,11 +130,11 @@
                     </div>
 
                     <div class="col-xs-12 mt-3">
-                        <input type="date" name="sdate" id="sdate" value="" placeholder="기간시작일" class="form-control form-control-sm datepicker col-12">
+                        <input type="text" name="sdate" id="sdate" value="" placeholder="기간시작일" class="form-control form-control-sm datepicker col-12">
                     </div>
 
                     <div class="col-xs-12 mt-3">
-                        <input type="date" name="edate" id="edate" value="" placeholder="기간종료일" class="form-control form-control-sm datepicker col-12">
+                        <input type="text" name="edate" id="edate" value="" placeholder="기간종료일" class="form-control form-control-sm datepicker col-12">
                     </div>
 
                     <div class="col-xs-12 mt-3">

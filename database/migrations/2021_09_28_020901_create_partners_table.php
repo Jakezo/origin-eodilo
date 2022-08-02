@@ -15,10 +15,11 @@ class CreatePartnersTable extends Migration
     {
         Schema::create('partners', function (Blueprint $table) {
 
-            $table->id('p_no')->comment('일련번호');;
+            $table->id('p_no')->comment('일련번호');
 
             $table->string('p_id', 20)->default('')->unique()->comment('아이디');
-            $table->string('p_name', 20)->default('')->comment('파트너명');
+            $table->string('p_brand', 50)->default('')->comment('브랜드명');
+            $table->string('p_name', 50)->default('')->comment('파트너명');
             $table->string('p_bizno', 20)->default('')->comment('사업자번호');
             $table->string('p_ceo', 20)->default('')->comment('대표자명');
             $table->string('p_email', 50)->default('')->comment('대표이메일');
@@ -44,8 +45,8 @@ class CreatePartnersTable extends Migration
             $table->char('p_map_use', 1)->default('N')->comment('지도공개');
             $table->decimal('p_map_latitude', $precision = 10, $scale = 5)->default(0)->comment('좌표X');
             $table->decimal('p_map_longitude', $precision = 10, $scale = 5)->default(0)->comment('좌표Y');
-            $table->string('p_work_time',100)->default('')->comment('영업시간');
-            $table->string('p_work_close',100)->default('')->comment('마감시간');
+            $table->string('p_work_time',100)->default('')->comment('영업시작시간');
+            $table->string('p_work_close',100)->default('')->comment('영업종료시간');
             $table->string('p_parking')->default('',100)->comment('주차정보');
             $table->text('p_intro')->default('')->comment('간단한소개');
             $table->char('p_time_full', 1)->default('N')->comment('24시간운영');
@@ -64,6 +65,10 @@ class CreatePartnersTable extends Migration
 
             $table->unsignedInteger('p_review_count',)->default(0)->comment('리뷰갯수');
             $table->decimal('p_review_avg')->default(0)->comment('리뷰평점');
+
+            $table->time('p_deadline_time')->default('00:00:00')->comment('업무마감시간');
+            $table->date('p_deadline_exec')->default('0000-00-00')->comment('업무마감최종실행일');
+            $table->unsignedDecimal('p_commission', $precision = 5, $scale = 3)->default(5.0)->comment('업무마감시간');
 
             $table->date('p_last_dt',0)->comment('마지막로그인');
             $table->string('p_dong', 20)->default('')->comment('동구분');

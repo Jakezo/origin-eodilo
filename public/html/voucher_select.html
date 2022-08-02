@@ -17,7 +17,7 @@
 
 	<header>
 		<div class="wrap">
-			<article class="header-page-group" style="background: #fff;">
+			<article class="header-page-group">
 				<a class="back-btn" href="#none"></a>
 				<div class="page-txt">이용권 구매</div>
 				<div class="right-menu-box">

@@ -159,6 +159,10 @@
                             <label class="form-label">비빌번호</label>
                             <input type="text" class="form-control form-control-sm" name="passwd" value="">
                         </div>
+                        <div class="col-md-12">
+                            <label class="form-label">브랜드</label>
+                            <input type="text" name="brand" maxlength="50" class="form-control form-control-sm" value="{{ $partner["p_brand"] ?? '' }}">
+                        </div>                        
                         <div class="col-md-6">
                             <label class="form-label">업체명</label>
                             <input type="text" name="name" maxlength="50" class="form-control form-control-sm" value="{{ $partner["p_name"] ?? '' }}">
@@ -305,10 +309,18 @@
                             </div>
                         </div>
 
-
                         <div class="col-md-12">
                             <label class="form-label">메모</label>
                             <textarea class="form-control" name="memo" rows="3">{{ $partner["p_memo"] ?? '' }}</textarea>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">업무마감시간</label>
+                            <input type="time" class="form-control form-control-sm" name="deadline_time" value="{{ $partner["p_deadline_time"] ?? '' }}">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">수수료율</label>
+                            <input type="text" class="form-control form-control-sm" name="commission" value="{{ $partner["p_commission"] ?? '' }}">
                         </div>
 
                         @if ($errors->any())
