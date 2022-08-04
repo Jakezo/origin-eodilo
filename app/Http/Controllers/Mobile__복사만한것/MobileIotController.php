@@ -34,8 +34,7 @@ class MobileIotController extends Controller
 
         $data["result"] = true;
         $data["iots"] = [];
-        $data["iots"] = $this->FrenchIot->select("i_no","i_name","i_sex","i_type","i_iot1","i_iot2","i_iot3","i_iot4")
-            ->orderBy("i_name","asc")->get();
+        $data["iots"] = $this->FrenchIot->orderBy("i_name","asc")->get();
 
         return response($data);
 

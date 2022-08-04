@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
-
+use App\Models\FrenchSeat;
+use App\Models\FrenchIot;
+use App\Http\Classes\Iot;
 class FrenchStatisticsController extends Controller
 {
     public function __construct()
@@ -21,22 +23,28 @@ class FrenchStatisticsController extends Controller
         $this->FrenchReservSeat = new FrenchReservSeat();     
     }
 
-    public function dayEnd(Request $request)
-    {
-        $exec_date = now();
-        $partners = \App\Models\Partner::select("p_no","p_id","p_name","p_deadline_time","p_deadline_exec","p_commission")
-        //->where("p_deadline_exec","<>", $exec_date->format("Y-m-d") )
-        //->where("p_deadline_time",">", $exec_date->format("H:i:s") )
-        ->get();   
-        
-        foreach( $partners as $partner ) {
 
-                // DB::enableQueryLog();	//query log 시작 선언부
+    public function dayEndPartner(request $request )
+    {
+
+        $data = [];
+        $exec_date = now();
+        $partner = \App\Models\Partner::select("p_no","p_id","p_name","p_deadline_time","p_deadline_exec","p_commission")
+        ->where("p_no", $request->partner_no )
+        ->first();   
+
+
                 // 업무마감시간
                 $deadline_time = $partner->p_deadline_time;
                 $commission = $partner->p_commission;
                 $data["reserves"] = [];
                 $deadline = [];
+
+
+                $calc_sum_revenue = 0;
+                $calc_sum_commission = 0; 
+                $calc_reserve_count = 0;   
+                $revenue = [];             
 
                 ## 오후 6시 이후면 금일마감으로 
                 if( $deadline_time >= "18:00:00" ) {
@@ -48,17 +56,21 @@ class FrenchStatisticsController extends Controller
                 }
 
                 //$deadline['sdate'] = \Carbon\Carbon::createFromFormat('Y-m-d h:i:s',  now()->addDay(-1)->format("Y-m-d " . $deadline_time));
-                $deadline['sdate'] = \Carbon\Carbon::createFromFormat('Y-m-d h:i:s',  now()->addDay(-5)->format("Y-m-d " . $deadline_time));
-                $deadline['edate'] = \Carbon\Carbon::createFromFormat('Y-m-d h:i:s',  now()->format("Y-m-d " . $deadline_time));
+                //$deadline['sdate'] = \Carbon\Carbon::createFromFormat('Y-m-d h:i:s',  now()->addDay(-5)->format("Y-m-d " . $deadline_time));
+                //$deadline['edate'] = \Carbon\Carbon::createFromFormat('Y-m-d h:i:s',  now()->format("Y-m-d " . $deadline_time));
 
                 ## 
                 Config::set('database.connections.partner.database',"boss_".$partner->p_id);
+                //Config::set('database.connections.partner.database',"boss_test01");
+                $FrenchReservSeat = new \App\Models\FrenchReservSeat;
+                $FrenchReservSeat->setConnection("partner");
 
-                $data["reserves"] = \App\Models\FrenchReservSeat::leftJoin("french_product_orders", "french_product_orders.o_no", "french_reserv_seats.rv_order")
+
+                $data["reserves"] = $FrenchReservSeat::leftJoin("french_product_orders", "french_product_orders.o_no", "french_reserv_seats.rv_order")
                 ->where(function ($query) use ($deadline) {
                         if( isset($deadline['sdate']) ) {
                             $query->where('rv_sdate', '>', $deadline['sdate']);
-                            $query->where('rv_edate', '>', $deadline['sdate']);
+                            $query->where('rv_sdate', '<=', $deadline['edate']);
                         }
 
                             //$query->whereIn("rv_product_kind",['A','D','T','F','P']);
@@ -69,17 +81,16 @@ class FrenchStatisticsController extends Controller
                             // ]);
                 })
                 //->where("rv_state_seat","END")
+                ->where("rv_calc","N")
                 ->get();
-                
-                $calc_sum_revenue = 0;
-                $calc_sum_commission = 0; 
-                $calc_reserve_count = 0;
+
+                echo $partner->p_id.":::".count($data["reserves"])."건<br>";
 
                 foreach( $data["reserves"] as $r => $reserve ) {
 
                             // end 로 변경 ( 고정권을 제외한 나머지 ?? 문제는 24시간운영 )
                             $revenue[$r]['product_kind'] = $reserve->rv_product_kind;
-
+               
                             // 모바일예약인지 확인
                             if( $reserve->rv_product_kind == "F" ) {
 
@@ -108,6 +119,12 @@ class FrenchStatisticsController extends Controller
                                         $revenue[$r]['revenue'] = $reserve->o_price_seat;
                                     }
                                 }
+
+                                // 금일 정산으로 END 로 변경.
+                                $reserve->rv_calc = 'Y';
+                                $reserve->rv_state_seat = 'END';
+                                $reserve->rv_calc_dt = $exec_date;
+
                             } else if( $reserve->rv_product_kind == "D" ) {
 
                                 if( $reserve->o_price_seat > 0 ) {
@@ -123,6 +140,12 @@ class FrenchStatisticsController extends Controller
                                         $revenue[$r]['revenue'] = $reserve->o_price_seat;
                                     }
                                 }
+
+                                // 금일 정산으로 END 로 변경.
+                                $reserve->rv_calc = 'Y';
+                                $reserve->rv_state_seat = 'END';
+                                $reserve->rv_calc_dt = $exec_date;
+
                             } else  {
                                 if( $reserve->o_price_seat > 0 ) {
                                     if( $reserve->o_member_from == "M" ) {
@@ -133,6 +156,11 @@ class FrenchStatisticsController extends Controller
                                         $revenue[$r]['revenue'] = $reserve->o_price_seat;
                                     }
                                 }
+
+                                // 금일 정산으로 END 로 변경.
+                                $reserve->rv_calc = 'Y';
+                                $reserve->rv_state_seat = 'END';
+                                $reserve->rv_calc_dt = $exec_date;                                
                             }
 
                             $calc_sum_revenue += $revenue[$r]['revenue'] ?? 0;;
@@ -159,15 +187,91 @@ class FrenchStatisticsController extends Controller
                     $partnerCalculate->cal_partner = $partner->p_no;
                     $partnerCalculate->cal_date = $calculateDate;
                     $partnerCalculate->cal_reserve_count = $calc_reserve_count;
-                    $partnerCalculate->cal_revenue = $revenue[$r]['revenue'] ?? 0;;
-                    $partnerCalculate->cal_commission = $revenue[$r]['commission'] ?? 0;
+                    $partnerCalculate->cal_revenue = $calc_sum_revenue ?? 0;;
+                    $partnerCalculate->cal_commission = $calc_sum_commission ?? 0;
                     $partnerCalculate->cal_status = "A";
                     $partnerCalculate->save();
                 }
 
                 $partner->p_deadline_exec = $exec_date->format("Y-m-d");
                 $partner->update();
+
+                # 모든 IOT OFF
+                $IOT = new IOT();
+                $IOT->setPartner($partner->p_no);
+
+                # 2. 출입문등 선택적으로 
+                $data["iots"] = \App\Models\FrenchIot::where("i_endwork","Y")->orderBy("i_no","asc")->get();
+
+                foreach( $data["iots"] as $iot ) {
+                    if( $iot->i_iot1 && $iot->i_iot2 ) {
+                        $topic = $IOT->FrenchConfig->cf_iot_base . '/' . $iot->i_iot1;
+                        $status = "F";
+                        $output = $IOT->PublishGo($iot->i_iot1, $iot->i_iot2, $status);
+                        echo $iot->i_no .":". $IOT->FrenchConfig->cf_iot_base  . ":" . $iot->i_iot1 . ":" . $iot->i_iot2 . ":" . $status."<br/>";
+                    }
+                    //var_dump($output);
+                }                
+
+                # 1. 모든 좌석
+                $data["seats"] = \App\Models\FrenchSeat::select(["s_no", "s_iot1", "s_iot2"])->orderBy("s_no","desc")->get();
+
+                foreach( $data["seats"] as $seat ) {
+                    if( $seat->s_iot1 && $seat->s_iot2 ) {
+                        $topic = $IOT->FrenchConfig->cf_iot_base . '/' . $seat->s_iot1;
+                        $status = "F";
+                        //$output = $IOT->PublishGo($seat->s_iot1, $seat->s_iot2, $status);
+                        echo $seat->s_no .":". $IOT->FrenchConfig->cf_iot_base  . ":" . $seat->s_iot1 . ":" . $seat->s_iot2 . ":" . $status."<br/>";
+                    }
+                    //var_dump($output);
+                }
+
+
+            //var_dump($revenue);
+
+    }
+        
+    public function dayEnd(Request $request)
+    {
+        $data = [];
+        $exec_date = now();
+        $partners = \App\Models\Partner::select("p_no","p_id","p_name","p_deadline_time","p_deadline_exec","p_commission")
+        ->where("p_deadline_exec","<>", $exec_date->format("Y-m-d") )
+        ->where("p_deadline_time",">", $exec_date->format("H:i:s") )
+        ->where(function ($query) use ($request) {
+            if( $request->partner ) {
+                $query->where("p_no", $request->partner );
+            }
+
+        })
+        ->get();   
+
+        foreach( $partners as $partner ) {
+
+            // $post = [
+            //     'partner_no' => $partner->p_no,
+            // ];
+
+            //$headers[] = 'X-IB-Client-Id: 발급받은ID';
+            $headers[] = '';
+    
+            $ch = curl_init("https://admin.eodilo.com/dayEndPartner?partner_no=".$partner->p_no);
+    
+            // SSL important
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);        
+            //curl_setopt($ch, CURLOPT_POST, 1);                              //post
+            //curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post));       //파라미터 값
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);                    //return 값 반환 
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);                 //헤더
+            //curl_setopt($ch, CURLOPT_VERBOSE, true);                        //디버깅
+            //curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);               //데이터 전달 형태
+            //curl_setopt($ch, CURLOPT_COOKIE, 'token= ***** ');            //로그인 인증
+     
+            $output = curl_exec($ch);
+            echo $output;
+
         }
+
 
     }
 

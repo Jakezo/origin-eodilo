@@ -69,7 +69,7 @@ class FrenchReservationController extends Controller
         // 좌석의 조명 IOT
         if( $data["seat"]->s_iot_ext ) {
 
-            $iot_exts = FrenchIot::select("i_no", "i_name", "i_iot1", "i_iot2", "i_iot3", "i_iot4")->whereIn("i_no", explode(',',$data["seat"]->s_iot_ext))->get();
+            $iot_exts = FrenchIot::whereIn("i_no", explode(',',$data["seat"]->s_iot_ext))->get();
             
             foreach($iot_exts as $iot_ext ) {
                 $data["seat_iot"][] = [

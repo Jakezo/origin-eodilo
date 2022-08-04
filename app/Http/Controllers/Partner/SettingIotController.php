@@ -63,8 +63,7 @@ class SettingIotController extends Controller
 
         $data["result"] = true;
         $data["iots"] = [];
-        $data["iots"] = $this->FrenchIot->select("i_no","i_name","i_sex","i_type","i_iot1","i_iot2","i_iot3","i_iot4")
-            ->orderBy("i_name","asc")->get();
+        $data["iots"] = $this->FrenchIot->orderBy("i_name","asc")->get();
 
         return response($data);
 
@@ -86,7 +85,8 @@ class SettingIotController extends Controller
                         'i_iot1 as iot1',
                         'i_iot2 as iot2',
                         'i_iot3 as iot3',
-                        'i_iot4 as iot4'
+                        'i_iot4 as iot4',
+                        'i_endwork as endwork'
                     ]
                 )
                 ->where("i_no",  $request->no)->first();
@@ -116,6 +116,7 @@ class SettingIotController extends Controller
         $FrenchIot->i_iot2 = $request->iot2 ?? "";
         $FrenchIot->i_iot3 = $request->iot3 ?? "";
         $FrenchIot->i_iot4 = $request->iot4 ?? "";
+        $FrenchIot->i_endwork = $request->endwork ?? "N";
 
         if( isset( $FrenchIot->i_no ) ) {
             $result['result'] = $FrenchIot->update();
@@ -180,8 +181,7 @@ class SettingIotController extends Controller
 
         $data["result"] = true;
         $data["iots"] = [];
-        $data["iots"] = $this->FrenchIot->select("i_no","i_name","i_sex","i_type","i_iot1","i_iot2","i_iot3","i_iot4")
-            ->orderBy("i_name","asc")->get();
+        $data["iots"] = $this->FrenchIot->orderBy("i_name","asc")->get();
 
         $data["seats"] = [];
         $data["seats"] = $this->FrenchSeat->select(["french_seats.*", "r.r_no", "r.r_name", "sl.sl_no", "sl.sl_name"])

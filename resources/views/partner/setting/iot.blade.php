@@ -58,6 +58,7 @@
                                         <th scope="col" class=" text-center">#</th>
                                         <th scope="col" class=" text-center">장치명</th>
                                         <th scope="col" class=" text-center">구분</th>
+                                        <th scope="col" class=" text-center">업무마감시</th>
                                         <th scope="col" class=" text-center">성별</th>
                                         <th scope="col" class=" text-center">장치명상태</th>
                                         <th scope="col" class=" text-center">관리</th>
@@ -75,6 +76,12 @@
                                                     출입문
                                             @elseif($iot['i_type'] == "S")
                                                     기타
+                                            @endif
+                                        </td>
+                                        <td class=" text-center">
+
+                                            @if($iot['i_endwork'] == "Y")
+                                                    OFF
                                             @endif
                                         </td>
                                         <td class=" text-center">
@@ -138,6 +145,16 @@
                                         <label class="form-check-label" for="typeS">기타</label>
                                     </div>
                                 </div>
+                                <div class="col-12 mt-3">
+                                    <label for="name" class="form-label col-12">구분</label>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="endwork" id="endwork" value="Y">
+                                        <label class="form-check-label" for="stateM">업무종료시OFF</label>
+                                    </div>
+                                </div>
+
+
 
                                 <div class="col-md-12 mt-3">
                                     <label for="name" class="form-label col-3">이름</label>
@@ -168,6 +185,7 @@
 
                                 <div class="col-md-6 mt-3">
                                     <label for="iot" class="form-label">IOT번호</label>
+                                    
                                     <div class="input-group"> <span class="input-group-text bg-transparent"><i class="bx">IOT 1</i></span>
                                         <input type="text" class="form-control border-start-0" id="iot1" name="iot1" placeholder="IOT port">
                                     </div>
@@ -349,13 +367,18 @@
                         $("#seat_count").val(res.iot.seat_count);
                         $("#type").val(res.iot.type);
                         if( res.iot.state_mobile == 'Y' ) $("#state_mobile").prop("checked",true);
+                        else $("#state_mobile").prop("checked",false);
                         if( res.iot.state_kiosk == 'Y' ) $("#state_kiosk").prop("checked",true);
+                        else $("#state_kiosk").prop("checked",false);
+
                         $("#sex"+res.iot.sex).prop("checked","checked");
                         $("#type"+res.iot.type).prop("checked","checked");
                         $("#iot1").val(res.iot.iot1);
                         $("#iot2").val(res.iot.iot2);
                         $("#iot3").val(res.iot.iot3);
                         $("#iot4").val(res.iot.iot4);
+                        if( res.iot.endwork == 'Y' ) $("#endwork").prop("checked",true);
+                        else $("#endwork").prop("checked",false);
 
                     } else {
                         $("#iotDetail_msg").html(res.message);

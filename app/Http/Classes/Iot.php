@@ -67,6 +67,30 @@ if( !class_exists("IOT") ) {
             return $return;
         }
 
+        // 2022.08.04 최종..
+        public function PublishGo($dev, $iot, $status){
+            $mqtt = new Mqtt();
+
+            $topic = $this->FrenchConfig->cf_iot_base . '/' . $dev;
+            $snum = $status.$iot;
+    
+            // 이때 우리 쪽 요청정보를 등록하고 ID 값을 사용한다.
+            $IotLog = new \App\Models\IotLog();         
+            $IotLog->log_partner = 0;      
+            $IotLog->log_base = $this->FrenchConfig->cf_iot_base;    
+            $IotLog->log_dev = $dev;      
+            $IotLog->log_iot = $iot;      
+            $IotLog->log_request = $status;     
+            $IotLog->save();
+
+            // 메세지에 id 를 적용한다.
+            $client_id = $IotLog->log_no;
+            $message = "{service:'EODILO', snum:'".$snum."', id:'".$IotLog->log_no."'}";  
+           
+            $return["result"] = $mqtt->ConnectAndPublish($topic, $message, $client_id);
+            $return["log"] = $IotLog;
+            return $return;
+        }
 
         public function Subscribe($topic){
             $mqtt = new Mqtt();

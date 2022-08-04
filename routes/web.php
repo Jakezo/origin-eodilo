@@ -126,6 +126,9 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
     //      return Inertia::render('Dashboard');
     //  })->name('dashboard');
 
+    Route::any('/dayEnd/{partner?}', [FrenchStatisticsController::class, 'dayEnd']);
+    Route::any('/dayEndPartner', [FrenchStatisticsController::class, 'dayEndPartner']);
+
 
     Route::get('/adminlogin', [LoginController::class, 'showAdminLoginForm'])->name("adminlogin");
     Route::post('/adminloginok', [LoginController::class, 'adminLogin']);
@@ -140,6 +143,8 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
         Route::any('/partner/get_new_last_date', [PartnerController::class, 'get_new_last_date']);
 
     });
+
+
 
     Route::prefix('/nmap')->group(function () {
         Route::any('/nmap_get_point', [PartnerController::class, 'nmap_get_point']);
@@ -403,10 +408,7 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
             Route::any('/searchLocker', [SettingLockerController::class, 'searchLocker']); // 좌석검색
         });
 
-        Route::prefix('/dayEnd')->group(function () {
-            Route::get('/', [FrenchStatisticsController::class, 'dayEnd']);
-        });
-        
+
         Route::prefix('/statistics')->group(function () {
             Route::any('/day', [FrenchStatisticsController::class, 'sales_day']); // 일매출
             Route::any('/month', [FrenchStatisticsController::class, 'sales_month']); // 월매출

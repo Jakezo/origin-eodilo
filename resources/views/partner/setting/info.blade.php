@@ -54,57 +54,48 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">홈페이지주소</label>
-                                <input type="text" class="form-control form-control-sm" name="homepage" value="{{ $partner["p_homepage"] ?? '' }}">
+                                <input type="text" class="form-control form-control-sm" name="homepage" value="{{ $partner["p_homepage"] ?? '' }}" readonly>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">전화번호</label>
-                                <input type="text" class="form-control form-control-sm" name="phone" maxlength="50" value="{{ $partner["p_phone"] ?? '' }}">
+                                <input type="text" class="form-control form-control-sm" name="phone" maxlength="50" value="{{ $partner["p_phone"] ?? '' }}" readonly>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">사업자번호</label>
-                                <input type="text" class="form-control form-control-sm" name="bizno" maxlength="50" value="{{ $partner["p_bizno"] ?? '' }}">
+                                <input type="text" class="form-control form-control-sm" name="bizno" maxlength="50" value="{{ $partner["p_bizno"] ?? '' }}" readonly>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="ceo">대표자명</label>
-                                <input type="text" class="form-control form-control-sm" name="ceo" id="ceo" maxlength="50" value="{{ $partner["p_ceo"] ?? '' }}">
+                                <input type="text" class="form-control form-control-sm" name="ceo" id="ceo" maxlength="50" value="{{ $partner["p_ceo"] ?? '' }}" readonly>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">대표이메일</label>
-                                <input type="email" class="form-control form-control-sm" name="email" maxlength="50" value="{{ $partner["p_email"] ?? '' }}">
+                                <input type="email" class="form-control form-control-sm" name="email" maxlength="50" value="{{ $partner["p_email"] ?? '' }}" readonly>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">담당자명</label>
-                                <input type="text" class="form-control form-control-sm" name="emp_name" value="{{ $partner["p_emp_name"] ?? '' }}">
+                                <input type="text" class="form-control form-control-sm" name="emp_name" value="{{ $partner["p_emp_name"] ?? '' }}" readonly>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">직책</label>
-                                <input type="text" class="form-control form-control-sm" name="emp_duty" maxlength="50" value="{{ $partner["p_emp_duty"] ?? '' }}">
+                                <input type="text" class="form-control form-control-sm" name="emp_duty" maxlength="50" value="{{ $partner["p_emp_duty"] ?? '' }}" readonly>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">핸드폰</label>
-                                <input type="text" class="form-control form-control-sm" name="emp_hphone" maxlength="50" value="{{ $partner["p_emp_hphone"] ?? '' }}">
+                                <input type="text" class="form-control form-control-sm" name="emp_hphone" maxlength="50" value="{{ $partner["p_emp_hphone"] ?? '' }}" readonly>
                                 <font color="#ff0000">( - 로 구분)</font>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">담당자이메일</label>
-                                <input type="email" class="form-control form-control-sm" name="emp_email" value="{{ $partner["p_emp_email"] ?? '' }}" maxlength="50">
+                                <input type="email" class="form-control form-control-sm" name="emp_email" value="{{ $partner["p_emp_email"] ?? '' }}" maxlength="50" readonly>
                             </div>
                             <div class="col-md-12">
-                                <label class="form-label">우편번호</label>
-                                <input type="text" class="form-control form-control-sm" id="zipcode" name="zipcode" value="{{ $partner["p_zipcode"] ?? '' }}" onclick="execDaumPostcode('partner')">
-                            </div>
-                            <div class='col-md-12'>
-                                <label class="form-label control-label">도로명주소</label>
-                            </div>
-                            <div class='col-sm-8 col-xl-8'>
-                                <input type="text" class="form-control form-control-sm" id="address1" name="address1" value="{{ $partner["p_address1"] ?? '' }}" onclick="execDaumPostcode('partner')">
-                            </div>
-                            <div class='col-sm-4 col-xl-4'>
-                                <input type="text" class="form-control form-control-sm" id="address2" name="address2" value="{{ $partner["p_address2"] ?? '' }}">
+                                <label class="form-label">주소</label>
+                                <input type="text" class="form-control form-control-sm" id="zipcode" name="zipcode" value="{{ $partner["p_address1"] ?? '' }} {{ $partner["p_address2"] ?? '' }} / 우 {{ $partner["p_zipcode"] ?? '' }}" readonly>
                             </div>
 
                             <div class="col-12">
-                                <label class="form-label mt-3">네이버좌표</label>
+                                <label class="form-label mt-3">지도  @if( $partner && $partner["p_map_use"] == 'Y' ) 표기 @endif </label>
                             </div>
                             <div class="col-md-4 col-sm-6">
                                 <label class="form-label mb-1">Lat</label>
@@ -125,6 +116,15 @@
                                     <label for="map_use_2" class="custom-control-label">지도표기안함</label>
                                 </div>
                             </div>
+
+
+                            
+                            <div class="col-12">
+                                <label class="form-label">업무마감시간</label>
+                                <input type="time" class="form-control form-control-sm" name="deadline_time" value="{{ $partner["p_deadline_time"] ?? '' }}">
+                            </div>
+                            
+                            
                             <div class="col-12">
                                 <label class="form-label">오시는길</label>
                                 <input type="text" class="form-control form-control-sm" name="road" value="{{ $partner["p_road"] ?? '' }}">

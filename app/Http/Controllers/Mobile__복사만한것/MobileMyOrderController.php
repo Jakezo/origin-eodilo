@@ -77,7 +77,7 @@ class MobileMyOrderController extends Controller
 
         $iot_ext = explode(",",$data["seat"]->s_iot_ext);
 
-        $data["iots"] = FrenchIot::select("i_no", "i_name", "i_iot1", "i_iot2", "i_iot3", "i_iot4")->whereIn("i_no", $iot_ext)->get();
+        $data["iots"] = FrenchIot::whereIn("i_no", $iot_ext)->get();
 
         // 개발을 위해 무조건..
         if( $data["reserv"]->rv_state_seat ) {

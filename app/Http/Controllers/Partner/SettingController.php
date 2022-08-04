@@ -49,34 +49,7 @@ class SettingController extends Controller
             $partner = new Partner();
         }
 
-        $partner->p_homepage = $request->homepage ?? "";
-        $partner->p_phone = $request->phone ?? "";
-        $partner->p_bizno = $request->bizno ?? "";
-        $partner->p_ceo = $request->ceo ?? "";
-        $partner->p_email = $request->email ?? "";
-        $partner->p_intro = $request->intro ?? "";
-
-        $partner->p_emp_name = $request->emp_name ?? "";
-        $partner->p_emp_duty = $request->emp_duty ?? "";
-        $partner->p_emp_email = $request->emp_email ?? "";
-        $partner->p_emp_hphone = $request->emp_hphone ?? "";
-
-        $partner->p_zipcode = $request->zipcode ?? "";
-        $partner->p_address1 = $request->address1 ?? "";
-        $partner->p_address2 = $request->address2 ?? "";
-
-        $partner->p_map_use = $request->map_use ?? "";
-        $partner->p_map_latitude = $request->map_latitude ?? 0;
-        $partner->p_map_longitude = $request->map_longitude ?? 0;
-        $partner->p_road = $request->road ?? "";
-        $partner->p_work_time = $request->work_time ?? "";
-        $partner->p_work_close = $request->work_close ?? "";
-        $partner->p_parking = $request->parking ?? "";
-        $partner->p_keyword = $request->keyword ?? "";
-
-
-        /* 가맹점이 수정할수 없음.
-
+        /* 시스템에서만 수정
         $partner->p_id = $request->id;
         $partner->p_name = $request->name ?? "";
         if( $request->passwd ) $partner->p_passwd = $request->passwd ?? "";
@@ -84,7 +57,33 @@ class SettingController extends Controller
         $partner->p_seq = $request->seq ?? 0;
         $partner->p_memo = $request->memo ?? "";
         $partner->p_state = $request->state ?? "N";
+
+        $partner->p_homepage = $request->homepage ?? "";
+        $partner->p_phone = $request->phone ?? "";
+        $partner->p_bizno = $request->bizno ?? "";
+        $partner->p_ceo = $request->ceo ?? "";
+        $partner->p_email = $request->email ?? "";
+
+        $partner->p_emp_name = $request->emp_name ?? "";
+        $partner->p_emp_duty = $request->emp_duty ?? "";
+        $partner->p_emp_email = $request->emp_email ?? "";
+        $partner->p_emp_hphone = $request->emp_hphone ?? "";
+        $partner->p_zipcode = $request->zipcode ?? "";
+        $partner->p_address1 = $request->address1 ?? "";
+        $partner->p_address2 = $request->address2 ?? "";
+
+        $partner->p_map_use = $request->map_use ?? "";
+        $partner->p_map_latitude = $request->map_latitude ?? 0;
+        $partner->p_map_longitude = $request->map_longitude ?? 0;
         */
+        $partner->p_intro = $request->intro ?? "";
+
+        $partner->p_road = $request->road ?? "";
+        $partner->p_work_time = $request->work_time ?? "";
+        $partner->p_work_close = $request->work_close ?? "";
+        $partner->p_parking = $request->parking ?? "";
+        $partner->p_keyword = $request->keyword ?? "";
+        $partner->p_deadline_time = $request->deadline_time ?? "00:00:00";
 
         $result["partner"] = $partner;
         $result['result'] = $partner->update();

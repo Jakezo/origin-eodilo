@@ -24,6 +24,7 @@ class CreateFrenchIotsTable extends Migration
             $table->string('i_iot2',20)->default('')->comment('IOT2');
             $table->string('i_iot3',20)->default('')->comment('IOT3');
             $table->string('i_iot4',20)->default('')->comment('IOT4');
+            $table->char('i_endwork',1)->default('N')->comment('업무종료시OFF'); // Y : 종료시 OFF 
        
             $table->timestamps();
             $table->SoftDeletes();
