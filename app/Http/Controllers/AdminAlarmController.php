@@ -56,7 +56,7 @@ class AdminAlarmController extends Controller
     public function getNewNotifications(Request $request){
 
         $data["result"] = true;
-        $data["alarms"] = \App\Models\AdminAlarm::select("admin_alarms.*",DB::raw("DATEDIFF(MINUTE,now(), admin_alarms.created_at) as diff_time"))
+        $data["alarms"] = \App\Models\AdminAlarm::select("admin_alarms.*",DB::raw("TIMESTAMPDIFF(MINUTE,now(), admin_alarms.created_at) as diff_time"))
             ->orderBy("a_no","desc")->take(15)->get();
 
         foreach( $data["alarms"] as $i => $alarms ) {

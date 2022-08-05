@@ -65,28 +65,38 @@
                                     <th scope="col">#</th>
                                     <th scope="col">정산일</th>
                                     <th scope="col">가맹점</th>
-                                    <th scope="col">사용인원</th>
-                                    <th scope="col">누적사용시간</th>
-                                    <th scope="col">누적매출</th>
-                                    <th scope="col">수수료</th>
+                                    <th scope="col">총사용건수</th>
+                                    <th scope="col">총수익</th>
+                                    <th scope="col">총수수료</th>
+                                    <th scope="col">집계일시</th>
+                                    <th scope="col">정산금액</th>
                                     <th scope="col">가맹점정산</th>
-                                    <th scope="col">내역보기</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @if( isset( $sales ) )
-                                @foreach( $sales as $si => $sale )
+                                @if( isset( $culculates ) )
+                                @foreach( $culculates as $ci => $culculate )
                                 <tr>
-                                    <td scope="row">{{ (count($sales)-$si) }}</td>
-                                    <td>{{ $sale['std_date'] }}</td>
-                                    <td><i class="bx bx-building"></i> {{ $sale['p_name'] }}</td>
-                                    <td class="text-right">{{ $sale['count_rv'] }}</td>
-                                    <td class="text-right">{{ $sale['sum_time'] }}</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td><button class="btn btn-xs btn-danger">내역보기</button></td>
-                                </tr>
+                                    <td scope="row">{{ (count($culculates)-$ci) }}</td>
+                                    <td>{{ $culculate['cal_date'] }}</td>
+                                    <td><i class="bx bx-building"></i> {{ $culculate['p_name'] }}</td>
+                                    <td class="text-right">{{ $culculate['cal_reserve_count'] }}</td>
+                                    <td class="text-right">{{ number_format($culculate['cal_revenue']) }}</td>
+                                    <td class="text-right">{{ number_format($culculate['cal_commission']) }}</td>
+                                    <td class="text-right">{{ $culculate['created_at'] }}</td>
+                                    <td class="text-right">{{ number_format($culculate['cal_revenue'] - $culculate['cal_commission']) }}</td>
+                                    
+                                    <td class="text-right">
+                                        @if( $culculate['cal_status'] == "A" ) 
+                                            <span class="btn btn-xs btn-danger btn_calculate" cal="{{ $culculate['cal_no'] }}">미정산</span>
+                                        @elseif( $culculate['cal_status'] == "Y" ) 
+                                            <span class="btn btn-xs btn-primary btn_calculate" cal="{{ $culculate['cal_no'] }}">정산완료</span>
+                                        @else
+
+                                        @endif
+                                    </td>
+                                </tr>                                    
+
                                 @endforeach
                                 @endif                                    
 
@@ -98,7 +108,7 @@
                             {{ $error }}
                         @endforeach
                         <div class="card-body d-flex justify-content-center">
-                            {{ $sales->appends($param)->links() }}
+                            {{ $culculates->appends($param)->links() }}
                         </div>                        
                     </div>
 
@@ -110,6 +120,140 @@
         </div>
     </div>
     <!--end page wrapper -->
+  
+
+    <div class="modal fade" id="calculateModal" tabindex="-2" aria-labelledby="calculateModalLabel" style="display: none;z-index:90000;" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="calculateModalLabel">정산정보</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="row g-3" name="calc_form" id="calc_form">
+                    {{csrf_field()}}
+                    <input type="hidden" name="no" id="no" value="">
+    
+                    <div class="row col-12 mb-2  seatExt" id="seatExt_changeTimeForm">
+                        <div class="col-12">
+                            <h6 class="calculate_date">지급상태 변경</h6>
+                            <div class="row mb-2">
+                                <div class="col">
+    
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="st" id="stA" value="A">
+                                        <label class="form-check-label" for="stA">미정산</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="st" id="stY" value="Y">
+                                        <label class="form-check-label" for="stY">정산완료</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-primary" id="btn_update_calc">변경하기</button>
+                                </div>
+                            </div>
+    
+                            <div class="row mb-2 calculate_list">
+                                
+                             </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
+@section('javascript')
+<script>
+    var selected_cal = 0;
+    function calculate_getInfo(no) {
+        var req = "no=" + no;
+        console.log(req);        
+        $.ajax({
+            url: '/calculate/getInfo',
+            type: 'POST',                
+            async: true,
+            beforeSend: function (xhr) {
 
+            },
+            data: req,
+            success: function (res, textStatus, xhr) {
+                selected_cal = res.culculates.cal_no;
+
+                $("#calc_form #no").val(selected_cal);
+
+                var log = "총예약건수 : " + res.culculates.cal_reserve_count + "<br>";
+                log += "수익금 : " + res.culculates.cal_revenue + "<br>";
+                log += "수수료 : " + res.culculates.cal_commission + "<br>";
+
+                if( res.culculates.cal_status == "A" )  {
+                    $("#calc_form #stA").prop("checked", true);
+                } else if( res.culculates.cal_status == "Y" )  {
+                    $("#calc_form #stY").prop("checked", true);
+                }
+                $(".calculate_list").html(log);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log(xhr);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        });
+    }
+    function calculate_update() {
+        var req = $("#calc_form").serialize();
+        $.ajax({
+            url: '/calculate/update',
+            type: 'POST',
+            async: true,
+            beforeSend: function (xhr) {
+
+            },
+            data: req,
+            success: function (res, textStatus, xhr) {
+                console.log(res);
+                if (res.result == true) {
+                    document.location.reload();
+                } else {
+
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log(xhr);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        });
+    }
+
+    $(document).ready(function(){
+        $(document).on("click", ".btn_calculate",function(){
+        
+            var cal_no = $(this).attr('cal');        
+            calculate_getInfo(cal_no);
+            $("#calculateModal").modal("show");
+            
+        });
+
+        $(document).on("click", "#btn_update_calc",function(){
+                    calculate_update();
+        });
+
+        $('#calculateModal').on('show.bs.modal', function (event) {            
+            var button = $(event.relatedTarget);            
+            var deleteUrl = button.data('title');            
+            var modal = $(this);                   
+        })
+
+
+
+    });
+</script>  
+@endsection

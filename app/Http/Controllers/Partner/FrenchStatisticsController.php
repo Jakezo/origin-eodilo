@@ -23,7 +23,6 @@ class FrenchStatisticsController extends Controller
         $this->FrenchReservSeat = new FrenchReservSeat();     
     }
 
-
     public function dayEndPartner(request $request )
     {
 

@@ -246,6 +246,9 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
         Route::prefix('/calculate')->group(function () {
 
             Route::get('/day', [CalculateController::class, 'day']);
+            Route::any('/getInfo', [CalculateController::class, 'getInfo']);
+            Route::any('/update', [CalculateController::class, 'update']);
+
             Route::get('/month', [CalculateController::class, 'month']);            
 
         });

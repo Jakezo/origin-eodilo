@@ -1833,7 +1833,11 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script>
-
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     function partner_search(){
         console.log("가맹점 검색실행:");
         var req = "q=" + $("#frm_search_partner #search_partner_q").val();

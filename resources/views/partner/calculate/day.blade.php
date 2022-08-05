@@ -65,28 +65,32 @@
                                     <th scope="col">#</th>
                                     <th scope="col">정산일</th>
                                     <th scope="col">가맹점</th>
-                                    <th scope="col">사용인원</th>
-                                    <th scope="col">누적사용시간</th>
-                                    <th scope="col">누적매출</th>
-                                    <th scope="col">수수료</th>
+                                    <th scope="col">총사용건수</th>
+                                    <th scope="col">정산금액</th>
+                                    <th scope="col">집계일시</th>
                                     <th scope="col">가맹점정산</th>
-                                    <th scope="col">내역보기</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @if( isset( $sales ) )
-                                @foreach( $sales as $si => $sale )
+                                @if( isset( $culculates ) )
+                                @foreach( $culculates as $ci => $culculate )
                                 <tr>
-                                    <td scope="row">{{ (count($sales)-$si) }}</td>
-                                    <td>{{ $sale['std_date'] }}</td>
-                                    <td><i class="bx bx-building"></i> {{ $sale['p_name'] }}</td>
-                                    <td class="text-right">{{ $sale['count_rv'] }}</td>
-                                    <td class="text-right">{{ $sale['sum_time'] }}</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td><button class="btn btn-xs btn-danger">내역보기</button></td>
-                                </tr>
+                                    <td scope="row">{{ (count($culculates)-$ci) }}</td>
+                                    <td>{{ $culculate['cal_date'] }}</td>
+                                    <td><i class="bx bx-building"></i> {{ $culculate['p_name'] }}</td>
+                                    <td class="text-right">{{ $culculate['cal_reserve_count'] }}</td>
+                                    <td class="text-right">{{ number_format($culculate['cal_revenue']) }}</td>
+                                    <td class="text-right">{{ $culculate['created_at'] }}</td>
+                                    <td class="text-right">
+                                        @if( $culculate['cal_status'] == "A" ) 
+                                            <span class="btn btn-xs btn-danger btn_calculate" cal="{{ $culculate['cal_no'] }}">미정산</span>
+                                        @elseif( $culculate['cal_status'] == "Y" ) 
+                                            <span class="btn btn-xs btn-primary btn_calculate" cal="{{ $culculate['cal_no'] }}">정산완료</span>
+                                        @else
+
+                                        @endif
+                                </tr>                                    
+
                                 @endforeach
                                 @endif                                    
 
@@ -98,9 +102,8 @@
                             {{ $error }}
                         @endforeach
                         <div class="card-body d-flex justify-content-center">
-                            {{ $sales->appends($param)->links() }}
-                        </div>    
-
+                            {{ $culculates->appends($param)->links() }}
+                        </div>                        
                     </div>
 
 
