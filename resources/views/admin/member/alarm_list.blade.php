@@ -76,12 +76,13 @@
                             <table class="table mb-0 table-striped">
                                 <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">구분</th>
-                                    <th scope="col">회원</th>
-                                    <th scope="col">제목</th>
-                                    <th scope="col">내용</th>
-                                    <th scope="col">발송일시</th>
+                                    <th scope="col" class="col-1">#</th>
+                                    <th scope="col" class="col-1">구분</th>
+                                    <th scope="col" class="col-1">파트너</th>
+                                    <th scope="col" class="col-1">회원</th>
+                                    <th scope="col" class="col-2">제목</th>
+                                    <th scope="col" class="col-3">내용</th>
+                                    <th scope="col" class="col-1">발송일시</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -98,6 +99,7 @@
                                         카카오
                                         @endif
                                     </td>
+                                    <td>{{ $alarm['p_name'] }}</td>
                                     <td>{{ $alarm['nickname'] ?? ( $alarm['name'] ?? $alarm['email'])  }}</td>
                                     <td>{{ $alarm['a_title'] }}</td>
                                     <td>{{ $alarm['a_body'] }}</td>

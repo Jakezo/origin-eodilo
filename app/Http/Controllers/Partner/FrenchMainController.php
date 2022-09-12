@@ -63,6 +63,12 @@ class FrenchMainController extends Controller
 
         Config::set('database.connections.partner.database',"boss_".$request->account);
 
+        if( $request->map  ) {
+            $data["map"] =  \App\Models\FrenchMap::find($request->map);
+        } else {
+            $data["map"]  = \App\Models\FrenchMap::first();
+        }  
+        
         $data["rooms"] = $this->FrenchRoom->all();
         // $data["seats"] = $this->FrenchSeat->select(["french_seats.*", "r.r_no", "r.r_name", "sl.sl_no", "sl.sl_name"])
         // ->leftjoin('french_rooms as r', 'french_seats.s_room', '=', 'r.r_no')

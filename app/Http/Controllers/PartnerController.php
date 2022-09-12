@@ -35,8 +35,6 @@ class PartnerController extends Controller
         $this->partner = new Partner();
     }
 
-
-
     public function nmap_get_point(Request $request){
         $data = [];
         $data["result"] = true;
@@ -119,8 +117,6 @@ class PartnerController extends Controller
 
         return view('admin.partner.nmap', $data);
     }
-    
-
 
     ## 목록
     public function index(Request $request){
@@ -151,7 +147,6 @@ class PartnerController extends Controller
                         $query->where(DB::raw("unix_timestamp(p_last_dt)"), "<", $now_timestamp);
                     }
 
-
                 }
 
                 if ($request->q) {
@@ -178,7 +173,6 @@ class PartnerController extends Controller
             } else {
                 $partner->p_area = "";
             }
-
 
             if( $partner->p_last_dt != "0000-00-00") {
                 $last_dt = new Carbon($partner->p_last_dt);
@@ -298,8 +292,7 @@ class PartnerController extends Controller
         return view('admin.partner.list', $data);
     }    
 
-    public function update(Request $request)
-    {
+    public function update(Request $request) {
         //DB::enableQueryLog();	//query log 시작 선언부
         //dd(DB::getQueryLog());
 
@@ -425,8 +418,7 @@ class PartnerController extends Controller
 
     }
 
-    public function delete(Request $request)
-    {
+    public function delete(Request $request) {
 
         $result = [];
         if( $request->no ) {
@@ -579,7 +571,6 @@ class PartnerController extends Controller
         return response($data);
     }
 
-
     ## 사진삭제
     public function photo_delete(Request $request){
         if( !$request->pt ) {
@@ -650,6 +641,128 @@ class PartnerController extends Controller
         }
         return response($data);
     }
+
+    ## 이용내역
+    public function reserve_history(Request $request)
+    {
+        
+        $data["FrenchReserves"] = [];
+        
+        $data["ageType"] = config("product.memberAgeType");
+        $data["sexType"] = config("product.memberSexType");
+        $data["fromType"] = config("product.memberFromType");
+        $data["productType"] = config("product.productType");
+
+        if( $request->no ) {
+            $data["partner"] = \App\Models\Partner::where('p_no', $request->no)->firstOrFail();
+
+            if( $data["partner"] ) {
+                Config::set('database.connections.partner.database',"boss_".$data["partner"]->p_id);
+                $data["result"] = true;
+                $data["FrenchReserves"] = \App\Models\FrenchReservSeat::
+                select("french_reserv_seats.*","french_rooms.r_name","french_seats.s_name","french_product_orders.o_member_name")
+                ->where("rv_partner", $request->no)
+                ->leftjoin('french_product_orders', 'french_product_orders.o_member', '=', 'french_reserv_seats.rv_member')
+                ->leftjoin('french_rooms', 'french_rooms.r_no', '=', 'french_reserv_seats.rv_room')
+                ->leftjoin('french_seats', 'french_seats.s_no', '=', 'french_reserv_seats.rv_seat')
+                ->where(function ($query) use ($request) {
+                    if ($request->q) {
+                            $query->where("o_member_name", "like", "%" . $request->q . "%");
+                                //->orwhere("o_title", "like", "%" . $request->q . "%")
+                    }
+        
+                    if ($request->pkind) {
+                        $query->where( "french_reserv_seats.rv_product_kind", $request->pkind);
+                    }
+        
+                    if ($request->state) {
+                        $query->where( "french_reserv_seats.rv_state", $request->state);
+                    }
+        
+                    if ($request->sdate) {
+                        $query->where( DB::raw("date_format(french_reserv_seats.created_at,'%Y-%m-%d')"),  ">=", $request->sdate);
+                    }
+        
+                    if ($request->edate) {
+                        $query->where( DB::raw("date_format(french_reserv_seats.created_at,'%Y-%m-%d')"),  "<=", $request->edate);
+                    }
+        
+                    if ($request->q) {
+                        $query->where("french_product_orders.o_member_name",  "Like", "%".$request->q."%");
+                    }
+        
+                })
+                ->orderBy("rv_no","desc")->paginate(20);
+        
+                $data['start'] = $data["FrenchReserves"]->total() - $data["FrenchReserves"]->perPage() * ($data["FrenchReserves"]->currentPage() - 1);
+                $data['total'] = $data["FrenchReserves"]->total();
+                $data['param'] = [
+                    'state' => $request->state, 
+                    'sdate' => $request->sdate, 
+                    'edate' => $request->edate,  
+                    'pkind' => $request->pkind,             
+                    'fd' => $request->fd, 
+                    'q' => $request->q];
+        
+        
+            } else {
+                $data["result"] = false;
+            }
+
+        }
+
+        return view('admin.partner.reserve',$data);
+
+    }
+
+    ## 정산내역    
+    public function calculate(Request $request)
+    {
+
+        $data["culculates"] = [];
+        $data["ageType"] = config("product.memberAgeType");
+        $data["sexType"] = config("product.memberSexType");
+        $data["fromType"] = config("product.memberFromType");
+        $data["productType"] = config("product.productType");
+        
+        if( $request->no ) {
+            $data["partner"] = \App\Models\Partner::where('p_no', $request->no)->firstOrFail();        
+            $data["culculates"] = \App\Models\PartnerCalculate::where('cal_partner', $request->no)
+            ->where(function ($query) use ($request) {
+
+                if ($request->partner) {
+                        $query->where("cal_partner", $request->partner );
+                }
+
+                if ($request->sdate) {
+                    $query->where( "cal_date",  ">=", $request->sdate);
+                }
+
+                if ($request->edate) {
+                    $query->where( "cal_date",  "<=", $request->edate);
+                }
+
+            })
+            ->leftjoin("partners","partners.p_no","partner_calculates.cal_partner")
+            ->orderBy("cal_date","desc")
+            ->orderBy("partner_calculates.cal_revenue","desc")        
+            ->paginate(10);
+
+            $data['start'] = $data["culculates"]->total() - $data["culculates"]->perPage() * ($data["culculates"]->currentPage() - 1);
+            $data['total'] = $data["culculates"]->total();
+            $data['param'] = [
+                'state' => $request->state, 
+                'sdate' => $request->sdate, 
+                'edate' => $request->edate,  
+                'partner' => $request->partner,             
+                'fd' => $request->fd, 
+                'q' => $request->q];
+        }
+
+        return view('admin.partner.calculate',$data);
+
+    }
+
 
     # API.가맹점 찜등록/해제
     public function set_favorite(Request $request){

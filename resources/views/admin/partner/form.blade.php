@@ -81,37 +81,8 @@
                                 </div>
                             </a>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#"
-                               role="tab" aria-selected="true">
-                                <div class="d-flex align-items-center">
-                                    <div class="tab-icon"><i class='bx bxs-home font-18 me-1'></i>
-                                    </div>
-                                    <div class="tab-title">1:1문의</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#"
-                               role="tab" aria-selected="false">
-                                <div class="d-flex align-items-center">
-                                    <div class="tab-icon"><i class='bx bxs-user-pin font-18 me-1'></i>
-                                    </div>
-                                    <div class="tab-title">공지사항</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#"
-                               role="tab" aria-selected="false">
-                                <div class="d-flex align-items-center">
-                                    <div class="tab-icon"><i class='bx bxs-microphone font-18 me-1'></i>
-                                    </div>
-                                    <div class="tab-title">이용통계</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
+                        <li class="nav-item" role="presentation"
+                        onclick="location.href='/partner/calculate/{{ $partner["p_no"] }}'">
                             <a class="nav-link" data-bs-toggle="tab" href="#"
                                role="tab" aria-selected="false">
                                 <div class="d-flex align-items-center">

@@ -2,6 +2,7 @@
 namespace App\Http\Classes; 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Image;
 
 if( !class_exists("NCPdisk") ) {
 

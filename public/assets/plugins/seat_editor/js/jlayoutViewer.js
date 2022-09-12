@@ -32,7 +32,7 @@ function load_view_map( mode, room ){
     $.ajax({
         type: 'POST',
         async: false,
-        url: '/partner_api/seat/editor_getMapInfo',
+        url: '/partner_api/map/editor_getMapInfo',
         data: data,
         success: function(res) {
             

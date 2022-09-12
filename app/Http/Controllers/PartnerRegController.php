@@ -75,9 +75,8 @@ class PartnerRegController extends Controller
         } else {
             $result['result'] = $partnerReg->save();
         }
-
         if( $partnerReg->pr_edate != "0000-00-00") {
-            $partner = \App\Models\Partner::where('p_no', $partnerReg->pr_partner)->firstOrFail();
+            $partner = \App\Models\Partner::find($partnerReg->pr_partner);
             $partner->p_last_dt = $partnerReg->pr_edate;
             $result["partner"] = $partner->update();
         }
@@ -119,5 +118,22 @@ class PartnerRegController extends Controller
             $result["partner"] = $partner->update();
         }
         return response($result);
-    }    
+    } 
+    
+    ## 폼을 위한 정보
+    public function getInfo(Request $request){
+
+        $data["reg"] = $this->partnerReg::select("partner_regs.*","partners.p_no","partners.p_name")
+        ->where("pr_no",$request->no)
+        ->leftJoin("partners","partners.p_no","partner_regs.pr_partner")
+        ->first();
+
+        if( $data["reg"] ) {
+            $data["result"] = true;
+        } else {
+            $data["result"] = false;
+        }
+        return response($data);
+    }
+
 }

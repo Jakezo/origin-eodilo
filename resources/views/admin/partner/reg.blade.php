@@ -89,7 +89,7 @@
                                     </td>
                                     <td class="text-center">{{ number_format($partner_reg['pr_pay_money']) ?? 0 }} </td>
                                     <td class="text-center">{{ substr($partner_reg['created_at'],2,8) ?? '' }}</td>
-                                    <td class="text-center"><button class="btn btn-xs btn-secondary">관리</button></td>
+                                    <td class="text-center"><button class="btn btn-xs btn-secondary reg_item" pr="{{ $partner_reg['pr_no'] }}">관리</button></td>
                                 </tr>
                                 @endforeach
                                 @endif
@@ -122,6 +122,7 @@
                 <div class="modal-body">
                     <form class="form-horizontal" role="form" name="frm_reg" id="frm_reg">
                     {{csrf_field()}}
+                    <input type="hidden" name="no" id="no" value="">
                     <input type="hidden" name="partner" id="partner" value="">
                     <input name="partner_name" id="partner_name" style="ime-mode:disabled;" class="input_partner form-control form-control-sm mb-3 col-6" type="text" placeholder="클릭하여 가맹점검색" aria-label=".form-control-sm example" data-bs-toggle="modal" data-bs-target="#partnerSearchModal" search_mode="reg">
 
@@ -181,9 +182,9 @@
                 }
             });
             $(document).on("click", ".reg_item", function () {
-                var e_no = $(this).attr("event");
-                reg_getInfo(e_no);
-                console.log(e_no);
+                var pr_no = $(this).attr("pr");
+                reg_getInfo(pr_no);
+                console.log(pr_no);
             });
             $(document).on("click", "#btn_reg_update", function () {
                 reg_update();
@@ -320,15 +321,18 @@
                 },
                 data: req,
                 success: function (res, textStatus, xhr) {
+                    console.log(res);
                     if (res.reg != null) {
-                        $("#no").val(res.reg.no);
+                        $("#regFormModal #no").val(res.reg.pr_no);
                         //$("#aid").val(res.event.id).attr("readonly", true);
-                        $("#sdate").val(res.reg.sdate);
-                        $("#edate").val(res.reg.edate);
-                        $("#value").val(res.reg.value);
-                        $("#title").val(res.reg.title);
-                        $("#cont").val(res.reg.cont);
-                        $("#type").val(res.reg.type);
+                        $("#regFormModal #partner").val(res.reg.pr_partner);
+                        $("#regFormModal #partner_name").val(res.reg.p_name);
+                        $("#regFormModal #sdate").val(res.reg.pr_sdate);
+                        $("#regFormModal #edate").val(res.reg.pr_edate);
+                        $("#regFormModal #pay_kind").val(res.reg.pr_pay_kind);
+                        $("#regFormModal #pay_money").val(res.reg.pr_pay_money);
+                        $("#regFormModal").modal("show");
+
                     } else {
                         $("#regDetail_msg").html(res.message);
                         console.log("실패.");
@@ -339,6 +343,11 @@
                 }
             });
         }
+
+
+
+
+
 
 
         function partner_getInfo(no) {

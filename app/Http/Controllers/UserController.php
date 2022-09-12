@@ -276,14 +276,14 @@ class UserController extends Controller
         return view('admin.member.userView', $data);
     }
 
-    ## 구매내역
+    ## 알람목록
     public function alarm_list(Request $request){
 
         $data["result"] = true;
         $data["alarms"] = [];
 
-
-            $data["alarms"] = \App\Models\UserAlarm::select("user_alarms.*","users.id", "users.name")
+            $data["alarms"] = \App\Models\UserAlarm::select("user_alarms.*","users.id", "users.name", "partners.p_name")
+            ->leftJoin("partners", "partners.p_no","user_alarms.a_partner")
             ->where(function ($query) use ($request) {
                 if ($request->q) {
                         $query->where("users.name", "like", "%" . $request->q . "%")
@@ -378,7 +378,8 @@ class UserController extends Controller
         $data["user"] = $this->user::where("id",  $request->id)->first();
         if( $data["user"] ) {
 
-            $data["orders"] = \App\Models\MobileProductOrder::select("mobile_product_orders.*","users.id", "users.name","partners.p_no", "partners.p_name", "partners.p_id")
+            $data["orders"] = \App\Models\MobileProductOrder::
+                select("mobile_product_orders.*","users.id", "users.name","partners.p_no", "partners.p_name", "partners.p_id")
             ->where("o_member",$data["user"]["id"])
             ->where(function ($query) use ($request) {
                 if ($request->q) {

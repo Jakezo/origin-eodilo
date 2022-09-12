@@ -86,40 +86,42 @@ class FrenchHistoryController extends Controller
     ## 사용목록
     public function reserv_list(Request $request){
 
+        $data["FrenchReserves"] = [];
+        $data['productType'] = [];
+        
+        $data["ageType"] = config("product.memberAgeType");
+        $data["sexType"] = config("product.memberSexType");
+        $data["fromType"] = config("product.memberFromType");
+        $data["productType"] = config("product.productType");
+                
         //DB::enableQueryLog();	//query log 시작 선언부
         $data["reservs"] = [];
         $data["reservs"] = $this->FrenchReservSeat->select(['french_reserv_seats.*','french_members.mb_name','french_members.mb_phone','french_rooms.r_name','french_seats.s_name'])
         ->where(function ($query) use ($request) {
             if ($request->q) {
-                    $query->where("rv_member_name", "like", "%" . $request->q . "%");
-                        //->orwhere("o_title", "like", "%" . $request->q . "%")
-            }
-            if ($request->sdate) {
-
-                $query->where(DB::raw("date_format(rv_sdate,'%Y-%m-%d')"), ">=", $request->sdate)
-                ->orWhere(DB::raw("date_format(rv_edate,'%Y-%m-%d')"), '>=', $request->sdate);   
-            }
-            if ($request->edate) {
-
-                $query->where(DB::raw("date_format(rv_sdate,'%Y-%m-%d')"), "<=", $request->edate)
-                ->orWhere(DB::raw("date_format(rv_edate,'%Y-%m-%d')"), '<=', $request->edate);                   
+                $query->where("o_member_name", "like", "%" . $request->q . "%");
+                    //->orwhere("o_title", "like", "%" . $request->q . "%")
             }
 
             if ($request->pkind) {
-                    $query->where("o_product_kind", $request->pkind);
-            }            
+                $query->where( "french_reserv_seats.rv_product_kind", $request->pkind);
+            }
 
-            //  if ($request->state) {
-            //     if( $request->state == "A" ) {
-            //         $query->where("o_duration", "<", "%" . $request->q . "%");
-            //     } elseif( $request->state == "N" ) {
-            //         $query->where("e_title", "like", "%" . $request->q . "%");
-            //     }  elseif( $request->state == "Y" ) {
-            //         $query->where("e_cont", "like", "%" . $request->q . "%");
-            //     }
+            if ($request->state) {
+                $query->where( "french_reserv_seats.rv_state", $request->state);
+            }
 
-            //     $query->where("o_state", $request->state);
-            //  }         
+            if ($request->sdate) {
+                $query->where( DB::raw("date_format(french_reserv_seats.created_at,'%Y-%m-%d')"),  ">=", $request->sdate);
+            }
+
+            if ($request->edate) {
+                $query->where( DB::raw("date_format(french_reserv_seats.created_at,'%Y-%m-%d')"),  "<=", $request->edate);
+            }
+
+            if ($request->q) {
+                $query->where("french_product_orders.o_member_name",  "Like", "%".$request->q."%");
+            }   
 
             if ($request->pay_state) {
                 $query->where("o_pay_state", $request->pay_state);

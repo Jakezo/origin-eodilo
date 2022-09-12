@@ -72,7 +72,7 @@
 
                         <form id="frm_seatlist" name="frm_seatlist">
                         <div class="card-body">
-                            <div>총 {{ isset($total) ? number_format($total) : '' }} 건  <a href="/setting/seat/editor" target="_blank" class="btn btn-warning px-2 btn-sm">배치도편집</a></div>
+                            <div>총 {{ isset($total) ? number_format($total) : '' }} 건  <a href="/setting/map/editor" target="_blank" class="btn btn-warning px-2 btn-sm">배치도편집</a></div>
                             <table class="table mb-0 table-striped">
                                 <thead>
                                 <tr>

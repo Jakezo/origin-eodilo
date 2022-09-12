@@ -54,7 +54,7 @@
             </div>
 
             <div class="row">
-                <div class="col-12 col-lg-9">
+                <div class="col-12 col-lg-12">
                     <div class="card radius-10">
                         <div class="card-header border-bottom-0 bg-transparent">
                             <div class="d-lg-flex align-items-center">
@@ -65,7 +65,7 @@
                                 <div class="ms-lg-auto mb-2 mb-lg-0">
                                     <div class="btn-group-round">
                                         <div class="btn-group">
-                                            룸선택
+                                            <a href="/setting/map/editor" target="_blank" class="btn btn-warning px-2 btn-sm">배치도편집</a>
                                         </div>
                                     </div>
                                 </div>
@@ -78,7 +78,7 @@
 
                                         <link rel="stylesheet" href="/assets/plugins/seat_editor/css/jlayout.css">
                                         <input type="hidden" name="no" id="no" value="{{ $no ?? "" }}?>">
-                                        <div id="room_bg" class="col-sm-8" style="width:100%;height:600px;border:1px solid #cbc7c7;">
+                                        <div id="room_bg" bg="{{ $map['m_bg'] ?? ""}}" class="col-sm-8" style="background-size:cover;background-position: left;background-repeat:no-repeat;background-image:url({{ $map['m_bg'] ?? ""}});width:{{ $map['m_width'] ?? 800 }}px;height:{{ $map['m_width'] ?? 600 }}px;border:1px solid #cbc7c7;">
 
                                         </div>
                                         <div class="guide_txt" style="display:none;">좌석을 추가하시려면 좌석관리에서 등록해주셔야 합니다.</div>
@@ -129,6 +129,8 @@
 <script src="/assets/plugins/seat_editor/js/jquery.resize.js"></script>
 <script src="/assets/plugins/seat_editor/js/jlayout.js"></script>
 <script src="/assets/plugins/seat_editor/js/jlayoutViewer.js"></script>
+
+<!--script src="/assets/plugins/seat_editor/js/jlayoutMapEditor.js"></script-->
 <script>
 
         // function seat_getInfo(no) {
@@ -197,7 +199,8 @@
                 }
             });
 
-            setting_map( "fix" );
+            //setting_map( "fix" );
+            load_view_map(mode, room);
         });
 
 

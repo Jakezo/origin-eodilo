@@ -256,6 +256,8 @@ class FrenchMemberController extends Controller
     public function getInfo(Request $request){
         Config::set('database.connections.partner.database',"boss_".$request->account);
 
+
+
         $data["result"] = true;
         $data["member"] = $this->FrenchMember->select([
             'mb_no as no', 
@@ -400,7 +402,7 @@ class FrenchMemberController extends Controller
     
 
     
-    ## 폼을 위한 정보
+    ## 회원의 구매내역
     public function productsList(Request $request){
 
         Config::set('database.connections.partner.database',"boss_".$request->account);        
@@ -477,4 +479,95 @@ class FrenchMemberController extends Controller
 
     }    
 
+
+        ## 알람목록
+        public function alarm_list(Request $request){
+
+            Config::set('database.connections.partner.database',"boss_".$request->account); 
+            
+            $partner = \App\Models\Partner::select("p_no","p_id","p_name")->where('p_id', $request->account)->first(); 
+
+            $data["result"] = true;
+            $data["alarms"] = [];
+                $data["alarms"] = \App\Models\UserAlarm::where("a_partner", $partner->p_no)
+                ->select("user_alarms.*","users.id", "users.name", "partners.p_name")
+                ->leftJoin("partners", "partners.p_no","user_alarms.a_partner")
+                ->where(function ($query) use ($request) {
+                    if ($request->q) {
+                            $query->where("users.name", "like", "%" . $request->q . "%")
+                            ->orwhere("users.nickname", "like", "%" . $request->q . "%")
+                            ->orwhere("users.email", "like", "%" . $request->q . "%");
+                    }
+                    if ($request->sdate) {
+                        $query->where( DB::raw("date_format(user_alarms.created_at,'%Y-%m-%d')"),  ">=", $request->sdate);
+                    }
+                    if ($request->edate) {
+                        $query->where( DB::raw("date_format(user_alarms.created_at,'%Y-%m-%d')"),  "<=", $request->edate);
+                    }
+                    if ($request->kind) {
+                            $query->where("a_kind", $request->kind);
+                    }            
+    
+                })
+                ->leftjoin('users', 'users.id', '=', 'user_alarms.a_member')
+                ->orderBy("a_no","desc")->paginate(10);
+        
+                $data['productType'] = Config::get('product.productType');
+        
+                $data['start'] = $data["alarms"]->total() - $data["alarms"]->perPage() * ($data["alarms"]->currentPage() - 1);
+                $data['total'] = $data["alarms"]->total();
+                $data['param'] = [
+                    'id' => $request->id, 
+                    'sdate' => $request->sdate, 
+                    'edate' => $request->edate,  
+                    'kind' => $request->kind,             
+                    'fd' => $request->fd, 
+                    'q' => $request->q];
+    
+    
+            return view('partner.member.sms_list', $data);
+    
+        }  
+
+
+    ## 회원의 팝업정보
+
+    #1. 구매내역
+    public function member_buyProducts(Request $request){
+
+        Config::set('database.connections.partner.database',"boss_".$request->account);        
+        //DB::enableQueryLog();	//query log 시작 선언부
+
+
+        $data["result"] = true;
+        $data["orders"] = $this->FrenchProductOrder
+            ->where("o_member",$request->no)->orderBy("o_no","desc")
+            ->orderBy("o_no","desc")->paginate(10);
+        dd($data["orders"]);
+        
+            $data['productType'] = Config::get('product.productType');
+    
+            $data['start'] = $data["orders"]->total() - $data["orders"]->perPage() * ($data["orders"]->currentPage() - 1);
+            $data['total'] = $data["orders"]->total();
+            $data['param'] = [
+                'id' => $request->id, 
+                'sdate' => $request->sdate, 
+                'edate' => $request->edate,  
+                'pkind' => $request->pkind,             
+                'fd' => $request->fd, 
+                'q' => $request->q];
+
+        foreach( $data["orders"] as $order ) {
+            if( $order['o_product_kind'] == "P" )  {
+                $order['o_remainder']  = $order['o_remainder_point'];
+            } else if( $order['o_product_kind'] == "D" || $order['o_product_kind'] == "A" )  {
+                $order['o_remainder']  = $order['o_remainder_day'];
+            } else if( $order['o_product_kind'] == "T" )  {
+                $order['o_remainder']  = $order['o_duration_time'];
+            }
+        }
+
+        return response($data);            
+
+    }    
 }

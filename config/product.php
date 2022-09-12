@@ -31,7 +31,23 @@ return [
             'code' => 'adult',
             'name' => '성인'
         ]
+    ],
+
+    'memberAgeType' => [
+        'S' =>  '학생',
+        'A' =>  '성인'
+    ],
+
+    'memberSexType' => [
+        'M' =>  '남자',
+        'F' =>  '여자'
+    ],
+
+    'memberFromType' => [
+        'M' =>  '모바일',
+        'A' =>  '가맹점',
     ]
+
 ];
 
 ?>

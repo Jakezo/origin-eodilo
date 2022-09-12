@@ -57,6 +57,7 @@ use App\Http\Controllers\Partner\SettingIotController;
 use App\Http\Controllers\Partner\SettingRoomController;
 use App\Http\Controllers\Partner\SettingSeatLevelController;
 use App\Http\Controllers\Partner\SettingSeatController;
+use App\Http\Controllers\Partner\SettingMapController;
 use App\Http\Controllers\Partner\SettingLockerAreaController;
 use App\Http\Controllers\Partner\SettingLockerController;
 use App\Http\Controllers\Partner\SettingProductController;
@@ -166,15 +167,20 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
             Route::post('/photo/{no?}/list',  [PartnerController::class, 'photo_list']);
             Route::post('/photo/{no?}/delete',  [PartnerController::class, 'photo_delete']);
 
+            Route::get('/reserve/{no?}',  [PartnerController::class, 'reserve_history']);
+            Route::get('/calculate/{no?}',  [PartnerController::class, 'calculate']);
+
             Route::any('/update', [PartnerController::class, 'update']);
             Route::any('/delete', [PartnerController::class, 'delete']);
 
             Route::get('/apply', [PartnerApplyController::class, 'index']);
             Route::any('/apply/store', [PartnerApplyController::class, 'store']);
 
-            Route::get('/reg', [PartnerRegController::class, 'index']);
-
-            Route::any('/reg/update', [PartnerRegController::class, 'update']);
+            Route::group(['prefix' => '/reg'],function () {            
+                Route::get('/', [PartnerRegController::class, 'index']);
+                Route::any('/getInfo', [PartnerRegController::class, 'getInfo']);
+                Route::any('/update', [PartnerRegController::class, 'update']);
+            });
 
             // Route::get('/standard', function () {
             //     return view('admin.partner.standard');
@@ -352,6 +358,7 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
         Route::any('/seat_level/get_list', [SettingSeatLevelController::class, 'get_list']);
         Route::get('/locker_area/get_list', [SettingLockerAreaController::class, 'get_list']);
         Route::any('/seat/editor_getMapInfo', [SettingSeatController::class, 'editor_getMapInfo']);
+        Route::any('/map/editor_getMapInfo', [SettingMapController::class, 'editor_getMapInfo']);
     });
 
     Route::group(['prefix' => '/reservation'],function () {
@@ -389,6 +396,15 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
             Route::any('/popupReg', [FrenchMemberController::class, 'regForm']);
             Route::any('/popupInfo', [FrenchMemberController::class, 'viewInfo']);
 
+
+            // 팝업정보
+            Route::any('/member_buyProducts', [FrenchMemberController::class, 'member_buyProducts']);
+            Route::any('/member_reserveSeats', [UserController::class, 'reserves']);     
+            Route::any('/member_cashes', [UserController::class, 'cashes']);  
+            Route::any('/member_alarms', [UserController::class, 'alarms']);  
+            Route::any('/member_customs', [UserController::class, 'customs']);          
+
+
             Route::any('/list', [FrenchMemberController::class, 'index']);
             Route::any('/search', [FrenchMemberController::class, 'search']);
             Route::any('/update', [FrenchMemberController::class, 'update']);
@@ -397,9 +413,8 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
             Route::any('/productsList', [FrenchMemberController::class, 'productsList']);
             Route::any('/productState', [FrenchMemberController::class, 'productState']); // 상품구매
 
-            Route::get('/sms', function () {
-                return view('partner.member.sms_list');
-            });
+            Route::any('/sms', [FrenchMemberController::class, 'alarm_list']); // 알람발송내역
+
             Route::get('/refund', function () {
                 return view('partner.member.refund_list');
             });
@@ -573,6 +588,12 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
                 Route::get('/editor', [SettingSeatController::class, 'editor']);
                 Route::any('/editor/update', [SettingSeatController::class, 'map_save']);
                 Route::any('/editor/bg_upload', [SettingSeatController::class, 'map_bg_upload']);
+            });
+
+            Route::prefix('/map')->group(function () {
+                Route::get('/editor', [SettingMapController::class, 'editor']);
+                Route::any('/update', [SettingMapController::class, 'map_save']);
+                Route::any('/bg_upload', [SettingMapController::class, 'map_bg_upload']);
             });
 
             Route::prefix('/locker_area')->group(function () {

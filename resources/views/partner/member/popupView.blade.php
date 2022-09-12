@@ -30,7 +30,7 @@
 
             <ul class="nav nav-tabs nav-primary navbar-sm" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active" data-bs-toggle="tab" href="#primaryhome" role="tab" aria-selected="true">
+                    <a class="nav-link" href="/member/user_info?no={{ $member['no'] }}" role="tab" aria-selected="true">
                         <div class="d-flex align-items-center">
                             <div class="tab-icon"><i class="bx bxs-home font-18 me-1"></i>
                             </div>
@@ -40,7 +40,8 @@
                 </li>
                 @if( isset( $member['name'] ) )                
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#primarybuy" role="tab" aria-selected="false">
+                    <a class="nav-link" href="/member/member_buyProducts?no={{ $member['no'] }}" role="tab" aria-selected="true">
+
                         <div class="d-flex align-items-center">
                             <div class="tab-icon"><i class="bx bxs-user-pin font-18 me-1"></i>
                             </div>

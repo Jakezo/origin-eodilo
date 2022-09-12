@@ -1,4 +1,4 @@
-@extends('layouts.manager_popup')
+@extends('layouts.admin_popup')
 
 @section('title', 'Page Title')
 
@@ -100,6 +100,7 @@
                         <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">가맹점</th>
                             <th scope="col">구매일</th>
                             <th scope="col">구매상품</th>
                             <th scope="col">잔여</th>
@@ -111,6 +112,7 @@
                             @foreach( $orders as $oi => $order )         
                             <tr>
                                 <th scope="row">{{ (count($orders) - $oi) }}</th>
+                                <td>{{ $order['p_name'] }}</td>
                                 <td>{{ $order['created_at'] }}</td>
                                 <td>
                                     @if($order['o_product_kind'] == "A") 

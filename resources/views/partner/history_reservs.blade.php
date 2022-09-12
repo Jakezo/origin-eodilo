@@ -108,15 +108,17 @@
                                 </thead>
                                 <tbody>
                                 @if( $reservs )
-                                @foreach( $reservs as $ri => $reserv )                                       
+                                @foreach( $reservs as $ri => $reserv )                                      
                                 <tr>
                                     <th scope="row">{{ ($start - $ri) }}</th>
                                     <td>{{ $reserv['rv_no'] }}</td>
 
                                     <td member="{{ $reserv['o_member'] }}">
-                                        <span class="btn btn-xs @if( $reserv['rv_ageType'] == "S") btn-student @else btn-adult @endif">{{ $reserv['rv_ageType'] }}</span>
-                                        <span class="btn btn-xs @if( $reserv['rv_sex'] == "F") btn-female @else btn-male @endif">{{ $reserv['rv_sex'] }}</span>
-                                        {{ $reserv['mb_name'] }}
+                                        <span class="btn btn-xs @if( $reserv['rv_ageType'] == "S") btn-student @else btn-adult @endif">{{ $ageType[$reserv['rv_ageType']] ?? "" }}</span>
+                                        <span class="btn btn-xs @if( $reserv['rv_sex'] == "F") btn-female @else btn-male @endif">{{ $sexType[$reserv['rv_sex']] ?? "" }}</span>
+                                        
+                                        {{ $fromType[$reserv['rv_member_from']] ?? "" }}
+                                        {{ $reserv['o_member_name'] }}
                                     </td>
                                     <td><span room="{{ $reserv['rv_room'] }}">{{ $reserv['r_name'] }}</span> / <span seat="{{ $reserv['s_name'] }}">{{ $reserv['rv_seat'] }}</span></td>
                                     <td>{{ $reserv['rv_locker'] }}</td>
