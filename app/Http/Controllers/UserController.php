@@ -205,7 +205,7 @@ class UserController extends Controller
                     $json = json_decode($response); 
 
                     $UserAlarm = new \App\Models\UserAlarm;
-                    $UserAlarm->a_member = $user->id ?? 0;
+                    $UserAlarm->a_user = $user->id ?? 0;
                     $UserAlarm->a_kind = "P";
                     $UserAlarm->a_title = $request->title;
                     $UserAlarm->a_body = $request->body;
@@ -301,7 +301,7 @@ class UserController extends Controller
                 }            
 
             })
-            ->leftjoin('users', 'users.id', '=', 'user_alarms.a_member')
+            ->leftjoin('users', 'users.id', '=', 'user_alarms.a_user')
             ->orderBy("a_no","desc")->paginate(10);
     
             $data['productType'] = Config::get('product.productType');
@@ -331,7 +331,7 @@ class UserController extends Controller
         if( $data["user"] ) {
 
             $data["alarms"] = \App\Models\UserAlarm::select("user_alarms.*","users.id", "users.name")
-            ->where("a_member",$data["user"]["id"])
+            ->where("a_user",$data["user"]["id"])
             ->where(function ($query) use ($request) {
                 if ($request->q) {
                         $query->where("users.name", "like", "%" . $request->q . "%")
@@ -349,7 +349,7 @@ class UserController extends Controller
                 }            
 
             })
-            ->leftjoin('users', 'users.id', '=', 'user_alarms.a_member')
+            ->leftjoin('users', 'users.id', '=', 'user_alarms.a_user')
             ->orderBy("a_no","desc")->paginate(10);
     
             $data['productType'] = Config::get('product.productType');

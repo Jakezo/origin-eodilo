@@ -24,7 +24,7 @@ class CreateFrenchMembersTable extends Migration
             $table->string('mb_phone', 20)->default('')->comment('핸드폰');
             $table->string('mb_login_last', 20)->default('')->comment('마지막로그인');
             $table->string('mb_login_ip', 20)->default('')->comment('로그인IP');
-            $table->char('mb_state',1)->default('N')->comment('상태');
+            $table->char('mb_state',1)->default('N')->comment('상태 B:블락');
             $table->string('mb_tags',20)->default('')->comment('태그');
             $table->string('mb_memo',255)->default('')->comment('메모');
             $table->integer('mb_user')->default(0)->comment('은하회원번호');

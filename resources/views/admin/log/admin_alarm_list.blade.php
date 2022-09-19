@@ -101,7 +101,7 @@
                                         카카오
                                         @endif
                                     </td>
-                                    <td>{{ $alarm['a_member'] }} {{ $alarm['nickname'] ?? ( $alarm['name'] ?? $alarm['email'])  }}</td>
+                                    <td>{{ $alarm['a_user'] }} {{ $alarm['nickname'] ?? ( $alarm['name'] ?? $alarm['email'])  }}</td>
                                     <td>{{ $alarm['a_title'] }}</td>
                                     <td>{{ $alarm['created_at'] }}</td>
                                 </tr>

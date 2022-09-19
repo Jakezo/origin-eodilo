@@ -64,7 +64,7 @@ use App\Http\Controllers\Partner\SettingProductController;
 
 use App\Http\Controllers\SysMqttController;
 
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Partner\FrenchLoginController;
 
 
@@ -131,9 +131,9 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
     Route::any('/dayEndPartner', [FrenchStatisticsController::class, 'dayEndPartner']);
 
 
-    Route::get('/adminlogin', [LoginController::class, 'showAdminLoginForm'])->name("adminlogin");
-    Route::post('/adminloginok', [LoginController::class, 'adminLogin']);
-    Route::get('/logout', [AdminController::class, 'logout']);
+    Route::get('/adminlogin', [AdminLoginController::class, 'showAdminLoginForm'])->name("adminlogin");
+    Route::post('/adminloginok', [AdminLoginController::class, 'adminLogin']);
+    Route::get('/logout', [AdminLoginController::class, 'logout']);
 
     //Auth::routes();
 
@@ -394,16 +394,12 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
         Route::prefix('/member')->group(function () {
 
             Route::any('/popupReg', [FrenchMemberController::class, 'regForm']);
-            Route::any('/popupInfo', [FrenchMemberController::class, 'viewInfo']);
-
 
             // 팝업정보
+            Route::any('/member_info', [FrenchMemberController::class, 'member_info']);
             Route::any('/member_buyProducts', [FrenchMemberController::class, 'member_buyProducts']);
-            Route::any('/member_reserveSeats', [UserController::class, 'reserves']);     
-            Route::any('/member_cashes', [UserController::class, 'cashes']);  
-            Route::any('/member_alarms', [UserController::class, 'alarms']);  
-            Route::any('/member_customs', [UserController::class, 'customs']);          
-
+            Route::any('/member_reserveSeats', [FrenchMemberController::class, 'member_reserveSeats']);     
+            Route::any('/member_alarms', [FrenchMemberController::class, 'member_alarms']);  
 
             Route::any('/list', [FrenchMemberController::class, 'index']);
             Route::any('/search', [FrenchMemberController::class, 'search']);

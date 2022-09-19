@@ -14,7 +14,7 @@
                     @if( isset( $member['name'] ) )
                     <li class="breadcrumb-item active" aria-current="page">{{ $member['name']  ?? '' }} ({{ $member['id']  ?? '' }})</li>
                     @else
-                    <li class="breadcrumb-item active" aria-current="page">신규가입</li>
+                    <li class="breadcrumb-item active" aria-current="page">구매내역</li>
                     @endif
                 </ol>
             </nav>
@@ -30,7 +30,7 @@
 
             <ul class="nav nav-tabs nav-primary navbar-sm" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="/member/user_info?no={{ $member['no'] }}" role="tab" aria-selected="true">
+                    <a class="nav-link" href="/member/member_info?no={{ $member['mb_no'] }}" role="tab" aria-selected="true">
                         <div class="d-flex align-items-center">
                             <div class="tab-icon"><i class="bx bxs-home font-18 me-1"></i>
                             </div>
@@ -38,9 +38,9 @@
                         </div>
                     </a>
                 </li>
-                @if( isset( $member['name'] ) )                
+                @if( isset( $member['mb_name'] ) )                
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="/member/member_buyProducts?no={{ $member['no'] }}" role="tab" aria-selected="true">
+                    <a class="nav-link" href="/member/member_buyProducts?no={{ $member['mb_no'] }}" role="tab" aria-selected="true">
 
                         <div class="d-flex align-items-center">
                             <div class="tab-icon"><i class="bx bxs-user-pin font-18 me-1"></i>
@@ -50,7 +50,7 @@
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#primaryuse" role="tab" aria-selected="false">
+                    <a class="nav-link" href="/member/member_reserveSeats?no={{ $member['mb_no'] }}" role="tab" aria-selected="true">
                         <div class="d-flex align-items-center">
                             <div class="tab-icon"><i class="bx bxs-microphone font-18 me-1"></i>
                             </div>
@@ -59,16 +59,7 @@
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#primarycustom" role="tab" aria-selected="false">
-                        <div class="d-flex align-items-center">
-                            <div class="tab-icon"><i class="bx bxs-microphone font-18 me-1"></i>
-                            </div>
-                            <div class="tab-title">1:1문의</div>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#primaryalarm" role="tab" aria-selected="false">
+                    <a class="nav-link" href="/member/member_alarms?no={{ $member['mb_no'] }}" role="tab" aria-selected="true">
                         <div class="d-flex align-items-center">
                             <div class="tab-icon"><i class="bx bxs-microphone font-18 me-1"></i>
                             </div>
@@ -82,15 +73,6 @@
                             <div class="tab-icon"><i class="bx bxs-microphone font-18 me-1"></i>
                             </div>
                             <div class="tab-title">포인트</div>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-bs-toggle="tab" href="#cashes" role="tab" aria-selected="false">
-                        <div class="d-flex align-items-center">
-                            <div class="tab-icon"><i class="bx bxs-microphone font-18 me-1"></i>
-                            </div>
-                            <div class="tab-title">캐쉬</div>
                         </div>
                     </a>
                 </li>
@@ -108,13 +90,13 @@
                             <form action="" aria-label="{{ __('Register') }}" class="row g-3 form-horizontal" role="form" name="frm_member" id="frm_member">
                             {{csrf_field()}}
                             <input type="hidden" name="nextStep" id="nextStep" value="{{ $nextStep ?? '' }}">
-                            <input type="hidden" name="no" id="no" value="{{ $member['no']  ?? '' }}">
+                            <input type="hidden" name="no" id="no" value="{{ $member['mb_no']  ?? '' }}">
     
     
                                 <div class="col-md-6">
                                     <label for="name" class="form-label">이름</label>
                                     <div class="input-group"> <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
-                                        <input type="text" class="form-control border-start-0" name="name" id="name" value="{{ $member['name']  ?? '' }}" placeholder="이름" style="ime-mode:enabled">
+                                        <input type="text" class="form-control border-start-0" name="name" id="name" value="{{ $member['mb_name']  ?? '' }}" placeholder="이름" style="ime-mode:enabled">
                                     </div>
                                 </div>
     
@@ -122,9 +104,9 @@
                                     <label for="sex" class="form-label">성별</label>
                                     <div class="input-group"> 
                                     <div class="btn-group" role="group">
-                                        <input type="radio" class="btn-check" name="sex" id="sex_M" value="M" autocomplete="off" @if( isset($member ) && $member['sex'] == "M" ) checked="checked" @endif>
+                                        <input type="radio" class="btn-check" name="sex" id="sex_M" value="M" autocomplete="off" @if( isset($member ) && $member['mb_sex'] == "M" ) checked="checked" @endif>
                                         <label class="btn btn-outline-primary" for="sex_M">남</label>
-                                        <input type="radio" class="btn-check" name="sex" id="sex_F" value="F" autocomplete="off" @if( isset($member ) && $member['sex'] == "F" ) checked="checked" @endif>
+                                        <input type="radio" class="btn-check" name="sex" id="sex_F" value="F" autocomplete="off" @if( isset($member ) && $member['mb_sex'] == "F" ) checked="checked" @endif>
                                         <label class="btn btn-outline-primary" for="sex_F">여</label>
                                       </div>    
                                     </div>  
@@ -133,19 +115,19 @@
                                 <div class="col-md-6">
                                     <label for="birth" class="form-label">생년월일</label>
                                     <div class="input-group"> <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
-                                        <input type="text" class="form-control border-start-0 datepicker" name="birth" id="birth" value="{{ $member['birth']  ?? '' }}"  placeholder="생년월일">
+                                        <input type="text" class="form-control border-start-0 datepicker" name="birth" id="birth" value="{{ $member['mb_birth']  ?? '' }}"  placeholder="생년월일">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="phone" class="form-label">전화번호</label>
                                     <div class="input-group"> <span class="input-group-text bg-transparent"><i class="bx bxs-microphone"></i></span>
-                                        <input type="text" class="form-control border-start-0" name="phone" id="phone" value="{{ $member['phone']  ?? '' }}"  placeholder="휴대폰번호">
+                                        <input type="text" class="form-control border-start-0" name="phone" id="phone" value="{{ $member['mb_phone']  ?? '' }}"  placeholder="휴대폰번호">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="inputEmailAddress" class="form-label">이메일주소</label>
                                     <div class="input-group"> <span class="input-group-text bg-transparent"><i class="bx bxs-message"></i></span>
-                                        <input type="email" class="form-control border-start-0"  name="email" id="email" value="{{ $member['email']  ?? '' }}"  style="ime-mode:disabled" placeholder="이메일주소">
+                                        <input type="email" class="form-control border-start-0"  name="email" id="email" value="{{ $member['mb_email']  ?? '' }}"  style="ime-mode:disabled" placeholder="이메일주소">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -154,7 +136,7 @@
                                         <input type="password" class="form-control border-start-0" name="passwd" id="passwd" placeholder="비밀번호 입력">
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <label for="tags_A" class="form-label">Tag</label>
                                     <div class="input-group">
                                         <div class="form-check form-check-inline">
@@ -181,6 +163,16 @@
                                             <input class="form-check-input mt-2" type="checkbox" name="tags[]" id="tags_F" value="F" @if( isset($member ) && in_array( "F", $member['tags_arr'] ) ) checked="checked" @endif>
                                             <label class="form-check-label" for="tags_F"><i class="bx bxs-tag text-secondary font-24 mr-5">&nbsp;&nbsp;&nbsp;</i></label>
                                           </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="tags_A" class="form-label">차단</label>
+                                    <div class="input-group">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input mt-2" type="checkbox" name="state" id="state" value="B" @if( isset($member ) && $member['mb_state'] =="B" ) ) checked="checked" @endif>
+                                            <label class="form-check-label" for="tags_A">차단시 본 가맹점에 예약이 불가능합니다.</label>
+                                          </div>
+
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -609,7 +601,7 @@ function member_update(){
                 $(opener.document).find("#reservationForm #rv_birth").val(member_info.birth);  
                 $(opener.document).find("#reservationForm #rv_ageType").val(member_info.ageType); 
 
-                opener.document.setPriceSeat();
+                //opener.document.setPriceSeat();
 
                 // 좌석레벨가져와서 업데이트
                 //seatlevel_setList();
@@ -622,7 +614,7 @@ function member_update(){
                     member_getProducts(member_info.no);
                     window.close();
                 } else {
-                    location.href = "/member/popupInfo?no=" + member_info.no;
+                    location.reload()
                 }
 
             } else {

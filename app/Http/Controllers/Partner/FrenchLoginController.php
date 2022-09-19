@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Partner\Redirect;
+use Illuminate\Support\Facades\Redirect;
+use App\Models\FrenchManager;
 
 
 class FrenchLoginController extends Controller
@@ -41,12 +42,20 @@ class FrenchLoginController extends Controller
 
     public function partnerLogin(Request $request)
     {
-        Config::set('database.connections.partner.database',"boss_".$request->account);     
-        if (Auth::guard('partner')->attempt(['mn_id' => $request->login_id, 'password' => $request->login_pw], $request->get('remember'))) {
+        Config::set('database.connections.partner.database',"boss_".$request->account); 
 
-            return redirect()->intended('/'); //요거는 계속 header 문제를 일으킴.
-            //return redirect()->route('partnerhome'); //요거도 마찬가지네 그려.
-        } 
+        $FrenchManager = \App\Models\FrenchManager::where('mn_id', $request->login_id)->first();
+
+        if( $FrenchManager = FrenchManager::where('mn_id', $request->login_id)->first() ) {
+
+            if (Auth::guard('partner')->attempt(['mn_id' => $request->login_id, 'password' => $request->login_pw], $request->get('remember'))) {
+
+                return redirect()->intended('/'); //요거는 계속 header 문제를 일으킴.
+                //return redirect()->route('partnerhome'); //요거도 마찬가지네 그려.
+            } 
+        } else {
+            return back()->withErrors(['msg' => '아이디가 존재하지 않습니다.']);
+        }
         return back()->withInput($request->only('login_id', 'remember'));
     }
 

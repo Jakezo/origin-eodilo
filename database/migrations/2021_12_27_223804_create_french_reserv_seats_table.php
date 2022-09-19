@@ -20,7 +20,8 @@ class CreateFrenchReservSeatsTable extends Migration
             $table->unsignedInteger('rv_order')->default(0)->comment('구매번호');
             $table->unsignedInteger('rv_member_from')->default(0)->comment('회원구분'); // 회원 E, L
             $table->unsignedInteger('rv_member')->default(0)->comment('회원'); // 로컬회원
-            $table->string('rv_member_name', 30)->default('')->comment('회원명'); // 로컬회원            
+            $table->string('rv_member_name', 30)->default('')->comment('회원명'); // 로컬회원     
+            $table->unsignedInteger('rv_user')->default(0)->comment('모바일회원번호'); // 모바일회원번호      
             $table->string('rv_ageType',1)->default('A')->comment('연령타입'); // A : 성인 S : 학생     
             $table->string('rv_priceType',1)->default('A')->comment('금액타입'); // A : 기본 N : 신규 X: 확장    
             $table->string('rv_sex',1)->default('A')->comment('성별'); // M : 남자 F : 여자

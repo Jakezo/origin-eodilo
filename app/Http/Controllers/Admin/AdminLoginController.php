@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class AdminLoginController extends Controller
 {
     use AuthenticatesUsers;
 
@@ -41,15 +41,29 @@ class LoginController extends Controller
     public function adminLogin(Request $request)
     {
 
-        if (Auth::guard('admin')->attempt(['admin_id' => $request->login_id, 'password' => $request->login_pw], $request->get('remember'))) {
+        if( $admin = \App\Models\Admin::where('admin_id', $request->login_id)->first() ) {
+            if (Auth::guard('admin')->attempt(['admin_id' => $request->login_id, 'password' => $request->login_pw], $request->get('remember'))) {
 
-            //redirect()->intended('/index2'); //요거는 계속 header 문제를 일으킴.
-            return redirect()->route('adminhome'); //요거도 마찬가지네 그려.
+                //redirect()->intended('/index2'); //요거는 계속 header 문제를 일으킴.
+                return redirect()->route('adminhome'); //요거도 마찬가지네 그려.
+            } else {
+                return back()->withErrors(['msg' => '패스워드가 일치하지 않습니다.'])->withInput($request->only('login_id', 'remember'));
+
+            }
+        } else {
+            return back()->withErrors(['msg' => '아이디가 존재하지 않습니다.']);
+
         }
 
-        return back()->withInput($request->only('admin_id', 'remember'));
     }
 
+    public function logout()
+    {
+        $data["result"] = true;
+        $data["auth"] = Auth::guard('admin')->logout();
+
+        return response($data);
+    }
    
     /* 일반유저 */
     public function showUserLoginForm()

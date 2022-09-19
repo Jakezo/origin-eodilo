@@ -2454,8 +2454,8 @@
         
         // 회원정보 팝업창        
         function member_viewer(no){
-            var url = "/member/popupInfo?no=" + no;
-            window.open(url,"popup_member_"+ no,"width=900,height=800")
+            var url = "/member/member_info?no=" + no;
+            window.open(url,"popup_member_"+ no,"width=1100,height=800")
         }
         
         // 회원등록 팝업창

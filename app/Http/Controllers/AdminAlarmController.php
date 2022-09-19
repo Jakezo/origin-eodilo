@@ -23,7 +23,7 @@ class AdminAlarmController extends Controller
 
         $data["alarms"] = [];
         $data["alarms"] = \App\Models\AdminAlarm::select("admin_alarms.*","users.id","users.name","users.nickname","users.email", DB::raw("TIMESTAMPDIFF('MINUTE',now(), admin_alarms.created_at) as diff_time"))
-            ->leftjoin('users', 'admin_alarms.a_member', '=', 'users.id')
+            ->leftjoin('users', 'admin_alarms.a_user', '=', 'users.id')
             ->where(function ($query) use ($request) {
 
                 if( $request->fd ) {

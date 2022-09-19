@@ -185,13 +185,6 @@ class AdminController extends Controller
         return view('admin.auth.login');
     }
 
-    public function logout()
-    {
-        $data["result"] = true;
-        $data["auth"] = Auth::guard('admin')->logout();
-
-        return response($data);
-    }
 
 
 

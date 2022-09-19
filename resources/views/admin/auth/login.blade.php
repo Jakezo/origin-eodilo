@@ -52,7 +52,7 @@
 													<input type="password" class="form-control @error('login_pw') is-invalid @enderror border-end-0" name="login_pw" id="login_pw" required autocomplete="current-password"> <a href="javascript:;" class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
 												</div>
 											</div>
-											<div class="col-md-6">
+											<!--div class="col-md-6">
 												<div class="form-check form-switch">
 													<input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
@@ -62,7 +62,16 @@
 												</div>
 											</div>
 											<div class="col-md-6 text-end">	<a href="authentication-forgot-password.html">Forgot Password ?</a>
-											</div>
+											</div-->
+                                            @if ($errors->any())
+                                            <div class="col-xs-12">
+                                                    @foreach ($errors->all() as $error)
+                                                    <div class="alert alert-danger p-2">
+                                                    <div>{{ $error }}</div>
+                                                    </div>
+                                                    @endforeach
+                                            </div>
+                                            @endif
 											<div class="col-12">
 												<div class="d-grid">
 													<button type="submit" class="btn btn-primary"><i class="bx bxs-lock-open"></i>Sign in</button>

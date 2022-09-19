@@ -7,6 +7,7 @@ use App\Models\FrenchMember;
 use App\Models\FrenchProductOrder;
 use App\Models\FrenchReservSeat;
 use App\Models\User_cash;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -287,108 +288,7 @@ class FrenchMemberController extends Controller
     }    
 
 
-    ## 폼을 위한 정보
-    public function viewInfo(Request $request){
-        Config::set('database.connections.partner.database',"boss_".$request->account);
 
-        $data["result"] = true;
-        $data["member"] = $this->FrenchMember->select([
-            'mb_no as no', 
-            'mb_id as id', 
-            'mb_name as name', 
-            'mb_birth as birth',
-            'mb_tags as tags', 
-            'mb_email as email', 
-            'mb_phone as phone', 
-            'mb_sex as sex', 
-            'mb_state as state', 
-            'mb_memo as memo'])
-            ->where("mb_no",  $request->no)->first();
-
-            $data["orders"] = $this->FrenchProductOrder::where("o_member", $request->no)
-            ->where(function ($query) use ($request) {
-                if ($request->q) {
-                        $query->where("o_member_name", "like", "%" . $request->q . "%");
-                            //->orwhere("o_title", "like", "%" . $request->q . "%")
-                }
-                if ($request->sdate) {
-                    $query->where( DB::raw("date_format(french_product_orders.created_at,'%Y-%m-%d')"),  ">=", $request->sdate);
-                }
-                if ($request->edate) {
-                    $query->where( DB::raw("date_format(french_product_orders.created_at,'%Y-%m-%d')"),  "<=", $request->edate);
-                }
-            })
-            ->leftjoin('french_members', 'french_members.mb_no', '=', 'french_product_orders.o_member')
-            ->orderBy("o_no","desc")->get();
-
-
-            $data["reservs"] = $this->FrenchReservSeat::where("rv_member", $request->no)->where("rv_member_from", "<>","M")
-            ->select(['french_reserv_seats.*','french_rooms.r_name','french_seats.s_name'])
-            ->where(function ($query) use ($request) {
-                if ($request->q) {
-                        $query->where("rv_member_name", "like", "%" . $request->q . "%");
-                            //->orwhere("o_title", "like", "%" . $request->q . "%")
-                }
-                if ($request->sdate) {
-    
-                    $query->where(DB::raw("date_format(rv_sdate,'%Y-%m-%d')"), ">=", $request->sdate)
-                    ->orWhere(DB::raw("date_format(rv_edate,'%Y-%m-%d')"), '>=', $request->sdate);   
-                }
-                if ($request->edate) {
-    
-                    $query->where(DB::raw("date_format(rv_sdate,'%Y-%m-%d')"), "<=", $request->edate)
-                    ->orWhere(DB::raw("date_format(rv_edate,'%Y-%m-%d')"), '<=', $request->edate);                   
-                }
-    
-                if ($request->pkind) {
-                        $query->where("o_product_kind", $request->pkind);
-                }            
-    
-                if ($request->pay_state) {
-                    $query->where("o_pay_state", $request->pay_state);
-                }
-            })
-            ->leftjoin('french_rooms', 'french_rooms.r_no', '=', 'french_reserv_seats.rv_room')
-            ->leftjoin('french_seats', 'french_seats.s_no', '=', 'french_reserv_seats.rv_seat')
-            ->orderBy("rv_no","desc")->get();
-
-            // $data["cash_total"]= \App\Models\User_cash::select(DB::raw("sum(mp_point) as sum"))
-            // ->where('mp_member', $request->no)
-            // ->first();
-
-            // $data["cashes"] = \App\Models\User_cash::where('mp_member', $request->no)
-            // ->where(function ($query) use ($request) {
-            //     if( $request->mode == "out" ) {
-            //         $query->where("mp_point", "<" , 0);
-            // }elseif( $request->mode == "in" ) {
-            //         $query->where("mp_point", ">", 0);
-            // }
-            // })
-            // ->orderBy("mp_no","desc")
-            // ->get();
-
-
-
-        if( $data['member']['birth'] && $data['member']['birth']!="0000-00-00" ) {
-            $data['member']['age'] = \Carbon\Carbon::createFromFormat('Y-m-d', $data['member']['birth'])->age;
-            if( $data['member']['age'] > 18 ) $data['member']['ageType'] = "A";
-            else $data['member']['ageType'] = "S";
-        } else {
-            $data['member']['ageType'] = "A";
-        }
-        if( $data['member']['ageType'] == "A") {
-            $data['member']['ageTypeText'] = "성인";
-        } elseif( $data['member']['ageType'] == "S") {
-            $data['member']['ageTypeText'] = "학생";
-        }
-        if( $data['member']['tags'] ) {
-            $data['member']['tags_arr'] = explode(",",$data['member']['tags']);
-        } else {
-            $data['member']['tags_arr'] = [];
-        }
-        
-        return view('partner.member.popupView', $data);
-    }  
 
     ## 폼을 위한 정보
     public function regForm(Request $request){
@@ -480,57 +380,148 @@ class FrenchMemberController extends Controller
     }    
 
 
-        ## 알람목록
-        public function alarm_list(Request $request){
-
-            Config::set('database.connections.partner.database',"boss_".$request->account); 
-            
-            $partner = \App\Models\Partner::select("p_no","p_id","p_name")->where('p_id', $request->account)->first(); 
-
-            $data["result"] = true;
-            $data["alarms"] = [];
-                $data["alarms"] = \App\Models\UserAlarm::where("a_partner", $partner->p_no)
-                ->select("user_alarms.*","users.id", "users.name", "partners.p_name")
-                ->leftJoin("partners", "partners.p_no","user_alarms.a_partner")
-                ->where(function ($query) use ($request) {
-                    if ($request->q) {
-                            $query->where("users.name", "like", "%" . $request->q . "%")
-                            ->orwhere("users.nickname", "like", "%" . $request->q . "%")
-                            ->orwhere("users.email", "like", "%" . $request->q . "%");
-                    }
-                    if ($request->sdate) {
-                        $query->where( DB::raw("date_format(user_alarms.created_at,'%Y-%m-%d')"),  ">=", $request->sdate);
-                    }
-                    if ($request->edate) {
-                        $query->where( DB::raw("date_format(user_alarms.created_at,'%Y-%m-%d')"),  "<=", $request->edate);
-                    }
-                    if ($request->kind) {
-                            $query->where("a_kind", $request->kind);
-                    }            
-    
-                })
-                ->leftjoin('users', 'users.id', '=', 'user_alarms.a_member')
-                ->orderBy("a_no","desc")->paginate(10);
+    ## 알람목록
+    public function alarm_list(Request $request){
+        Config::set('database.connections.partner.database',"boss_".$request->account); 
         
-                $data['productType'] = Config::get('product.productType');
-        
-                $data['start'] = $data["alarms"]->total() - $data["alarms"]->perPage() * ($data["alarms"]->currentPage() - 1);
-                $data['total'] = $data["alarms"]->total();
-                $data['param'] = [
-                    'id' => $request->id, 
-                    'sdate' => $request->sdate, 
-                    'edate' => $request->edate,  
-                    'kind' => $request->kind,             
-                    'fd' => $request->fd, 
-                    'q' => $request->q];
+        $partner = \App\Models\Partner::select("p_no","p_id","p_name")->where('p_id', $request->account)->first(); 
+
+        $data["result"] = true;
+        $data["alarms"] = [];
+            $data["alarms"] = \App\Models\UserAlarm::where("a_partner", $partner->p_no)
+            ->select("user_alarms.*","users.id", "users.name", "partners.p_name")
+            ->leftJoin("partners", "partners.p_no","user_alarms.a_partner")
+            ->where(function ($query) use ($request) {
+                if ($request->q) {
+                        $query->where("users.name", "like", "%" . $request->q . "%")
+                        ->orwhere("users.nickname", "like", "%" . $request->q . "%")
+                        ->orwhere("users.email", "like", "%" . $request->q . "%");
+                }
+                if ($request->sdate) {
+                    $query->where( DB::raw("date_format(user_alarms.created_at,'%Y-%m-%d')"),  ">=", $request->sdate);
+                }
+                if ($request->edate) {
+                    $query->where( DB::raw("date_format(user_alarms.created_at,'%Y-%m-%d')"),  "<=", $request->edate);
+                }
+                if ($request->kind) {
+                        $query->where("a_kind", $request->kind);
+                }            
+
+            })
+            ->leftjoin('users', 'users.id', '=', 'user_alarms.a_user')
+            ->orderBy("a_no","desc")->paginate(10);
+
+            $data['productType'] = Config::get('product.productType');
     
-    
-            return view('partner.member.sms_list', $data);
-    
-        }  
+            $data['start'] = $data["alarms"]->total() - $data["alarms"]->perPage() * ($data["alarms"]->currentPage() - 1);
+            $data['total'] = $data["alarms"]->total();
+            $data['param'] = [
+                'id' => $request->id, 
+                'sdate' => $request->sdate, 
+                'edate' => $request->edate,  
+                'kind' => $request->kind,             
+                'fd' => $request->fd, 
+                'q' => $request->q];
+
+
+        return view('partner.member.sms_list', $data);
+
+    }  
 
 
     ## 회원의 팝업정보
+    ## 팝업정보
+    public function member_info(Request $request){
+        Config::set('database.connections.partner.database',"boss_".$request->account);
+
+        $data["result"] = true;
+        $data["member"] = $this->FrenchMember::find($request->no);
+
+
+            $data["orders"] = $this->FrenchProductOrder::where("o_member", $request->no)
+            ->where(function ($query) use ($request) {
+                if ($request->q) {
+                        $query->where("o_member_name", "like", "%" . $request->q . "%");
+                            //->orwhere("o_title", "like", "%" . $request->q . "%")
+                }
+                if ($request->sdate) {
+                    $query->where( DB::raw("date_format(french_product_orders.created_at,'%Y-%m-%d')"),  ">=", $request->sdate);
+                }
+                if ($request->edate) {
+                    $query->where( DB::raw("date_format(french_product_orders.created_at,'%Y-%m-%d')"),  "<=", $request->edate);
+                }
+            })
+            ->leftjoin('french_members', 'french_members.mb_no', '=', 'french_product_orders.o_member')
+            ->orderBy("o_no","desc")->get();
+
+
+            $data["reservs"] = $this->FrenchReservSeat::where("rv_member", $request->no)->where("rv_member_from", "<>","M")
+            ->select(['french_reserv_seats.*','french_rooms.r_name','french_seats.s_name'])
+            ->where(function ($query) use ($request) {
+                if ($request->q) {
+                        $query->where("rv_member_name", "like", "%" . $request->q . "%");
+                            //->orwhere("o_title", "like", "%" . $request->q . "%")
+                }
+                if ($request->sdate) {
+    
+                    $query->where(DB::raw("date_format(rv_sdate,'%Y-%m-%d')"), ">=", $request->sdate)
+                    ->orWhere(DB::raw("date_format(rv_edate,'%Y-%m-%d')"), '>=', $request->sdate);   
+                }
+                if ($request->edate) {
+    
+                    $query->where(DB::raw("date_format(rv_sdate,'%Y-%m-%d')"), "<=", $request->edate)
+                    ->orWhere(DB::raw("date_format(rv_edate,'%Y-%m-%d')"), '<=', $request->edate);                   
+                }
+    
+                if ($request->pkind) {
+                        $query->where("o_product_kind", $request->pkind);
+                }            
+    
+                if ($request->pay_state) {
+                    $query->where("o_pay_state", $request->pay_state);
+                }
+            })
+            ->leftjoin('french_rooms', 'french_rooms.r_no', '=', 'french_reserv_seats.rv_room')
+            ->leftjoin('french_seats', 'french_seats.s_no', '=', 'french_reserv_seats.rv_seat')
+            ->orderBy("rv_no","desc")->get();
+
+            // $data["cash_total"]= \App\Models\User_cash::select(DB::raw("sum(mp_point) as sum"))
+            // ->where('mp_member', $request->no)
+            // ->first();
+
+            // $data["cashes"] = \App\Models\User_cash::where('mp_member', $request->no)
+            // ->where(function ($query) use ($request) {
+            //     if( $request->mode == "out" ) {
+            //         $query->where("mp_point", "<" , 0);
+            // }elseif( $request->mode == "in" ) {
+            //         $query->where("mp_point", ">", 0);
+            // }
+            // })
+            // ->orderBy("mp_no","desc")
+            // ->get();
+
+
+
+        if( $data['member']['mb_birth'] && $data['member']['mb_birth']!="0000-00-00" ) {
+            $data['member']['mb_age'] = \Carbon\Carbon::createFromFormat('Y-m-d', $data['member']['mb_birth'])->age;
+            if( $data['member']['mb_age'] > 18 ) $data['member']['ageType'] = "A";
+            else $data['member']['ageType'] = "S";
+        } else {
+            $data['member']['ageType'] = "A";
+        }
+        if( $data['member']['ageType'] == "A") {
+            $data['member']['ageTypeText'] = "성인";
+        } elseif( $data['member']['ageType'] == "S") {
+            $data['member']['ageTypeText'] = "학생";
+        }
+        if( $data['member']['mb_tags'] ) {
+            $data['member']['tags_arr'] = explode(",",$data['member']['mb_tags']);
+        } else {
+            $data['member']['tags_arr'] = [];
+        }
+        
+        return view('partner.member.memberInfo', $data);
+    }  
 
     #1. 구매내역
     public function member_buyProducts(Request $request){
@@ -538,24 +529,26 @@ class FrenchMemberController extends Controller
         Config::set('database.connections.partner.database',"boss_".$request->account);        
         //DB::enableQueryLog();	//query log 시작 선언부
 
-
         $data["result"] = true;
-        $data["orders"] = $this->FrenchProductOrder
-            ->where("o_member",$request->no)->orderBy("o_no","desc")
-            ->orderBy("o_no","desc")->paginate(10);
-        dd($data["orders"]);
+        $data["member"] = $this->FrenchMember::find($request->no);
+        if( $data["member"]  ) {
+            $data["orders"] = $this->FrenchProductOrder
+                ->where("o_member",$request->no)->orderBy("o_no","desc")
+                ->orderBy("o_no","desc")->paginate(10);
+            //dd($data["orders"]);
+        }
         
-            $data['productType'] = Config::get('product.productType');
-    
-            $data['start'] = $data["orders"]->total() - $data["orders"]->perPage() * ($data["orders"]->currentPage() - 1);
-            $data['total'] = $data["orders"]->total();
-            $data['param'] = [
-                'id' => $request->id, 
-                'sdate' => $request->sdate, 
-                'edate' => $request->edate,  
-                'pkind' => $request->pkind,             
-                'fd' => $request->fd, 
-                'q' => $request->q];
+        $data['productType'] = Config::get('product.productType');
+
+        $data['start'] = $data["orders"]->total() - $data["orders"]->perPage() * ($data["orders"]->currentPage() - 1);
+        $data['total'] = $data["orders"]->total();
+        $data['param'] = [
+            'id' => $request->id, 
+            'sdate' => $request->sdate, 
+            'edate' => $request->edate,  
+            'pkind' => $request->pkind,             
+            'fd' => $request->fd, 
+            'q' => $request->q];
 
         foreach( $data["orders"] as $order ) {
             if( $order['o_product_kind'] == "P" )  {
@@ -567,7 +560,135 @@ class FrenchMemberController extends Controller
             }
         }
 
-        return response($data);            
+        return view('partner.member.memberProducts', $data);        
 
     }    
+
+    #2. 구매내역
+    public function member_reserveSeats(Request $request){
+
+        Config::set('database.connections.partner.database',"boss_".$request->account);        
+        //DB::enableQueryLog();	//query log 시작 선언부
+
+        $data["member"] = $this->FrenchMember::find($request->no);
+
+        if( $data["member"]  ) {
+
+            $data["reserves"] = \App\Models\FrenchReservSeat::where("rv_member",$data["member"]["mb_no"])
+            ->select("french_reserv_seats.*","french_reserv_seats.created_at as reserved_at",
+            "french_members.mb_no","french_members.mb_name as name", "french_members.mb_email","french_members.mb_phone", "french_members.mb_sex", "french_members.mb_birth" )
+                ->leftjoin('french_members', 'french_members.mb_no', '=', 'french_reserv_seats.rv_member')
+                ->where(function ($query) use ($request) {
+                    if ($request->q) {
+                        if( $request->fd == "name" ) {
+                            $query->where("nickname", "like", "%" . $request->q . "%")
+                                ->orwhere("name", "like", "%" . $request->q . "%");                        
+                        }  elseif( $request->fd == "id" ) {
+                            $query->where("users.id", "like", "%" . $request->q . "%");
+                        } else {
+                            $query->where("nickname", "like", "%" . $request->q . "%")
+                                ->orwhere("name", "like", "%" . $request->q . "%")
+                                ->orwhere("users.id", "like", "%" . $request->q . "%");
+                        }
+                    }
+                    if ($request->sdate) {
+                        $query->where( DB::raw("date_format(mobile_reserv_seats.rv_sdate,'%Y-%m-%d')"),  ">=", $request->sdate);
+                    }
+                    if ($request->edate) {
+                        $query->where( DB::raw("date_format(mobile_reserv_seats.rv_sdate,'%Y-%m-%d')"),  "<=", $request->edate);
+                    }
+    
+                    if ($request->state) {
+    
+                        if( $request->state == "A" ) {
+                            $query->where("c_sdate",  ">", now());
+                        } elseif( $request->state == "I" ) {
+                            $query->where("c_sdate",  "<=", now());
+                            $query->where("c_edate",  ">=", now());
+                        }  elseif( $request->state == "E" ) {
+                            $query->where("c_edate",  "<", now());
+                        }
+    
+                    }
+                })
+                ->orderBy("rv_no","desc")->paginate(10);
+    
+            $data['query'] = $request->query;
+            //$i = $this->board->perPage() * ($this->board->currentPage() - 1);
+            $data['start'] = $data["reserves"]->total() - $data["reserves"]->perPage() * ($data["reserves"]->currentPage() - 1);
+            $data['total'] = $data["reserves"]->total();
+            $data['param'] = [
+                    'id' => $request->id, 
+                    'sdate' => $request->sdate, 
+                    'edate' => $request->edate, 
+                    'fd' => $request->fd, 
+                    'q' => $request->q];
+
+        } else {
+
+        }
+
+        return view('partner.member.memberReserves', $data);
+    }    
+    
+    
+    ## 알람목록
+    public function member_alarms(Request $request){
+
+        DB::enableQueryLog();	//query log 시작 선언부
+        Config::set('database.connections.partner.database',"boss_".$request->account);        
+
+
+        $data["member"] = $this->FrenchMember::find($request->no);
+        $data["result"] = true;
+        $data["alarms"] = [];
+        $user_no = $data["member"]->mn_user;
+        $partner_no = $request->account_no;
+        $member_no = $data["member"]->mb_no;
+
+        $data["alarms"] = \App\Models\UserAlarm::select("user_alarms.*","users.id", "users.name")
+        ->where(function ($query) use ( $user_no, $partner_no, $member_no) {
+
+                    $query->where("a_user",$user_no)
+                    ->orwhere(function ($query) use ($partner_no, $member_no) {
+                        $query->where("a_partner",$partner_no)
+                        ->where("a_member",$member_no);
+                    });
+        })        
+        ->where(function ($query) use ($request) {
+            if ($request->q) {
+                    $query->where("users.name", "like", "%" . $request->q . "%")
+                    ->orwhere("users.nickname", "like", "%" . $request->q . "%")
+                    ->orwhere("users.email", "like", "%" . $request->q . "%");
+            }
+            if ($request->sdate) {
+                $query->where( DB::raw("date_format(user_alarms.created_at,'%Y-%m-%d')"),  ">=", $request->sdate);
+            }
+            if ($request->edate) {
+                $query->where( DB::raw("date_format(user_alarms.created_at,'%Y-%m-%d')"),  "<=", $request->edate);
+            }
+            if ($request->kind) {
+                    $query->where("a_kind", $request->kind);
+            }            
+
+        })
+        ->leftjoin('users', 'users.id', '=', 'user_alarms.a_user')
+        ->orderBy("a_no","desc")->paginate(10);
+
+        $data['productType'] = Config::get('product.productType');
+
+        $data['start'] = $data["alarms"]->total() - $data["alarms"]->perPage() * ($data["alarms"]->currentPage() - 1);
+        $data['total'] = $data["alarms"]->total();
+        $data['param'] = [
+            'id' => $request->id, 
+            'sdate' => $request->sdate, 
+            'edate' => $request->edate,  
+            'kind' => $request->kind,             
+            'fd' => $request->fd, 
+            'q' => $request->q];
+
+
+        return view('partner.member.memberAlarms', $data);
+
+    }       
 }
