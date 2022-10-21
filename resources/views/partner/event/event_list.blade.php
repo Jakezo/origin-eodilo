@@ -75,6 +75,7 @@
                                     <th scope="col" class="text-center">#</th>
                                     <th scope="col">기간</th>
                                     <th scope="col" class="text-center">제목</th>
+                                    <th scope="col" class="text-center">목록이미지</th>
                                     <th scope="col" class="text-center">할인</th>
                                     <th scope="col" class="text-center">등록일시</th>
                                     <th scope="col" class="text-center">관리</th>
@@ -123,9 +124,16 @@
                 <form class="row g-3" name="partner_event" id="partner_event">
                 {{csrf_field()}}
                 <input type="hidden" name="no" id="no" value="">
-                    <div class="col-xs-12 mt-3">
-                        <input type="text" name="partnername" value="{{$part['p_name']}}" placeholder="" class="form-control form-control-sm col-12" readonly>
-                    </div>
+                <div class="col-xs-12 mt-3">
+                    <input type="text" name="partnername" value="{{$part['p_name']}}" placeholder="" class="form-control form-control-sm col-12" readonly>
+                </div>
+
+                <div class="col-xs-12 mt-3">
+                    <input type="text" name="title" id="title" value="" placeholder="제목" class="form-control form-control-sm col-12">
+                </div>
+                <div class="col-xs-12 mt-3">
+                    <input type="text" name="point" id="point" value="" placeholder="작성자" class="form-control form-control-sm col-12">
+                </div>                
 
                     <div class="col-xs-12 mt-3">
                         <input type="text" name="sdate" id="sdate" value="" placeholder="기간시작일" class="form-control form-control-sm datepicker col-12">
@@ -146,13 +154,6 @@
                         <input type="text" name="value" id="value" value="" placeholder="금액" class="form-control form-control-sm col-12">
                     </div>
 
-
-                    <div class="col-xs-12 mt-3">
-                        <input type="text" name="title" id="title" value="" placeholder="제목" class="form-control form-control-sm col-12">
-                    </div>
-                    <div class="col-xs-12 mt-3">
-                        <input type="text" name="point" id="point" value="" placeholder="작성자" class="form-control form-control-sm col-12">
-                    </div>
 
                     <div class="col-xs-12 mt-3">
                         <textarea name="seat_memo" class="form-control"></textarea>
@@ -246,6 +247,7 @@
                         $("#value").val(res.event.value);
                         $("#title").val(res.event.title);
                         $("#cont").val(res.event.cont);
+                        $("#cont2").val(res.event.cont2);
                         $("#type").val(res.event.type);
                     } else {
                         $("#eventDetail_msg").html(res.message);

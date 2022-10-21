@@ -45,6 +45,8 @@ use App\Http\Controllers\Partner\FrenchLaptopController;
 use App\Http\Controllers\Partner\FrenchMemberController;
 use App\Http\Controllers\Partner\FrenchProductOrderController;
 use App\Http\Controllers\Partner\FrenchReservationController;
+use App\Http\Controllers\Partner\FrenchReserveInfoController;
+
 use App\Http\Controllers\Partner\FrenchHistoryController;
 use App\Http\Controllers\Partner\FrenchHelpboardController;
 use App\Http\Controllers\Partner\FrenchVodboardController;
@@ -238,6 +240,9 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
 
         Route::prefix('/statistics')->group(function () {
 
+            Route::get('/TodayCommission', [StatisticsController::class, 'TodayCommission']);
+
+
             Route::get('/day', [StatisticsController::class, 'day']);
             Route::get('/month', [StatisticsController::class, 'month']);
 
@@ -363,14 +368,17 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
 
     Route::group(['prefix' => '/reservation'],function () {
         Route::any('/getSeatInfo', [FrenchReservationController::class, 'getSeatInfo']);
+        Route::any('/getSeatReserveList', [FrenchReservationController::class, 'getSeatReserveList']); // 특정일 예약정보만
+
         Route::any('/getSeatReserveInfo', [FrenchReservationController::class, 'getSeatReserveInfo']);
 
-        Route::post('/setUserResMemo', [FrenchReservationController::class, 'setUserResMemo']);
         Route::any('/reserveSeatState', [FrenchReservationController::class, 'reserveSeatState']);
         Route::any('/reserveEntranceState', [FrenchReservationController::class, 'reserveEntranceState']);
 
         // 예약
         Route::any('/reserveSeat', [FrenchReservationController::class, 'reserveSeat']);
+
+        
     });
 
     Route::get('/noPartner', function () {
@@ -415,6 +423,30 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
                 return view('partner.member.refund_list');
             });
         });
+
+        Route::prefix('/reserve')->group(function () {
+
+            Route::any('/reserveInfo', [FrenchReserveInfoController::class, 'reserveInfo']);
+            Route::any('/get_reserveInfo', [FrenchReserveInfoController::class, 'get_reserveInfo']);
+
+            // 퇴실, 환불시 정보
+            Route::any('/reserveRefundInfo', [FrenchReserveInfoController::class, 'reserveRefundInfo']);
+            
+            #시간연장경
+            Route::any('/reserveExtendTime', [FrenchReserveInfoController::class, 'reserveExtendTime']);
+
+            #시간변경
+            Route::any('/reserveChangeTimeOk', [FrenchReserveInfoController::class, 'reserveChangeTimeOk']);
+
+            #좌석변경
+            Route::any('/reserveChangeSeat', [FrenchReserveInfoController::class, 'reserveChangeSeat']);
+            Route::any('/reserveChangeSeatOk', [FrenchReserveInfoController::class, 'reserveChangeSeatOk']);
+            
+            #메모저장
+            Route::post('/setUserResMemo', [FrenchReserveInfoController::class, 'setUserResMemo']);
+            
+        });
+
 
         Route::prefix('/product')->group(function () {
             Route::any('/setSeatLevel', [FrenchProductOrderController::class, 'setSeatLevel']); // 상품구매

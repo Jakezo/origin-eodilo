@@ -806,7 +806,6 @@ class MobileMyOrderController extends Controller
             // 예약이 존재하지 않음...
         }
 
-
         // 이동실행
         if( $this->MobileReservSeat->rv_sdate > now()->format("Y-m-d H:i:s") ) {
             $this->FrenchReservSeat->rv_sdate = $request->b_sdate . " " . $request->b_stime;

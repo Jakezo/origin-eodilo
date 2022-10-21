@@ -52,6 +52,7 @@ class FrenchReservationController extends Controller
 
         // 좌석정보
         $data["seat"] = $this->FrenchSeat->find($request->no);
+
         $seat_level = $this->FrenchSeatLevel->find( $data["seat"]["s_level"] );
         $data["room"] = $this->FrenchRoom->find( $data["seat"]["s_room"] );
         $sl_price_day = json_decode($seat_level->sl_price_day, true);
@@ -191,6 +192,115 @@ class FrenchReservationController extends Controller
         return response($data);
     }    
 
+    ## 좌석에 대한 특정일 예약정보
+    public function getSeatReserveList(Request $request){
+        Config::set('database.connections.partner.database',"boss_".$request->account);
+
+        $data['result'] = true;        
+
+        // 날자가 없다면 오늘
+        if( !$request->dt ) $request->dt = Carbon::now()->toDateString();
+
+        $data["reserved"] = [
+            "00" => [],
+            "01" => [],
+            "02" => [],
+            "03" => [],
+            "04" => [],
+            "05" => [],
+            "06" => [],
+            "07" => [],
+            "08" => [],
+            "09" => [],
+            "10" => [],
+            "11" => [],
+            "12" => [],
+            "13" => [],
+            "14" => [],
+            "15" => [],
+            "16" => [],
+            "17" => [],
+            "18" => [],
+            "19" => [],
+            "20" => [],
+            "21" => [],
+            "22" => [],
+            "23" => []
+        ];
+
+        // 좌석 예약정보
+        if( $request->dt ) {
+
+                $seat_reserved = \App\Models\FrenchReservSeat::
+                where('rv_seat', $request->no)->where(function ($query) use ($request) {
+
+                    $query->where(DB::raw("date_format(rv_sdate,'%Y-%m-%d')"), '<=', $request->dt)
+                    ->orWhere(DB::raw("date_format(rv_edate,'%Y-%m-%d')"), '>=', $request->dt);
+
+                })->get();  
+
+                //dd(DB::connection("partner")->getQueryLog());
+                for( $ri = 0; $ri <= count($seat_reserved)-1; $ri++ ) {
+                    $r_sdt = Carbon::createFromFormat('Y-m-d H:i:s', $seat_reserved[$ri]->rv_sdate );
+                    $r_edt = Carbon::createFromFormat('Y-m-d H:i:s', $seat_reserved[$ri]->rv_edate );
+
+                    for( $h = 0; $h <= 23; $h++ ){
+                        $hh = sprintf("%02d",$h);
+                        $sdt = Carbon::createFromFormat('Y-m-d H', $request->dt . ' ' . $hh );
+                        $edt = Carbon::createFromFormat('Y-m-d H:i:s', $request->dt .' ' . $hh.':59:59' );
+
+                        ## 00분이 아닐때.
+                        if( $r_sdt->timestamp > $sdt->timestamp && $r_sdt->timestamp <= $edt->timestamp ) {
+
+                            $data["reserved"][$hh][] = [
+                                "rv_no" => $seat_reserved[$ri]->rv_no,
+                                "hi" => substr($r_sdt,11,5),
+
+                                "rsdt" => $r_sdt,
+                                "redt" => $r_edt,
+                                "sdt" => $sdt->format('Y-m-d H:i'),
+                                "edt" => $edt->format('Y-m-d H:i'),
+                                "rv_member" => $seat_reserved[$ri]->rv_member,
+                                "rv_member_name" => $seat_reserved[$ri]->rv_member_name
+                            ];
+                        }
+
+                        ## 00 분부터일때 
+                        if( $r_sdt->timestamp <= $sdt->timestamp && $r_edt->timestamp >= $sdt->timestamp ) {
+                            $data["reserved"][$hh][] = [
+                                "rv_no" => $seat_reserved[$ri]->rv_no,
+                                "hi" => substr($sdt,11,5),
+
+                                "rsdt" => $r_sdt,
+                                "redt" => $r_edt,
+                                "sdt" => $sdt->format('Y-m-d H:i'),
+                                "edt" => $edt->format('Y-m-d H:i'),
+                                "rv_member" => $seat_reserved[$ri]->rv_member,
+                                "rv_member_name" => $seat_reserved[$ri]->rv_member_name
+                            ];
+                        }
+                    }
+        
+                }
+
+                ## 해당시간예약이 없으면 빈배열만들어줌.
+                // for( $h = 0; $h <= 23; $h++ ){      
+                //     $hh = sprintf("%02d",$h);
+     
+                //     if( !$data["reserved"][$hh] ) {
+                //         $data["reserved"][$hh][] = [
+                //             "rv_no" => 0,
+                //             "hi" => "$hh:00",
+                //         ];
+                //     }
+
+                // }
+                
+
+        }
+        return response($data);
+    }   
+
     ## 현재시간 모든좌석의 예약상태
     public function reserveSeatState(Request $request)
     {
@@ -224,13 +334,13 @@ class FrenchReservationController extends Controller
         )
         ->leftJoin(DB::raw("
             (select rv_no, rv_seat, rv_member, rv_member_name, rv_state, rv_state_seat from french_reserv_seats where
-            (rv_sdate <= '". $dt ."' and rv_sdate <= '". $dt ."' and rv_edate >= '". $dt."') ) as reserv_seats "), "reserv_seats.rv_seat" , "=", "french_seats.s_no")
+            (rv_state_seat <> 'END' and rv_sdate <= '". $dt ."' and rv_sdate <= '". $dt ."' and rv_edate >= '". $dt."') ) as reserv_seats "), "reserv_seats.rv_seat" , "=", "french_seats.s_no")
 
         ->leftjoin('french_rooms as r', 'french_seats.s_room', '=', 'r.r_no')
         ->whereNotNull("reserv_seats.rv_no")
         ->orwhere(function ($query) use ($request) {
             if( $request->sex == "M" || $request->sex == "F" ) {
-                 $query->where('french_seats.s_sex',$sex)
+                 $query->where('french_seats.s_sex',$request->sex)
                  ->Orwhere('french_seats.s_sex','A');
             }
 
@@ -297,14 +407,13 @@ class FrenchReservationController extends Controller
 
 
 
-        $data["result"] = false;
+        $data["result"] = true;
         $data["seats"] = $dt;
 
         return response($data);
 
     }    
-    
-   
+
     
     ## 현재시간 좌석의 예약정보
     public function getSeatReserveInfo(Request $request){
@@ -332,7 +441,7 @@ class FrenchReservationController extends Controller
         Config::set('database.connections.partner.database',"boss_".$request->account);
 
         $partner_info = \App\Models\Partner::select("p_no","p_id","p_name")->where('p_id', $request->account)->first();
-        
+
         $FrenchReservSeat = new FrenchReservSeat;
        
         if( !$request->rv_seat ) {
@@ -341,7 +450,6 @@ class FrenchReservationController extends Controller
     
             return response($result);
         }
-
         $FrenchSeat = $this->FrenchSeat->where("s_no",$request->rv_seat)->first();
         if( !$FrenchSeat ) {
             $result['result'] = false;
@@ -365,6 +473,7 @@ class FrenchReservationController extends Controller
         $memberProductOrder = new FrenchProductOrder();
         $product_info = $memberProductOrder->where("o_no",$request->rv_product)->first();
 
+
         if( !$product_info ) {
             $result['result'] = false;
             $result['message'] = "구매정보가 존재하지 않습니다."; 
@@ -372,6 +481,7 @@ class FrenchReservationController extends Controller
         }
 
         if( $product_info->o_product_kind == "A" || $product_info->o_product_kind == "D" ) {
+
 
             // 1회이용권, 기간권
             $FrenchReservSeat->rv_duration_type = 'D';
@@ -381,7 +491,6 @@ class FrenchReservationController extends Controller
                 $result['message'] = "잔여 기간은 ".$product_info->o_remainder_day."일 입니다."; 
                 return response($result);
             }
-
         } else if( $product_info->o_product_kind == "T" ) {
 
             // 시간권
@@ -483,7 +592,7 @@ class FrenchReservationController extends Controller
         }
         
 
-        $FrenchReservSeat->rv_partner = $partner_info-p_no;
+        $FrenchReservSeat->rv_partner = $partner_info->p_no;
         $FrenchReservSeat->rv_order = $request->rv_product;
         $FrenchReservSeat->rv_member_from = "L";
 
@@ -506,11 +615,17 @@ class FrenchReservationController extends Controller
         $FrenchReservSeat->rv_room = $request->rv_room;
         $FrenchReservSeat->rv_seat = $request->rv_seat;
    
-        $FrenchReservSeat->rv_seat_name = "";
-        $FrenchReservSeat->rv_seat_level = "";
 
-        $FrenchReservSeat->rv_product_kind = '';
-        $FrenchReservSeat->rv_product_name = '';
+        $Seat = FrenchSeat::find($request->rv_seat);   
+        if( $Seat ) {
+            $SeatLevel = FrenchSeatLevel::find($Seat->s_level);        
+        }
+
+        $FrenchReservSeat->rv_seat_name = $Seat->s_name;
+        $FrenchReservSeat->rv_seat_level = $SeatLevel->sl_no;
+
+        $FrenchReservSeat->rv_product_kind = $product_info->o_product_kind;
+        $FrenchReservSeat->rv_product_name = $product_info->o_product_name;
         $FrenchReservSeat->rv_duration  = $request->rv_duration;
 
         $FrenchReservSeat->rv_type = $request->rv_type;
@@ -556,6 +671,7 @@ class FrenchReservationController extends Controller
     } 
 
 
+        
 
     ## 현재 예약상태 가져오기 main 컨ㅌ롤러로 옮김.
     // public function seatState(Request $request){
@@ -584,23 +700,5 @@ class FrenchReservationController extends Controller
     // } 
 
 
-    function setUserResMemo(Request $request){
-
-        Config::set('database.connections.partner.database',"boss_".$request->account);
-
-        $FrenchReservSeat = \App\Models\FrenchReservSeat::find( $request->rv);
-
-        if( $FrenchReservSeat ) {
-            $FrenchReservSeat->rv_memo = $request->memo;
-            $result['result'] = $FrenchReservSeat->update();
-        } else {
-            $result['result'] = false;
-            $result['message'] = "해당 예약이 존재하지 않습니다.";
-        }
-
-
-        return response($result);
-
-    }
 
 }

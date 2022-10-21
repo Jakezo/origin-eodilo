@@ -75,6 +75,7 @@
                                     <th scope="col" class="text-center">#</th>
                                     <th scope="col">날자</th>
                                     <th scope="col">제목</th>
+                                    <th scope="col">목록이미지</th>
                                     <th scope="col" class="text-center">등록일시</th>
                                     <th scope="col" class="text-center">관리</th>
                                 </tr>
@@ -85,12 +86,12 @@
                                 <tr>
                                     <th scope="row" class="text-center">{{ ($start - $ei) }}</th>
                                     <td>{{ $event['e_sdate'] }} ~ {{ $event['e_edate'] }}</td>
+                                    <th>{{ $event['e_title'] }}</th>
                                     <td>
                                         @if( $event['e_img1'] ) 
                                         <img src="{{ $event['e_img1'] }}" style="height:20px;">
                                         @endif
                                     </td>
-                                    <td>{{ $event['e_sdate'] }}</td>
                                     <td class="text-center">{{ substr($event['created_at'],0,16) }}</td>
                                     <td class="text-center"><button class="btn btn-xs btn-secondary event_item" event="{{ $event['e_no'] }}" data-bs-toggle="modal" data-bs-target="#eventFormModal">관리</button></td>
                                 </tr>

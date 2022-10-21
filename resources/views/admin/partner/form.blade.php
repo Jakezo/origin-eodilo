@@ -381,7 +381,7 @@
                     }
                 },
                 error: function(xhr, status, msg){
-                    ajax_error(xhr.responseJSON)
+                    openPopup(xhr.responseJSON)
                 }
             });
         }

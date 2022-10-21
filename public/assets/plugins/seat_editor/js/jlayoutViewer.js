@@ -44,7 +44,7 @@ function load_view_map( mode, room ){
                 // 영역 너비 확인
                 var targetWidth = $("#page").width();
 
-                console.log("targetWidth : " + targetWidth + " / roomWidth : " + roomWidth);
+                console.log(":::: targetWidth : " + targetWidth + " / roomWidth : " + roomWidth);
 
                 // 축소비율
                 //var zoomRate = Math.floor( (targetWidth / roomWidth ) * 100) / 100;

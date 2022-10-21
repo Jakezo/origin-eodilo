@@ -66,6 +66,45 @@ class StatisticsController extends Controller
 
     }
 
+    public function TodayCommission(Request $request)
+    {
+        //DB::enableQueryLog();	//query log 시작 선언부
+        $data["sales"] = [];
+        $data["sales"] = $this->MobileReservSeat->select(DB::raw("count(rv_no) as count_rv, sum(TIMESTAMPDIFF(MINUTE, rv_sdate, rv_edate)) as sum_time , date_format(rv_sdate,'%Y-%m-%d') as std_date"),"partners.p_no","partners.p_name")
+        ->leftjoin('partners', 'partners.p_no', '=', 'rv_partner')
+        ->where(function ($query) use ($request) {
+
+            if ($request->q) {
+                    $query->where("o_member_name", "like", "%" . $request->q . "%");
+                        //->orwhere("o_title", "like", "%" . $request->q . "%")
+            }
+
+            if ($request->sdate) {
+                $query->where( DB::raw("date_format(mobile_reserv_seats.created_at,'%Y-%m-%d')"),  ">=", $request->sdate);
+            }
+
+            if ($request->edate) {
+                $query->where( DB::raw("date_format(mobile_reserv_seats.created_at,'%Y-%m-%d')"),  "<=", $request->edate);
+            }
+
+        })
+        ->groupBy('rv_partner')
+        ->groupBy('std_date')
+        ->orderBy("rv_no","desc")->paginate(100);
+
+        $data['start'] = $data["sales"]->total() - $data["sales"]->perPage() * ($data["sales"]->currentPage() - 1);
+        $data['total'] = $data["sales"]->total();
+        $data['param'] = [
+            'state' => $request->state, 
+            'sdate' => $request->sdate, 
+            'edate' => $request->edate,  
+            'pkind' => $request->pkind,             
+            'fd' => $request->fd, 
+            'q' => $request->q];
+
+        return view('admin.statistics.day',$data);
+    }
+
     public function month(Request $request)
     {
         if( !$request->y ) $request->y = date('Y');

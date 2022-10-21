@@ -96,6 +96,7 @@ class FrenchMainController extends Controller
         $data['result'] = true;
         $data['rsvs'] = \App\Models\FrenchReservSeat::where("rv_sdate", "<", now())
         ->where("rv_edate", ">", now())
+        ->where("rv_state_seat", '<>',  'END')
         ->get();
 
         // 전체 좌석수
@@ -104,16 +105,19 @@ class FrenchMainController extends Controller
         // 현재 이용건수
         $data["count_used"] = \App\Models\FrenchReservSeat::where("rv_sdate", "<", now())
         ->where("rv_edate", ">", now())
+        ->where("rv_state_seat", '<>',  'END')
         ->count();
 
         // 금일 총 이용건수
         $data["count_today_all"] = \App\Models\FrenchReservSeat::where(DB::raw("date_format(rv_sdate,'%Y-%m-%d')"), now()->format('Y-m-d'))
         ->where('rv_sdate', '<', now())
+        ->where("rv_state_seat", '<>',  'END')
         ->count();  
 
         // 금일 모바일 이용건수
         $data["count_today_mobile"] = \App\Models\FrenchReservSeat::where(DB::raw("date_format(rv_sdate,'%Y-%m-%d')"), now()->format('Y-m-d'))
         ->where('rv_sdate', '<', now())
+        ->where("rv_state_seat", '<>',  'END')
         ->where('rv_device_from', 'M')
         ->count();        
 

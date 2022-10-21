@@ -85,6 +85,7 @@ public function update(Request $request){
     $event->e_value = $request->value ?? "";
     $event->e_title = $request->title ?? "";
     $event->e_cont = $request->cont ?? "";
+    $event->e_cont2 = $request->cont2 ?? "";
     $event->e_read = $request->read ?? "N";
 
     if( $event->e_no ) {
@@ -111,6 +112,7 @@ public function getInfo(Request $request){
                 'e_edate as edate',
                 'e_title as title',
                 'e_cont as cont',
+                'e_cont2 as cont2',
                 'e_partner as partner',
                 'e_value as value'
             ]

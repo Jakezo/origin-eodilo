@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Partner;
 use App\Http\Controllers\Controller;
 use App\Models\FrenchProductOrder;
 use App\Models\FrenchMember;
+use App\Models\FrenchReservSeat;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -68,7 +69,6 @@ class FrenchProductOrderController extends Controller
             return response($result);
         }
 
-
         // if( !$request->b_device_from ) {
         //     $result['result'] = false;
         //     $result['message'] = "잘못된 디바이스 접근입니다."; 
@@ -86,7 +86,7 @@ class FrenchProductOrderController extends Controller
             return response($result);
         }
 
-        $FrenchProductOrder->o_partner = $request->email ?? "";
+        $FrenchProductOrder->o_partner = $request->account_no ?? 0;
         $FrenchProductOrder->o_member_from = "L";
         $FrenchProductOrder->o_member = $request->b_member; 
 
@@ -96,6 +96,7 @@ class FrenchProductOrderController extends Controller
         $FrenchProductOrder->o_seat_level = $request->b_seat_level ?? ""; 
         $FrenchProductOrder->o_product_kind = $request->b_product_kind ?? ""; 
         $FrenchProductOrder->o_duration = $request->b_duration ?? ""; 
+        $FrenchProductOrder->o_remainder = $request->b_duration ?? ""; 
         $FrenchProductOrder->o_price_seat = $request->b_price_seat ?? 0;   
         
         //$FrenchProductOrder->o_room = $request->b_room ?? "";  
@@ -167,10 +168,10 @@ class FrenchProductOrderController extends Controller
 
         $FrenchProductOrder = new FrenchProductOrder;
 
-        
         $FrenchProductOrder->o_memo = $request->b_memo ?? ""; 
 
         $result['result'] = $FrenchProductOrder->save();
+        
         if( $result['result'] ) {
             $result['no'] = $FrenchProductOrder->o_no; 
         } else {
@@ -181,4 +182,5 @@ class FrenchProductOrderController extends Controller
 
     }
 
+  
 }

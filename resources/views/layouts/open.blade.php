@@ -9,14 +9,10 @@
     <!--favicon-->
     <link rel="icon" href="/assets/images/favicon-32x32.png" type="image/png" />
     <!--plugins-->
-    <link href="/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
-    <link href="/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
-    <link href="/assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
-    <link href="/assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
-    <link href="/assets/plugins/highcharts/css/highcharts.css" rel="stylesheet" />
-    <!-- loader-->
-    <link href="/assets/css/pace.min.css" rel="stylesheet" />
-    <script src="/assets/js/pace.min.js"></script>
+    <script src="/assets/js/app.js"></script>
+    <script src="/assets/js/common.js?time={{ time() }}"></script>
+
+
     <!-- Bootstrap CSS -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
     <!--link href="//fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet"-->
@@ -35,6 +31,28 @@
 <div class="wrapper">
     @yield('content')
 </div>
+
+
+<div class="modal fade" id="errorInfoModal" tabindex="-2" aria-labelledby="errorInfoModalLabel" style="display: none;z-index:90000;" aria-hidden="true">
+    <div class="modal-dialog modal- md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="seatStatusModalLabel">알림</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="errorInfoModalConfirm" class="btn btn-primary d-none" data-bs-dismiss="modal">확인</button>
+                <button type="button" id="errorInfoModalClose" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>  
+
 <!--end wrapper-->
 
 <!-- Bootstrap JS -->
@@ -43,8 +61,6 @@
 <!--plugins-->
 <script src="/assets/js/jquery.min.js"></script>
 
-<!--app JS-->
-<script src="/assets/js/app.js"></script>
 
 <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap-switch-button@1.1.0/dist/bootstrap-switch-button.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

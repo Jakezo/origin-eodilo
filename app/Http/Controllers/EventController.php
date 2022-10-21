@@ -258,6 +258,7 @@ class EventController extends Controller
         $event->e_value = $request->value ?? "";
         $event->e_title = $request->title ?? "";
         $event->e_cont = $request->cont ?? "";
+        $event->e_cont2 = $request->cont2 ?? "";
         $event->e_open = $request->open ?? "N";
 
         if( $request->del_img1=="Y" ) {

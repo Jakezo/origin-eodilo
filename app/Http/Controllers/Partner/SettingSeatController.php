@@ -394,6 +394,7 @@ class SettingSeatController extends Controller
         $data["seats"] = $this->FrenchSeat->select(["french_seats.*", "r.r_no", "r.r_name", "sl.sl_no", "sl.sl_name"])
         ->leftjoin('french_rooms as r', 'french_seats.s_room', '=', 'r.r_no')
         ->leftjoin('french_seat_levels as sl', 'french_seats.s_level', '=', 'sl.sl_no')
+        ->where("french_seats.rv_state_seat","<>","END")
             ->where(function ($query) use ($request) {
                 if ($request->room) {
                         $query->where("r_no", $request->room);

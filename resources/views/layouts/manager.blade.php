@@ -207,7 +207,7 @@
                             </div>
                         </div>
                         <div class="col-5">
-                            시간표 2021-10-10
+                            시간표 <input type="text" style="border:0px" value="{{ date('Y-m-d') }}">
                             <div id="time_table2">
 
                             </div>
@@ -824,6 +824,11 @@
                                 <div class="col-7" id="seatCurrentEdate"></div>
                             </div>
 
+                            <div class="row">
+                                <div class="col-5">
+                                    <button type="button" class="btn btn-sm btn-warning col-12 mx-1 mb-1 reserveRow" rv="">퇴실/연장/시간 변경</button>
+                                </div>
+                            </div>                            
                             <hr/>
 
                             <form id="form_entrance">
@@ -857,7 +862,7 @@
                                     <button type="button" class="btn btn-sm btn-warning col-12 mx-1 mb-1" onclick="$('.seatExt').addClass('d-none');$('#seatExt_extForm').removeClass('d-none');">연장</button>
                                 </div>
                                 <div class="col-2">
-                                    <button type="button" class="btn btn-sm btn-warning col-12 mx-1 mb-1" onclick="$('.seatExt').addClass('d-none');$('#seatExt_outForm').removeClass('d-none');">퇴실</button>
+                                    <button type="button" class="btn btn-sm btn-warning col-12 mx-1 mb-1" onclick="open_outSeat('form')">퇴실</button>
                                 </div>
                                 <div class="col-2">
                                     <button type="button" class="btn btn-sm btn-warning col-12 mx-1 mb-1" onclick="$('.seatExt').addClass('d-none');$('#seatExt_changeTimeForm').removeClass('d-none');">시간</button>
@@ -980,16 +985,13 @@
                                     <h6>현재시간부로 퇴실</h6>
                                     <div class="row mb-2">
                                         <div class="col-4">
-                                            <button type="button" class="btn btn-sm btn-primary">퇴실하기</button>
+                                            <button type="button" class="btn btn-sm btn-primary" id="btn_out">퇴실하기</button>
                                         </div>
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col-12">
-                                            <div class="alert alert-success">
-                                                <div>총 예약시간 6시간</div>
-                                                <div>총 이용시간 2시간</div>
-                                                <div>환불금액 60,000 ( A 등급좌석, 성인, 연장금액 )</div>
-                                                <div>환불금액은 보유머니로 적립됩니다.</div>
+                                            <div class="alert alert-success" id="refundInfo">
+
                                             </div>
                                         </div>
                                     </div>
@@ -1121,7 +1123,9 @@
                                     </form>                            
                                 </div>
                                 <div class="col-5">
-                                    시간표 2021-10-10
+                                    <div class="mb-1">
+                                    시간표 <input type="text" class="border-0 datepicker" style="border:0px" value="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}" id="selectDT">
+                                    </div>
                                     <div id="time_table">
                                         <!--div class="row border-bottom border-top">
                                             <div class="col-3 border-right">01</div>
@@ -1653,7 +1657,25 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="errorInfoModal" tabindex="-2" aria-labelledby="errorInfoModalLabel" style="display: none;z-index:90000;" aria-hidden="true">
+    <div class="modal-dialog modal- md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="seatStatusModalLabel">알림</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
 
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="errorInfoModalConfirm" class="btn btn-primary d-none" data-bs-dismiss="modal">확인</button>
+                <button type="button" id="errorInfoModalClose" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>  
 
 
 <!--end switcher-->
@@ -1668,6 +1690,7 @@
 <!--script src="/assets/js/index5.js"></script-->
 <!--app JS-->
 <script src="/assets/js/app.js"></script>
+<script src="/assets/js/common.js?time={{ time() }}"></script>
 
 <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap-switch-button@1.1.0/dist/bootstrap-switch-button.min.js"></script>
 
@@ -1745,6 +1768,19 @@
         }
     });
 
+    $(document).ready(function(){
+        $(document).on("change", "#selectDT", function(){
+            var dt = $(this).val();
+            console.log(dt);
+            getSeatReserveList(dt)
+        });
+    });
+
+
+
+    
+
+
     function getDuration( mode ){
         let today = new Date();
         let year = today.getFullYear(); // 년도
@@ -1806,7 +1842,7 @@
 
 
     <script>
-
+        var select_seat = null;
         var seat_info = {};
         var seat_levels = {};
         var user_sex = "M";
@@ -1850,6 +1886,12 @@
                 member_viewer(no);
             });
 
+            // 예약정보 띄우기
+            $(document).on("click",".reserveRow",function(){
+                var rv = $(this).attr('rv');
+                reserve_info(rv);
+            });
+
             // 타임테이블 마우스오버
             $(document).on("mouseover",".time_row",function(){
                 $(this).find('div').addClass("time_pop");
@@ -1878,12 +1920,12 @@
             
             // 좌석선택
             $(document).on("click",".btn_seat",function(){
-                var no = $(this).attr("seat");
+                select_seat = $(this).attr("seat");
                 console.log("선택된 좌석:" + no);
                 
-                if( no ) {
-                    seat_getInfo(no, CurrentDate);
-                    seat_getReserveInfo(no, CurrentDate);
+                if( select_seat ) {
+                    seat_getInfo(select_seat, CurrentDate);
+                    seat_getReserveInfo(select_seat, CurrentDate);
                     //$("#seatStatusModal").modal("show");
                 } 
                 setSdateFromCurrentTime();
@@ -1930,6 +1972,12 @@
                     $("#buyProduct_row_seat_info #buyProduct_seat_info").html("");                    
                     console.log("좌석에서 왔음");
                     console.log(seat_info);
+
+                    if( seat_info.seat_level == undefined ) {
+                        alert('좌석의등급 ');
+                        alert(seat_info);
+                    }
+
                     var html = "좌석번호 :" + seat_info.seat.s_no + "<br>" + seat_info.seat_level.sl_name + "<br>";
 
                     console.log(html);
@@ -1971,13 +2019,14 @@
                     if( $(this).prop('checked') == true ) {
 
                         setPriceOpt.b_product_kind  = $(this).val();
+                        console.log("좌석정보");
                         console.log(setPriceOpt.b_product_kind);
                         
                         if( setPriceOpt.b_product_kind == "A" ) {
                             console.log("하루이용권");
                             $('#b_duration').empty();
                             $.each(product_arr['A'], function(duration){
-                                var option = $('<option value="'+duration+'">'+duration+'일</option>');
+                                var option = $('<option value="1">1일</option>');
                                 $('#b_duration').append(option);
                             });        
                         }
@@ -2020,11 +2069,8 @@
                         setPriceOpt.duration = $('#b_duration').val();  
                     }
                 });
-
                 setPriceSeat();
-                
             });
-
 
             // 기간선택
             $(document).on("change","#b_duration",function(){
@@ -2107,11 +2153,7 @@
 
             });
             
-            // 메모저장
-            $(document).on("click","#btn_save_memo",function(){
-                setUserResMemo($("#seat_memo").val());
-            });
-            
+
             // 시간선택
             $(document).on("change","#seatReservFormModal #rv_duration",function(){
                 resetLastTime()
@@ -2136,14 +2178,13 @@
             });
 
 
-
-  
+            
 
         });
 
 
         
-        // 예약상태가져오기
+        // IOT 전체 조회
         function getAllIOT() {
 
             $.ajax({
@@ -2216,15 +2257,13 @@
                     console.log(xhr.responseJSON.message);
                 }
             });
-
             
         }
-
-
 
         // 예약상태가져오기
         function SeatState() {
 
+            console.log("상태바꿔주는....");
             formData = new FormData();
 
             $.ajax({
@@ -2236,7 +2275,15 @@
                 type: 'POST',
                 //data: req,
                 success: function (res, textStatus, xhr) {
-                    console.log(res);
+
+                    // 모든 좌석 초기화..
+                    $('.btn_seat').removeClass("on");
+
+                    $('.btn_seat').each(function(index, seat){
+                        $(this).find(".name").html('<span style="font-size:10pt;">'+$(this).attr('seat')+'</span>');
+
+                    })
+
                     if (res.result == true) {
                         res.seats.forEach(function(seat) {
                             console.log("예약있는거 확인"+seat.rv_member_name);
@@ -2305,10 +2352,10 @@
                     setTimeout("manager_publish_status("+res.log.log_no+")", 3000); 
 
                 }
-
   
             });
         }
+
         // IOT 결과조회
         function manager_publish_status(no){
             console.log("mqtt 상태확인");
@@ -2400,7 +2447,6 @@
                     if( res.result == true ) {
                         product_arr = res.products;
                         console.log(product_arr['T']);
-
                     } else {
                         $("#reserveSeat_msg").html( res.message );
                     }                    
@@ -2436,6 +2482,7 @@
                         // 목록을 업데이트 해준다.
                         seat_getInfo(res.s_no, CurrentDate);
                         resved_list();
+                        document.location.reload();
                     } else {
                         $("#reserveSeat_msg").html( res.message );
                     }                    
@@ -2449,7 +2496,6 @@
                 }           
   
             });
-
         }
         
         // 회원정보 팝업창        
@@ -2463,7 +2509,14 @@
             var url = "/member/popupReg";
             if( nestStep != undefined ) url = url  + "?nextStep=" + nestStep;
             window.open(url,"popup_member_new","width=900,height=800")
-        }                
+        }  
+        
+        // 예약정보창
+        function reserve_info( rv ){
+            var url = "/reserve/reserveInfo";
+            if( rv != undefined ) url = url  + "?rv=" + rv;
+            window.open(url,"popup_reserve_info","width=900,height=800")
+        }         
 
         // 상품선택시 상태 가져오기
         function setUserProduct(member, seat, product) {
@@ -2668,7 +2721,12 @@
 
             console.log(setPriceOpt);
 
-            if( setPriceOpt.b_product_kind == "D" ) {
+            console.log("점검... setPriceOpt.seat_level : "+setPriceOpt.seat_level);
+            console.log("점검... seat_levels : ");
+            console.log(seat_levels);
+            console.log("점검... setPriceOpt.b_product_kind : " + setPriceOpt.b_product_kind);
+
+            if( setPriceOpt.b_product_kind == "D" || setPriceOpt.b_product_kind == "A" ) {
                 price_data = JSON.parse(seat_levels[setPriceOpt.seat_level].sl_price_day);
             } else if( setPriceOpt.b_product_kind == "T" ) {
                 price_data = JSON.parse(seat_levels[setPriceOpt.seat_level].sl_price_time);
@@ -2782,7 +2840,7 @@
 
                             html = html + '<div class="row border-bottom time_row" dt="' + CurrentDate + ' ' + seat_info.reserved[hh][key].hi + ':00">';
                             html = html + '    <div class="col-3 border-right">'+seat_info.reserved[hh][key].hi+'</div>';
-                            html = html + '    <div class="col-9 bg-info" rv="'+seat_info.reserved[hh][key].rv_no+'">'+seat_info.reserved[hh][key].rv_member_name+'</div>';
+                            html = html + '    <div class="col-9 bg-info reserveRow" rv="'+seat_info.reserved[hh][key].rv_no+'">'+seat_info.reserved[hh][key].rv_member_name+'</div>';
                             html = html + '</div>';
                         }
 
@@ -2807,31 +2865,7 @@
             };    
         }
 
-        function setUserResMemo(memo) {
 
-            formData = new FormData();
-
-            formData.append("rv",current_rv );
-            formData.append("memo",memo );
-
-            $.ajax({
-                url: '/reservation/setUserResMemo',
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                processData: false,
-                contentType: false,
-                data: formData,
-                type: 'POST',
-                success: function (res, textStatus, xhr) {
-                    console.log(res);
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    console.log(xhr);
-                    console.log(xhr.responseJSON.file);
-                    console.log(xhr.responseJSON.line);
-                    console.log(xhr.responseJSON.message);
-                }
-            });   
-        }
 
         var current_rv = 0
 
@@ -2844,7 +2878,7 @@
             $("#seatReservFormModal #seatCurrentMemo").html(""); 
 
             var req = "seat=" + no ;
-            console.log("예약정보요청 : " + req);
+            console.log("......예약정보요청 : " + req);
             $.ajax({
                 url: '/reservation/getSeatReserveInfo',
                 type: 'POST',
@@ -2860,7 +2894,7 @@
                     console.log("예약정보가져왔음.");
                     console.log(res.currentReserve);
 
-                    current_rv = res.currentReserve.rv_no
+                    current_rv = res.currentReserve.rv_no;
 
                     if( res.currentReserve.rv_state == "A") {
                         $("#currentState").html('<span class="btn btn-xs btn-secondary">예약중</span>')
@@ -2869,6 +2903,11 @@
                     } else {
                         $("#currentState").html('<span class="btn btn-xs btn-secondary">상태없음</span>')
                     }
+
+                    $("#currentState").append()
+
+
+                    $("#seatReservFormModal .reserveRow").attr("rv", res.currentReserve.rv_no);
 
                     if( res.currentReserve.rv_memo ) {
                         $("#seatReservFormModal #seatCurrentMemo").html(res.currentReserve.rv_memo); 
@@ -2890,7 +2929,6 @@
                         $("#seatCurrentEdate").html("예약없음");
 
                     }
-
 
                 },
                 error: function (xhr, textStatus, errorThrown) {
@@ -2917,6 +2955,40 @@
             //});
         }
 
+        
+
+        // 특정일 예약정보     
+        function getSeatReserveList(dt){
+
+           
+            var req = "no=" + select_seat ;
+            if( dt != undefined )  req = req + "&dt=" + dt;
+            console.log(req);
+            $.ajax({
+                url: '/reservation/getSeatReserveList',
+                type: 'POST',
+                async: true,
+                beforeSend: function (xhr) {
+
+                },
+                data: req,
+                success: function (res, textStatus, xhr) {
+                    
+                    seat_info = res;
+
+                    resved_list();
+
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(xhr);
+                    console.log(xhr.responseJSON.file);
+                    console.log(xhr.responseJSON.line);
+                    console.log(xhr.responseJSON.message);
+                }
+            });
+        }
+        
+        
         // 좌석정보 가져오기           
         function seat_getInfo(no, dt){
             var req = "no=" + no ;
@@ -2961,7 +3033,6 @@
                             iot_no = item.no;
                             dev_no = item.dev;
 
-
                             iot_no = item.no;
                             dev_no = item.dev;
 
@@ -2971,7 +3042,6 @@
                     } else {
 
                     }       
-                    
 
                     $("#reservationForm #rv_seat").val(seat_info.seat.s_no);
                     $("#reservationForm #rv_room").val(seat_info.seat.s_room);
@@ -3113,7 +3183,6 @@
 
                         }
 
-
                         setPriceSeat();
                     } else {
                         $("#memberDetail_msg").html( res.message );
@@ -3178,14 +3247,8 @@
             s = s.replace(/^\s*|\s*$/g, ''); // 좌우 공백 제거
             if (s == '' || isNaN(s)) return false;
             return true;
-          }
+        }
 
-
-
-
-        
-        
-        
         </script>
 
 

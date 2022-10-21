@@ -133,67 +133,11 @@
 <!--script src="/assets/plugins/seat_editor/js/jlayoutMapEditor.js"></script-->
 <script>
 
-        // function seat_getInfo(no) {
-        //     var req = "no=" + no;
-        //     console.log(req)
-        //     $.ajax({
-        //         url: '/setting/seat_level/getInfo',
-        //         type: 'POST',
-        //         async: true,
-        //         beforeSend: function (xhr) {
-        //             $("#seatDetail_msg").html("");
-        //         },
-        //         data: req,
-        //         success: function (res, textStatus, xhr) {
-        //             console.log(res);
-        //             if (res.seat != null) {
-        //                 $("#no").val(res.seat.no);
-        //                 //$("#aid").val(res.seat.id).attr("readonly", true);
-        //                 $("#name").val(res.seat.name);
-        //                 $("#type"+res.seat.type).prop("checked","checked");
-        //                 $("#state").val(res.seat.state);
-        //                 $("#sex").val(res.seat.sex);
-        //             } else {
-        //                 $("#seatDetail_msg").html(res.message);
-        //                 console.log("실패.");
-        //             }
-        //         },
-        //         error: function (xhr, textStatus, errorThrown) {
-        //             console.log('PUT error.');
-        //         }
-        //     });
-        // }
-        // function open_SeatInfo(){
-
-        //     var idx = $("#idx").val();
-        //     var room = $("#room").val();
-        //     var url = "/SeatInfo/SeatInfo.php?room="+room+"&idx=" + idx;
-
-        //     // 이미 seat_idx 가 있다면
-        //     if( select_index != undefined &&  select_index != null ) {
-        //         url += "&select_index="+select_index
-        //     }
-        //     window.open(url,'SeatInfo','width=900,height=500')
-
-        // }
-
-        function mapping_SeatInfo(seat_idx,seat_name){
-            obj_arr[select_index].seat_idx = seat_idx;
-            obj_arr[select_index].seat_name = seat_name;
-            rename_shape(select_index, seat_name);
-            console.log(seat_idx,seat_name);
-        }
-
         $(document).ready(function(){
-
-            // $.ajaxSetup({
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     }
-            // });
 
             $(document).on("click",".shape", function(){
                 let seat_no = $(this).attr("seat");
+                console.log("선택한 좌석"+seat_no);                
                 if( seat_no!= undefined  && seat_no > 0 ) {
                     $("#seatReservFormModal").modal("show");
                 }
@@ -203,10 +147,17 @@
             load_view_map(mode, room);
         });
 
+        function mapping_SeatInfo(seat_idx,seat_name){
+            obj_arr[select_index].seat_idx = seat_idx;
+            obj_arr[select_index].seat_name = seat_name;
+            rename_shape(select_index, seat_name);
+            console.log(seat_idx,seat_name);
+        }
 
-        // 좌석상태
+
+        // 좌석상태 ==== 이건 좌석상태 업데이트 못함......
         function get_SeatState(){
-            console.log("좌석상태 가져오는 중...");            
+                console.log("좌석상태 가져오는 중...");
                 $.ajax({
                     url: '/seatState',
                     type: 'get',
@@ -227,6 +178,7 @@
                         });
 
                         if ( res.count_used != undefined ) {
+
                             // 현재사용중
                             $("#count_used").html(res.count_used);
 
@@ -236,7 +188,7 @@
                             // 금일 누적
                             $("#count_today_mobile").html(res.count_today_mobile);
                             $("#count_today_all").html(res.count_today_all);
-                            
+
                         }
                     }         
 
@@ -244,10 +196,11 @@
         }
 
         var nIntervId;
-        get_SeatState();
+        //get_SeatState(); // 요것도 일단 지원봄....
         nIntervId = setInterval(function()
         {
-            get_SeatState();
+            //get_SeatState();
+            SeatState(); //주기적 반복은 이걸로 바꿈...
         },10000);
 
         function stopGetSeatState() {

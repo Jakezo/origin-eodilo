@@ -271,7 +271,7 @@ class SettingSeatLevelController extends Controller
     ##  표준금액가져오기
     public function getStandardPrice(Request $request){
 
-        $StandardPrice = StandardPrice::first();
+        //$StandardPrice = StandardPrice::first();
 
         if( $StandardPrice = StandardPrice::first() ) {
             
