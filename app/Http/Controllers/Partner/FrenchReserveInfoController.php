@@ -183,8 +183,6 @@ class FrenchReserveInfoController extends Controller
 
     }
     
-
-
     // 환불을 위한 금액 확인
     public function reserveRefundPriceArr($order, $rv)
     {
@@ -487,9 +485,11 @@ class FrenchReserveInfoController extends Controller
         $currentReserve = \App\Models\FrenchReservSeat::find($request->rv);
         $currentSeat = \App\Models\FrenchSeat::find($currentReserve['rv_seat']);
 
-        // 해당 시간에 예약이 있는지 확인
-        $r_sdt = Carbon::createFromFormat('Y-m-d H:i', $request->b_sdate . " " . substr($request->b_stime,0,5));
-        $r_edt = Carbon::createFromFormat('Y-m-d H:i', $request->b_sdate . " " . substr($request->b_stime,0,5))->addHour($request->b_duration);
+        $val = $request->b_sdate . " " . substr($request->b_stime,0,5) . ":00";
+        $r_sdt = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $val);
+        $r_edt = $r_sdt->copy()->addHour($request->b_duration)->addMinute(-5);
+
+
 
         if ($currentSeat->s_no != $request->b_seat) {
             $data['result'] = false;
@@ -503,20 +503,21 @@ class FrenchReserveInfoController extends Controller
             return response($data);
         }
 
+
         // 예약이 가능한 시간인지 확인
         $dupReserveInfo = \App\Models\FrenchReservSeat::
-                        where("rv_seat", $currentReserve['rv_seat'])
-                        ->where("rv_no", '!=', $currentReserve['rv_no'])
-                        ->where(function ($query) use ( $request) {
-                            $query->where([
-                                ['rv_sdate', '>=', $request->b_sdate . " " . $request->b_stime],
-                                ['rv_sdate', '<=', $request->b_edate . " " . $request->b_etime],
-                            ])
-                            ->orwhere([
-                                ['rv_edate', '>=', $request->b_sdate . " " . $request->b_stime],
-                                ['rv_edate', '<=', $request->b_edate . " " . $request->b_etime],
-                            ]);
-                        })->first();        
+            where("rv_seat", $currentReserve['rv_seat'])
+            ->where("rv_no", '!=', $currentReserve['rv_no'])
+            ->where(function ($query) use ( $request, $r_sdt, $r_edt) {
+                $query->where([
+                    ['rv_sdate', '>=', $r_sdt->toDateTimeString()],
+                    ['rv_sdate', '<=', $r_edt->toDateTimeString()],
+                ])
+                ->orwhere([
+                    ['rv_edate', '>=', $r_sdt->toDateTimeString()],
+                    ['rv_edate', '<=', $r_edt->toDateTimeString()],
+                ]);
+            })->first();        
 
 
         if ( $dupReserveInfo ){
@@ -524,25 +525,31 @@ class FrenchReserveInfoController extends Controller
                 $data['message'] = "이미 예약된 시간입니다. <br>".$dupReserveInfo->rv_member_name." / ".$dupReserveInfo->rv_sdate." ~ ".$dupReserveInfo->rv_edate;
                 return response($data);
         }
-    
+
         // 시간변경실행
-        if ($currentReserve->rv_sdate > now()->format("Y-m-d H:i")) {
+        if ($currentReserve->rv_sdate > now()->format("Y-m-d H:i:S")) {
 
             $currentReserve->rv_sdate = $r_sdt->format("Y-m-d H:i:s");
             $currentReserve->rv_edate = $r_edt->format("Y-m-d H:i:s");
-
-            if ($currentReserve->update()) {
+           
+            if ($currentReserve) {
                 //$data['result'] = $this->MobileReservSeat->update();
 
                 if( $currentReserve->rv_member_from == "M") {
-                    $MobileReserve = \App\Models\MobileReservSeat::where("rv_partner_rv",$currentReserve->rv_no);
+
+                    $MobileReserve = \App\Models\MobileReservSeat::where("rv_partner_rv",$currentReserve->rv_no)->first();
+
                     $MobileReserve->rv_sdate = $r_sdt->format("Y-m-d H:i:s");
                     $MobileReserve->rv_edate = $r_edt->format("Y-m-d H:i:s");
+
+
                     $MobileReserve->update();
                 }
 
+                $currentReserve->update();
+                
                 $data['result'] = true;
-                $data['message'] = "예약 시간이 변경되었습니다. ". $currentReserve->rv_sdate . " ~ " . $currentReserve->rv_edate;
+                $data['message'] = "예약 시간이 변경되었습니다. ";
                 return response($data);
             } else {
                 $data['result'] = false;
@@ -567,7 +574,7 @@ class FrenchReserveInfoController extends Controller
 
         // 종료
         if( $currentReserve->rv_edate < now() ) {
-            $data['result'] = true;
+            $data['result'] = false;
             $data['message'] = "이미 종료된 예약입니다.";
             return response($data);
         }
@@ -582,12 +589,16 @@ class FrenchReserveInfoController extends Controller
         }        
 
         $currentSeat = \App\Models\FrenchSeat::find($currentReserve['rv_seat']);
+
         // 해당 시간에 예약이 있는지 확인
         $data['ageType'] = $currentReserve->rv_ageType;
         $data['sex'] = $currentReserve->rv_sex;
+
+
         // 예약이 가능한 시간인지 확인
         $data['seats'] = \App\Models\FrenchSeat::where("s_no", "!=", $currentReserve['rv_seat'])
                         ->leftJoin("french_rooms","french_rooms.r_no","french_seats.s_room")
+                        ->where('s_level', $currentSeat->s_level)
                         ->where(function ($query) use ( $currentReserve ) {
                             $query->where('s_sex', '=', $currentReserve->rv_sex)
                             ->orwhere('s_sex', 'A');
@@ -602,42 +613,10 @@ class FrenchReserveInfoController extends Controller
         $data['result'] = true;
         return response($data);
 
-    
-        // 시간변경실행
-        if ($currentReserve->rv_sdate > now()->format("Y-m-d H:i")) {
-
-            $currentReserve->rv_sdate = $r_sdt->format("Y-m-d H:i:s");
-            $currentReserve->rv_edate = $r_edt->format("Y-m-d H:i:s");
-
-            if ($currentReserve->update()) {
-                //$data['result'] = $this->MobileReservSeat->update();
-
-                if( $currentReserve->rv_member_from == "M") {
-                    $MobileReserve = \App\Models\MobileReservSeat::where("rv_partner_rv",$currentReserve->rv_no);
-                    $MobileReserve->rv_sdate = $r_sdt->format("Y-m-d H:i:s");
-                    $MobileReserve->rv_edate = $r_edt->format("Y-m-d H:i:s");
-                    $MobileReserve->update();
-                }
-
-                $data['result'] = true;
-                $data['message'] = "예약 시간이 변경되었습니다. ". $currentReserve->rv_sdate . " ~ " . $currentReserve->rv_edate;
-                return response($data);
-            } else {
-                $data['result'] = false;
-                $data['message'] = "변경에 실패했습니다.<br>";
-                return response($data);
-            }
-        } else {
-            $data['result'] = false;
-            $data['message'] = "이미 예약시간이 지났습니다. 환불후 다시 예약 해주세요.<br>";
-            return response($data);
-        }
 
     }  
 
-
-
-    // 변경가능 좌석정보
+    // 좌석변경
     public function reserveChangeSeatOk(Request $request)
     {
 
@@ -669,7 +648,6 @@ class FrenchReserveInfoController extends Controller
         $currentSeat = \App\Models\FrenchSeat::find($currentReserve['rv_seat']);
         $newSeat = \App\Models\FrenchSeat::find($request->newSeat);
 
-        
         $durationReserv = \App\Models\FrenchReservSeat::where("rv_seat", $request->newSeat)
         ->where(function ($query) use ( $r_sdatetime, $r_edatetime ) {
             $query->where([
@@ -697,16 +675,18 @@ class FrenchReserveInfoController extends Controller
             $newReserve->rv_state_seat = "IN"; 
             $newReserve->rv_sdate = $r_sdatetime;
             $newReserve->rv_edate = $r_edatetime;  
+            $newReserve->rv_seat = $newSeat->s_no;
             $newReserve->save();
 
             $currentReserve->rv_state = "U"; 
-            $currentReserve->rv_state_seat = "OUT"; 
+            $currentReserve->rv_state_seat = "END"; 
             $currentReserve->rv_edate = $r_sdatetime;      
             $currentReserve->update();
         }   
 
         if( $newReserve->rv_no )  {
                 $data['result'] = true;
+                $data['rv'] = $newReserve->rv_no;
                 $data['message'] = "자리를 이동하였습니다.";
                 return response($data);
         } else {

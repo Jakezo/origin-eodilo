@@ -5,6 +5,11 @@ function windowPopup(popUrl) {
     window.open(popUrl, popOption);
 }
 
+function callback_close(){
+    opener.document.location.reload();
+    window.close();
+}
+
 function openPopup(message, callback){
     $("#errorInfoModal .modal-body").html(message);
     $('#errorInfoModal').modal('show');
@@ -44,3 +49,6 @@ function sendFile(file, editor){
         }
     });
 }
+
+
+

@@ -27,7 +27,6 @@
             <div class="card">
                 <div class="card-body">
 
-                
                     <div class="tab-content py-3">
                         <div class="tab-pane fade show active" id="primaryhome" role="tabpanel">
     
@@ -77,8 +76,6 @@
     
                         </div>
                     </div>
-
-
 
                     <div class="row col-12 mt-4 mb-2">
                         <div class="col-2">
@@ -171,15 +168,14 @@
                             <input type="hidden" name="b_duration" id="b_duration" value="{{ $reserve['rv_duration'] }}">
                             <input type="hidden" name="b_seat" id="b_seat" value="{{ $reserve['rv_seat'] }}">                            
                             <div class="row mb-2">
-
                                 <div class="col">
-                                    <input type="text" class="form-control form-control-sm datepicker" name="b_sdate" id="sdate" value="{{ substr($reserve['rv_sdate'],0,10) }}">
+                                    <input type="text" class="form-control form-control-sm datepicker" name="b_sdate" id="b_sdate" value="{{ substr($reserve['rv_sdate'],0,10) }}">
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control form-control-sm timepicker" name="b_stime" id="stime" value="{{ substr($reserve['rv_sdate'],11,8) }}">
+                                    <input type="text" class="form-control form-control-sm" name="b_stime" id="stime" value="{{ substr($reserve['rv_sdate'],11,8) }}">
                                 </div>
                                 <div class="col">
-                                    <button type="button" class="btn btn-sm btn-success" id="btn_changeTimeOk">변경하기</button>
+                                    <button type="button" class="btn btn-sm btn-primary" id="btn_changeTime">변경하기</button>
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -211,7 +207,7 @@
                                     </select>
                                 </div>
                                 <div class="col-4">
-                                    <button type="button" class="btn btn-sm btn-success" id="btn_changeSeatOk">자리이동하기</button>
+                                    <button type="button" class="btn btn-sm btn-primary" id="btn_changeSeatOk">자리이동하기</button>
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -466,7 +462,8 @@ $(document).ready(function(){
 
                     if( mode == "action" ) {
                         open_reserveInfo();
-                        openPopup("퇴실처리하였습니다.");
+                        openPopup("퇴실처리하였습니다.","callback_close()");
+                        
                     } else if( mode == "form" ) {
                         var html  = '';
                         //html += '<div>총 예약시간 6시간</div>\n';
@@ -492,6 +489,7 @@ $(document).ready(function(){
 	function changeTime(){
 
             var req = $("#rForm").serialize();
+            console.log(req);
             $.ajax({
                 url: '/reserve/reserveChangeTimeOk',
                 type: 'POST',
@@ -501,11 +499,14 @@ $(document).ready(function(){
                 },
                 data: req,
                 success: function (res) {
+                    console.log(res);
                     if( res.result == true ) {
                         $("#msg_changeTime").find(".alert").html(res.message);
                         $("#msg_changeTime").find(".alert").removeClass("alert-danger").addClass("alert-success");
                         $("#msg_changeTime").removeClass("d-none");
                         opener.document.location.reload();
+                        document.location.reload();
+
                     } else {
                         $("#msg_changeTime").find(".alert").html(res.message);
                         $("#msg_changeTime").find(".alert").removeClass("alert-success").addClass("alert-danger");
@@ -514,12 +515,14 @@ $(document).ready(function(){
 
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    $("#eventDetail_msg").html(xhr.responseJSON.message);
+                    openPopup(xhr.responseJSON.message);
+                    //$("#eventDetail_msg").html();
                 }
             });
 
 	}    
 
+    // 변경가능성 및 가능좌석조회
 	function ChangableSeats(mode){
 
         var req = $("#rForm").serialize();
@@ -543,7 +546,7 @@ $(document).ready(function(){
                     });
 
                 } else {
-
+                    openPopup(res.message);
                 }                 
 
             },
@@ -553,6 +556,7 @@ $(document).ready(function(){
         });
     } 
 
+    // 자리변경
 	function changeSeatOk(){
 
         var formData = new FormData();
@@ -571,8 +575,9 @@ $(document).ready(function(){
             success: function (res) {
                 console.log(res);
                 if( res.result == true ) {
+                    document.location.href = '?rv=' + res.rv;
                     opener.document.location.reload();
-                    open_reserveInfo();
+                    //open_reserveInfo();
                 } else {
                     $("#msg_changeTime").find(".alert").html(res.message);
                     $("#msg_changeTime").find(".alert").removeClass("alert-success").addClass("alert-danger");
