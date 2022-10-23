@@ -7,7 +7,7 @@
 @section('content')
 
     <!--start page wrapper -->
-    <div class="wrapper">
+    <div class="wrapper" id="layer_fixed">
         <div class="content p-2">
 
             <!--end breadcrumb-->
@@ -204,9 +204,9 @@
 
 <script src="/assets/js/jquery-ui.min.js"></script>
 <script src="/assets/css/jquery-ui.min.css"></script>
-<script src="/assets/plugins/seat_editor/js/jquery.resize.js"></script>
-<script src="/assets/plugins/seat_editor/js/jlayout.js"></script>
-<script src="/assets/plugins/seat_editor/js/jlayoutMapEditor.js"></script>
+<script src="/assets/plugins/seat_editor/js/jquery.resize.js?time={{ time() }}"></script>
+<script src="/assets/plugins/seat_editor/js/jlayout.js?time={{ time() }}"></script>
+<script src="/assets/plugins/seat_editor/js/jlayoutMapEditor.js?time={{ time() }}"></script>
     <script>
 
         $(document).ready(function () {
@@ -235,6 +235,8 @@
             $(document).on("click", "#btn_open_bg", function () {
                 $("#bgModal").modal("show");
             });
+
+       
 
         });
 

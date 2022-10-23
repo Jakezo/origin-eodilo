@@ -91,6 +91,19 @@ $(document).ready(function(){
         //alert(1)
     });
 
+
+    $(document).on("change","#edit_pannel #pos_x,#edit_pannel #pos_y", function(){
+        let x = $("#edit_pannel #pos_x").val();
+        let y = $("#edit_pannel #pos_y").val();
+        if( select_index >= 0 ){
+            console.log("위치이동 x:" + x + " / y:" + y);
+            move_shape( select_index, Math.ceil(x), Math.ceil(y) )
+        } else {
+            alert("객체를 선택한 후에 변경할 수 있습니다.")
+        }
+
+    });
+
     $(document).on("change","#edit_pannel #size_w", function(){
 
         if( select_index >= 0 ){

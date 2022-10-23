@@ -1,6 +1,6 @@
 <div class="sidebar-header">
     <div>
-        <img src="/assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
+        <a href="/"><img src="/assets/images/logo-icon.png" class="logo-icon" alt="logo icon"></a>
     </div>
     <div>
         <h4 class="logo-text">서비스관리자</h4>

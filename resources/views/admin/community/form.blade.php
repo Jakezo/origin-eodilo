@@ -20,7 +20,7 @@
                 <div class="ps-3">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
-                            <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                            <li class="breadcrumb-item"><a href="/"><i class="bx bx-home-alt"></i></a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">공지사항</li>
                         </ol>
@@ -82,7 +82,7 @@
 
                         <div class="col-12 text-center">
                             <button type="button" class="btn btn-primary px-5" onclick="formcheck()">확인</button>
-                            <button type="button" class="btn btn-secondary px-5" onclick="location.href='partner_list.html?mode=modify&p_no='">돌아가기</button>
+                            <button type="button" class="btn btn-secondary px-5" onclick="location.href='/community/{{ $b_id ?? '' }}'">돌아가기</button>
                         </div>
 
                     </form>

@@ -19,7 +19,7 @@
                 <div class="ps-3">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
-                            <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                            <li class="breadcrumb-item"><a href="/"><i class="bx bx-home-alt"></i></a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">공지사항</li>
                         </ol>
@@ -93,9 +93,9 @@
                                     @if( $b_id == "notice" )
                                     <td scope="col" class="col-xs-2 text-center">
                                         @if( $board->b_state == "Y" )
-                                        <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#boardQnaModal">공개</button>
+                                        <span class="btn btn-xs btn-primary">공개</button>
                                         @else
-                                        <button class="btn btn-xs btn-secondary" data-bs-toggle="modal" data-bs-target="#boardQnaModal">비공개</button>
+                                        <button class="btn btn-xs btn-secondary" >비공개</button>
                                         @endif
                                     </td>
                                     @endif

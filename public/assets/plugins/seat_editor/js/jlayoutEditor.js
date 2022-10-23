@@ -95,6 +95,16 @@ $(document).ready(function(){
         //alert(1)
     });
 
+    $(document).on("change,keyup","#pos_x", function(){
+        alert(1)
+        if( select_index >= 0 ){
+            resize_shape( select_index, $(this).val(), $(this).val() * 0.66 )
+        } else {
+            alert("객체를 선택한 후에 변경할 수 있습니다.")
+        }
+
+    });
+
     $(document).on("change","#edit_pannel #size_w", function(){
 
         if( select_index >= 0 ){
