@@ -36,27 +36,36 @@ function load_view_map( mode, room ){
         data: data,
         success: function(res) {
             
-                //let map_data = JSON.parse(res.map_data);
-                //let imageSRC = map_data.bg.src;
+            var roomWidth = res.bg_width ?? 500;
+            var roomHeight = res.bg_height ?? 500;
 
-                // 여기서 현재 roomBG의 사이즈 확인
-                var roomWidth = res.bg.width ?? 500;
-                // 영역 너비 확인
-                var targetWidth = $("#page").width();
+            // 영역 너비 확인
+            //var targetWidth = $("#page").width();
+            var targetWidth = roomWidth;
+            $("#page").width(roomWidth);
+            $("#page").height(roomHeight);
 
-                console.log(":::: targetWidth : " + targetWidth + " / roomWidth : " + roomWidth);
+            // 축소비율
+            //var zoomRate = Math.floor( (targetWidth / roomWidth ) * 100) / 100;
+            var zoomRate = ( targetWidth / roomWidth );
+            if( zoomRate > 1 ) zoomRate = 1;
+            //$("#wlog").html(roomWidth + "/" + targetWidth);
+            console.log("배율 : " + zoomRate)
 
-                // 축소비율
-                //var zoomRate = Math.floor( (targetWidth / roomWidth ) * 100) / 100;
-                var zoomRate = (targetWidth / roomWidth );
-                if( zoomRate > 1 ) zoomRate = 1;
-                $("#wlog").html(roomWidth + "/" + targetWidth)
+            var targetHeight = roomHeight * zoomRate;
 
-                //$("#room_bg").css({"background":"url(http://boss.mypro.co.kr/"+res.path + ")", 'background-size' : 'contain',  'background-repeat' : 'no-repeat', 'background-position':'center center'});
+            console.log("targetWidth : " + targetWidth + " / roomWidth : " + roomWidth);
+            console.log("targetHeight : " + targetWidth + " / roomHeight : " + roomHeight);
 
-                //$("#log").html(JSON.stringify(map_data));
-                //console.log(map_data);
-                redraw_seat(res.seats,zoomRate);
+            $("#room_width").val(targetWidth);
+            $("#room_height").val(targetHeight);
+
+            $("#room_bg").width(targetWidth);
+            $("#room_bg").height(targetHeight);
+
+            //$("#log").html(JSON.stringify(map_data));
+            //console.log(map_data);
+            redraw_seat(res.seats,zoomRate);
 
 
                 SeatState(); //  manager.blade.php 에 예약상태 가져오는 부분

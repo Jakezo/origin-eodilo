@@ -21,7 +21,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1">
                                     <p class="mb-0">현재좌석이용건수</p>
-                                    <h5 class="font-weight-bold"><span id="count_used">200</span><span style="font-size:0.7em">/<span id="count_seat">300</span>좌석</span></h5>
+                                    <h5 class="font-weight-bold"><span id="total_seats_used">0</span><span style="font-size:0.7em">/<span id="total_seats_all">0</span>좌석</span></h5>
                                 </div>
                             </div>
                         </div>
@@ -127,10 +127,8 @@
 @section('javascript')
 
 <script src="/assets/plugins/seat_editor/js/jquery.resize.js"></script>
-<script src="/assets/plugins/seat_editor/js/jlayout.js"></script>
-<script src="/assets/plugins/seat_editor/js/jlayoutViewer.js"></script>
-
-<!--script src="/assets/plugins/seat_editor/js/jlayoutMapEditor.js"></script-->
+<script src="/assets/plugins/seat_editor/js/jlayout.js?time={{ time() }}"></script>
+<script src="/assets/plugins/seat_editor/js/jlayoutViewer.js?time={{ time() }}"></script>
 <script>
 
         $(document).ready(function(){

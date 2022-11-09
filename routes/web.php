@@ -53,6 +53,7 @@ use App\Http\Controllers\Partner\FrenchVodboardController;
 use App\Http\Controllers\Partner\FrenchStatisticsController;
 use App\Http\Controllers\Partner\FrenchCalculateController;
 use App\Http\Controllers\Partner\FrenchAccountBookController;
+use App\Http\Controllers\Partner\FrenchWorkController;
 
 use App\Http\Controllers\Partner\SettingController;
 use App\Http\Controllers\Partner\SettingIotController;
@@ -372,7 +373,10 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
 
         Route::any('/getSeatReserveInfo', [FrenchReservationController::class, 'getSeatReserveInfo']);
 
+        // 메인 실시간 상태
         Route::any('/reserveSeatState', [FrenchReservationController::class, 'reserveSeatState']);
+
+        
         Route::any('/reserveEntranceState', [FrenchReservationController::class, 'reserveEntranceState']);
 
         // 예약
@@ -498,15 +502,17 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
             Route::get('/work_board/view/{no?}', [FrenchBoardController::class, 'view']);
             Route::post('/work_board/update', [FrenchBoardController::class, 'update']);
 
+            Route::get('/day_end', [FrenchWorkController::class, 'day_end']);
+
             Route::get('/day_end', function () {
                 return view('partner.work.day_end');
             });
             Route::get('/entry_exit', function () {
                 return view('partner.work.entry_exit');
             });
-            Route::get('/remaining_time', function () {
-                return view('partner.work.remaining_time');
-            });
+            
+            Route::get('/remaining_time', [FrenchWorkController::class, 'remaining_time']);
+
         });
 
         Route::prefix('/comments')->group(function () {

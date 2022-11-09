@@ -24,6 +24,7 @@ class SettingLockerController extends Controller
     public function __construct()
     {
         $this->FrenchLocker = new FrenchLocker();
+        $this->FrenchLocker = new FrenchLocker();
     }
 
     ## 목록
@@ -32,23 +33,26 @@ class SettingLockerController extends Controller
 
         Config::set('database.connections.partner.database',"boss_".$request->account);
 
-        $data["lockers"] = [];
-        $data["lockers"] = $this->FrenchLocker->select(["french_lockers.*", "la.la_no", "la.la_name"])
-        ->leftjoin('french_locker_areas as la', 'french_lockers.l_area', '=', 'la.la_no')
+        $data["locker_areas"] = \App\Models\FrenchLockerArea::select()
+        ->orderBy("la_no","desc")->get();
+
+        $data["lockers"] = \App\Models\FrenchLocker::select(["french_lockers.*", "french_locker_areas.la_no", "french_locker_areas.la_name"])
+        ->leftjoin('french_locker_areas', 'french_lockers.l_area', '=', 'french_locker_areas.la_no')
             ->where(function ($query) use ($request) {
                 if ($request->q) {
-                    if( $request->fd == "name" ) {
-                        $query->where("l_name", "like", "%" . $request->q . "%");
-                    }
+                        $query->where("french_locker_areas.la_name", "like", "%" . $request->q . "%")
+                        ->orwhere("french_lockers.l_name", "like", "%" . $request->q . "%");
                 }
             })
-            ->orderBy("l_no","desc")->paginate(50);
+            ->orderBy("l_no","desc")->paginate(100);
 
         $data['query'] = $request->query;
         //$i = $this->board->perPage() * ($this->board->currentPage() - 1);
         $data['start'] = $data["lockers"]->total() - $data["lockers"]->perPage() * ($data["lockers"]->currentPage() - 1);
         $data['total'] = $data["lockers"]->total();
-        $data['param'] = ['state' => $request->state, 'fd' => $request->fd, 'q' => $request->q];
+        $data['param'] = ['area' => $request->area, 'fd' => $request->fd, 'q' => $request->q];
+
+
         return view('partner.setting.locker', $data);
     }
 
@@ -60,7 +64,7 @@ class SettingLockerController extends Controller
         Config::set('database.connections.partner.database',"boss_".$request->account);
 
         $data["result"] = true;
-        $data["lockers"] = $this->FrenchLocker->select(["french_lockers.*", "la.la_no", "la.la_name"])
+        $data["lockers"] = \App\Models\FrenchLocker::select(["french_lockers.*", "la.la_no", "la.la_name"])
         ->leftjoin('french_locker_areas as la', 'french_lockers.l_area', '=', 'la.la_no')
             ->where(function ($query) use ($request) {
                 if ($request->q) {
@@ -82,7 +86,7 @@ class SettingLockerController extends Controller
             Config::set('database.connections.partner.database',"boss_".$request->account);
 
             $data["result"] = true;
-            $data["locker"] = $this->FrenchLocker->select(
+            $data["locker"] = \App\Models\FrenchLocker::select(
                     [
                         'l_no as no',
                         'l_name as name',
@@ -104,9 +108,9 @@ class SettingLockerController extends Controller
 
         $result = [];
         if( $request->no ) {
-            $FrenchLocker = FrenchLocker::where('l_no', $request->no)->firstOrFail();
+            $FrenchLocker = \App\Models\FrenchLocker::where('l_no', $request->no)->firstOrFail();
         } else {
-            $FrenchLocker = new FrenchLocker();
+            $FrenchLocker = new \App\Models\FrenchLocker;
         }
 
         //$FrenchSeat->s_partner = $request->account ?? "";
@@ -140,7 +144,7 @@ class SettingLockerController extends Controller
 
         $result = [];
         if( $request->no ) {
-            $FrenchLocker = FrenchLocker::where('l_no', $request->no)->firstOrFail();
+            $FrenchLocker = \App\Models\FrenchLocker::where('l_no', $request->no)->firstOrFail();
 
             if($FrenchLocker->delete()) {
                 $result = ['result' => true];

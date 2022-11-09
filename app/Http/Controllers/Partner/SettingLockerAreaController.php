@@ -23,7 +23,6 @@ class SettingLockerAreaController extends Controller
 
     public function __construct()
     {
-        $this->FrenchLockerArea = new FrenchLockerArea();
     }
 
     ## 목록
@@ -32,8 +31,7 @@ class SettingLockerAreaController extends Controller
 
         Config::set('database.connections.partner.database',"boss_".$request->account);
 
-        $data["locker_areas"] = [];
-        $data["locker_areas"] = $this->FrenchLockerArea->select()
+        $data["locker_areas"] = \App\Models\FrenchLockerArea::select()
             ->where(function ($query) use ($request) {
                 if ($request->q) {
                     if( $request->fd == "name" ) {
@@ -42,6 +40,7 @@ class SettingLockerAreaController extends Controller
                 }
             })
             ->orderBy("la_no","desc")->paginate(50);
+
         $data['query'] = $request->query;
         //$i = $this->board->perPage() * ($this->board->currentPage() - 1);
         $data['start'] = $data["locker_areas"]->total() - $data["locker_areas"]->perPage() * ($data["locker_areas"]->currentPage() - 1);
@@ -97,9 +96,9 @@ class SettingLockerAreaController extends Controller
 
         $result = [];
         if( $request->no ) {
-            $FrenchLockerArea = FrenchLockerArea::where('la_no', $request->no)->firstOrFail();
+            $FrenchLockerArea = \App\Models\FrenchLockerArea::where('la_no', $request->no)->firstOrFail();
         } else {
-            $FrenchLockerArea = new FrenchLockerArea();
+            $FrenchLockerArea = new \App\Models\FrenchLockerArea();
         }
 
         $FrenchLockerArea->la_bg = $request->bg ?? "";
@@ -133,7 +132,7 @@ class SettingLockerAreaController extends Controller
 
         $result = [];
         if( $request->no ) {
-            $FrenchLockerArea = FrenchLockerArea::where('la_no', $request->no)->firstOrFail();
+            $FrenchLockerArea = \App\Models\FrenchLockerArea::where('la_no', $request->no)->firstOrFail();
 
             if($FrenchLockerArea->delete()) {
                 $result = ['result' => true];

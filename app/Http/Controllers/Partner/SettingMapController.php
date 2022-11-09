@@ -71,6 +71,7 @@ class SettingMapController extends Controller
             }
             $data["bg_width"] = $this->FrenchMap->m_width;
             $data["bg_height"] = $this->FrenchMap->m_width;
+
         } else {
             $this->FrenchMap = \App\Models\FrenchMap::first();
 
@@ -80,10 +81,13 @@ class SettingMapController extends Controller
             } else {
                 $data["bg_url"] = "";
             }
+
+            $data["bg_width"] = $this->FrenchMap->m_width ?? 800;
+            $data["bg_height"] = $this->FrenchMap->m_width ?? 600;
+
         }
 
-        $data["bg_width"] = $this->FrenchMap->m_width ?? 800;
-        $data["bg_height"] = $this->FrenchMap->m_width ?? 600;
+
 
 
         // if( isset($request->room)  ) {
@@ -151,7 +155,7 @@ class SettingMapController extends Controller
             }
             return response($result);  
         }
-     
+
 
         foreach( $mapData['seats'] as $i => $seat_info ) {
             $seat = $this->FrenchSeat::where("s_no", $seat_info['s_no'])->first();
@@ -240,22 +244,52 @@ class SettingMapController extends Controller
 
         Config::set('database.connections.partner.database',"boss_".$request->account);
         $FrenchConfig = $this->FrenchConfig->select(["cf_bg as src", "cf_bg_width as width", "cf_bg_height as height"])->first();
-
+/*
         if( $FrenchConfig ) {
             $data["bg"] = $FrenchConfig;
         } else {
             $data["bg"] = [];
         }
+*/
+        $NCPdisk = new NCPdisk;
+        if( $request->map ) {
+
+            $data["map"] = $request->map;
+
+            $this->FrenchMap = \App\Models\FrenchMap::find($request->map);
+
+            if( $this->FrenchMap->m_bg ) {
+                $data["bg_url"] = $NCPdisk->url($this->FrenchMap->m_bg);
+            } else {
+                $data["bg_url"] = "";
+            }
+            $data["bg_width"] = $this->FrenchMap->m_width;
+            $data["bg_height"] = $this->FrenchMap->m_width;
+
+        } else {
+            $this->FrenchMap = \App\Models\FrenchMap::first();
+
+            $data["map"] = $this->FrenchMap->m_no;
+            if( $this->FrenchMap->m_bg ) {
+                $data["bg_url"] = $NCPdisk->url($this->FrenchMap->m_bg);
+            } else {
+                $data["bg_url"] = "";
+            }
+
+            $data["bg_width"] = $this->FrenchMap->m_width ?? 800;
+            $data["bg_height"] = $this->FrenchMap->m_height ?? 600;
+
+        }     
 
         $data["rooms"] = $this->FrenchRoom->select("r_no","r_name")
             ->orderBy("r_name","asc")->get();
 
-            if( $data["rooms"][0] ) {
-                $data["no"] = $data["rooms"][0]->r_no;
-                //$data["bg_url"] = ""; // 좌석이미지
-            } else {
-                $data["no"] = "";
-            }
+        if( $data["rooms"][0] ) {
+            $data["no"] = $data["rooms"][0]->r_no;
+            //$data["bg_url"] = ""; // 좌석이미지
+        } else {
+            $data["no"] = "";
+        }
 
         $data["seats"] = [];
         $data["seats"] = $this->FrenchSeat->select(["french_seats.*", "r.r_no", "r.r_name", "sl.sl_no", "sl.sl_name"])

@@ -41,7 +41,7 @@
 											<div class="d-flex align-items-center">
 												<div class="flex-grow-1">
 													<p class="mb-0">기간권</p>
-													<h4 class="font-weight-bold">38일</h4>
+													<h4 class="font-weight-bold">{{ number_format($remaind_day) }}일</h4>
 												</div>
 												<div class="widgets-icons bg-gradient-blues text-white"><i class="bx bx-message-square-add"></i>
 												</div>
@@ -55,9 +55,9 @@
 											<div class="d-flex align-items-center">
 												<div class="flex-grow-1">
 													<p class="mb-0">시간권</p>
-													<h4 class="font-weight-bold">346시간</h4>
+													<h4 class="font-weight-bold">{{ number_format($remaind_time) }}시간</h4>
 												</div>
-												<div class="widgets-icons bg-gradient-burning text-white"><i class="bx bx-message-square-minus"></i>
+												<div class="widgets-icons bg-gradient-burning text-white"><i class="bx bx-message-square-add"></i>
 												</div>
 											</div>
 										</div>
@@ -72,91 +72,33 @@
 									<th scope="col">#</th>
 									<th scope="col">회원명</th>
 									<th scope="col">상품명</th>
+									<th scope="col">구매기간</th>
 									<th scope="col">잔여기간</th>
 								</tr>
 								</thead>
 								<tbody>
+								
+								@if( $orders )
+								@foreach( $orders as $oi => $order )
 								<tr>
-									<th scope="row">1</th>
-									<td>조현준</td>
-									<td>10일권</td>
-									<td>2일</td>
+									<th scope="row">{{ ($start - $oi) }}</th>
+									<td>{{ $order->o_member_name }}</td>
+									<td>{{ $order->o_product_name }}</td>
+									<td>{{ $order->o_duration }}</td>
+									<td>{{ $order->o_remainder }}</td>
 								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>최현우</td>
-									<td>40시간권</td>
-									<td>23시간</td>
-								</tr>
-								<tr>
-									<th scope="row">1</th>
-									<td>조현준</td>
-									<td>10일권</td>
-									<td>2일</td>
-								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>최현우</td>
-									<td>40시간권</td>
-									<td>23시간</td>
-								</tr>
-								<tr>
-									<th scope="row">1</th>
-									<td>조현준</td>
-									<td>10일권</td>
-									<td>2일</td>
-								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>최현우</td>
-									<td>40시간권</td>
-									<td>23시간</td>
-								</tr>
-								<tr>
-									<th scope="row">1</th>
-									<td>조현준</td>
-									<td>10일권</td>
-									<td>2일</td>
-								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>최현우</td>
-									<td>40시간권</td>
-									<td>23시간</td>
-								</tr>
-								<tr>
-									<th scope="row">1</th>
-									<td>조현준</td>
-									<td>10일권</td>
-									<td>2일</td>
-								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>최현우</td>
-									<td>40시간권</td>
-									<td>23시간</td>
-								</tr>
+                                @endforeach
+                                @endif
 								</tbody>
 							</table>
 						</div>
+
+						<div class="card-body d-flex justify-content-center">
+							{{ $orders->appends($param)->links() }}
+						</div>
+
 					</div>
 
-					<div class="row">
-						<div class="col-sm-12 col-md-12">
-							<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-								<ul class="pagination">
-									<li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Prev</a></li>
-									<li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-									<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-									<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-									<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
-									<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
-									<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
-									<li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
 
 				</div>
 			</div>

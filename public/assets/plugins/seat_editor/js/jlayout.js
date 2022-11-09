@@ -195,6 +195,13 @@ function resize_shape( i, w, h ) {
 
 }
 
+function resize_room( w, h ) {
+
+    $("#room_bg").width( Math.ceil(w) );
+    $("#room_bg").height( Math.ceil(h) );
+
+}
+
 function delete_shape_all() {
 
     $.each(obj_arr, function( i, item ) {
@@ -228,12 +235,12 @@ function select_shape( index ) {
     select_index = index;
     set_edit_value(select_index);
 
-    $(".shape").css("border","1px solid #000000");
-
+    $(".shape").removeClass("selected_shape").addClass("unselected_shape");
+    
     /* fix mode 에서는 선택라인 보이지 않음 */
     console.log("mode:"+jlayout.mode);
     if( jlayout.mode != "fix" ) {
-        $("#shape_" + select_index).css("border", "1px solid red");
+        $("#shape_" + select_index).removeClass("unselected_shape").addClass("selected_shape");
     }
 }
 

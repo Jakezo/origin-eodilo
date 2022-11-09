@@ -325,6 +325,21 @@ class FrenchReservationController extends Controller
 
         $data["result"] = true;
         $data["seats"] = [];
+        $data["dt"] = $dt;
+
+
+        $data["total"]["seats_all_count"] = $this->FrenchSeat->count();
+        $data["total"]["seats_used_count"] = $this->FrenchSeat
+        ->leftJoin(DB::raw("
+            (select rv_no, rv_seat, rv_member, rv_member_name, rv_state, rv_state_seat, rv_sdate, rv_edate from french_reserv_seats where
+            (rv_state_seat <> 'END' and rv_sdate <= '". $dt ."' and rv_edate >= '". $dt."') ) as reserv_seats "), "reserv_seats.rv_seat" , "=", "french_seats.s_no")
+        ->leftjoin('french_rooms as r', 'french_seats.s_room', '=', 'r.r_no')
+        ->whereNotNull("reserv_seats.rv_no")->count();
+
+
+        $data["dt"] = $dt;
+
+        
         $data["seats"] = $this->FrenchSeat->select(
                 [
                     "french_seats.s_no", "french_seats.s_name", "french_seats.s_room", "french_seats.s_level", "french_seats.s_state", "french_seats.s_sex",
@@ -333,8 +348,8 @@ class FrenchReservationController extends Controller
                 ]
         )
         ->leftJoin(DB::raw("
-            (select rv_no, rv_seat, rv_member, rv_member_name, rv_state, rv_state_seat from french_reserv_seats where
-            (rv_state_seat <> 'END' and rv_sdate <= '". $dt ."' and rv_sdate <= '". $dt ."' and rv_edate >= '". $dt."') ) as reserv_seats "), "reserv_seats.rv_seat" , "=", "french_seats.s_no")
+            (select rv_no, rv_seat, rv_member, rv_member_name, rv_state, rv_state_seat, rv_sdate, rv_edate from french_reserv_seats where
+            (rv_state_seat <> 'END' and rv_sdate <= '". $dt ."'  and rv_edate >= '". $dt."') order by rv_sdate limit 1) as reserv_seats"), "reserv_seats.rv_seat" , "=", "french_seats.s_no")
 
         ->leftjoin('french_rooms as r', 'french_seats.s_room', '=', 'r.r_no')
         ->whereNotNull("reserv_seats.rv_no")

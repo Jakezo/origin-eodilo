@@ -40,8 +40,8 @@
             </li>
             <li> <a href="/member/sms"><i class="bx bx-right-arrow-alt"></i>SMS발송</a>
             </li>
-            <li> <a href="/member/refund"><i class="bx bx-right-arrow-alt"></i>환불신청</a>
-            </li>
+            <!--li> <a href="/member/refund"><i class="bx bx-right-arrow-alt"></i>환불신청</a>
+            </li-->
         </ul>
     </li>
     <li>
@@ -92,8 +92,8 @@
         <ul>
             <li> <a href="/work/day_end"><i class="bx bx-right-arrow-alt"></i>업무마감</a>
             </li>
-            <li> <a href="/work/entry_exit"><i class="bx bx-right-arrow-alt"></i>입출입기록</a>
-            </li>
+            <!--li> <a href="/work/entry_exit"><i class="bx bx-right-arrow-alt"></i>입출입기록</a>
+            </li-->
             <li> <a href="/work/remaining_time"><i class="bx bx-right-arrow-alt"></i>잔여시간</a>
             </li>
             <li> <a href="/work/work_board"><i class="bx bx-right-arrow-alt"></i>업무일지</a>
@@ -187,8 +187,6 @@
             <li> <a href="/setting/locker_area"><i class="bx bx-right-arrow-alt"></i>사물함구역관리</a>
             </li>
             <li> <a href="/setting/locker"><i class="bx bx-right-arrow-alt"></i>사물함정보</a>
-            </li>
-            <li> <a href="/setting/locker_map_editor"><i class="bx bx-right-arrow-alt"></i>사물함배치도</a>
             </li>
         </ul>
     </li>

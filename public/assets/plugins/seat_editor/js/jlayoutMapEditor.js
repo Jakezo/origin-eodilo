@@ -19,7 +19,8 @@ function load_view_map( mode, room ){
     // 로딩이미지
 
     $("#room_bg").hide();
-    $("#room_bg").html('<div style="width:100%" class="loading"><img src="/assets/plugins/seat_editor/images/loading1.gif" style="width:50%;text-align:center"/></div>');
+
+    //이거보류 $("#room_bg").html('<div style="width:100%" class="loading"><img src="/assets/plugins/seat_editor/images/loading1.gif" style="width:50%;text-align:center"/></div>');
     //console.log("모드 : "+mode);
     if( mode != undefined && mode != "" ) jlayout.mode = mode;
 
@@ -37,22 +38,34 @@ function load_view_map( mode, room ){
         url: '/partner_api/map/editor_getMapInfo',
         data: data,
         success: function(res) {
-            
-                //let map_data = JSON.parse(res.map_data);
-                //let imageSRC = map_data.bg.src;
 
-                // 여기서 현재 roomBG의 사이즈 확인
-                var roomWidth = res.bg.width ?? 500;
+                var roomWidth = res.bg_width ?? 500;
+                var roomHeight = res.bg_height ?? 500;
+
                 // 영역 너비 확인
-                var targetWidth = $("#page").width();
-
-                console.log("targetWidth : " + targetWidth + " / roomWidth : " + roomWidth);
+                //var targetWidth = $("#page").width();
+                var targetWidth = roomWidth;
+                $("#page").width(roomWidth);
+                $("#page").height(roomHeight);
 
                 // 축소비율
                 //var zoomRate = Math.floor( (targetWidth / roomWidth ) * 100) / 100;
-                var zoomRate = (targetWidth / roomWidth );
+                var zoomRate = ( targetWidth / roomWidth );
                 if( zoomRate > 1 ) zoomRate = 1;
-                $("#wlog").html(roomWidth + "/" + targetWidth)
+                //$("#wlog").html(roomWidth + "/" + targetWidth);
+                console.log("배율 : " + zoomRate)
+
+                var targetHeight = roomHeight * zoomRate;
+
+                console.log("targetWidth : " + targetWidth + " / roomWidth : " + roomWidth);
+                console.log("targetHeight : " + targetWidth + " / roomHeight : " + roomHeight);
+
+                $("#room_width").val(targetWidth);
+                $("#room_height").val(targetHeight);
+
+                $("#room_bg").width(targetWidth);
+                $("#room_bg").height(targetHeight);
+
                 //$("#log").html(JSON.stringify(map_data));
                 //console.log(map_data);
                 redraw_seat(res.seats,zoomRate);
@@ -76,6 +89,7 @@ function load_view_map( mode, room ){
 
 $(document).ready(function(){
     var reloadTerm = 0
+    /*
     $("#room_bg").on("resize", function() {
         if( reloadTerm == 0 ) {
             reloadTerm = 1;
@@ -86,6 +100,7 @@ $(document).ready(function(){
         }
 
     });
+    */
 
     $(document).on("click",".status2", function(){
         //alert(1)
@@ -103,6 +118,12 @@ $(document).ready(function(){
         }
 
     });
+
+    
+    $(document).on("change","#edit_pannel #room_width,#edit_pannel #room_height", function(){
+            resize_room( $("#room_width").val(), $("#room_height").val() )
+    });
+
 
     $(document).on("change","#edit_pannel #size_w", function(){
 
@@ -157,22 +178,27 @@ $(document).ready(function(){
 
     });
 
+    $(document).on("click","#room_bg", function(){
+        select_index = null;
+        //$(".shape").css("border","1px solid black");
+        console.log("배경선택");
+    });
 
-    /* 드레그 */
+    /* 선택 */
     $(document).on("click",".shape", function(){
         //console.log("좌석선택.....");
         if( select_index != $(this).attr("idx") ) {
             select_index = $(this).attr("idx");
             set_edit_value(select_index);
-        }
+        } 
 
         // 테이블이면 세로크기 수정 불가
         if( obj_arr[select_index].type == "table" ) {
             $("#edit_pannel #size_h").attr("readonly",true);
         }
 
-        $(".shape").css("border","1px solid #000000");
-        $(this).css("border","1px solid red");
+        $(".shape").css("border","1px solid black");
+        $(this).css("border","2px solid red");
 
     }).on("drag",".shape", function(){
         //console.log("드래그.....");
@@ -193,8 +219,8 @@ $(document).ready(function(){
         obj_arr[select_index].pos_x = $(this).position().left;
         obj_arr[select_index].pos_y = $(this).position().top;
 
-        $(".shape").css("border","1px solid #000000");
-        $(this).css("border","1px solid red");
+        $(".shape").css("border","1px solid black");
+        $(this).css("border","2px solid red");
 
     });
 

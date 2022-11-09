@@ -40,24 +40,17 @@
                                 <input type="hidden" name="mode" value="list">
                                 <div class='row'>
                                     <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
-                                        <select class="single-select form-control-sm col-12" name="fd" id="fd">
-                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>룸전체</option>
-                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>M01</option>
-                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?}?>>M02</option>
-                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?}?>>W01</option>
-                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?}?>>W02</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
-                                        <select class="single-select form-control-sm col-12" name="fd" id="fd">
-                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>등급전체</option>
-                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>A등급</option>
-                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?}?>>B등급</option>
-                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?}?>>C등급</option>
+                                        <select class="single-select form-control-sm col-12" name="area" id="area" onchange="this.form.submit()">
+                                            <option value="area" <?php if( isset($param['area']) && $param['area'] == "area" ) {?> selected<?}?>>전체</option>
+                                            @if( $locker_areas )
+                                            @foreach( $locker_areas as $li => $locker_area )                                    
+                                            <option value="{{ $locker_area['la_no'] ?? '' }}" <?php if(isset($param['area']) && $param['area'] == $locker_area['la_no'] ) {?> selected<?}?>>{{ $locker_area['la_name'] ?? '' }}</option>
+                                            @endforeach
+                                            @endif    
                                         </select>
                                     </div>
                                     <div class="col-md-3 col-sm-5 col-xs-12 mt-1">
-                                        <input type="text" name="key" value="{{ $key ?? '' }}" class="form-control form-control-sm col-12">
+                                        <input type="text" name="q" value="{{ $param['q'] ?? '' }}" class="form-control form-control-sm col-12">
                                     </div>
                                     <div class="col-md-2 col-sm-2 col-xs-6 mt-1">
                                         <button type="submit" class="btn btn-secondary px-2 btn-sm col-12">찾기</button>
@@ -116,6 +109,10 @@
                             </table>
                         </div>
 
+
+                        <div class="card-body d-flex justify-content-center">
+                            {{ $lockers->appends($param)->links() }}
+                        </div>   
                     </div>
 
                 </div>

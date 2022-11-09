@@ -63,6 +63,7 @@ return array(
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
     'App\\Http\\Controllers\\IndexController' => $baseDir . '/app/Http/Controllers/IndexController.php',
     'App\\Http\\Controllers\\Iot\\IotLogController' => $baseDir . '/app/Http/Controllers/Iot/IotLogController.php',
+    'App\\Http\\Controllers\\MobileController' => $baseDir . '/app/Http/Controllers/MobileController.php',
     'App\\Http\\Controllers\\PartnerApply' => $baseDir . '/app/Http/Controllers/PartnerApply.php',
     'App\\Http\\Controllers\\PartnerApplyController' => $baseDir . '/app/Http/Controllers/PartnerApplyController.php',
     'App\\Http\\Controllers\\PartnerController' => $baseDir . '/app/Http/Controllers/PartnerController.php',

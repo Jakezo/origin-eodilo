@@ -2110,6 +2110,14 @@
                 type: 'POST',
                 //data: req,
                 success: function (res, textStatus, xhr) {
+                    console.log(res);
+
+                    if( res.total.seats_all_count ){
+                        $("#total_seats_all").html(res.total.seats_all_count);
+                    }
+                    if( res.total.seats_used_count ){
+                        $("#total_seats_used").html(res.total.seats_used_count);
+                    }
 
                     // 모든 좌석 초기화..
                     $('.btn_seat').removeClass("on");

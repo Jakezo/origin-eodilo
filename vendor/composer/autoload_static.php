@@ -751,6 +751,7 @@ class ComposerStaticInit3a5ad204d229a293816c3eba27bf36cb
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\IndexController' => __DIR__ . '/../..' . '/app/Http/Controllers/IndexController.php',
         'App\\Http\\Controllers\\Iot\\IotLogController' => __DIR__ . '/../..' . '/app/Http/Controllers/Iot/IotLogController.php',
+        'App\\Http\\Controllers\\MobileController' => __DIR__ . '/../..' . '/app/Http/Controllers/MobileController.php',
         'App\\Http\\Controllers\\PartnerApply' => __DIR__ . '/../..' . '/app/Http/Controllers/PartnerApply.php',
         'App\\Http\\Controllers\\PartnerApplyController' => __DIR__ . '/../..' . '/app/Http/Controllers/PartnerApplyController.php',
         'App\\Http\\Controllers\\PartnerController' => __DIR__ . '/../..' . '/app/Http/Controllers/PartnerController.php',
