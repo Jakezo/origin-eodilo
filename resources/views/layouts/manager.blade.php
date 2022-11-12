@@ -1501,11 +1501,9 @@
             </div>
             <div class="modal-body">
 
-
-
             </div>
             <div class="modal-footer">
-                <button type="button" id="errorInfoModalConfirm" class="btn btn-primary d-none" data-bs-dismiss="modal">확인</button>
+                <button type="button" id="errorInfoModalConfirm" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
                 <button type="button" id="errorInfoModalClose" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>

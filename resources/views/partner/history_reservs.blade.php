@@ -98,6 +98,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">이용번호</th>
                                     <th scope="col">사용자명</th>
+                                    <th scope="col">상품구분</th>
                                     <th scope="col">룸/좌석</th>
                                     <th scope="col">사물함</th>
                                     <th scope="col">상태</th>
@@ -120,6 +121,11 @@
                                         {{ $fromType[$reserv['rv_member_from']] ?? "" }}
                                         {{ $reserv['o_member_name'] }}
                                     </td>
+                                    <td>
+                                        {{ $reserv['rv_product_kind'] }}
+                                    
+                                    </td>
+
                                     <td><span room="{{ $reserv['rv_room'] }}">{{ $reserv['r_name'] }}</span> / <span seat="{{ $reserv['s_name'] }}">{{ $reserv['rv_seat'] }}</span></td>
                                     <td>{{ $reserv['rv_locker'] }}</td>
                                     <td>

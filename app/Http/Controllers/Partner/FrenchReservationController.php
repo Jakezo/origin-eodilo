@@ -411,16 +411,12 @@ class FrenchReservationController extends Controller
                 return response($data);                
             } 
 
-
-
             // 문열기 실행
             // $IOT = new IOT();
             // $IOT->setPartner($this->partner->p_no);
             // $IOT->seatIOT($this->FrenchReservSeat->rv_seat, "room_door", "O");
             // $IOT->seatIOT($this->FrenchReservSeat->rv_seat, "light", "O");
         }        
-
-
 
         $data["result"] = true;
         $data["seats"] = $dt;
@@ -625,12 +621,10 @@ class FrenchReservationController extends Controller
         }
 
         $FrenchReservSeat->rv_ageType = $request->rv_ageType;
-        
         $FrenchReservSeat->rv_device_from = $request->rv_device_from;
         $FrenchReservSeat->rv_room = $request->rv_room;
         $FrenchReservSeat->rv_seat = $request->rv_seat;
    
-
         $Seat = FrenchSeat::find($request->rv_seat);   
         if( $Seat ) {
             $SeatLevel = FrenchSeatLevel::find($Seat->s_level);        

@@ -502,11 +502,10 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
             Route::get('/work_board/view/{no?}', [FrenchBoardController::class, 'view']);
             Route::post('/work_board/update', [FrenchBoardController::class, 'update']);
 
+            // 업무마감
             Route::get('/day_end', [FrenchWorkController::class, 'day_end']);
+            Route::any('/day_end/action/{mode}', [FrenchWorkController::class, 'day_end_action']);
 
-            Route::get('/day_end', function () {
-                return view('partner.work.day_end');
-            });
             Route::get('/entry_exit', function () {
                 return view('partner.work.entry_exit');
             });

@@ -156,6 +156,7 @@ class FrenchHistoryController extends Controller
             //     $data["reservs"][$i]["rv_state"] = "종료";                
             // } 
 
+            $data["reservs"][$i]['rv_product_kind'] = $data["productType"][$data["reservs"][$i]['rv_product_kind']];
             if( $data["reservs"][$i]["rv_state"] == "A" ) {
                 $data["reservs"][$i]["rv_state_text"] = "예약";
             } elseif( $data["reservs"][$i]["rv_state"] == "U"  ) {

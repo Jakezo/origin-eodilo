@@ -35,28 +35,25 @@
             <div class="row">
                 <form method="post" name="form1" id="form1" class="row g-3">
                 {{csrf_field()}}
-                <input type="hidden" name="mode" value="modify">
+                <input type="hidden" name="date" value="{{ $date }}">
                 <div class="col-12 d-lg-flex align-items-lg-stretch">
                     <div class="card radius-10">
                         <div class="card-body">
-                            <h4>2020 년 07월 20일 업무마감</h4>
+                            <h4>{{ date('Y년 m월 d일') }} 업무마감</h4>
+                            <span class="text-danger">@if( isset($dayend) && $dayend['de_no'] ) {{ $dayend['created_at'] }} 에 이미 실행했습니다.@endif</span>
                         </div>
                         <div class="card-body">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="command1" name="command1">
-                                <label class="form-check-label" for="gridCheck2">고정석 입실된 회원을 모두 퇴실 및 소등 시키고 고정석 회원 상태를 결석으로 초기화</label>
+                                <input class="form-check-input" type="checkbox" id="command1" name="command1" value="Y">
+                                <label class="form-check-label" for="gridCheck2">입실된 회원을 모두 퇴실 및 소등 @if($dayend['de_command1']=="Y") <span class="btn btn-dark btn-xs disabled">이미실행</span> @endif</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="command2" name="command2">
-                                <label class="form-check-label" for="gridCheck2">좌석 조명을 전체 소등</label>
+                                <input class="form-check-input" type="checkbox" id="command2" name="command2" value="Y">
+                                <label class="form-check-label" for="gridCheck2">좌석 조명을 전체 소등 @if($dayend['de_command2']=="Y") <span class="btn btn-dark btn-xs disabled">이미실행</span> @endif</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="command3" name="command3">
-                                <label class="form-check-label" for="gridCheck2">시간제 업무 마감 진행(체크시 시간제를 사용하는 모든 좌석이 퇴실 처리 되며 해당 좌석의 조명이 소등됩니다.)</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="command4" name="command4">
-                                <label class="form-check-label" for="gridCheck2">IOT 기기 종료</label>
+                                <input class="form-check-input" type="checkbox" id="command3" name="command3" value="Y">
+                                <label class="form-check-label" for="gridCheck2">IOT 기기 종료 @if($dayend['de_command3']=="Y") <span class="btn btn-dark btn-xs disabled">이미실행</span> @endif</label>
                             </div>
 
                             <div class="row col-12 mt-3">
@@ -71,17 +68,18 @@
                             <div class="col-12 text-center">
                                 <button type="button" class="btn btn-warning px-5" id="btn_day_end">업무마감</button>
                             </div>
+                            <div class="col-12" id="result_msg">
+
+                            </div>
 
 
                             <div class="row col-12 mt-3">
                                 <div class="col-12">
-                                    <div class="alert alert-secondary">
-                                        <div style="font-size:1.1rem">지문인식기 명령 미처리건수 : 0건</div>
-                                        <div style="font-size:1.1rem">조명 명령 미처리건수 : 0건</div>
-                                    </div>
-                                </div>
-                                <div class="col-12" id="result_msg">
+                                    <div class="alert alert-secondary" id="result_msg2">
+                                        <div style="font-size:1.1rem">업무마감 버튼을 클릭해주세요.</div>
+                                        
 
+                                    </div>
                                 </div>
                             </div>
 
@@ -107,11 +105,7 @@ var is_start = false;
 
 $(document).ready(function () {
     $(document).on("click", "#btn_day_end", function () {
-        if( is_start ) {
-            day_end('start')
-        } else {
-            day_end('stop')
-        }
+        openPopup("업무마감을 시작하시겠습니까?", "day_end('start')")
     });
 });
 
@@ -129,11 +123,20 @@ function day_end(mode) {
         async: true,
         beforeSend: function (xhr) {
             $("#result_msg").html("");
+            $("#btn_day_end").removeClass("btn-warning").addClass("btn-dark").attr("disabled","disabled");
+            $("#result_msg2").html('<div style="font-size:1.1rem">업무마감을 시작하였습니다.</div>');
         },
         data: formData,
         success: function (res, textStatus, xhr) {
+            console.log(res);
             if (res.result == true) {
-                document.location.reload();
+                if( res.work_msg != undefined && res.work_msg.length > 0 ) {
+                    res.work_msg.forEach (function (work_msg, index) {
+                        $("#result_msg2").append('<div style="font-size:1.1rem">' + work_msg + '</div>');
+                    });
+                }
+
+                //document.location.reload();
             } else {
                 $("#result_msg").html(res.message);
                 console.log("실패.");
