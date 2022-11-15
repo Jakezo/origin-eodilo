@@ -376,7 +376,6 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
         // 메인 실시간 상태
         Route::any('/reserveSeatState', [FrenchReservationController::class, 'reserveSeatState']);
 
-        
         Route::any('/reserveEntranceState', [FrenchReservationController::class, 'reserveEntranceState']);
 
         // 예약

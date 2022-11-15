@@ -336,31 +336,14 @@ class FrenchReservationController extends Controller
         ->leftjoin('french_rooms as r', 'french_seats.s_room', '=', 'r.r_no')
         ->whereNotNull("reserv_seats.rv_no")->count();
 
+        $data['rsvs'] = \App\Models\FrenchReservSeat::select('rv_no', 'rv_seat', 'rv_member', 'rv_member_name', 'rv_state', 'rv_state_seat', 'rv_sdate', 'rv_edate','french_seats.s_no', 'french_seats.s_name', 'french_seats.s_room', 'french_seats.s_level', 'french_seats.s_state', 'french_seats.s_sex', 'french_rooms.r_no', 'french_rooms.r_name')
+        ->leftjoin('french_seats', 'french_seats.s_no', '=', 'french_reserv_seats.rv_seat')    
+        ->leftjoin('french_rooms', 'french_seats.s_room', '=', 'french_rooms.r_no')
+        ->where("rv_sdate", "<", now())        
+        ->where("rv_edate", ">", now())
+        ->where("rv_state_seat", '<>',  'END')
+        ->get();
 
-        $data["dt"] = $dt;
-
-        
-        $data["seats"] = $this->FrenchSeat->select(
-                [
-                    "french_seats.s_no", "french_seats.s_name", "french_seats.s_room", "french_seats.s_level", "french_seats.s_state", "french_seats.s_sex",
-                    "reserv_seats.*",
-                    "r.r_no", "r.r_name"
-                ]
-        )
-        ->leftJoin(DB::raw("
-            (select rv_no, rv_seat, rv_member, rv_member_name, rv_state, rv_state_seat, rv_sdate, rv_edate from french_reserv_seats where
-            (rv_state_seat <> 'END' and rv_sdate <= '". $dt ."'  and rv_edate >= '". $dt."') order by rv_sdate limit 1) as reserv_seats"), "reserv_seats.rv_seat" , "=", "french_seats.s_no")
-
-        ->leftjoin('french_rooms as r', 'french_seats.s_room', '=', 'r.r_no')
-        ->whereNotNull("reserv_seats.rv_no")
-        ->orwhere(function ($query) use ($request) {
-            if( $request->sex == "M" || $request->sex == "F" ) {
-                 $query->where('french_seats.s_sex',$request->sex)
-                 ->Orwhere('french_seats.s_sex','A');
-            }
-
-        })
-        ->orderBy("french_seats.s_no","desc")->get();
 
         return response($data);
 

@@ -232,7 +232,7 @@
                                   <input type="checkbox" class="form-check-input mt-0" name="option[]" value="{{ $okey ?? '' }}" @if( $partner &&  in_array($okey,$partner["option_arr"]) !== false ) checked=checked @endif>
                                   &nbsp;&nbsp;{{ $oval ?? '' }}
                                 </div>
-                                <input type="text" name="options_cont[]" value="{{ $partner['options_cont'][$okey] ?? "" }}" placeholder="간단한 안내" class="form-control col-sm-4" aria-label="{{ $oval ?? '' }}">
+                                <input type="text" name="options_cont[{{ $okey }}]" value="{{ $partner['options_cont'][$okey] ?? "" }}" placeholder="간단한 안내" class="form-control col-sm-4" aria-label="{{ $oval ?? '' }}">
                             </div>                            
                             @endforeach
                         </div>

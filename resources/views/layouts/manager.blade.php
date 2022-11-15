@@ -2122,15 +2122,15 @@
 
                     $('.btn_seat').each(function(index, seat){
                         $(this).find(".name").html('<span style="font-size:10pt;">'+$(this).attr('seat')+'</span>');
-
                     })
 
                     if (res.result == true) {
-                        res.seats.forEach(function(seat) {
-                            console.log("예약있는거 확인"+seat.rv_member_name);
+                        console.log(res.rsvs.length+"건 을 세팅합니다.")
+                        res.rsvs.forEach(function(rsvs) {
+                            console.log("예약있는거 확인"+rsvs.rv_member_name);
                             //모바일 $('.btn_seat[seat='+seat.s_no+']').children('a').addClass("type-off").removeClass("type-on");
-                            $('.btn_seat[seat='+seat.s_no+']').addClass("on");
-                            $('.btn_seat[seat='+seat.s_no+']').find(".name").html('<span style="font-size:10pt;">'+seat.rv_member_name+'</span>');
+                            $('.btn_seat[seat='+rsvs.s_no+']').addClass("on");
+                            $('.btn_seat[seat='+rsvs.s_no+']').find(".name").html('<span style="font-size:10pt;">'+rsvs.rv_member_name+'</span>');
                         });
                     } else {
                         $("#eventDetail_msg").html(xhr.message);

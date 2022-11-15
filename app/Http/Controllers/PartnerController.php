@@ -462,7 +462,6 @@ class PartnerController extends Controller
             $data["partner"] = [];
         }
 
-
         return view('admin.partner.form', $data);
     }
 
