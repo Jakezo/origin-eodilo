@@ -133,7 +133,6 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
     Route::any('/dayEnd/{partner?}', [FrenchStatisticsController::class, 'dayEnd']);
     Route::any('/dayEndPartner', [FrenchStatisticsController::class, 'dayEndPartner']);
 
-
     Route::get('/adminlogin', [AdminLoginController::class, 'showAdminLoginForm'])->name("adminlogin");
     Route::post('/adminloginok', [AdminLoginController::class, 'adminLogin']);
     Route::get('/logout', [AdminLoginController::class, 'logout']);
@@ -147,8 +146,6 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
         Route::any('/partner/get_new_last_date', [PartnerController::class, 'get_new_last_date']);
 
     });
-
-
 
     Route::prefix('/nmap')->group(function () {
         Route::any('/nmap_get_point', [PartnerController::class, 'nmap_get_point']);
@@ -655,7 +652,6 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
             });
 
         });
-
             
         Route::prefix('/mqtt')->group(function () {
     

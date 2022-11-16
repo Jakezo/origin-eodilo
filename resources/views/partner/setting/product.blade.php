@@ -54,7 +54,7 @@
                                         <tr>
                                             <th scope="col">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="gridCheck3">
+                                                    <input class="form-check-input" type="checkbox" id="checkAllTime">
                                                 </div>
                                             </th>
                                             <th scope="col">시간</th>
@@ -83,7 +83,7 @@
                                         <tr>
                                             <th scope="col">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="gridCheck3">
+                                                    <input class="form-check-input" type="checkbox" id="checkAllDay">
                                                 </div>
                                             </th>
                                             <th scope="col">기간</th>
@@ -123,7 +123,7 @@
                                         <tr>
                                             <th scope="col">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="gridCheck3">
+                                                    <input class="form-check-input" type="checkbox" id="checkAllMonth">
                                                 </div>
                                             </th>
                                             <th scope="col">시간</th>
@@ -152,7 +152,7 @@
                                         <tr>
                                             <th scope="col">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="gridCheck3">
+                                                    <input class="form-check-input" type="checkbox" id="checkAllPoint">
                                                 </div>
                                             </th>
                                             <th scope="col">시간</th>
@@ -232,11 +232,6 @@
 <script>
 
     $(document).ready(function () {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
 
         $(document).on("click","#btn_setStandardProduct", function(){
             $("#standardProductModal").modal("show");
@@ -245,6 +240,22 @@
         $(document).on("click","#btn_setStandardProductConfirm", function(){
             getStandardProduct();
         });
+
+
+        $(document).on("click","#checkAllTime", function(){
+            $("input[type=checkbox][id^='T_']").prop("checked", $(this).prop("checked"));
+        });
+        $(document).on("click","#checkAllDay", function(){
+            $("input[type=checkbox][id^='D_']").prop("checked",  $(this).prop("checked"));
+        });
+        $(document).on("click","#checkAllMonth", function(){
+            $("input[type=checkbox][id^='F_']").prop("checked",  $(this).prop("checked"));
+        });
+        $(document).on("click","#checkAllPoint", function(){
+            $("input[type=checkbox][id^='P_']").prop("checked", $(this).prop("checked"));
+        });
+
+        
     });   
 
 
@@ -265,6 +276,7 @@
                     if (res.rURL != undefined) {
                         document.location.href = res.rURL;
                     } else {
+                        console.log('요기');
                         document.location.reload();
                     }
                 } else {
@@ -299,7 +311,7 @@
                     if (res.rURL != undefined) {
                         document.location.href = res.rURL;
                     } else {
-                        //document.location.reload();
+                        document.location.reload();
                     }
                 } else {
                     console.log(res.message);

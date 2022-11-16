@@ -38,83 +38,9 @@ class PartnerController extends Controller
     public function nmap_get_point(Request $request){
         $data = [];
         $data["result"] = true;
+        $data["address"] = $request->query1;
         $data["options"] = Config::get('partner.options');
-
-        $client_id = "gxwne8kx8n";
-        $client_secret = "uh1HB2gV8Ol4zz0uTcF4mjSCoBA4tpcOSc7tnEu2";
-
-
-        // if( $request->query1 && !$request->query ) {
-        //     $request->query = $request->query1;
-        // }
-        
-        // if( $request->no ) {
-        //     $data["partner"] = $this->partner::where("p_no",  $request->no)->first();
-            
-        //     if( !$data["partner"] ) {
-        //         return redirect()->back()->withErrors(['alert', 'Updated!']);
-        //     }
-
-        //     //
-        //     $data["partner"]->p_area = explode(" ",$data["partner"]->p_address1);
-
-        //     if( isset($data["partner"]->p_options) ) {
-        //         $data["partner"]->option_arr = explode(",",$data["partner"]->p_options);
-        //         $data["partner"]->options_cont = json_decode($data["partner"]->p_options_cont,true);
-        //     } 
-        // } else {
-        //     $data["partner"] = [];
-        // }      
-
-
-        // if( $data["partner"] && $data["partner"]->p_nmap_latitude && $data["partner"]->p_nmap_longitude ) {
-        //             $name = $data["partner"]->p_name;
-        //             $y = $data["partner"]->p_nmap_latitude;
-        //             $x = $data["partner"]->p_nmap_longitude;
-        //             $address = $data["partner"]->p_address1 . " " . $data["partner"]->p_address2;
-        // } else if( $request->query ) {
-        //             ## 먼저 전달된 검색어로 검색한다.
-        //             $address = $request->query;
-        //             $encText = urlencode( $address );
-        //             $url = "https://openapi.naver.com/v1/map/geocode?query=".$encText; // json
-        //             // $url = "https://openapi.naver.com/v1/map/geocode.xml?query=".$encText; // xml
-                    
-        //             $is_post = false;
-        //             $ch = curl_init();
-        //             curl_setopt($ch, CURLOPT_URL, $url);
-        //             curl_setopt($ch, CURLOPT_POST, $is_post);
-        //             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        //             $headers = array();
-        //             $headers[] = "X-Naver-Client-Id: ".$client_id;
-        //             $headers[] = "X-Naver-Client-Secret: ".$client_secret;
-        //             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        //             $response = curl_exec ($ch);
-        //             $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        //             //echo "status_code:".$status_code."<br>";
-        //             curl_close ($ch);
-                    
-        //             if($status_code == 200) {
-        //             //echo $response;
-                    
-        //                 $nmap_info = json_decode($response);
-        //                 $x = $nmap_info->result->items[0]->point->x;
-        //                 $y = $nmap_info->result->items[0]->point->y;
-        //                 $address = $nmap_info->result->items[0]->address;
-                    
-        //             } else {
-        //                 //echo "지도조회결과 :".$status_code;
-        //                 $x = 126.98410034179688;
-        //                 $y = 37.54566616715801;
-        //             }
-        // } else {
-        
-        //         $x = 126.98410034179688;
-        //         $y = 37.54566616715801;
-        //         $address = "서울 시청";
-        
-        // }        
-
-
+ 
         return view('admin.partner.nmap', $data);
     }
 

@@ -85,7 +85,10 @@ class SettingProductController extends Controller
 
         $result = [];
 
-        $FrenchProduct = FrenchProduct::firstOrFail();
+        $FrenchProduct = FrenchProduct::first();
+        if( !$FrenchProduct ) {
+            $FrenchProduct = new FrenchProduct;
+        }
 
         $FrenchProduct->prd_A = $request->A ? implode(",",$request->A) : "";
         $FrenchProduct->prd_D = $request->D ? implode(",",$request->D) : "";
@@ -93,7 +96,7 @@ class SettingProductController extends Controller
         $FrenchProduct->prd_F = $request->F ? implode(",",$request->F) : "";
         $FrenchProduct->prd_P = $request->P ? implode(",",$request->P) : "";               
 
-        if( isset( $FrenchProduct->prd_no ) ) {
+        if( isset( $FrenchProduct ) && $FrenchProduct->prd_no ) {
             $result['result'] = $FrenchProduct->update();
         } else {
             $result['result'] = $FrenchProduct->save();

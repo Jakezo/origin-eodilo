@@ -176,40 +176,42 @@
                             <label class="form-label">담당자이메일</label>
                             <input type="email" class="form-control form-control-sm" name="emp_email" value="{{ $partner["p_emp_email"] ?? '' }}" maxlength="50">
                         </div>
+
                         <div class="col-md-12">
-                            <label class="form-label">우편번호</label>
-                            <input type="text" class="form-control form-control-sm" id="zipcode" name="zipcode" value="{{ $partner["p_zipcode"] ?? '' }}" onclick="execDaumPostcode('partner')">
-                        </div>
-                        <div class='col-md-12'>
-                            <label class="form-label control-label">도로명주소</label>
-                        </div>
-                        <div class='col-sm-8 col-xl-8'>
-                            <input type="text" class="form-control form-control-sm" id="address1" name="address1" value="{{ $partner["p_address1"] ?? '' }}" onclick="execDaumPostcode('partner')">
-                        </div>
-                        <div class='col-sm-4 col-xl-4'>
-                            <input type="text" class="form-control form-control-sm" id="address2" name="address2" value="{{ $partner["p_address2"] ?? '' }}">
+                            <label class="form-label col-sm-12">주소</label>
+                            <div class='row'>
+                                <div class='col-sm-6 col-xl-6'>
+                                    <input type="text" class="form-control form-control-sm" id="address1" name="address1" value="{{ $partner["p_address1"] ?? '' }}" onclick="execDaumPostcode('partner')">
+                                </div>
+                                <div class='col-sm-6 col-xl-4'>
+                                    <input type="text" class="form-control form-control-sm" id="address2" name="address2" value="{{ $partner["p_address2"] ?? '' }}">
+                                </div>
+                                <div class='col-sm-12 col-xl-2'>
+                                    <input type="text" class="form-control form-control-sm" id="zipcode" name="zipcode" value="{{ $partner["p_zipcode"] ?? '' }}" placeholder="우편번호" onclick="execDaumPostcode('partner')">
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-12">
-                            <label class="form-label mt-3">네이버좌표</label>
+                        <div class="col-md-2 col-sm-4">
+                            <label class="form-label mb-1">좌표 Lat</label>
+                            <input type="text" class="form-control form-control-sm" id="map_latitude" name="map_latitude" value="{{ $partner["p_map_latitude"] ?? '' }}" title="위도" onfocus="blur()">
                         </div>
-                        <div class="col-md-4 col-sm-6">
-                            <label class="form-label mb-1">Lat</label>
-                            <input type="text" class="form-control form-control-sm" id="map_latitude" name="map_latitude" value="{{ $partner["p_map_latitude"] ?? '' }}" title="위도">
+                        <div class="col-md-2 col-sm-4">
+                            <label class="form-label mb-1">좌표 Lng</label>
+                            <input type="text" class="form-control form-control-sm" id="map_longitude" name="map_longitude" value="{{ $partner["p_map_longitude"] ?? '' }}" title="경도"  onfocus="blur()">
                         </div>
-                        <div class="col-md-4 col-sm-6">
-                            <label class="form-label mb-1">Lng</label>
-                            <input type="text" class="form-control form-control-sm" id="map_longitude" name="map_longitude" value="{{ $partner["p_map_longitude"] ?? '' }}" title="경도">
+                        <div class="col-md-3 col-sm-3">
+                            <button type="button" class="btn btn-primary px-5 btn-sm mt-4" onclick="open_nmap_pointwindow('', encodeURIComponent(document.getElementById('address1').value ) + ' ' + encodeURIComponent( document.getElementById('address2').value ), '','map' )">좌표</button>
                         </div>
-                        <div class="col-md-4 col-sm-12">
-                            <button type="button" class="btn btn-primary px-5 btn-sm mt-4" onclick="open_nmap_pointwindow('', encodeURIComponent(document.getElementById('address1').value ) + ' ' + encodeURIComponent( document.getElementById('address2').value ), '','map' )">좌표보기</button>
-                        </div>
-                        <div class='col-sm-12'>
-                            <div class="form-check-inline mt-3">
-                                <input type="radio" class='form-check-input' id="map_useY" name="map_use" value="Y" @if( $partner && $partner["p_map_use"] == 'Y' ) checked @endif>
+                        <div class="col-md-4 col-sm-4">
+                            <label class="form-label mb-1">지도사용여부</label>
+                            <div class='row'>
+                            <div class="form-check-inline">
+                                <input type="radio" class='form-check-input' id="map_useY" name="map_use" value="Y" @if( ($partner && $partner["p_map_use"] == 'Y') || !$partner ) checked @endif>
                                 <label for="map_use_1" class="custom-control-label">지도표기</label>
                                 <input type="radio" class='form-check-input' id="map_useN" name="map_use" value="N" @if( $partner && $partner["p_map_use"] == 'N' ) checked @endif>
                                 <label for="map_use_2" class="custom-control-label">지도표기안함</label>
+                            </div>
                             </div>
                         </div>
 

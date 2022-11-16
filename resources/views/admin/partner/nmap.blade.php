@@ -1,27 +1,25 @@
-<!DOCTYPE html> 
-<html> 
-<head> 
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> 
-<style type="text/css">   
-html { height: 100% }   
-body { height: 100%; margin: 0px; padding: 0px }   
-#map_canvas { height: 100% } 
-</style> 
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+html { height: 100% }
+body { height: 100%; margin: 0px; padding: 0px }
+#map_canvas { height: 100% }
+</style>
 <script  src="//code.jquery.com/jquery-3.3.1.js"></script>
-<script type="text/javascript"     src="/assets/js/nmap.js?sensor=true"> </script> 
 <script type="text/javascript">
 var from = '{{ $from ?? '' }}'
-
 </script>
 
-</head> 
-<body>   
+</head>
+<body>
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" style="border:3px solid #565e6b;">
 	<tr>
 		<td height="44" bgcolor="#565e6b"><table width="100%">
 		<tr>
 			<td align="left">&nbsp;&nbsp;<B><FONT COLOR="#FFFFFF">좌표가져오기</FONT></B></td>
-			<td align="right"><a href="javascript:window.close();"><img src="/images/btn_close.jpg" width="29" height="29" border="0" alt=""></a>&nbsp;&nbsp;</td>
+			<td align="right"><a href="javascript:window.close();"><img src="/assets/images/btn_close.jpg" width="29" height="29" border="0" alt=""></a>&nbsp;&nbsp;</td>
 		</tr>
 		</table></td>
 	</tr>
@@ -30,7 +28,7 @@ var from = '{{ $from ?? '' }}'
 			<div id="res" width="100%">{{ $res ?? "" }}</div>
 
 			<table width="100%" border="0"  cellspacing="1" cellpadding="2" class="class_admin_table">
-			<tr> 
+			<tr>
 				<form onsubmit="nmap_address2point( $('#query').val() );return false;">
 				<input type="hidden" name="from" value="{{ $from ?? '' }}">
 				<td align="left" height="25" class="class_admin_table_head">
@@ -39,12 +37,12 @@ var from = '{{ $from ?? '' }}'
 				<td align="left" height="25" class="class_admin_table_blank">
 					<!--input type="hidden" name="p_no" value="{{ $p_no ?? ""  }}"-->
 					<input type="text" name="query" id="query" value="{{ $address ?? "" }}" size="80">
-					<!--input type="submit" onclick="" value="검색"-->		
-					<input type="button" id="btn_search" -onclick="search_address2point()" value="검색">	
+					<!--input type="submit" onclick="" value="검색"-->
+					<input type="button" id="btn_search" -onclick="search_address2point()" value="검색">
 				</td>
 				</form>
 			</tr>
-			<tr> 
+			<tr>
 				<form action='' method='post' id='geoForm'>
 				<input type="hidden" name="p_id" value="{{ $p_id ?? ""  }}">
 				<input type="hidden" name="step" value="map_update">
@@ -52,11 +50,11 @@ var from = '{{ $from ?? '' }}'
 					좌표
 				</td>
 				<td align="left" height="25" class="class_admin_table_blank">
-						X : <input id='x' type='text' size='20' name='x' value='{{ $x ?? "" }}' style="background-color: #eee" readonly="readonly" />
-						Y : <input id='y' type='text' size='20' name='y' value='{{ $y?? "" }}' style="background-color: #eee" readonly="readonly" />
-						<input type="button" onclick="select_point();" value="저장" id="update_btn">
+                    Latitude : <input id='lat' type='text' size='20' name='lat' value='{{ $lat?? "" }}' style="background-color: #eee" readonly="readonly" />
+                    Longitude : <input id='lon' type='text' size='20' name='lon' value='{{ $lon ?? "" }}' style="background-color: #eee" readonly="readonly" />
+						<input type="button" onclick="nmap_select_point();" value="저장" id="update_btn">
 				</td>
-				</form>	
+				</form>
 
 
 			</tr>
@@ -69,48 +67,18 @@ var from = '{{ $from ?? '' }}'
 				</td>
 			</tr-->
 			</table>
-			
-				<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=gxwne8kx8n&submodules=geocoder"></script>
-				<script type="text/javascript">
-				function nmap_select_point(){
-					opener.document.form1.address1.value = document.getElementById('query').value;
-					opener.document.form1.map_latitude.value = document.getElementById('x').value;
-					opener.document.form1.map_longitude.value = document.getElementById('y').value;
-					window.close();
-				}
-				</script>
-				<div id="map" style="width:100%;height:400px;"></div>
-				<script>
-				var map = new naver.maps.Map('map', {center: new naver.maps.LatLng('{{ $x ?? "" }}', '{{ $y ?? "" }}')});
 
-				function marker_create( x, y ){
-							var myaddr = new naver.maps.Point( x, y );
-							map.setCenter(myaddr); // 검색된 좌표로 지도 이동
-							// 마커 표시
-							var marker = new naver.maps.Marker({
-								position: myaddr,
-								map: map
-							});
-				}
-				<?if( !isset($x) ) {?>
-				var new_x = $("#x").val();
-				var new_y = $("#y").val();
-				<?}else{?>
-				var new_x = 127;
-				var new_y = 37;
-				<?}?>
-				nmap_address2point();
-				marker_create( new_x , new_y );
-				</script>
+
+				<div id="map" style="width:100%;height:400px;"></div>
+
 
 		</td>
 	</tr>
 </table>
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('NCP_MAP_CLIENT_ID') }}&submodules=geocoder"></script>
 
-
+<script type="text/javascript" src="/assets/js/nmap.js?sensor=true"> </script>
 <script type="text/javascript">
-    marker_create( new_x , new_y );
-
     function nmap_address2point( address ){
 
         var myaddress = "";
@@ -134,11 +102,11 @@ var from = '{{ $from ?? '' }}'
             // 검색 결과 갯수: result.total
             // 첫번째 결과 결과 주소: result.items[0].address
             // 첫번째 검색 결과 좌표: result.items[0].point.y, result.items[0].point.x
-			console.log(result.items[0].point);
-            var myaddr = new naver.maps.Point(result.items[0].point.x, result.items[0].point.y);
 
-            document.getElementById('x').value = result.items[0].point.x;
-            document.getElementById('y').value = result.items[0].point.y ;
+            var myaddr = new naver.maps.Point(result.items[0].point.x , result.items[0].point.y );
+
+            document.getElementById('lat').value = result.items[0].point.y;
+            document.getElementById('lon').value = result.items[0].point.x;
 
             map.setCenter(myaddr); // 검색된 좌표로 지도 이동
 
@@ -150,7 +118,7 @@ var from = '{{ $from ?? '' }}'
 
             // 좌표얻기
 
-            // 마커 클릭 이벤트 처리
+            // 마커 클릭 TOPIC 처리
             naver.maps.Event.addListener(marker, "click", function(e) {
                 if (infowindow.getMap()) {
                     infowindow.close();
@@ -167,20 +135,42 @@ var from = '{{ $from ?? '' }}'
 
              */
         });
-    }
-
-    function select_point(){
+    }	
+	function nmap_select_point(){
 		opener.document.form1.address1.value = document.getElementById('query').value;
-        opener.document.getElementById("map_latitude").value = document.getElementById('x').value;
-        opener.document.getElementById("map_longitude").value = document.getElementById('y').value;
-        window.close();
-    }
+		opener.document.form1.map_latitude.value = document.getElementById('lat').value;
+		opener.document.form1.map_longitude.value = document.getElementById('lon').value;
+		window.close();
+	}
+	</script>
+<script>
+	var map = new naver.maps.Map('map', {center: new naver.maps.LatLng('{{ $lat ?? "" }}', '{{ $lon ?? "" }}')});
 
-    function select_poin2(x,y){
-        opener.document.memberform.map_latitude.value = x;
-        opener.document.memberform.map_longitude.value = y;
-        window.close();
-    }
+	function marker_create( lat, lon ){
+				var myaddr = new naver.maps.Point( lat, lon );
+				map.setCenter(myaddr); // 검색된 좌표로 지도 이동
+				// 마커 표시
+				var marker = new naver.maps.Marker({
+					position: myaddr,
+					map: map
+				});
+	}
+	if( $("#lat").val() ) {
+		var new_lat = $("#lat").val();
+		var new_lon = $("#lon").val();
+	}else{
+		var new_lat = 37;
+		var new_lon = 127;
+	}
+	nmap_address2point();
+	marker_create( new_lat , new_lon );
+
+	geolocation.getCurrentPosition()
+	</script>
+<script type="text/javascript">
+    //marker_create( new_lon , new_y );
+
+
 
     $(document).ready(function(){
         $("#btn_search").on("click",function(){
@@ -192,10 +182,46 @@ var from = '{{ $from ?? '' }}'
 
     document.getElementById("update_btn").focus();
 
+
+	function onSuccessGeolocation(position) {
+		var location = new naver.maps.LatLng(position.coords.latitude,
+											 position.coords.longitude);
+
+		map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+		map.setZoom(10); // 지도의 줌 레벨을 변경합니다.
+
+		infowindow.setContent('<div style="padding:20px;">' + 'geolocation.getCurrentPosition() 위치' + '</div>');
+
+		infowindow.open(map, location);
+		console.log('Coordinates: ' + location.toString());
+	}
+
+	function onErrorGeolocation() {
+		var center = map.getCenter();
+
+		infowindow.setContent('<div style="padding:20px;">' +
+			'<h5 style="margin-bottom:5px;color:#f00;">Geolocation failed!</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
+
+		infowindow.open(map, center);
+	}
+
+    if (navigator.geolocation) {
+        /**
+         * navigator.geolocation 은 Chrome 50 버젼 이후로 HTTP 환경에서 사용이 Deprecate 되어 HTTPS 환경에서만 사용 가능 합니다.
+         * http://localhost 에서는 사용이 가능하며, 테스트 목적으로, Chrome 의 바로가기를 만들어서 아래와 같이 설정하면 접속은 가능합니다.
+         * chrome.exe --unsafely-treat-insecure-origin-as-secure="http://example.com"
+         */
+        navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
+    } else {
+        var center = map.getCenter();
+        infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5></div>');
+        infowindow.open(map, center);
+    }
+
 </script>
 <script LANGUAGE="JavaScript">
     self.focus()
 </script>
 
-</body> 
+</body>
 </html>
