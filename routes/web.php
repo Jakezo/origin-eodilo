@@ -227,6 +227,8 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
             Route::any('/user_alarms', [UserController::class, 'alarms']);  
             Route::any('/user_customs', [UserController::class, 'customs']);            
             //Route::any('/popupInfo', [FrenchMemberController::class, 'viewInfo']);
+
+            Route::any('/user_login', [UserController::class, 'admin2user']); 
             
             Route::get('/refund', [UserCashController::class, 'refund']);  
             Route::post('/refund/getInfo', [UserCashController::class, 'refund_getInfo']);  

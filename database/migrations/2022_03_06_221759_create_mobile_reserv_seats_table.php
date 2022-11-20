@@ -42,8 +42,11 @@ class CreateMobileReservSeatsTable extends Migration
             $table->string('rv_state_seat_in',0)->default('0000-00-00 00:00:00')->comment('입실일시'); // 외출/복귀시 업데이트
             $table->string('rv_state_seat_out',0)->default('0000-00-00 00:00:00')->comment('외출일시');// 외출/복귀시 업데이트
             
-            $table->unsignedInteger('rv_duration_time')->default(0)->comment('예약기간-초단위');
-            $table->unsignedInteger('rv_used_time')->default(0)->comment('실제사용기간-초단위');
+            $table->bigInteger('rv_duration_time')->default(0)->comment('예약기간-초단위');
+            $table->bigInteger('rv_used_time')->default(0)->comment('실제사용기간-초단위');
+
+            $table->bigInteger('rv_total_point')->default(0)->comment('예약포인트');
+            $table->bigInteger('rv_used_point')->default(0)->comment('실제사용포인트');
 
             $table->string('rv_pass',20)->default('')->comment('패스워드');
             $table->datetime('rv_pass_last')->default('0000-00-00 00:00:00')->comment('패스워드유효시간');

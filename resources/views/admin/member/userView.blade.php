@@ -89,6 +89,15 @@
                         </div>
                     </a>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" href="http://mobile.eodilo.com/auth/admin2user?id={{ $user['id'] }}" target="_blank" role="tab" aria-selected="false">
+                        <div class="d-flex align-items-center">
+                            <div class="tab-icon"><i class="bx bxs-microphone font-18 me-1"></i>
+                            </div>
+                            <div class="tab-title">로그인</div>
+                        </div>
+                    </a>
+                </li>
                 @endif                
             </ul>
             

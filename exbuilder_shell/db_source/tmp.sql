@@ -165,6 +165,27 @@ CREATE TABLE `french_contacts` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `french_day_ends`
+--
+
+DROP TABLE IF EXISTS `french_day_ends`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `french_day_ends` (
+  `de_no` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '일련번호',
+  `de_date` date NOT NULL DEFAULT '0000-00-00' COMMENT '실행일',
+  `de_command1` varchar(1) COLLATE utf8mb4_unicode_ci DEFAULT 'N' COMMENT 'Command1',
+  `de_command2` varchar(1) COLLATE utf8mb4_unicode_ci DEFAULT 'N' COMMENT 'Command2',
+  `de_command3` varchar(1) COLLATE utf8mb4_unicode_ci DEFAULT 'N' COMMENT 'Command3',
+  `de_command4` varchar(1) COLLATE utf8mb4_unicode_ci DEFAULT 'N' COMMENT 'Command4',
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`de_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `french_iots`
 --
 
@@ -580,4 +601,4 @@ CREATE TABLE `french_seats` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-27  8:01:01
+-- Dump completed on 2022-11-16 18:48:28
