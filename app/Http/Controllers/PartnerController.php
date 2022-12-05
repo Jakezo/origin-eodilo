@@ -216,8 +216,9 @@ class PartnerController extends Controller
         //dd(DB::getQueryLog());
 
         return view('admin.partner.list', $data);
-    }    
+    } 
 
+    ## 신규등록/수정
     public function update(Request $request) {
         //DB::enableQueryLog();	//query log 시작 선언부
         //dd(DB::getQueryLog());
@@ -304,10 +305,8 @@ class PartnerController extends Controller
         $partner->p_seq = $request->seq ?? 0;
         $partner->p_state = $request->state ?? "N";
 
-
         $partner->p_deadline_time = $request->deadline_time ?? "00:00:00";
         $partner->p_commission = $request->commission ?? "0.0";
-
 
         $partner->p_memo = $request->memo ?? "";
 
@@ -315,6 +314,7 @@ class PartnerController extends Controller
             $result['result'] = $partner->update();
         } else {
             $result['result'] = $partner->save();
+            $result["rURL"] = "/partner";
 
             $partnerReg = new PartnerRegController();
             $partnerReg->defaultReg($partner->p_no);
@@ -339,7 +339,7 @@ class PartnerController extends Controller
             }
         } 
 
-        $data["partner"] = $partner;
+        $result["partner"] = $partner->p_no;
         return response($result);
 
     }
@@ -554,7 +554,6 @@ class PartnerController extends Controller
         return response($data);
     } 
 
-
     ## 폼을 위한 정보
     public function get_new_last_date(Request $request){
 
@@ -568,9 +567,8 @@ class PartnerController extends Controller
     }
 
     ## 이용내역
-    public function reserve_history(Request $request)
-    {
-        
+    public function reserve_history(Request $request) {
+
         $data["FrenchReserves"] = [];
         
         $data["ageType"] = config("product.memberAgeType");

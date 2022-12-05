@@ -329,9 +329,8 @@
         </div>
     </div>
     <!--end page wrapper -->
-    <?
-    //include $CFG['module_dir']."/zipcode/zipcode.inc.php";
-    ?>
+
+    @include("layouts.zipcode")
     <!--end page wrapper -->
 @endsection
 

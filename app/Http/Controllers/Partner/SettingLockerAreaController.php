@@ -72,17 +72,18 @@ class SettingLockerAreaController extends Controller
             Config::set('database.connections.partner.database',"boss_".$request->account);
 
             $data["result"] = true;
-            $data["locker_area"] = $this->FrenchLockerArea->select(
-                    [
+            $data["no"] = $request->no;
+
+            $data["locker_area"] = \App\Models\FrenchLockerArea::select(
                         'la_no as no',
                         'la_name as name',
                         'la_locker_count as locker_count',
                         'la_locker_state as locker_state',
                         'la_locker_open_mobile as open_mobile',
                         'la_locker_open_kiosk as open_kiosk'
-                    ]
                 )
                 ->where("la_no",  $request->no)->first();
+
             return response($data);
 
     }
@@ -112,6 +113,38 @@ class SettingLockerAreaController extends Controller
         } else {
             $result['result'] = $FrenchLockerArea->save();
         }
+
+        $locker_count = \App\Models\FrenchLocker::where('l_area', $FrenchLockerArea->la_no)->count();
+
+        if( $max_data = \App\Models\FrenchLocker::select("l_name")->orderBy("l_no","desc")->first() ) {
+            $new_name = (int)$max_data->l_name + 1;
+        } else {
+            $new_name = 1;
+        }        
+
+
+
+
+        if( $FrenchLockerArea->la_locker_count > $locker_count ) {
+
+          
+
+            for( $i=0;$i<=($FrenchLockerArea->la_locker_count-$locker_count);$i++){
+
+                $FrenchLocker = new \App\Models\FrenchLocker;
+                $FrenchLocker->l_name = $new_name++;
+                $FrenchLocker->l_area = $request->area ?? $FrenchLockerArea->la_no;
+                $FrenchLocker->l_iot1 = $request->iot1 ?? "";
+                $FrenchLocker->l_iot2 = $request->iot2 ?? "";                
+                $result['result'] = $FrenchLocker->save();
+
+            }
+
+      
+
+        }
+
+
 
         if( $request->rURL ) {
             $result['rURL'] = $request->rURL;

@@ -41,7 +41,7 @@
                                 <div class='row'>
 
                                     <div class="col-md-2 col-sm-2 col-xs-6 mt-1 justify-content-right">
-                                        <a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12" data-bs-toggle="modal" data-bs-target="#seatLevelFormModal">신규</a>
+                                        <a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12 seatlevel_item" data-bs-toggle="modal" data-bs-target="#seatLevelFormModal">신규</a>
                                     </div>
                                 </div>
                             </form>
@@ -380,9 +380,13 @@
             });
 
             $(document).on("click", ".seatlevel_item", function () {
-                var r_no = $(this).attr("seatlevel");
-                seatlevel_getInfo(r_no);
-                console.log(r_no);
+                var l_no = $(this).attr("seatlevel");
+                if( l_no!= undefined ) {
+                    seatlevel_getInfo(l_no);
+                } else {
+                    $("#frm_seatlevelInfo")[0].reset();
+                }
+                console.log(l_no);
             });
 
             $(document).on("click", "#btn_seatlevel_update", function () {

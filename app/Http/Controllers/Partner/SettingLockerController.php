@@ -91,7 +91,8 @@ class SettingLockerController extends Controller
                         'l_no as no',
                         'l_name as name',
                         'l_area as area',
-                        'l_dvd_no as dvd_no'
+                        'l_iot1 as iot1',
+                        'l_iot2 as iot2'
                     ]
                 )
                 ->where("l_no",  $request->no)->first();

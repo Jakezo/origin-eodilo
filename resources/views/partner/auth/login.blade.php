@@ -63,6 +63,15 @@
 											</div>
 											<div class="col-md-6 text-end">	<a href="authentication-forgot-password.html">Forgot Password ?</a>
 											</div>
+                                            @if ($errors->any())
+                                            <div class="col-xs-12">
+                                                    @foreach ($errors->all() as $error)
+                                                    <div class="alert alert-danger p-2">
+                                                    <div>{{ $error }}</div>
+                                                    </div>
+                                                    @endforeach
+                                            </div>
+                                            @endif											
 											<div class="col-12">
 												<div class="d-grid">
 													<button type="submit" class="btn btn-primary"><i class="bx bxs-lock-open"></i>Sign in</button>

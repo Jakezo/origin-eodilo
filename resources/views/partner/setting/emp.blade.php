@@ -169,7 +169,6 @@
                             <label for="blockN" class="col-sm-12 control-label">승인</label>
                             <div class="col-sm-12 text-left">
                                 <input type="radio" name="state" id="stateY" value="Y" checked=""> 승인
-                                <input type="radio" name="state" id="stateN" value="N"> 신청
                                 <input type="radio" name="state" id="stateX" value="X"> 중지
                             </div>
                         </div>
@@ -204,15 +203,21 @@
     <script>
 
         $(document).ready(function(){
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+
             $(document).on("click",".admin_item",function(){
                 var a_no = $(this).attr("admin");
-                admin_getInfo(a_no);
-                console.log(a_no);
+                console.log(a_no)
+                if( a_no != undefined ){
+                    admin_getInfo(a_no);
+                } else {
+                    $("#frm_admin #no").val('');
+                    $("#frm_admin #aid").val('').attr("readonly", false);
+                    $("#frm_admin #name").val('');
+                    $("#frm_admin #email").val('');
+                    $("#frm_admin #phone").val('');
+                    $("#frm_admin input[id^='state']").prop("checked",false);
+                    $("#frm_admin")[0].reset();
+                }
             });
             $(document).on("click","#btn_admin_update",function(){
                 admin_update();

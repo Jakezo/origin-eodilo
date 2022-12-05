@@ -75,7 +75,7 @@
         <form class="row g-3">
             <input type="hidden" name="map" id="map" value="{{ $map ?? "" }}">
             <div class="col-12" id="save_pannel">
-                <button id="btn_save" type="button" class="btn btn-danger col-12">편집을 저장</button>
+                <button type="button" id="btn_save" class="btn btn-danger col-12">편집을 저장</button>
             </div>
         </form>                                    
         {{-- 
@@ -346,7 +346,6 @@
             let roomBG_width = $("#room_bg").width();
             let roomBG_height = $("#room_bg").height();
 
-
             const obj_arr_new = [];
 
             $.each(obj_arr, function( i, item ) {
@@ -364,6 +363,11 @@
                 },
                 "seats": obj_arr_new
             }
+
+
+            //console.log(map_data);
+            //return false;
+
             console.log("w:" + roomBG_width + "h:" + roomBG_height);
 
             let map_data_string = encodeURIComponent(JSON.stringify(map_data));
@@ -379,7 +383,7 @@
                     if( res.result == true ) {
                         document.location.reload()
                     } else {
-                        console.log(res.msg);
+                        console.log(res);
                     }
                 },
                 error:function(e){

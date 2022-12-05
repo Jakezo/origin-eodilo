@@ -50,7 +50,7 @@
                             </div>
 
                             <div class="col-sm-2 mb-1 text-left">
-                                <button type="button" class="btn btn-info btn-sm admin_item col-12" aid="" data-bs-toggle="modal" data-bs-target="#adminDetailModal">사용자등록</button>
+                                <button type="button" class="btn btn-info btn-sm admin_item col-12" data-bs-toggle="modal" data-bs-target="#adminDetailModal">사용자등록</button>
                             </div>
                         </div>
                     </form>
@@ -212,8 +212,11 @@
             });
             $(document).on("click",".admin_item",function(){
                 var a_no = $(this).attr("admin");
-                admin_getInfo(a_no);
-                console.log(a_no);
+                if( a_no != undefined && a_no != ''){
+                    admin_getInfo(a_no);
+                } else {
+                    $("#frm_admin")[0].reset();
+                }
             });
             $(document).on("click","#btn_admin_update",function(){
                 admin_update();

@@ -39,17 +39,10 @@
                             <form name="search" action="">
                                 <input type="hidden" name="mode" value="list">
                                 <div class='row'>
-                                    <div class="col-md-2 col-sm-4 col-xs-12 mt-1">
-                                        <select class="single-select form-control-sm col-12" name="fd" id="fd">
-                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>1층 복도</option>
-                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>2층 복도</option>
-                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?}?>>A룸</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-8 col-sm-4 col-xs-12 mt-1">
+                                    <div class="col-md-10 col-sm-8 col-xs-12 mt-1">
                                     </div>
                                     <div class="col-md-2 col-sm-4 col-xs-12 mt-1 justify-content-right">
-                                        <a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12" data-bs-toggle="modal" data-bs-target="#lockerAreaFormModal">신규</a>
+                                        <a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12 locker_area_item" data-bs-toggle="modal" data-bs-target="#lockerAreaFormModal">신규</a>
                                     </div>
                                 </div>
                             </form>
@@ -127,15 +120,7 @@
                             </a>
                         </li>
 
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#roomMap" role="tab" aria-selected="false">
-                                <div class="d-flex align-items-center">
-                                    <div class="tab-icon"><i class="bx bxs-microphone font-18 me-1"></i>
-                                    </div>
-                                    <div class="tab-title">배치도</div>
-                                </div>
-                            </a>
-                        </li>
+
                     </ul>
                     <div class="tab-content py-3">
                         <div class="tab-pane fade show active" id="roomInfo" role="tabpanel">
@@ -167,7 +152,7 @@
                                     </div>
                                 </div>                                
 
-                                <div class="col-12 mt-3">
+                                <!--div class="col-12 mt-3">
 
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="sex" id="sexA" value="A">
@@ -184,7 +169,7 @@
                                         <label class="form-check-label" for="sexF">여성</label>
                                     </div>
 
-                                </div>
+                                </div-->
 
                                 <div class="col-12 text-center">
                                     <button type="button" id="btn_locker_area_update" class="btn btn-warning px-5">확인</button>
@@ -222,14 +207,16 @@
     <script>
 
         $(document).ready(function () {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+
             $(document).on("click", ".locker_area_item", function () {
                 var la_no = $(this).attr("locker_area");
-                locker_area_getInfo(la_no);
+                console.log(la_no);
+
+                if( la_no != undefined ) {
+                    locker_area_getInfo(la_no);
+                } else {
+                    $("#frm_lockerAreaInfo")[0].reset();
+                }
             });
             $(document).on("click", "#btn_locker_area_update", function () {
                 locker_area_update();
@@ -313,7 +300,7 @@
                 data: req,
                 success: function (res, textStatus, xhr) {
 
-                    console.log(res.locker_area);
+                    console.log(res);
                     if (res.locker_area != null) {
                         $("#no").val(res.locker_area.no);
                         //$("#aid").val(res.room.id).attr("readonly", true);

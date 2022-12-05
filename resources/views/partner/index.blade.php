@@ -33,7 +33,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-2">
                                     <p class="mb-0">금일 모바일 이용건수</p>
-                                    <h5 class="font-weight-bold"><span id="count_today_mobile">23</span>건<span style="font-size:0.7em">/<span id="count_today_all">300</span>건</span></h5>
+                                    <h5 class="font-weight-bold"><span id="count_today_mobile">0</span>건<span style="font-size:0.7em">/<span id="count_today_all">0</span>건</span></h5>
                                 </div>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-4">
                                     <p class="mb-0">금일 모바일 매출</p>
-                                    <h5 class="font-weight-bold">163,352원</h5>
+                                    <h5 class="font-weight-bold">0원</h5>
                                 </div>
                             </div>
                         </div>

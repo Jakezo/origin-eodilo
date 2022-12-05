@@ -45,7 +45,7 @@
                                     <div class="col-md-8 col-sm-4 col-xs-12 mt-1">
                                     </div>
                                     <div class="col-md-2 col-sm-4 col-xs-12 mt-1 justify-content-right">
-                                        <a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12" data-bs-toggle="modal" data-bs-target="#iotFormModal">신규</a>
+                                        <a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12 iot_item" data-bs-toggle="modal" data-bs-target="#iotFormModal">신규</a>
                                     </div>
                                 </div>
                             </form>
@@ -272,14 +272,14 @@
     <script>
 
         $(document).ready(function () {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+
             $(document).on("click", ".iot_item", function () {
                 var i_no = $(this).attr("iot");
-                iot_getInfo(i_no);
+                if( i_no != undefined ) {
+                    iot_getInfo(i_no);
+                } else {
+                    $("#frm_iotInfo")[0].reset();
+                }
             });
             $(document).on("click", "#btn_iot_update", function () {
                 iot_update();
@@ -381,6 +381,8 @@
                         else $("#endwork").prop("checked",false);
 
                     } else {
+
+
                         $("#iotDetail_msg").html(res.message);
                         console.log("실패.");
                     }

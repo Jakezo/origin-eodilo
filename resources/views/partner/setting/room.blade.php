@@ -49,7 +49,7 @@
                                     <div class="col-md-8 col-sm-4 col-xs-12 mt-1">
                                     </div>
                                     <div class="col-md-2 col-sm-4 col-xs-12 mt-1 justify-content-right">
-                                        <a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12" data-bs-toggle="modal" data-bs-target="#roomFormModal">신규</a>
+                                        <a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12 room_item" data-bs-toggle="modal" data-bs-target="#roomFormModal">신규</a>
                                     </div>
                                 </div>
                             </form>
@@ -328,7 +328,11 @@
             });
             $(document).on("click", ".room_item", function () {
                 var r_no = $(this).attr("room");
-                room_getInfo(r_no);
+                if( r_no != undefined ){
+                    room_getInfo(r_no);
+                } else {
+                    $("#frm_roomInfo")[0].reset();
+                }
             });
             $(document).on("click", "#btn_room_update", function () {
                 room_update();

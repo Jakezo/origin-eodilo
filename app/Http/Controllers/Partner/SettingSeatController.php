@@ -306,8 +306,18 @@ class SettingSeatController extends Controller
 
         $map_data = json_decode($request->map_data,true);
 
+        $result = [
+            "result" => false,
+            "map_data" => $map_data
+        ];
+        return response($result); 
+
+
         $result = [];
         $result = ['result' => true];
+
+
+
 
         $FrenchConfig = $this->FrenchConfig->first();
         if( $FrenchConfig ) {
@@ -354,7 +364,7 @@ class SettingSeatController extends Controller
             $result['result'] = true;
             $this->FrenchRoom->r_bg = $upload_res['filepath'];
             if( $res = $this->FrenchRoom->update() ) {
-                $result["src"] = $NCPdisk->url($upload_res['filepath']);
+                $result["src"] = $NCPdisk->url($upload_res);
             } else {
                 $result['result'] = false;
             }

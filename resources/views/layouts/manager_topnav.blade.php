@@ -186,15 +186,6 @@
                 </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-                <!--li><a class="dropdown-item" href="javascript:;"><i class="bx bx-cog"></i><span>환경설정</span></a>
-                </li>
-                <li>
-                    <div class="dropdown-divider mb-0"></div>
-                </li-->
-                <li><a class="dropdown-item" href="javascript:;"><i class="bx bx-user"></i><span>정보수정</span></a>
-                </li>
-                <li><a class="dropdown-item" href="myinfo_form.html"><i class="bx bx-barcode"></i><span>비밀번호변경</span></a>
-                </li>
                 <li><a class="dropdown-item btn_logout" href="javascript:;"><i class='bx bx-log-out-circle'></i><span>Logout</span></a>
                 </li>
             </ul>

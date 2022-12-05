@@ -105,9 +105,9 @@
                                         <td class=" text-center"><input type="number" class="in_price student sseatlevel col-12" id="price_time_student_N_s" name="seat_time_price[S][N][S]" value="{{  $sl_price_time['S']['N']['S'] }}" placeholder="학생 스터디룸 요금"></td>
                                     </tr>
                                     <tr class="price_row">
-                                        <td><input type="number" class="in_price adult total col-12" id="price_time_adult_N_t" name="seat_time_price[A][N][T]" value="{{  $sl_price_time['S']['N']['T'] }}" placeholder="성인 요금"></td>
-                                        <td><input type="number" class="in_price adult rseatlevel col-12" id="price_time_adult_N_r" name="seat_time_price[A][N][R]" value="{{  $sl_price_time['S']['N']['R'] }}" placeholder="성인 독서실요금"></td>
-                                        <td><input type="number" class="in_price adult sseatlevel col-12" id="price_time_adult_N_s" name="seat_time_price[A][N][S]" value="{{  $sl_price_time['S']['N']['S'] }}" placeholder="성인 스터디룸 요금"></td>
+                                        <td><input type="number" class="in_price adult total col-12" id="price_time_adult_N_t" name="seat_time_price[A][N][T]" value="{{  $sl_price_time['A']['N']['T'] }}" placeholder="성인 요금"></td>
+                                        <td><input type="number" class="in_price adult rseatlevel col-12" id="price_time_adult_N_r" name="seat_time_price[A][N][R]" value="{{  $sl_price_time['A']['N']['R'] }}" placeholder="성인 독서실요금"></td>
+                                        <td><input type="number" class="in_price adult sseatlevel col-12" id="price_time_adult_N_s" name="seat_time_price[A][N][S]" value="{{  $sl_price_time['A']['N']['S'] }}" placeholder="성인 스터디룸 요금"></td>
                                     </tr>
                                     <tr class="price_row">
                                         <th scope="row" rowspan="2">연장</th>
@@ -116,9 +116,9 @@
                                         <td class=" text-center"><input type="number" class="in_price student sseatlevel col-12" id="price_time_student_X_s" name="seat_time_price[S][X][S]" value="{{  $sl_price_time['S']['X']['S'] }}" placeholder="학생 스터디룸 요금"></td>
                                     </tr>
                                     <tr class="price_row">
-                                        <td><input type="number" class="in_price adult total col-12" id="price_time_adult_X_t" name="seat_time_price[A][X][T]" value="{{  $sl_price_time['S']['A']['T'] }}" placeholder="성인 요금"></td>
-                                        <td><input type="number" class="in_price adult rseatlevel col-12" id="price_time_adult_X_r" name="seat_time_price[A][X][R]" value="{{  $sl_price_time['S']['A']['R'] }}" placeholder="성인 독서실요금"></td>
-                                        <td><input type="number" class="in_price adult sseatlevel col-12" id="price_time_adult_X_s" name="seat_time_price[A][X][S]" value="{{  $sl_price_time['S']['A']['S'] }}" placeholder="성인 스터디룸 요금"></td>
+                                        <td><input type="number" class="in_price adult total col-12" id="price_time_adult_X_t" name="seat_time_price[A][X][T]" value="{{  $sl_price_time['A']['X']['T'] }}" placeholder="성인 요금"></td>
+                                        <td><input type="number" class="in_price adult rseatlevel col-12" id="price_time_adult_X_r" name="seat_time_price[A][X][R]" value="{{  $sl_price_time['A']['X']['R'] }}" placeholder="성인 독서실요금"></td>
+                                        <td><input type="number" class="in_price adult sseatlevel col-12" id="price_time_adult_X_s" name="seat_time_price[A][X][S]" value="{{  $sl_price_time['A']['X']['S'] }}" placeholder="성인 스터디룸 요금"></td>
                                     </tr>
                                     <tr class="price_row">
                                         <th scope="row" colspan="2">1시간당 할인율</th>
@@ -151,36 +151,35 @@
                                     <tbody>
                                     <tr class="price_row">
                                         <th scope="row" rowspan="2">기본</th>
-                                        <td class=" text-center"><input type="number" class="in_price student total col-12" id="price_day_student_A_t" name="seat_day_price[S][A][T]" value="{{  $sl_price_time['S']['A']['T'] }}" placeholder="학생 요금"></td>
-                                        <td class=" text-center"><input type="number" class="in_price student rseatlevel col-12" id="price_day_student_A_r" name="seat_day_price[S][A][R]" value="{{  $sl_price_time['S']['A']['R'] }}" placeholder="학생 독서실요금"></td>
-                                        <td class=" text-center"><input type="number" class="in_price student sseatlevel col-12" id="price_day_student_A_s" name="seat_day_price[S][A][S]" value="{{  $sl_price_time['S']['A']['S'] }}" placeholder="학생 스터디룸 요금"></td>
+                                        <td class=" text-center"><input type="number" class="in_price student total col-12" id="price_day_student_A_t" name="seat_day_price[S][A][T]" value="{{  $sl_price_day['S']['A']['T'] }}" placeholder="학생 요금"></td>
+                                        <td class=" text-center"><input type="number" class="in_price student rseatlevel col-12" id="price_day_student_A_r" name="seat_day_price[S][A][R]" value="{{  $sl_price_day['S']['A']['R'] }}" placeholder="학생 독서실요금"></td>
+                                        <td class=" text-center"><input type="number" class="in_price student sseatlevel col-12" id="price_day_student_A_s" name="seat_day_price[S][A][S]" value="{{  $sl_price_day['S']['A']['S'] }}" placeholder="학생 스터디룸 요금"></td>
                                     </tr>
                                     <tr class="price_row">
-                                        <td><input type="number" class="in_price adult total col-12" id="price_day_adult_A_t" name="seat_day_price[A][A][T]" value="{{  $sl_price_time['A']['A']['T'] }}" placeholder="성인 요금"></td>
-                                        <td><input type="number" class="in_price adult rseatlevel col-12" id="price_day_adult_A_r" name="seat_day_price[A][A][R]" value="{{  $sl_price_time['A']['A']['R'] }}" placeholder="성인 독서실요금"></td>
-                                        <td><input type="number" class="in_price adult sseatlevel col-12" id="price_day_adult_A_s" name="seat_day_price[A][A][S]" value="{{  $sl_price_time['A']['A']['S'] }}" placeholder="성인 스터디룸 요금"></td>
+                                        <td><input type="number" class="in_price adult total col-12" id="price_day_adult_A_t" name="seat_day_price[A][A][T]" value="{{  $sl_price_day['A']['A']['T'] }}" placeholder="성인 요금"></td>
+                                        <td><input type="number" class="in_price adult rseatlevel col-12" id="price_day_adult_A_r" name="seat_day_price[A][A][R]" value="{{  $sl_price_day['A']['A']['R'] }}" placeholder="성인 독서실요금"></td>
+                                        <td><input type="number" class="in_price adult sseatlevel col-12" id="price_day_adult_A_s" name="seat_day_price[A][A][S]" value="{{  $sl_price_day['A']['A']['S'] }}" placeholder="성인 스터디룸 요금"></td>
                                     </tr>
                                     <tr class="price_row">
                                         <th scope="row" rowspan="2">신규</th>
-                                        <td class=" text-center"><input type="number" class="in_price student total col-12" id="price_day_student_N_t" name="seat_day_price[S][N][T]" value="{{  $sl_price_time['S']['N']['T'] }}" placeholder="학생 요금"></td>
-                                        <td class=" text-center"><input type="number" class="in_price student rseatlevel col-12" id="price_day_student_N_r" name="seat_day_price[S][N][R]" value="{{  $sl_price_time['S']['N']['R'] }}" placeholder="학생 독서실요금"></td>
-                                        <td class=" text-center"><input type="number" class="in_price student sseatlevel col-12" id="price_day_student_N_s" name="seat_day_price[S][N][S]" value="{{  $sl_price_time['S']['N']['S'] }}" placeholder="학생 스터디룸 요금"></td>
+                                        <td class=" text-center"><input type="number" class="in_price student total col-12" id="price_day_student_N_t" name="seat_day_price[S][N][T]" value="{{  $sl_price_day['S']['N']['T'] }}" placeholder="학생 요금"></td>
+                                        <td class=" text-center"><input type="number" class="in_price student rseatlevel col-12" id="price_day_student_N_r" name="seat_day_price[S][N][R]" value="{{  $sl_price_day['S']['N']['R'] }}" placeholder="학생 독서실요금"></td>
+                                        <td class=" text-center"><input type="number" class="in_price student sseatlevel col-12" id="price_day_student_N_s" name="seat_day_price[S][N][S]" value="{{  $sl_price_day['S']['N']['S'] }}" placeholder="학생 스터디룸 요금"></td>
                                     </tr>
                                     <tr class="price_row">
-                                        <td><input type="number" class="in_price adult total col-12" id="price_day_adult_N_t" name="seat_day_price[A][N][T]" value="{{  $sl_price_time['A']['N']['T'] }}" placeholder="성인 요금"></td>
-                                        <td><input type="number" class="in_price adult rseatlevel col-12" id="price_day_adult_N_r" name="seat_day_price[A][N][R]" value="{{  $sl_price_time['A']['N']['R'] }}" placeholder="성인 독서실요금"></td>
-                                        <td><input type="number" class="in_price adult sseatlevel col-12" id="price_day_adult_N_s" name="seat_day_price[A][N][S]" value="{{  $sl_price_time['A']['N']['S'] }}" placeholder="성인 스터디룸 요금"></td>
-                                    </tr>
+                                        <td><input type="number" class="in_price adult total col-12" id="price_day_adult_N_t" name="seat_day_price[A][N][T]" value="{{  $sl_price_day['A']['N']['T'] }}" placeholder="성인 요금"></td>
+                                        <td><input type="number" class="in_price adult rseatlevel col-12" id="price_day_adult_N_r" name="seat_day_price[A][N][R]" value="{{  $sl_price_day['A']['N']['R'] }}" placeholder="성인 독서실요금"></td>
+sl_price_day                                    </tr>
                                     <tr class="price_row">
                                         <th scope="row" rowspan="2">연장</th>
-                                        <td class=" text-center"><input type="number" class="in_price student total col-12" id="price_day_student_X_t" name="seat_day_price[S][X][T]" value="{{  $sl_price_time['S']['X']['T'] }}" placeholder="학생 요금"></td>
-                                        <td class=" text-center"><input type="number" class="in_price student rseatlevel col-12" id="price_day_student_X_r" name="seat_day_price[S][X][R]" value="{{  $sl_price_time['S']['X']['R'] }}" placeholder="학생 독서실요금"></td>
-                                        <td class=" text-center"><input type="number" class="in_price student sseatlevel col-12" id="price_day_student_X_s" name="seat_day_price[S][X][S]" value="{{  $sl_price_time['S']['X']['S'] }}" placeholder="학생 스터디룸 요금"></td>
+                                        <td class=" text-center"><input type="number" class="in_price student total col-12" id="price_day_student_X_t" name="seat_day_price[S][X][T]" value="{{  $sl_price_day['S']['X']['T'] }}" placeholder="학생 요금"></td>
+                                        <td class=" text-center"><input type="number" class="in_price student rseatlevel col-12" id="price_day_student_X_r" name="seat_day_price[S][X][R]" value="{{  $sl_price_day['S']['X']['R'] }}" placeholder="학생 독서실요금"></td>
+                                        <td class=" text-center"><input type="number" class="in_price student sseatlevel col-12" id="price_day_student_X_s" name="seat_day_price[S][X][S]" value="{{  $sl_price_day['S']['X']['S'] }}" placeholder="학생 스터디룸 요금"></td>
                                     </tr>
                                     <tr class="price_row">
-                                        <td><input type="number" class="in_price adult total col-12" id="price_day_adult_X_t" name="seat_day_price[A][X][T]" value="{{  $sl_price_time['A']['X']['T'] }}" placeholder="성인 요금"></td>
-                                        <td><input type="number" class="in_price adult rseatlevel col-12" id="price_day_adult_X_r" name="seat_day_price[A][X][R]" value="{{  $sl_price_time['A']['X']['R'] }}" placeholder="성인 독서실요금"></td>
-                                        <td><input type="number" class="in_price adult sseatlevel col-12" id="price_day_adult_X_s" name="seat_day_price[A][X][S]" value="{{  $sl_price_time['A']['X']['S'] }}" placeholder="성인 스터디룸 요금"></td>
+                                        <td><input type="number" class="in_price adult total col-12" id="price_day_adult_X_t" name="seat_day_price[A][X][T]" value="{{  $sl_price_day['A']['X']['T'] }}" placeholder="성인 요금"></td>
+                                        <td><input type="number" class="in_price adult rseatlevel col-12" id="price_day_adult_X_r" name="seat_day_price[A][X][R]" value="{{  $sl_price_day['A']['X']['R'] }}" placeholder="성인 독서실요금"></td>
+                                        <td><input type="number" class="in_price adult sseatlevel col-12" id="price_day_adult_X_s" name="seat_day_price[A][X][S]" value="{{  $sl_price_day['A']['X']['S'] }}" placeholder="성인 스터디룸 요금"></td>
                                     </tr>
                                     <tr class="price_row">
                                         <th scope="row" colspan="2">1시간당 할인율</th>
@@ -330,7 +329,7 @@
                 data: req,
                 success: function (res, textStatus, xhr) {
                     console.log(res);
-
+                    document.location.reload();
 
                 },
                 error: function (xhr, textStatus, errorThrown) {

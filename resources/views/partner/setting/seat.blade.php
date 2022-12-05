@@ -64,7 +64,7 @@
                                         <button type="submit" class="btn btn-secondary px-2 btn-sm col-12">찾기</button>
                                     </div>
                                     <div class="col-md-2 col-sm-2 col-xs-6 mt-1 justify-content-right">
-                                        <a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12" data-bs-toggle="modal" data-bs-target="#seatFormModal">신규</a>
+                                        <a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12 seat_item" data-bs-toggle="modal" data-bs-target="#seatFormModal">신규</a>
                                     </div>
                                 </div>
                             </form>
@@ -125,6 +125,16 @@
                                 </tbody>
                             </table>
                         </div>
+                        
+
+                        @foreach($errors->all() as $error)
+                            {{ $error }}
+                        @endforeach
+                        <div class="card-body d-flex justify-content-center">
+                            {{ $seats->appends($param)->links() }}
+                        </div>                         
+
+
                         <div class="card-body">
                             <div class='row'>
                                 <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
@@ -393,9 +403,14 @@
 
             // 좌석 선택
             $(document).on("click", ".seat_item", function () {
-                var r_no = $(this).attr("seat");
-                console.log("선택좌석: "+r_no);
-                seat_getInfo(r_no);
+                var s_no = $(this).attr("seat");
+
+                if( s_no != undefined ) {
+                    console.log("선택좌석: "+s_no);
+                    seat_getInfo(s_no);
+                } else {
+                    $("#frm_seatInfo")[0].reset();
+                }
                 $("#seatFormModal").modal("show");
             });
 

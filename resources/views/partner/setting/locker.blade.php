@@ -56,7 +56,7 @@
                                         <button type="submit" class="btn btn-secondary px-2 btn-sm col-12">찾기</button>
                                     </div>
                                     <div class="col-md-2 col-sm-2 col-xs-6 mt-1 justify-content-right">
-                                        <a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12" data-bs-toggle="modal" data-bs-target="#lockerFormModal">신규</a>
+                                        <a href="javascript:;" class="btn btn-warning px-2 btn-sm col-12 locker_item" data-bs-toggle="modal" data-bs-target="#lockerFormModal">신규</a>
                                     </div>
                                 </div>
                             </form>
@@ -101,7 +101,7 @@
                                         <button class="btn btn-xs btn-primary">키오스크</button>
                                         @endif
                                     </td>
-                                    <td><a href="javascript:;" class="btn btn-secondary btn-xs" data-bs-toggle="modal" data-bs-target="#lockerFormModal">관리</a></td>
+                                    <td><a href="javascript:;" class="btn btn-secondary btn-xs locker_item" locker="{{ $locker->l_no  }}" data-bs-toggle="modal" data-bs-target="#lockerFormModal">관리</a></td>
                                 </tr>
                                 @endforeach
                                 @endif
@@ -148,7 +148,13 @@
                                 <div class="col-md-12">
                                     <label for="name" class="form-label">구역</label>
                                     <div class="input-group">
-                                        <select name="area" id="area" class="form-control form-select-sm col-12">
+                                        <select class="single-select form-control-sm col-12" name="area" id="area">
+                                            <option value="area" <?php if( isset($param['area']) && $param['area'] == "area" ) {?> selected<?}?>>전체</option>
+                                            @if( $locker_areas )
+                                            @foreach( $locker_areas as $li => $locker_area )                                    
+                                            <option value="{{ $locker_area['la_no'] ?? '' }}" <?php if(isset($param['area']) && $param['area'] == $locker_area['la_no'] ) {?> selected<?}?>>{{ $locker_area['la_name'] ?? '' }}</option>
+                                            @endforeach
+                                            @endif    
                                         </select>
                                     </div>
                                 </div>
@@ -255,20 +261,22 @@
     <script>
 
         $(document).ready(function () {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+
 
             $(document).on("click", ".locker_item", function () {
-                var r_no = $(this).attr("locker");
-                locker_getInfo(r_no);
-                console.log(r_no);
+                var l_no = $(this).attr("locker");
+                if( l_no != undefined )  {
+                    locker_getInfo(l_no);
+                } else {
+                    $("#frm_lockerInfo")[0].reset();
+                }
+                console.log(l_no);
             });
+
             $(document).on("click", "#btn_locker_update", function () {
                 locker_update();
             });
+
             $(document).on("click", "#btn_locker_delete", function () {
                 if (confirm("삭제하시겠습니까?") == true) {
                     locker_delete();
@@ -338,7 +346,7 @@
             var req = "no=" + no;
             console.log(req)
             $.ajax({
-                url: '/setting/locker_level/getInfo',
+                url: '/setting/locker/getInfo',
                 type: 'POST',
                 async: true,
                 beforeSend: function (xhr) {
@@ -348,12 +356,14 @@
                 success: function (res, textStatus, xhr) {
                     console.log(res);
                     if (res.locker != null) {
-                        $("#no").val(res.locker.no);
+                        $("#frm_lockerInfo #no").val(res.locker.no);
                         //$("#aid").val(res.locker.id).attr("readonly", true);
-                        $("#name").val(res.locker.name);
-                        $("#type"+res.locker.type).prop("checked","checked");
-                        $("#state").val(res.locker.state);
-                        $("#sex").val(res.locker.sex);
+                        $("#frm_lockerInfo #name").val(res.locker.name);
+                        $("#frm_lockerInfo #area").val(res.locker.area);
+                        console.log(res.locker.area);
+                        $("#frm_lockerInfo #type"+res.locker.type).prop("checked","checked");
+                        $("#frm_lockerInfo #state").val(res.locker.state);
+                        $("#frm_lockerInfo #sex").val(res.locker.sex);
                     } else {
                         $("#lockerDetail_msg").html(res.message);
                         console.log("실패.");

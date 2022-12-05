@@ -48,13 +48,19 @@ class FrenchLoginController extends Controller
 
         if( $FrenchManager = FrenchManager::where('mn_id', $request->login_id)->first() ) {
 
-            if (Auth::guard('partner')->attempt(['mn_id' => $request->login_id, 'password' => $request->login_pw], $request->get('remember'))) {
+            if( $FrenchManager->mn_state == "Y" ){
+                if (Auth::guard('partner')->attempt(['mn_id' => $request->login_id, 'password' => $request->login_pw], $request->get('remember'))) {
 
-                return redirect()->intended('/'); //요거는 계속 header 문제를 일으킴.
-                //return redirect()->route('partnerhome'); //요거도 마찬가지네 그려.
-            } 
+                    return redirect()->intended('/'); //요거는 계속 header 문제를 일으킴.
+                    //return redirect()->route('partnerhome'); //요거도 마찬가지네 그려.
+                }  else {
+                    return back()->withErrors(['msg' => '패스워드가 일치하지 않습니다.'])->withInput($request->only('login_id', 'remember'));
+                }
+            } else {
+                return back()->withErrors(['msg' => '로그인 할수 없는 아이디입니다.']);
+            }
         } else {
-            return back()->withErrors(['msg' => '아이디가 존재하지 않습니다.']);
+            return back()->withErrors(['msg' => '아이디가 존재하지 않습니다.'])->withInput($request->only('login_id', 'remember'));
         }
         return back()->withInput($request->only('login_id', 'remember'));
     }

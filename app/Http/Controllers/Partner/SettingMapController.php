@@ -120,6 +120,9 @@ class SettingMapController extends Controller
 
         $mapData = json_decode($request->map_data,true);
 
+
+        $result = ['result' => false, "map" => $mapData];
+
         // $FrenchConfig = $this->FrenchConfig->first();
         
         // if( $FrenchConfig ) {
@@ -141,11 +144,12 @@ class SettingMapController extends Controller
         if( $request->map ) {
             
             $this->FrenchMap = \App\Models\FrenchMap::find($request->map);
-            if( !$mapData['bg']['src'] ) {
+            //if( !$mapData['bg']['src'] ) {
                 $this->FrenchMap->m_width = $mapData['bg']['width'] ?? 800;
                 $this->FrenchMap->m_height = $mapData['bg']['height'] ?? 600;
                 $this->FrenchMap->update();
-            }
+            //}
+  
         } else {
             if( !$mapData['bg']['src'] ) {
                 $this->FrenchMap->m_name = "기본";          
