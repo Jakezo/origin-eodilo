@@ -25,14 +25,16 @@ function draw_shape(obj_info,zoomRate){
     var new_id = "shape_" + new_index;
 
     var style= "left:"+obj_info.s_map_x+";left:"+obj_info.s_map_y;
+    console.log("s_name:"+obj_info.s_name + " / s_no:"+obj_info.s_no );
 
-    html += '<div class="shape table btn_seat" id="'+new_id+'" idx='+new_index+' seat="'+obj_info.s_no+'" btn_seatstyle='+style+'>';
+    html += '<div class="shape table btn_seat" id="'+new_id+'" idx='+new_index+' seat="'+obj_info.s_no+'" seat_name="'+obj_info.s_name+'" btn_seatstyle='+style+'>';
     html += '    <div class="status">';
     html += '        <div class="status1"></div>';
     html += '        <div class="status2"></div>';
     html += '    </div>';
     html += '    <div class="name">';
-    html += obj_info.s_name?obj_info.s_name : obj_info.s_no;
+    //html += obj_info.s_name ? obj_info.s_name : obj_info.s_no;
+    html += obj_info.s_name ? obj_info.s_name : obj_info.s_no;
     html += '    </div>';
     html += '</div>';
 
@@ -360,7 +362,11 @@ function redraw_seat(obj_arr_tmp,zoomRate){
                 }
 
                 // 텍스트변경
-                if( zoomRate < 0.3 ) {
+                console.log("결정된 배율 : " + zoomRate);
+                if( zoomRate < 0.1 ) {
+                    console.log("0.1 보다 작을때 : ")
+                    $("#shape_"+i).find(".name").css("font-size","0.2em");
+                } else if( zoomRate < 0.3 ) {
                     console.log("0.3 보다 작을때 : ")
                     $("#shape_"+i).find(".name").css("font-size","0.4em");
                 } else if( zoomRate < 0.5 ) {
@@ -373,6 +379,7 @@ function redraw_seat(obj_arr_tmp,zoomRate){
 
                     if( obj_arr_tmp[i].seat_name != undefined && obj_arr_tmp[i].seat_name != null ) {
                         obj_arr[i].seat_name = obj_arr_tmp[i].seat_name;
+                        console.log("이름바꾸기:"+obj_arr_tmp[i].seat_name);
                         rename_shape(i, obj_arr_tmp[i].seat_name);
                     }
                 }

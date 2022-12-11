@@ -11,7 +11,7 @@ function add_shape(shapeType){
 }
 
 function reload_view_map(){
-    console.log("사이즈변경:");
+    //console.log("사이즈변경:");
     load_view_map(mode)
 };
 
@@ -40,8 +40,8 @@ function load_view_map( mode, room ){
             var roomHeight = res.bg_height ?? 500;
 
             // 영역 너비 확인
-            var targetWidth = $("#page").width();
-            //var targetWidth = roomWidth;
+            //var targetWidth = $("#page").width();
+            var targetWidth = roomWidth;
             $("#page").width(roomWidth);
             $("#page").height(roomHeight);
 
@@ -89,15 +89,13 @@ function load_view_map( mode, room ){
 $(document).ready(function(){
     var reloadTerm = 0
     $("#room_bg").on("resize", function() {
+
         if( reloadTerm == 0 ) {
             reloadTerm = 1;
-            /*
             setTimeout(function () {
-                console.log("배경리사이즈:");
                 reload_view_map(); // mode 유지
                 reloadTerm = 0;
             }, 100);
-            */
         }
 
     });

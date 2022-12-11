@@ -2121,7 +2121,7 @@
                     $('.btn_seat').removeClass("on");
 
                     $('.btn_seat').each(function(index, seat){
-                        $(this).find(".name").html('<span style="font-size:10pt;">'+$(this).attr('seat')+'</span>');
+                        $(this).find(".name").html('<span style="font-size:10pt;">'+$(this).attr('seat_name')+'</span>');
                     })
 
                     if (res.result == true) {
