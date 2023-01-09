@@ -38,7 +38,7 @@
 </style>   
 
 <div class="modal fade" id="bgModal" tabindex="-3" aria-labelledby="bgModalLabel" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="bgModalLabel">배경이미지</h5>
@@ -58,7 +58,17 @@
                         </div>
                     </form>  
                 </div>
+               
 
+            </div>
+            <div class="modal-body">
+
+                <div class="tab-content py-3">
+                         <div class="col-2" id="del_pannel">
+                            <button id="btn_delete_bg" type="button" class="btn btn-dark col-12">기존배경삭제</button>
+                        </div>
+                </div>
+               
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -219,7 +229,7 @@
             <!--end breadcrumb-->
 
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body" style="width:{{ ($bg_width+250) }}px">
                         <div id="page">
 
                             
@@ -280,7 +290,13 @@
                 $("#bgModal").modal("show");
             });
 
-       
+            $(document).on("click", "#btn_delete_bg", function () {
+                if (confirm(" 배경이미지를 삭제하시겠습니까?") == true) {
+                    delete_bg();
+                }
+            });
+            
+
 
         });
 
@@ -396,6 +412,28 @@
             });
 
         }
+        
+        function delete_bg(){
+
+            var formData = new FormData();   
+            formData.append("map",{{ $map ?? 0 }})         
+
+            $.ajax({
+                url: '/setting/map/bg_delete',
+                processData: false,
+                contentType: false,
+                data: formData,                
+                type: 'POST',
+                async: true,
+                success: function (res) {
+                    $("#room_bg").css({"background-image": "url("+res.bg_url+")"}).attr("bg",res.bg_url);
+                    $("#bgModal").modal("hide");
+                  },
+                error: function(xhr, status, msg){
+
+                }
+            });
+        }
 
         function upload_bg(){
 
@@ -417,7 +455,8 @@
                 type: 'POST',
                 async: true,
                 success: function (res) {
-                    $("#room_bg").css({"background": "url("+res.bg.m_bg+")"}).attr("bg",res.bg.m_bg);
+                    console.log(res)
+                    $("#room_bg").css({"background-image": "url("+res.bg_url+")"}).attr("bg",res.bg_url);
                     $("#bgModal").modal("hide");
                   },
                 error: function(xhr, status, msg){

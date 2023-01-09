@@ -622,9 +622,12 @@ Route::domain('{account}.partner.'.env('APP_HOST'))->group(function () {
             });
 
             Route::prefix('/map')->group(function () {
+                
+
                 Route::get('/editor', [SettingMapController::class, 'editor']);
                 Route::any('/update', [SettingMapController::class, 'map_save']);
                 Route::any('/bg_upload', [SettingMapController::class, 'map_bg_upload']);
+                Route::any('/bg_delete', [SettingMapController::class, 'map_bg_delete']);
             });
 
             Route::prefix('/locker_area')->group(function () {

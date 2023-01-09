@@ -177,7 +177,7 @@ class SettingMapController extends Controller
 
     }
 
-    ## 목록
+    ## 배경이미지 업로드
     public function map_bg_upload(Request $request){
         //DB::enableQueryLog();	//query log 시작 선언부
 
@@ -201,7 +201,7 @@ class SettingMapController extends Controller
                 if( $this->FrenchMap->m_bg ) {
                     Storage::disk('ncloud')->delete($this->FrenchMap->m_bg);
                 }
-
+                
                 $this->FrenchMap->m_bg = $upload_res['filepath'] ?? "";
                 //실제 이미지 사이즈를 저장하지 않습니다.
 			    //list($this->FrenchMap->m_width, $this->FrenchMap->m_height ) = getimagesize($NCPdisk->url($upload_res['filepath']));
@@ -211,8 +211,7 @@ class SettingMapController extends Controller
                 $this->FrenchMap->m_height = $request->height;
 
                 $this->FrenchMap->update();
-
-                $result['bg'] = $this->FrenchMap;
+                $result['bg_url'] = $NCPdisk->url($this->FrenchMap->m_bg);
             }               
 
         } else  {
@@ -237,6 +236,33 @@ class SettingMapController extends Controller
             $result['result'] = false;
         }
         */
+
+        return response($result); 
+    }
+
+    ## 배경이미지 삭제
+    public function map_bg_delete(Request $request){
+        //DB::enableQueryLog();	//query log 시작 선언부
+
+        $result = [];
+
+        Config::set('database.connections.partner.database',"boss_".$request->account);
+
+        //$this->FrenchRoom = FrenchRoom::find($request->room);
+        $NCPdisk = new NCPdisk;       
+
+        $this->FrenchMap = \App\Models\FrenchMap::find($request->map);   
+
+        // 기존파일이 있다면 삭제
+        if( $this->FrenchMap->m_bg ) {
+            Storage::disk('ncloud')->delete($this->FrenchMap->m_bg);
+        }
+
+        $this->FrenchMap->m_bg = "";
+
+        $this->FrenchMap->update();
+
+        $result['bg'] = $this->FrenchMap;
 
         return response($result); 
     }

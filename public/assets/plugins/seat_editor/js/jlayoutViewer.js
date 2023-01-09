@@ -68,7 +68,7 @@ function load_view_map( mode, room ){
             redraw_seat(res.seats,zoomRate);
 
 
-                SeatState(); //  manager.blade.php 에 예약상태 가져오는 부분
+                //SeatState(); //  manager.blade.php 에 예약상태 가져오는 부분
                 //$("#room_bg").height(map_data.bg.height * zoomRate);
 
         },
