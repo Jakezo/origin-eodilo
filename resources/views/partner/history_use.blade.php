@@ -82,9 +82,9 @@
                                         <div class="col-md-3 col-sm-3 col-xs-12 mt-1">
                                             <select class="single-select form-control-sm col-12" name="fd" id="fd">
                                                 <option value="">사용자명, 상품명</option>
-                                                <option value="m_name" <?php if( isset($fd) && $fd == "m_name" ) {?> selected<?}?>>사용자명</option>
-                                                <option value="m_id" <?php if( isset($fd) && $fd == "m_id" ) {?> selected<?}?>>회원ID</option>
-                                                <option value="oi_names" <?php if( isset($fd) && $fd == "oi_names" ) {?> selected<?}?>>상품명</option>
+                                                <option value="m_name" <?php if( isset($fd) && $fd == "m_name" ) {?> selected<?php }?>>사용자명</option>
+                                                <option value="m_id" <?php if( isset($fd) && $fd == "m_id" ) {?> selected<?php }?>>회원ID</option>
+                                                <option value="oi_names" <?php if( isset($fd) && $fd == "oi_names" ) {?> selected<?php }?>>상품명</option>
                                             </select>
                                         </div>
                                         <div class="col-md-7 col-sm-5 col-xs-12 mt-1">

@@ -24,7 +24,7 @@ class CreateFrenchRoomsTable extends Migration
             $table->char('r_state_mobile',1)->default('Y')->comment('모바일사용여부');
             $table->char('r_state_kiosk',1)->default('Y')->comment('키오스크사용여부');
             $table->char('r_sex',1)->default('M')->comment('파트너번호'); // A : 제한없음 M : 남자 F : 여자
-            $table->text('r_map')->default('')->comment('맵포지션정보');
+            $table->text('r_map')->nullable()->comment('맵포지션정보');
             $table->char('r_type',1)->default('R')->comment('구분'); // R : 룸 S : 스터디룸
             $table->string('r_iot1',20)->default('')->comment('IOT1');
             $table->string('r_iot2',20)->default('')->comment('IOT2');

@@ -14,11 +14,11 @@ class CreatePartnerFavoritesTable extends Migration
     public function up()
     {
         Schema::create('partner_favorites', function (Blueprint $table) {
-            $table->id('fv_no')->default(0)->comment('파트너번호');
+            $table->id('fv_no')->comment('파트너번호');
             $table->unsignedInteger('fv_partner')->default(0)->comment('가맹점번호');
             $table->unsignedInteger('fv_user')->default(0)->comment('회원번호');
             $table->char('fv_cancel', 1)->default('N')->comment('취소여부');
-            $table->datetime('fv_cancel_dt')->comment('취소일시');
+            $table->datetime('fv_cancel_dt')->nullable()->comment('취소일시');
             $table->timestamps();
             $table->SoftDeletes();
         });

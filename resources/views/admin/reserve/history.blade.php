@@ -77,9 +77,9 @@
                                         <div class="col-md-3 col-sm-3 col-xs-12 mt-1">
                                             <select class="single-select form-control-sm col-12" name="fd" id="fd">
                                                 <option value="">사용자명, 상품명</option>
-                                                <option value="nickname" <?php if( isset($param['fd']) && $param['fd'] == "m_name" ) {?> selected<?}?>>사용자명</option>
-                                                <option value="id" <?php if( isset($param['fd']) && $param['fd'] == "m_id" ) {?> selected<?}?>>회원ID</option>
-                                                <option value="p_name" <?php if( isset($fd) && $param['fd'] == "p_name" ) {?> selected<?}?>>가맹점명</option>
+                                                <option value="nickname" <?php if( isset($param['fd']) && $param['fd'] == "m_name" ) {?> selected<?php }?>>사용자명</option>
+                                                <option value="id" <?php if( isset($param['fd']) && $param['fd'] == "m_id" ) {?> selected<?php }?>>회원ID</option>
+                                                <option value="p_name" <?php if( isset($fd) && $param['fd'] == "p_name" ) {?> selected<?php }?>>가맹점명</option>
                                             </select>
                                         </div>
                                         <div class="col-md-7 col-sm-5 col-xs-12 mt-1">

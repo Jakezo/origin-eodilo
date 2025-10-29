@@ -38,25 +38,25 @@
                                 <div class='row'>
                                     <div class="col-md-2 col-sm-4 col-xs-12 mt-1">
                                         <select class="single-select form-control-sm col-12" name="estimate" id="estimate">
-                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?}?>>2021</option>
-                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?}?>>2020</option>
+                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?php }?>>2021</option>
+                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?php }?>>2020</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2 col-sm-4 col-xs-12 mt-1">
                                         <select class="single-select form-control-sm col-12" name="estimate" id="estimate">
-                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?}?>>전체</option>
-                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?}?>>01</option>
-                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?}?>>02</option>
-                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?}?>>03</option>
-                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?}?>>04</option>
-                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?}?>>05</option>
-                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?}?>>06</option>
-                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?}?>>07</option>
-                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?}?>>08</option>
-                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?}?>>09</option>
-                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?}?>>10</option>
-                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?}?>>11</option>
-                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?}?>>12</option>
+                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?php }?>>전체</option>
+                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?php }?>>01</option>
+                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?php }?>>02</option>
+                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?php }?>>03</option>
+                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?php }?>>04</option>
+                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?php }?>>05</option>
+                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?php }?>>06</option>
+                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?php }?>>07</option>
+                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?php }?>>08</option>
+                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?php }?>>09</option>
+                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?php }?>>10</option>
+                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?php }?>>11</option>
+                                            <option value="" <?php if( $_GET["estimate"] == "Y" ) {?> selected<?php }?>>12</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3 col-sm-4 col-xs-12 mt-1">

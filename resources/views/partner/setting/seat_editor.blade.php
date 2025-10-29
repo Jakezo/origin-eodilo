@@ -24,7 +24,7 @@
                                         <select class="single-select form-control-sm col-12" name="room" id="room" onchange="window.location='{{ $PHP_SELF ?? "" }}?no={{ $_GET['idx'] ?? "" }}&room='+this.value">
                                             <option value=''>룸선택</option>
                                             <?php foreach( $room_arr as $ri => $room_info ){?>
-                                                <option value='{{ $room_info->r_no }}' <?if( isset($no) && $no == $room_info->r_no ) {?> selected<?}?>>{{ $room_info->r_name }}</option>
+                                                <option value='{{ $room_info->r_no }}' <?php if( isset($no) && $no == $room_info->r_no ) {?> selected<?php }?>>{{ $room_info->r_name }}</option>
                                             <?php  }?>
                                         </select>
                                     </div>
@@ -513,7 +513,7 @@
 
             <?php //if( $no ) { ?>
                 setting_map( "edit", {{ $no ?? 0 }} );
-            <?//}?>
+            <?php //}?>
         });
 
     </script>

@@ -41,20 +41,20 @@
                                 <div class='row'>
                                     <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
                                         <select class="single-select form-control-sm col-12" name="fd" id="fd">
-                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>룸전체</option>
+                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?php }?>>룸전체</option>
                                             @if( $rooms )
                                             @foreach( $rooms as $si => $room )
-                                            <option value="{{ $room->r_no }}" <?php if( isset($no) && $no == $room->r_no ) {?> selected<?}?>>{{ $room->r_name }}</option>
+                                            <option value="{{ $room->r_no }}" <?php if( isset($no) && $no == $room->r_no ) {?> selected<?php }?>>{{ $room->r_name }}</option>
                                             @endforeach
                                             @endif
                                         </select>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
                                         <select class="single-select form-control-sm col-12" name="lv" id="lv">
-                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>등급전체</option>
-                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>A등급</option>
-                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?}?>>B등급</option>
-                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?}?>>C등급</option>
+                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?php }?>>등급전체</option>
+                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?php }?>>A등급</option>
+                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?php }?>>B등급</option>
+                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?php }?>>C등급</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3 col-sm-5 col-xs-12 mt-1">
@@ -145,7 +145,7 @@
                                         <option value="">룸전체</option>
                                         @if( $rooms )
                                         @foreach( $rooms as $si => $room )
-                                        <option value="{{ $room->r_no }}" <?php if( isset($no) && $no == $room->r_no ) {?> selected<?}?>>{{ $room->r_name }}</option>
+                                        <option value="{{ $room->r_no }}" <?php if( isset($no) && $no == $room->r_no ) {?> selected<?php }?>>{{ $room->r_name }}</option>
                                         @endforeach
                                         @endif
                                     </select>

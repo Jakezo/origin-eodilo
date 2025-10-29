@@ -40,10 +40,10 @@
                                 <div class='row'>
                                     <div class="col-md-2 col-sm-6 col-xs-12 mt-1">
                                         <select class="single-select form-control-sm col-12" name="fd" id="fd">
-                                            <option value="" <?php if( !isset($param['fd']) && $param['fd'] == "" ) {?> selected<?}?>>제목+내용+작성자</option>
-                                            <option value="title" <?php if( isset($param['fd']) && $param['fd'] == "title" ) {?> selected<?}?>>제목</option>
-                                            <option value="cont" <?php if( isset($param['fd']) && $param['fd'] == "cont" ) {?> selected<?}?>>내용</option>
-                                            <option value="uname" <?php if( isset($param['fd']) && $param['fd'] == "uname" ) {?> selected<?}?>>작성자</option>
+                                            <option value="" <?php if( !isset($param['fd']) && $param['fd'] == "" ) {?> selected<?php }?>>제목+내용+작성자</option>
+                                            <option value="title" <?php if( isset($param['fd']) && $param['fd'] == "title" ) {?> selected<?php }?>>제목</option>
+                                            <option value="cont" <?php if( isset($param['fd']) && $param['fd'] == "cont" ) {?> selected<?php }?>>내용</option>
+                                            <option value="uname" <?php if( isset($param['fd']) && $param['fd'] == "uname" ) {?> selected<?php }?>>작성자</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4 col-sm-6 col-xs-12 mt-1">

@@ -108,6 +108,13 @@ Route::prefix('/mqtt')->group(function () {
     Route::any('/put', [MqttController::class, 'put']);
 });
 
+// 테스트용 라우트 (도메인 없이 접근)
+Route::get('/test', function() {
+    return 'Server is working! APP_HOST: '.env('APP_HOST');
+});
+
+Route::get('/admin-test', [AdminLoginController::class, 'showAdminLoginForm']);
+
 Route::domain('api.eodilo.com')->group(function () {
     Route::get('/partner/get_list', [PartnerController::class, 'get_list']);
 });
@@ -324,6 +331,11 @@ Route::domain('admin.'.env('APP_HOST'))->group(function () {
             Route::any('update', [CustomdevController::class, 'comm_update']);
             Route::any('delete', [CustomdevController::class, 'comm_delete']);
             Route::any('list', [CustomdevController::class, 'comm_list']);
+        });
+
+        // 테스트
+        Route::get('/test-manual', function() {
+            return 'Manual route is working!';
         });
 
         Route::prefix('/manual')->group(function () {

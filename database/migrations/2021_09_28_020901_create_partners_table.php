@@ -48,10 +48,10 @@ class CreatePartnersTable extends Migration
             $table->string('p_work_time',100)->default('')->comment('영업시작시간');
             $table->string('p_work_close',100)->default('')->comment('영업종료시간');
             $table->string('p_parking')->default('',100)->comment('주차정보');
-            $table->text('p_intro')->default('')->comment('간단한소개');
+            $table->text('p_intro')->nullable()->comment('간단한소개');
             $table->char('p_time_full', 1)->default('N')->comment('24시간운영');
             $table->longtext('p_contents')->default('')->comment('소개');
-            $table->text('p_memo')->default('')->comment('관리자메모');
+            $table->text('p_memo')->nullable()->comment('관리자메모');
             $table->string('p_options',30)->default('')->comment('옵션여부');
             $table->string('p_options_cont',255)->default('')->comment('옵션텍스트');
 

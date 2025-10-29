@@ -21,7 +21,7 @@ class CreateFrenchBoardsTable extends Migration
             $table->unsignedInteger('b_member')->default(0)->comment('작성자');
             $table->string('b_uname',20)->default('')->comment('작성자명');
             $table->string('b_title',100)->default('')->comment('제목');
-            $table->text('b_cont')->default('')->comment('내용');
+            $table->text('b_cont')->nullable()->comment('내용');
             $table->string('b_files',150)->default('')->comment('파일');
             $table->unsignedInteger('b_read')->default(0)->comment('조회수');
             $table->unsignedInteger('b_comment')->default(0)->comment('댓글수');

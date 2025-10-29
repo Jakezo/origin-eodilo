@@ -22,7 +22,7 @@ class CreatePartnerRegsTable extends Migration
             $table->string('pr_pay')->default('N')->comment('결제여부'); // N 무료 / Y 유료
             $table->string('pr_pay_kind')->default('')->comment('결제방법');  // C : 카드결제 / B : 입금
             $table->string('pr_pay_money')->default(0)->comment('결제금액');
-            $table->text('pr_memo')->default('');
+            $table->text('pr_memo')->nullable();
             $table->timestamps();
         });
     }

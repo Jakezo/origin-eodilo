@@ -17,7 +17,7 @@ class PartnerAuthenticate extends Middleware
      * @return string|null
      */
 
-    public function handle(Request $request, Closure $next)
+    public function handle($request, Closure $next, ...$guards)
     {
 
         Config::set('database.connections.partner.database',"boss_".$request->account); 

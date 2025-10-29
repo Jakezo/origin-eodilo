@@ -15,7 +15,7 @@ class Authenticate extends Middleware
      * @return string|null
      */
 
-    public function handle(Request $request, Closure $next)
+    public function handle($request, Closure $next, ...$guards)
     {
 
         if ( Auth::guard("admin")->check() ) {

@@ -206,7 +206,7 @@
                     <select class="single-select form-control-sm col-12" name="map" id="map" onchange="window.location='{{ $PHP_SELF ?? "" }}?map='+this.value">
                         <option value=''>배치도선택</option>
                         <?php foreach( $map_arr as $mi => $map_info ){?>
-                            <option value='{{ $map_info->m_no }}' <?if( isset($map) && $map == $map_info->m_no ) {?> selected<?}?>>{{ $map_info->m_name }}</option>
+                            <option value='{{ $map_info->m_no }}' <?php if( isset($map) && $map == $map_info->m_no ) {?> selected<?php }?>>{{ $map_info->m_name }}</option>
                         <?php  }?>
                     </select>
                 </div>

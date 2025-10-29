@@ -46,7 +46,7 @@
 
                                     <div class="col-sm-2 col-xs-12 mt-1">
                                         <select class="single-select form-control-sm col-12" name="fd" id="fd">
-                                            <option value="b_title" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>제목</option>
+                                            <option value="b_title" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?php }?>>제목</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 col-sm-5 col-xs-12 mt-1">

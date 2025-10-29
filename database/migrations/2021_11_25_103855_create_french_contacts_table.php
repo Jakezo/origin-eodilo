@@ -21,7 +21,7 @@ class CreateFrenchContactsTable extends Migration
             $table->string('c_empname',50)->default('')->comment('담당자이름');
             $table->string('c_phone',20)->default('')->comment('연락처');
             $table->string('c_email',30)->default('')->comment('이메일');
-            $table->text('c_cont')->default('')->comment('기타');
+            $table->text('c_cont')->nullable()->comment('기타');
             $table->timestamps();
             $table->SoftDeletes();
         };

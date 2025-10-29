@@ -44,17 +44,17 @@
                                 <div class='row'>
                                     <!--div class="col-md-2 col-sm-3 col-xs-12 mt-1">
                                         <select class="single-select form-control-sm col-12" name="" id="">
-                                            <option value="" <?php if( isset($fd) && $fd == "" ) {?> selected<?}?>>전체</option>
-                                            <option value="name" <?php if( isset($fd) && $fd == "name" ) {?> selected<?}?>>답변대기</option>
-                                            <option value="title" <?php if( isset($fd) && $fd == "title" ) {?> selected<?}?>>답변완료</option>
+                                            <option value="" <?php if( isset($fd) && $fd == "" ) {?> selected<?php }?>>전체</option>
+                                            <option value="name" <?php if( isset($fd) && $fd == "name" ) {?> selected<?php }?>>답변대기</option>
+                                            <option value="title" <?php if( isset($fd) && $fd == "title" ) {?> selected<?php }?>>답변완료</option>
                                         </select>
                                     </div-->
                                     <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
                                         <select class="single-select form-control-sm col-12" name="fd" id="fd">
-                                            <option value="" <?php if( isset($param['fd']) && $param['fd'] == "" ) {?> selected<?}?>>제목+내용+작성자</option>
-                                            <option value="title" <?php if( isset($param['fd']) && $param['fd'] == "title" ) {?> selected<?}?>>제목</option>
-                                            <option value="cont" <?php if( isset($param['fd']) && $param['fd'] == "cont" ) {?> selected<?}?>>내용</option>
-                                            <option value="uname" <?php if( isset($param['fd']) && $param['fd'] == "uname" ) {?> selected<?}?>>작성자</option>
+                                            <option value="" <?php if( isset($param['fd']) && $param['fd'] == "" ) {?> selected<?php }?>>제목+내용+작성자</option>
+                                            <option value="title" <?php if( isset($param['fd']) && $param['fd'] == "title" ) {?> selected<?php }?>>제목</option>
+                                            <option value="cont" <?php if( isset($param['fd']) && $param['fd'] == "cont" ) {?> selected<?php }?>>내용</option>
+                                            <option value="uname" <?php if( isset($param['fd']) && $param['fd'] == "uname" ) {?> selected<?php }?>>작성자</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3 col-sm-5 col-xs-12 mt-1">

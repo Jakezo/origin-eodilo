@@ -19,13 +19,13 @@ class CreateFrenchSeatLevelsTable extends Migration
             $table->unsignedInteger('sl_partner')->default(0)->comment('가맹점번호');
             $table->string('sl_name',20)->default('')->comment('구분명');
             $table->char('sl_type',1)->default('S')->comment('타입');
-            $table->text('sl_price_time')->default('')->comment('시간금액정보');
-            $table->text('sl_price_day')->default('')->comment('기간금액정보');
+            $table->text('sl_price_time')->nullable()->comment('시간금액정보');
+            $table->text('sl_price_day')->nullable()->comment('기간금액정보');
 
-            $table->text('sl_rate_student_time')->float(5,2)->comment('학생시간할인율');
-            $table->text('sl_rate_student_day')->default(5,2)->comment('학생기간할인율');
-            $table->text('sl_rate_adult_time')->default(5,2)->comment('성인시간할인율');
-            $table->text('sl_rate_adult_day')->default(5,2)->comment('성인기간할인율');
+            $table->text('sl_rate_student_time')->nullable()->comment('학생시간할인율');
+            $table->text('sl_rate_student_day')->nullable()->comment('학생기간할인율');
+            $table->text('sl_rate_adult_time')->nullable()->comment('성인시간할인율');
+            $table->text('sl_rate_adult_day')->nullable()->comment('성인기간할인율');
 
             $table->SoftDeletes();
             $table->timestamps();

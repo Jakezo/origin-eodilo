@@ -18,7 +18,7 @@ class CreateUserMessagesTable extends Migration
             $table->unsignedInteger('msg_member')->default(0)->comment('작성자');
             $table->string('msg_icon',1)->default('')->comment('아이콘종류');
             $table->string('msg_title',100)->default('')->comment('제목');
-            $table->text('msg_cont')->default('')->comment('내용');
+            $table->text('msg_cont')->nullable()->comment('내용');
             $table->string('msg_sms',1)->default('N')->comment('SMS여부');
             $table->string('msg_kakao',1)->default('N')->comment('카카오톡여부');
             $table->string('msg_push',1)->default('N')->comment('푸쉬여부');

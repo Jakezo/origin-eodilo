@@ -23,8 +23,8 @@ class CreateEventsTable extends Migration
             $table->string('e_type',1)->default('A')->comment('할인타입제목');  ## A 할인없음 P 금액 또는 R 할인율
             $table->unsignedInteger('e_value',0)->default(0)->comment('할인값');
             $table->string('e_title',100)->default('')->comment('제목');
-            $table->text('e_cont')->default('')->comment('내용');
-            $table->text('e_cont2')->default('')->comment('이벤트 유의사항');
+            $table->text('e_cont')->nullable()->comment('내용');
+            $table->text('e_cont2')->nullable()->comment('이벤트 유의사항');
 
             $table->string('e_img1',100)->default('')->comment('목록이미지');
             $table->string('e_img2',100)->default('')->comment('상세이미지1');

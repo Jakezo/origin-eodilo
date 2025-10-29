@@ -20,14 +20,14 @@ class CreateCustomdevsTable extends Migration
             $table->string('q_uname',20)->default('')->comment('작성자명');
             $table->string('q_uemail',50)->default('')->comment('작성자이메일');
             $table->string('q_title',100)->default('')->comment('제목');
-            $table->text('q_cont')->default('')->comment('내용');
+            $table->text('q_cont')->nullable()->comment('내용');
             $table->string('q_file',150)->default('')->comment('첨부파일');
             $table->string('q_read',1)->default('N')->comment('조회여부');
             $table->string('a_answer',1)->default('N')->comment('답변여부');
             $table->timestamp('a_answer_at')->comment('답변일시');
             $table->unsignedInteger('a_admin')->default(0)->comment('답변작성자');
             $table->string('a_title',100)->default('')->comment('답변제목');
-            $table->text('a_cont')->default('')->comment('답변내용');
+            $table->text('a_cont')->nullable()->comment('답변내용');
             $table->timestamps();
         });
     }

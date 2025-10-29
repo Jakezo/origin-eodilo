@@ -22,7 +22,7 @@ class CreatePartnerCouponsTable extends Migration
             $table->string('c_type',1)->default('A')->comment('할인타입제목');  ## A 할인없음 P 금액 또는 R 할인율
             $table->unsignedInteger('c_value',0)->default(0)->comment('할인값');
             $table->string('c_title',100)->default('')->comment('제목');
-            $table->text('c_cont')->default('')->comment('내용');
+            $table->text('c_cont')->nullable()->comment('내용');
             $table->string('c_read',1)->default('N')->comment('조회여부');
             $table->SoftDeletes();
             $table->timestamps();

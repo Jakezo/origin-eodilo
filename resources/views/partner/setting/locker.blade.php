@@ -41,10 +41,10 @@
                                 <div class='row'>
                                     <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
                                         <select class="single-select form-control-sm col-12" name="area" id="area" onchange="this.form.submit()">
-                                            <option value="area" <?php if( isset($param['area']) && $param['area'] == "area" ) {?> selected<?}?>>전체</option>
+                                            <option value="area" <?php if( isset($param['area']) && $param['area'] == "area" ) {?> selected<?php }?>>전체</option>
                                             @if( $locker_areas )
                                             @foreach( $locker_areas as $li => $locker_area )                                    
-                                            <option value="{{ $locker_area['la_no'] ?? '' }}" <?php if(isset($param['area']) && $param['area'] == $locker_area['la_no'] ) {?> selected<?}?>>{{ $locker_area['la_name'] ?? '' }}</option>
+                                            <option value="{{ $locker_area['la_no'] ?? '' }}" <?php if(isset($param['area']) && $param['area'] == $locker_area['la_no'] ) {?> selected<?php }?>>{{ $locker_area['la_name'] ?? '' }}</option>
                                             @endforeach
                                             @endif    
                                         </select>
@@ -149,10 +149,10 @@
                                     <label for="name" class="form-label">구역</label>
                                     <div class="input-group">
                                         <select class="single-select form-control-sm col-12" name="area" id="area">
-                                            <option value="area" <?php if( isset($param['area']) && $param['area'] == "area" ) {?> selected<?}?>>전체</option>
+                                            <option value="area" <?php if( isset($param['area']) && $param['area'] == "area" ) {?> selected<?php }?>>전체</option>
                                             @if( $locker_areas )
                                             @foreach( $locker_areas as $li => $locker_area )                                    
-                                            <option value="{{ $locker_area['la_no'] ?? '' }}" <?php if(isset($param['area']) && $param['area'] == $locker_area['la_no'] ) {?> selected<?}?>>{{ $locker_area['la_name'] ?? '' }}</option>
+                                            <option value="{{ $locker_area['la_no'] ?? '' }}" <?php if(isset($param['area']) && $param['area'] == $locker_area['la_no'] ) {?> selected<?php }?>>{{ $locker_area['la_name'] ?? '' }}</option>
                                             @endforeach
                                             @endif    
                                         </select>

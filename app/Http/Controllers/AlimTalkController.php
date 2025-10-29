@@ -1,4 +1,4 @@
-<?
+<?php
 use Comento\SensAlimtalk\SensAlimtalkChannel;
 use Comento\SensAlimtalk\SensAlimtalkMessage;
 

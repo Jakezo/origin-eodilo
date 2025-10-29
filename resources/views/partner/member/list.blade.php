@@ -40,17 +40,17 @@
                                 <div class='row'>
                                     <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
                                         <select class="single-select form-control-sm col-12" name="kind" id="kind">
-                                            <option value="" <?php if( isset($param['kind']) && $param['kind'] == "" ) {?> selected<?}?>>전체</option>
-                                            <option value="p" <?php if( isset($param['kind']) && $param['kind'] == "p" ) {?> selected<?}?>>가맹점회원</option>
-                                            <option value="m" <?php if( isset($param['kind']) && $param['kind'] == "m" ) {?> selected<?}?>>모바일회원</option>
+                                            <option value="" <?php if( isset($param['kind']) && $param['kind'] == "" ) {?> selected<?php }?>>전체</option>
+                                            <option value="p" <?php if( isset($param['kind']) && $param['kind'] == "p" ) {?> selected<?php }?>>가맹점회원</option>
+                                            <option value="m" <?php if( isset($param['kind']) && $param['kind'] == "m" ) {?> selected<?php }?>>모바일회원</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
                                         <select class="single-select form-control-sm col-12" name="fd" id="fd">
-                                            <option value="all" <?php if( isset($param['fd']) && $param['fd'] == "all" ) {?> selected<?}?>>이름, 아이디, 전화번호</option>
-                                            <option value="name" <?php if( isset($param['fd']) && $param['fd'] == "name" ) {?> selected<?}?>>이름</option>
-                                            <option value="phone" <?php if( isset($param['fd']) && $param['fd'] == "phone" ) {?> selected<?}?>>전화번호</option>
-                                            <option value="id" <?php if( isset($param['fd']) && $param['fd'] == "id" ) {?> selected<?}?>>아이디</option>
+                                            <option value="all" <?php if( isset($param['fd']) && $param['fd'] == "all" ) {?> selected<?php }?>>이름, 아이디, 전화번호</option>
+                                            <option value="name" <?php if( isset($param['fd']) && $param['fd'] == "name" ) {?> selected<?php }?>>이름</option>
+                                            <option value="phone" <?php if( isset($param['fd']) && $param['fd'] == "phone" ) {?> selected<?php }?>>전화번호</option>
+                                            <option value="id" <?php if( isset($param['fd']) && $param['fd'] == "id" ) {?> selected<?php }?>>아이디</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3 col-sm-5 col-xs-12 mt-1">

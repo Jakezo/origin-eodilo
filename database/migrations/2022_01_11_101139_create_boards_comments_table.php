@@ -19,7 +19,7 @@ class CreateBoardsCommentsTable extends Migration
             $table->unsignedInteger('c_parent')->default(0)->comment('글번호');
             $table->unsignedInteger('c_emp')->default(0)->comment('작성자');
             $table->string('c_uname',20)->default('')->comment('작성자명');
-            $table->text('c_comments')->default('')->comment('댓글내용');
+            $table->text('c_comments')->nullable()->comment('댓글내용');
             $table->SoftDeletes();
             $table->timestamps();
         });

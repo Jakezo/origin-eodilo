@@ -17,7 +17,7 @@ class CreateCustomFaqsTable extends Migration
             $table->id('q_no')->comment('일련번호');
             $table->string('q_kind',20)->default('')->comment('분류');
             $table->string('q_title',100)->default('')->comment('제목');
-            $table->text('q_cont')->default('')->comment('내용');
+            $table->text('q_cont')->nullable()->comment('내용');
             $table->unsignedInteger('q_seq')->default(0)->comment('순서');
             $table->unsignedInteger('q_top')->default(0)->comment('Top 순서');
             $table->unsignedInteger('q_read')->default(0)->comment('조회수');

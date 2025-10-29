@@ -20,7 +20,7 @@ class CreateFrenchMapsTable extends Migration
             $table->string('m_name',50)->default('')->comment('배치도이름');
             $table->unsignedInteger('m_width')->default(1000)->comment('가로크기');
             $table->unsignedInteger('m_height')->default(500)->comment('세로크기');
-            $table->text('m_map')->default('')->comment('맵포지션정보');
+            $table->text('m_map')->nullable()->comment('맵포지션정보');
 
             $table->timestamps();
             $table->SoftDeletes();

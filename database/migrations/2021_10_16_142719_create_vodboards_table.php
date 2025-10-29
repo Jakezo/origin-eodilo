@@ -23,7 +23,7 @@ class CreateVodboardsTable extends Migration
             $table->string('b_uemail',50)->default('');
             $table->string('b_title',100)->default('');
             $table->string('b_vod',150)->default('');
-            $table->text('b_cont')->default('');
+            $table->text('b_cont')->nullable();
             $table->string('b_files',150)->default('');
             $table->unsignedInteger('b_read')->default(0);
             $table->string('b_state',1)->default('Y');

@@ -41,18 +41,18 @@
                                 <div class='row'>
                                     <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
                                         <select class="single-select form-control-sm col-12" name="fd" id="fd">
-                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>구역전체</option>
-                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>1층복도</option>
-                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?}?>>2층복도</option>
-                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?}?>>A룸 입구옆</option>
+                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?php }?>>구역전체</option>
+                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?php }?>>1층복도</option>
+                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?php }?>>2층복도</option>
+                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?php }?>>A룸 입구옆</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
                                         <select class="single-select form-control-sm col-12" name="fd" id="fd">
-                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>구분전체</option>
-                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>상단</option>
-                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?}?>>중앙</option>
-                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?}?>>하단</option>
+                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?php }?>>구분전체</option>
+                                            <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?php }?>>상단</option>
+                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?php }?>>중앙</option>
+                                            <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?php }?>>하단</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3 col-sm-5 col-xs-12 mt-1">
@@ -225,10 +225,10 @@
                                 </div>
                                 <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
                                     <select class="single-select form-control-xs col-12" name="fd" id="fd">
-                                        <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>등급전체</option>
-                                        <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?}?>>A등급</option>
-                                        <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?}?>>B등급</option>
-                                        <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?}?>>C등급</option>
+                                        <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?php }?>>등급전체</option>
+                                        <option value="p_name" <?php if( isset($fd) && $fd == "p_name" ) {?> selected<?php }?>>A등급</option>
+                                        <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?php }?>>B등급</option>
+                                        <option value="p_emp_name" <?php if( isset($fd) && $fd == "p_emp_name" ) {?> selected<?php }?>>C등급</option>
                                     </select>
                                 </div>
                                 <div class="col-md-2 col-sm-3 col-xs-12 mt-1">
