@@ -54,7 +54,7 @@ Set your key and defaults in `config/sens-alimtalk.php`:
 /*
  * Service ID issued when you add a project
  */
-'serviceId' => '',
+'service_id' => '',
 
 /*
  * KakaoTalk Channel ID ((Old) Plus Friend ID)
@@ -114,6 +114,7 @@ class MentoringAdopt extends Notification
 * `reserveAfterDay(int)`
 * `variables(array)`
 * `utmSource(string)`
+* `setPlusFriendId(string)`
 
 ## Changelog
 

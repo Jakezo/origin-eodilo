@@ -2,18 +2,18 @@
 
 namespace Doctrine\DBAL\SQL;
 
+use Doctrine\DBAL\SQL\Parser\Exception;
+use Doctrine\DBAL\SQL\Parser\Exception\RegularExpressionError;
 use Doctrine\DBAL\SQL\Parser\Visitor;
 
 use function array_merge;
-use function assert;
-use function current;
 use function implode;
-use function key;
-use function next;
+use function preg_last_error;
 use function preg_match;
-use function reset;
 use function sprintf;
 use function strlen;
+
+use const PREG_NO_ERROR;
 
 /**
  * The SQL parser that focuses on identifying prepared statement parameters. It implements parsing other tokens like
@@ -27,20 +27,20 @@ use function strlen;
  */
 final class Parser
 {
-    private const ANY     = '.';
-    private const SPECIAL = '[:\?\'"`\\[\\-\\/]';
+    private const SPECIAL_CHARS = ':\?\'"`\\[\\-\\/';
 
     private const BACKTICK_IDENTIFIER  = '`[^`]*`';
     private const BRACKET_IDENTIFIER   = '(?<!\b(?i:ARRAY))\[(?:[^\]])*\]';
     private const MULTICHAR            = ':{2,}';
     private const NAMED_PARAMETER      = ':[a-zA-Z0-9_]+';
-    private const POSITIONAL_PARAMETER = '\\?';
+    private const POSITIONAL_PARAMETER = '(?<!\\?)\\?(?!\\?)';
     private const ONE_LINE_COMMENT     = '--[^\r\n]*';
     private const MULTI_LINE_COMMENT   = '/\*([^*]+|\*+[^/*])*\**\*/';
-    private const OTHER                = '((?!' . self::SPECIAL . ')' . self::ANY . ')+';
+    private const SPECIAL              = '[' . self::SPECIAL_CHARS . ']';
+    private const OTHER                = '[^' . self::SPECIAL_CHARS . ']+';
 
-    /** @var string */
-    private $sqlPattern;
+    private string $sqlPattern;
+    private string $tokenPattern;
 
     public function __construct(bool $mySQLStringEscaping)
     {
@@ -65,49 +65,46 @@ final class Parser
             self::OTHER,
         ]);
 
-        $this->sqlPattern = sprintf('(%s)+', implode('|', $patterns));
+        $this->sqlPattern   = sprintf('(%s)', implode('|', $patterns));
+        $this->tokenPattern = '~\\G'
+            . '(?P<named>' . self::NAMED_PARAMETER . ')'
+            . '|(?P<positional>' . self::POSITIONAL_PARAMETER . ')'
+            . '|(?P<other>' . $this->sqlPattern . '|' . self::SPECIAL . ')'
+            . '~s';
     }
 
     /**
      * Parses the given SQL statement
+     *
+     * @throws Exception
      */
     public function parse(string $sql, Visitor $visitor): void
     {
-        /** @var array<string,callable> $patterns */
-        $patterns = [
-            self::NAMED_PARAMETER => static function (string $sql) use ($visitor): void {
-                $visitor->acceptNamedParameter($sql);
-            },
-            self::POSITIONAL_PARAMETER => static function (string $sql) use ($visitor): void {
-                $visitor->acceptPositionalParameter($sql);
-            },
-            $this->sqlPattern => static function (string $sql) use ($visitor): void {
-                $visitor->acceptOther($sql);
-            },
-            self::SPECIAL => static function (string $sql) use ($visitor): void {
-                $visitor->acceptOther($sql);
-            },
-        ];
-
         $offset = 0;
+        $length = strlen($sql);
+        while ($offset < $length) {
+            if (preg_match($this->tokenPattern, $sql, $matches, 0, $offset) === 1) {
+                $match = $matches[0];
+                if ($matches['named'] !== '') {
+                    $visitor->acceptNamedParameter($match);
+                } elseif ($matches['positional'] !== '') {
+                    $visitor->acceptPositionalParameter($match);
+                } else {
+                    $visitor->acceptOther($match);
+                }
 
-        while (($handler = current($patterns)) !== false) {
-            if (preg_match('~\G' . key($patterns) . '~s', $sql, $matches, 0, $offset) === 1) {
-                $handler($matches[0]);
-                reset($patterns);
-
-                $offset += strlen($matches[0]);
-            } else {
-                next($patterns);
+                $offset += strlen($match);
+            } elseif (preg_last_error() !== PREG_NO_ERROR) {
+                // @codeCoverageIgnoreStart
+                throw RegularExpressionError::new();
+                // @codeCoverageIgnoreEnd
             }
         }
-
-        assert($offset === strlen($sql));
     }
 
     private function getMySQLStringLiteralPattern(string $delimiter): string
     {
-        return $delimiter . '((\\\\' . self::ANY . ')|(?![' . $delimiter . '\\\\])' . self::ANY . ')*' . $delimiter;
+        return $delimiter . '((\\\\.)|(?![' . $delimiter . '\\\\]).)*' . $delimiter;
     }
 
     private function getAnsiSQLStringLiteralPattern(string $delimiter): string

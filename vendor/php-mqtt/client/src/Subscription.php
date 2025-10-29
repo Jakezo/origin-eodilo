@@ -11,31 +11,22 @@ namespace PhpMqtt\Client;
  */
 class Subscription
 {
-    private string $topicFilter;
     private string $regexifiedTopicFilter;
-    private int $qualityOfService;
-    private ?\Closure $callback;
 
     /**
      * Creates a new subscription object.
-     *
-     * @param string        $topicFilter
-     * @param int           $qualityOfService
-     * @param \Closure|null $callback
      */
-    public function __construct(string $topicFilter, int $qualityOfService = 0, ?\Closure $callback = null)
+    public function __construct(
+        private string $topicFilter,
+        private int $qualityOfService = 0,
+        private ?\Closure $callback = null,
+    )
     {
-        $this->topicFilter      = $topicFilter;
-        $this->qualityOfService = $qualityOfService;
-        $this->callback         = $callback;
-
         $this->regexifyTopicFilter();
     }
 
     /**
      * Converts the topic filter into a regular expression.
-     *
-     * @return void
      */
     private function regexifyTopicFilter(): void
     {
@@ -45,17 +36,15 @@ class Subscription
         // from the topic filter. To do so, we look for the $share keyword and then try to find the second topic separator to
         // calculate the substring containing the actual topic filter.
         // Note: shared subscriptions always have the form: $share/<group>/<topic>
-        if (strpos($topicFilter, '$share/') === 0 && ($separatorIndex = strpos($topicFilter, '/', 7)) !== false) {
+        if (str_starts_with($topicFilter, '$share/') && ($separatorIndex = strpos($topicFilter, '/', 7)) !== false) {
             $topicFilter = substr($topicFilter, $separatorIndex + 1);
         }
 
-        $this->regexifiedTopicFilter = '/^' . str_replace(['$', '/', '+', '#'], ['\$', '\/', '[^\/]*', '.*'], $topicFilter) . '$/';
+        $this->regexifiedTopicFilter = '/^' . str_replace(['$', '/', '+', '#'], ['\$', '\/', '([^\/]*)', '(.*)'], $topicFilter) . '$/';
     }
 
     /**
      * Returns the topic of the subscription.
-     *
-     * @return string
      */
     public function getTopicFilter(): string
     {
@@ -64,9 +53,6 @@ class Subscription
 
     /**
      * Matches the given topic name matches to the subscription's topic filter.
-     *
-     * @param string $topicName
-     * @return bool
      */
     public function matchesTopic(string $topicName): bool
     {
@@ -74,9 +60,28 @@ class Subscription
     }
 
     /**
-     * Returns the callback for this subscription.
+     * Returns an array which contains all matched wildcards of this subscription, taken from the given topic name.
      *
-     * @return \Closure|null
+     * Example:
+     *   Subscription topic filter: foo/+/bar/+/baz/#
+     *   Result for 'foo/1/bar/2/baz': ['1', '2']
+     *   Result for 'foo/my/bar/subscription/baz/42': ['my', 'subscription', '42']
+     *   Result for 'foo/my/bar/subscription/baz/hello/world/123': ['my', 'subscription', 'hello', 'world', '123']
+     *   Result for invalid topic 'some/topic': []
+     *
+     * Note: This method should only be called if {@see matchesTopic} returned true. An empty array will be returned otherwise.
+     */
+    public function getMatchedWildcards(string $topicName): array
+    {
+        if (!preg_match($this->regexifiedTopicFilter, $topicName, $matches)) {
+            return [];
+        }
+
+        return array_slice($matches, 1);
+    }
+
+    /**
+     * Returns the callback for this subscription.
      */
     public function getCallback(): ?\Closure
     {
@@ -85,8 +90,6 @@ class Subscription
 
     /**
      * Returns the requested quality of service level.
-     *
-     * @return int
      */
     public function getQualityOfServiceLevel(): int
     {
@@ -95,9 +98,6 @@ class Subscription
 
     /**
      * Sets the actual quality of service level.
-     *
-     * @param int $qualityOfService
-     * @return void
      */
     public function setQualityOfServiceLevel(int $qualityOfService): void
     {

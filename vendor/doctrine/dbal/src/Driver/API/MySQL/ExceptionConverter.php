@@ -8,6 +8,7 @@ use Doctrine\DBAL\Driver\API\ExceptionConverter as ExceptionConverterInterface;
 use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\DBAL\Exception\ConnectionLost;
+use Doctrine\DBAL\Exception\DatabaseDoesNotExist;
 use Doctrine\DBAL\Exception\DeadlockException;
 use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
@@ -21,9 +22,9 @@ use Doctrine\DBAL\Exception\TableNotFoundException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Query;
 
-/**
- * @internal
- */
+use function strpos;
+
+/** @internal */
 final class ExceptionConverter implements ExceptionConverterInterface
 {
     /**
@@ -33,6 +34,9 @@ final class ExceptionConverter implements ExceptionConverterInterface
     public function convert(Exception $exception, ?Query $query): DriverException
     {
         switch ($exception->getCode()) {
+            case 1008:
+                return new DatabaseDoesNotExist($exception, $query);
+
             case 1213:
                 return new DeadlockException($exception, $query);
 
@@ -83,6 +87,15 @@ final class ExceptionConverter implements ExceptionConverterInterface
             case 1626:
                 return new SyntaxErrorException($exception, $query);
 
+            case 1524:
+                if (strpos($exception->getMessage(), 'Plugin \'mysql_native_password\' is not loaded') === false) {
+                    break;
+                }
+
+                // Workaround for MySQL 8.4 if we request an unknown user.
+                // https://bugs.mysql.com/bug.php?id=114876
+                return new ConnectionException($exception, $query);
+
             case 1044:
             case 1045:
             case 1046:
@@ -95,9 +108,11 @@ final class ExceptionConverter implements ExceptionConverterInterface
             case 1429:
             case 2002:
             case 2005:
+            case 2054:
                 return new ConnectionException($exception, $query);
 
             case 2006:
+            case 4031:
                 return new ConnectionLost($exception, $query);
 
             case 1048:

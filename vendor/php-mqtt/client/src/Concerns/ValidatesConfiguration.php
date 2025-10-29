@@ -21,8 +21,6 @@ trait ValidatesConfiguration
      * which means they are misconfigured, an exception containing information about
      * the configuration error is thrown.
      *
-     * @param ConnectionSettings $settings
-     * @return void
      * @throws ConfigurationInvalidException
      */
     protected function ensureConnectionSettingsAreValid(ConnectionSettings $settings): void
@@ -41,6 +39,14 @@ trait ValidatesConfiguration
 
         if ($settings->getKeepAliveInterval() < 1 || $settings->getKeepAliveInterval() > 65535) {
             throw new ConfigurationInvalidException('The keep alive interval must be a value in the range of 1 to 65535 seconds.');
+        }
+
+        if ($settings->getMaxReconnectAttempts() < 1) {
+            throw new ConfigurationInvalidException('The maximum reconnect attempts cannot be fewer than 1.');
+        }
+
+        if ($settings->getDelayBetweenReconnectAttempts() < 0) {
+            throw new ConfigurationInvalidException('The delay between reconnect attempts cannot be lower than 0.');
         }
 
         if ($settings->getUsername() !== null && trim($settings->getUsername()) === '') {

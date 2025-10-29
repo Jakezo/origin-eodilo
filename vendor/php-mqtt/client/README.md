@@ -23,7 +23,7 @@ The package is available on [packagist.org](https://packagist.org/packages/php-m
 composer require php-mqtt/client
 ```
 
-The package requires PHP version 7.4 or higher.
+The package requires PHP version 8.0 or higher.
 
 ## Usage
 
@@ -60,7 +60,7 @@ $clientId = 'test-subscriber';
 
 $mqtt = new \PhpMqtt\Client\MqttClient($server, $port, $clientId);
 $mqtt->connect();
-$mqtt->subscribe('php-mqtt/client/test', function ($topic, $message) {
+$mqtt->subscribe('php-mqtt/client/test', function ($topic, $message, $retained, $matchedWildcards) {
     echo sprintf("Received message on topic [%s]: %s\n", $topic, $message);
 }, 0);
 $mqtt->loop(true);
@@ -80,7 +80,7 @@ pcntl_signal(SIGINT, function (int $signal, $info) use ($mqtt) {
     $mqtt->interrupt();
 });
 $mqtt->connect();
-$mqtt->subscribe('php-mqtt/client/test', function ($topic, $message) {
+$mqtt->subscribe('php-mqtt/client/test', function ($topic, $message, $retained, $matchedWildcards) {
     echo sprintf("Received message on topic [%s]: %s\n", $topic, $message);
 }, 0);
 $mqtt->loop(true);
@@ -142,6 +142,13 @@ $connectionSettings = (new \PhpMqtt\Client\ConnectionSettings)
     // The password used for authentication when connecting to the broker.
     ->setPassword(null)
     
+    // Whether to use a blocking socket when publishing messages or not.
+    // Normally, this setting can be ignored. When publishing large messages with multiple kilobytes in size,
+    // a blocking socket may be required if the receipt buffer of the broker is not large enough.
+    //
+    // Note: This setting has no effect on subscriptions, only on the publishing of messages.
+    ->useBlockingSocket(false)
+    
     // The connect timeout defines the maximum amount of seconds the client will try to establish
     // a socket connection with the broker. The value cannot be less than 1 second.
     ->setConnectTimeout(60)
@@ -154,6 +161,19 @@ $connectionSettings = (new \PhpMqtt\Client\ConnectionSettings)
     // The resend timeout is the number of seconds the client will wait before sending a duplicate
     // of pending messages without acknowledgement. The value cannot be less than 1 second.
     ->setResendTimeout(10)
+    
+    // This flag determines whether the client will try to reconnect automatically
+    // if it notices a disconnect while sending data.
+    // The setting cannot be used together with the clean session flag.
+    ->setReconnectAutomatically(false)
+    
+    // Defines the maximum number of reconnect attempts until the client gives up.
+    // This setting is only relevant if setReconnectAutomatically() is set to true.
+    ->setMaxReconnectAttempts(3)
+    
+    // Defines the delay between reconnect attempts in milliseconds.
+    // This setting is only relevant if setReconnectAutomatically() is set to true.
+    ->setDelayBetweenReconnectAttempts(0)
     
     // The keep alive interval is the number of seconds the client will wait without sending a message
     // until it sends a keep alive signal (ping) to the broker. The value cannot be less than 1 second
@@ -223,6 +243,115 @@ $connectionSettings = (new \PhpMqtt\Client\ConnectionSettings)
     // This option requires ConnectionSettings::setTlsClientCertificateFile() and
     // ConnectionSettings::setTlsClientCertificateKeyFile() to be used as well.
     ->setTlsClientCertificateKeyPassphrase(null);
+
+     // The TLS ALPN is used to establish a TLS encrypted mqtt connection on port 443,
+     // which usually is reserved for TLS encrypted HTTP traffic.
+     ->setTlsAlpn(null);
+```
+
+### Hooks
+
+The client includes a flexible and powerful hook system to allow custom behaviors during different stages of the MQTT lifecycle. Hooks are registered using closures and can be added or removed dynamically at runtime.
+
+> 💡 All hooks receive the MQTT client instance (`MqttClient`) as their first argument, allowing full access to the client's capabilities from within the hook.
+
+> 💡 Each hook is executed in a `try-catch` block to ensure no individual exception can crash the loop or hook processing.
+
+#### Loop Event Hooks
+
+Called on each iteration of the MQTT client's loop. This hook is especially useful to implement timeouts or other deadlock-prevention logic.
+
+##### Register
+
+```php
+$callback = function (MqttClient $mqtt, float $elapsedTime) {
+    echo "Running for {$elapsedTime} seconds already.";
+};
+
+$mqtt->registerLoopEventHandler($callback);
+```
+
+##### Unregister
+
+```php
+$mqtt->unregisterLoopEventHandler($callback); // Unregister specific event handler
+$mqtt->unregisterLoopEventHandler(); // Unregister all event handlers
+```
+
+#### Publish Event Hooks
+
+Triggered every time a message is published to the broker. This hook is useful to implement centralized logging or metrics.
+
+##### Register
+
+```php
+$callback = function (
+    MqttClient $mqtt,
+    string $topic,
+    string $message,
+    ?int $messageId,
+    int $qualityOfService,
+    bool $retain
+) {
+    echo "Published to [{$topic}]: {$message}";
+};
+
+$mqtt->registerPublishEventHandler($callback);
+```
+
+##### Unregister
+
+```php
+$mqtt->unregisterPublishEventHandler($callback); // Unregister specific event handler
+$mqtt->unregisterPublishEventHandler(); // Unregister all event handlers
+```
+
+#### Message Received Hooks
+
+Executed when a message is received from the broker as part of a subscription. This hook is useful to implement centralized logging or metrics.
+
+##### Register
+
+```php
+$callback = function (
+    MqttClient $mqtt,
+    string $topic,
+    string $message,
+    int $qualityOfService,
+    bool $retained
+) {
+    echo "Message on [{$topic}]: {$message}";
+};
+
+$mqtt->registerMessageReceivedEventHandler($callback);
+```
+
+##### Unregister
+
+```php
+$mqtt->unregisterMessageReceivedEventHandler($callback); // Unregister specific event handler
+$mqtt->unregisterMessageReceivedEventHandler(); // Unregister all event handlers
+```
+
+#### Connected Hooks
+
+Invoked when the client connects to the broker (initial or auto-reconnect).
+
+##### Register
+
+```php
+$callback = function (MqttClient $mqtt, bool $isAutoReconnect) {
+    echo $isAutoReconnect ? "Auto-reconnected!" : "Connected!";
+};
+
+$mqtt->registerConnectedEventHandler($callback);
+```
+
+##### Unregister
+
+```php
+$mqtt->unregisterConnectedEventHandler($callback); // Unregister specific event handler
+$mqtt->unregisterConnectedEventHandler(); // Unregister all event handlers
 ```
 
 ## Features
@@ -230,7 +359,7 @@ $connectionSettings = (new \PhpMqtt\Client\ConnectionSettings)
 - Supported MQTT Versions
   - [x] v3 (just don't use v3.1 features like username & password)
   - [x] v3.1
-  - [ ] v3.1.1
+  - [x] v3.1.1
   - [ ] v5.0
 - Transport
   - [x] TCP (unsecured)
@@ -275,7 +404,15 @@ This will create all required certificates in the `.ci/tls/` directory. The same
 
 Running the tests expects an MQTT broker to be running. The easiest way to run an MQTT broker is through Docker:
 ```sh
-docker run --rm -it -p 1883:1883 -p 8883:8883 -p 8884:8884 -v $(pwd)/.ci/tls:/mosquitto-certs -v $(pwd)/.ci/mosquitto.conf:/mosquitto/config/mosquitto.conf eclipse-mosquitto:1.6
+docker run --rm -it \
+  -p 1883:1883 \
+  -p 1884:1884 \
+  -p 8883:8883 \
+  -p 8884:8884 \
+  -v $(pwd)/.ci/tls:/mosquitto-certs \
+  -v $(pwd)/.ci/mosquitto.conf:/mosquitto/config/mosquitto.conf \
+  -v $(pwd)/.ci/mosquitto.passwd:/mosquitto/config/mosquitto.passwd \
+  eclipse-mosquitto:1.6
 ```
 When run from the project directory, this will spawn a Mosquitto MQTT broker configured with the generated TLS certificates and a custom configuration.
 

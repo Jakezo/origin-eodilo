@@ -20,25 +20,18 @@ use Psr\Log\LoggerInterface;
  */
 class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProcessor
 {
-    private string $clientId;
-
     /**
      * Creates a new message processor instance which supports version 3.1 of the MQTT protocol.
-     *
-     * @param string          $clientId
-     * @param LoggerInterface $logger
      */
-    public function __construct(string $clientId, LoggerInterface $logger)
+    public function __construct(private string $clientId, LoggerInterface $logger)
     {
         parent::__construct($logger);
-
-        $this->clientId = $clientId;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function tryFindMessageInBuffer(string $buffer, int $bufferLength, string &$message = null, int &$requiredBytes = -1): bool
+    public function tryFindMessageInBuffer(string $buffer, int $bufferLength, ?string &$message = null, int &$requiredBytes = -1): bool
     {
         // If we received no input, we can return immediately without doing work.
         if ($bufferLength === 0) {
@@ -97,8 +90,7 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
     public function buildConnectMessage(ConnectionSettings $connectionSettings, bool $useCleanSession = false): string
     {
         // The protocol name and version.
-        $buffer  = $this->buildLengthPrefixedString('MQIsdp');
-        $buffer .= chr(0x03); // protocol version (3)
+        $buffer = $this->getEncodedProtocolNameAndVersion();
 
         // Build connection flags based on the connection settings.
         $buffer .= chr($this->buildConnectionFlags($connectionSettings, $useCleanSession));
@@ -131,6 +123,14 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
     }
 
     /**
+     * Returns the encoded protocol name and version, ready to be sent as part of the CONNECT message.
+     */
+    protected function getEncodedProtocolNameAndVersion(): string
+    {
+        return $this->buildLengthPrefixedString('MQIsdp') . chr(0x03); // protocol version (3)
+    }
+
+    /**
      * Builds the connection flags from the inputs and settings.
      *
      * The bit structure of the connection flags is as follows:
@@ -144,10 +144,6 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
      *   7 - username flag
      *
      * @link http://public.dhe.ibm.com/software/dw/webservices/ws-mqtt/mqtt-v3r1.html#connect MQTT 3.1 Spec
-     *
-     * @param ConnectionSettings $connectionSettings
-     * @param bool               $useCleanSession
-     * @return int
      */
     protected function buildConnectionFlags(ConnectionSettings $connectionSettings, bool $useCleanSession = false): int
     {
@@ -256,8 +252,6 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
 
     /**
      * Builds a ping request message.
-     *
-     * @return string
      */
     public function buildPingRequestMessage(): string
     {
@@ -267,8 +261,6 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
 
     /**
      * Builds a ping response message.
-     *
-     * @return string
      */
     public function buildPingResponseMessage(): string
     {
@@ -278,8 +270,6 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
 
     /**
      * Builds a disconnect message.
-     *
-     * @return string
      */
     public function buildDisconnectMessage(): string
     {
@@ -338,8 +328,8 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
         string $message,
         int $qualityOfService,
         bool $retain,
-        int $messageId = null,
-        bool $isDuplicate = false
+        ?int $messageId = null,
+        bool $isDuplicate = false,
     ): string
     {
         // Encode the topic as length prefixed string.
@@ -362,7 +352,7 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
         if ($qualityOfService > self::QOS_AT_MOST_ONCE) {
             $command += $qualityOfService << 1;
         }
-        if ($isDuplicate) {
+        if ($qualityOfService > self::QOS_AT_MOST_ONCE && $isDuplicate) {
             $command += 1 << 3;
         }
 
@@ -410,8 +400,9 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
     public function parseAndValidateMessage(string $message): ?Message
     {
         $qualityOfService = 0;
+        $retained         = false;
         $data             = '';
-        $result           = $this->tryDecodeMessage($message, $command, $qualityOfService, $data);
+        $result           = $this->tryDecodeMessage($message, $command, $qualityOfService, $retained, $data);
 
         if ($result === false) {
             throw new InvalidMessageException('The passed message could not be decoded.');
@@ -431,7 +422,7 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
                 throw new ProtocolViolationException('Unexpected connection acknowledgement.');
 
             case 0x03:
-                return $this->parseAndValidatePublishMessage($data, $qualityOfService);
+                return $this->parseAndValidatePublishMessage($data, $qualityOfService, $retained);
 
             case 0x04:
                 return $this->parseAndValidatePublishAcknowledgementMessage($data);
@@ -462,7 +453,7 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
                 break;
         }
 
-        // If we arrive here, we must have parsed a message with an unsupported type and it cannot be
+        // If we arrive here, we must have parsed a message with an unsupported type, and it cannot be
         // very relevant for us. So we return an empty result without information to skip processing.
         return null;
     }
@@ -471,14 +462,14 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
      * Attempt to decode the given message. If successful, the result is true and the reference
      * parameters are set accordingly. Otherwise, false is returned and the reference parameters
      * remain untouched.
-     *
-     * @param string      $message
-     * @param int|null    $command
-     * @param int|null    $qualityOfService
-     * @param string|null $data
-     * @return bool
      */
-    protected function tryDecodeMessage(string $message, int &$command = null, int &$qualityOfService = null, string &$data = null): bool
+    protected function tryDecodeMessage(
+        string $message,
+        ?int &$command = null,
+        ?int &$qualityOfService = null,
+        ?bool &$retained = null,
+        ?string &$data = null
+    ): bool
     {
         // If we received no input, we can return immediately without doing work.
         if (strlen($message) === 0) {
@@ -495,6 +486,7 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
         $byte             = $message[0];
         $command          = (int) (ord($byte) / 16);
         $qualityOfService = (ord($byte) & 0x06) >> 1;
+        $retained         = (bool) (ord($byte) & 0x01);
 
         // Read the second byte of a message (remaining length).
         // If the continuation bit (8) is set on the length byte, another byte will be read as length.
@@ -534,18 +526,14 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
      * fixed header with command and length. The message structure is:
      *
      *   [topic-length:topic:message]+
-     *
-     * @param string $data
-     * @param int    $qualityOfServiceLevel
-     * @return Message|null
      */
-    protected function parseAndValidatePublishMessage(string $data, int $qualityOfServiceLevel): ?Message
+    protected function parseAndValidatePublishMessage(string $data, int $qualityOfServiceLevel, bool $retained): ?Message
     {
         $topicLength = (ord($data[0]) << 8) + ord($data[1]);
         $topic       = substr($data, 2, $topicLength);
         $content     = substr($data, ($topicLength + 2));
 
-        $message = new Message(MessageType::PUBLISH(), $qualityOfServiceLevel);
+        $message = new Message(MessageType::PUBLISH(), $qualityOfServiceLevel, $retained);
 
         if ($qualityOfServiceLevel > self::QOS_AT_MOST_ONCE) {
             if (strlen($content) < 2) {
@@ -575,8 +563,6 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
      *
      *   [message-identifier]
      *
-     * @param string $data
-     * @return Message
      * @throws InvalidMessageException
      */
     protected function parseAndValidatePublishAcknowledgementMessage(string $data): Message
@@ -598,8 +584,6 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
      *
      *   [message-identifier]
      *
-     * @param string $data
-     * @return Message
      * @throws InvalidMessageException
      */
     protected function parseAndValidatePublishReceiptMessage(string $data): Message
@@ -621,8 +605,6 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
      *
      *   [message-identifier]
      *
-     * @param string $data
-     * @return Message
      * @throws InvalidMessageException
      */
     protected function parseAndValidatePublishReleaseMessage(string $data): Message
@@ -644,8 +626,6 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
      *
      *   [message-identifier]
      *
-     * @param string $data
-     * @return Message
      * @throws InvalidMessageException
      */
     protected function parseAndValidatePublishCompleteMessage(string $data): Message
@@ -669,8 +649,6 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
      *
      * The order of the received QoS levels matches the order of the sent subscriptions.
      *
-     * @param string $data
-     * @return Message
      * @throws InvalidMessageException
      */
     protected function parseAndValidateSubscribeAcknowledgementMessage(string $data): Message
@@ -701,8 +679,6 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
      *
      *   [message-identifier]
      *
-     * @param string $data
-     * @return Message
      * @throws InvalidMessageException
      */
     protected function parseAndValidateUnsubscribeAcknowledgementMessage(string $data): Message
@@ -720,8 +696,6 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
 
     /**
      * Parses a received ping request.
-     *
-     * @return Message
      */
     protected function parseAndValidatePingRequestMessage(): Message
     {
@@ -730,8 +704,6 @@ class Mqtt31MessageProcessor extends BaseMessageProcessor implements MessageProc
 
     /**
      * Parses a received ping acknowledgement.
-     *
-     * @return Message
      */
     protected function parseAndValidatePingAcknowledgementMessage(): Message
     {

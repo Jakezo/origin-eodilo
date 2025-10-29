@@ -16,8 +16,6 @@ use PhpMqtt\Client\Contracts\MqttClient;
  */
 class Message
 {
-    private MessageType $type;
-    private int $qualityOfService;
     private ?int $messageId  = null;
     private ?string $topic   = null;
     private ?string $content = null;
@@ -27,44 +25,35 @@ class Message
 
     /**
      * Message constructor.
-     *
-     * @param MessageType $type
-     * @param int         $qualityOfService
      */
-    public function __construct(MessageType $type, int $qualityOfService = 0)
+    public function __construct(
+        private MessageType $type,
+        private int $qualityOfService = 0,
+        private bool $retained = false,
+    )
     {
-        $this->type             = $type;
-        $this->qualityOfService = $qualityOfService;
     }
 
-    /**
-     * @return MessageType
-     */
     public function getType(): MessageType
     {
         return $this->type;
     }
 
-    /**
-     * @return int
-     */
     public function getQualityOfService(): int
     {
         return $this->qualityOfService;
     }
 
-    /**
-     * @return int|null
-     */
+    public function getRetained(): bool
+    {
+        return $this->retained;
+    }
+
     public function getMessageId(): ?int
     {
         return $this->messageId;
     }
 
-    /**
-     * @param int|null $messageId
-     * @return Message
-     */
     public function setMessageId(?int $messageId): Message
     {
         $this->messageId = $messageId;
@@ -72,18 +61,11 @@ class Message
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTopic(): ?string
     {
         return $this->topic;
     }
 
-    /**
-     * @param string|null $topic
-     * @return Message
-     */
     public function setTopic(?string $topic): Message
     {
         $this->topic = $topic;
@@ -91,18 +73,11 @@ class Message
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getContent(): ?string
     {
         return $this->content;
     }
 
-    /**
-     * @param string|null $content
-     * @return Message
-     */
     public function setContent(?string $content): Message
     {
         $this->content = $content;
@@ -120,7 +95,6 @@ class Message
 
     /**
      * @param int[] $acknowledgedQualityOfServices
-     * @return Message
      */
     public function setAcknowledgedQualityOfServices(array $acknowledgedQualityOfServices): Message
     {

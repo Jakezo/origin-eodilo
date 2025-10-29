@@ -535,9 +535,6 @@ class UserController extends Controller
                     'edate' => $request->edate, 
                     'fd' => $request->fd, 
                     'q' => $request->q];
-
-
-
         } else {
 
         }

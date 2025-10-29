@@ -7,16 +7,23 @@ namespace PhpMqtt\Client;
 /**
  * The settings used during connection to a broker.
  *
+ * This class is immutable and all setters return a clone of the original class because
+ * connection settings must not change once passed to MqttClient.
+ *
  * @package PhpMqtt\Client
  */
 class ConnectionSettings
 {
     private ?string $username                          = null;
     private ?string $password                          = null;
+    private bool $useBlockingSocket                    = false;
     private int $connectTimeout                        = 60;
     private int $socketTimeout                         = 5;
     private int $resendTimeout                         = 10;
     private int $keepAliveInterval                     = 10;
+    private bool $reconnectAutomatically               = false;
+    private int $maxReconnectAttempts                  = 3;
+    private int $delayBetweenReconnectAttempts         = 0;
     private ?string $lastWillTopic                     = null;
     private ?string $lastWillMessage                   = null;
     private int $lastWillQualityOfService              = 0;
@@ -30,12 +37,12 @@ class ConnectionSettings
     private ?string $tlsClientCertificateFile          = null;
     private ?string $tlsClientCertificateKeyFile       = null;
     private ?string $tlsClientCertificateKeyPassphrase = null;
+    private ?string $tlsAlpn                           = null;
 
     /**
      * The username used for authentication when connecting to the broker.
      *
-     * @param string|null $username
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setUsername(?string $username): ConnectionSettings
     {
@@ -46,9 +53,6 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return string|null
-     */
     public function getUsername(): ?string
     {
         return $this->username;
@@ -57,8 +61,7 @@ class ConnectionSettings
     /**
      * The password used for authentication when connecting to the broker.
      *
-     * @param string|null $password
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setPassword(?string $password): ConnectionSettings
     {
@@ -69,20 +72,39 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPassword(): ?string
     {
         return $this->password;
     }
 
     /**
+     * Whether to use a blocking socket when publishing messages or not.
+     * Normally, this setting can be ignored. When publishing large messages with multiple kilobytes in size,
+     * a blocking socket may be required if the receipt buffer of the broker is not large enough.
+     *
+     * Note: This setting has no effect on subscriptions, only on the publishing of messages.
+     *
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
+     */
+    public function useBlockingSocket(bool $useBlockingSocket): ConnectionSettings
+    {
+        $copy = clone $this;
+
+        $copy->useBlockingSocket = $useBlockingSocket;
+
+        return $copy;
+    }
+
+    public function shouldUseBlockingSocket(): bool
+    {
+        return $this->useBlockingSocket;
+    }
+
+    /**
      * The connect timeout is the maximum amount of seconds the client will try to establish
      * a socket connection with the broker. The value cannot be less than 1 second.
      *
-     * @param int $connectTimeout
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setConnectTimeout(int $connectTimeout): ConnectionSettings
     {
@@ -93,9 +115,6 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return int
-     */
     public function getConnectTimeout(): int
     {
         return $this->connectTimeout;
@@ -106,8 +125,7 @@ class ConnectionSettings
      * If no data is read or sent for the given amount of seconds, the socket will be closed.
      * The value cannot be less than 1 second.
      *
-     * @param int $socketTimeout
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setSocketTimeout(int $socketTimeout): ConnectionSettings
     {
@@ -118,9 +136,6 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return int
-     */
     public function getSocketTimeout(): int
     {
         return $this->socketTimeout;
@@ -130,8 +145,7 @@ class ConnectionSettings
      * The resend timeout is the number of seconds the client will wait before sending a duplicate
      * of pending messages without acknowledgement. The value cannot be less than 1 second.
      *
-     * @param int $resendTimeout
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setResendTimeout(int $resendTimeout): ConnectionSettings
     {
@@ -142,9 +156,6 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return int
-     */
     public function getResendTimeout(): int
     {
         return $this->resendTimeout;
@@ -155,8 +166,7 @@ class ConnectionSettings
      * until it sends a keep alive signal (ping) to the broker. The value cannot be less than 1 second
      * and may not be higher than 65535 seconds. A reasonable value is 10 seconds (the default).
      *
-     * @param int $keepAliveInterval
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setKeepAliveInterval(int $keepAliveInterval): ConnectionSettings
     {
@@ -167,12 +177,70 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return int
-     */
     public function getKeepAliveInterval(): int
     {
         return $this->keepAliveInterval;
+    }
+
+    /**
+     * This flag determines whether the client will try to reconnect automatically,
+     * if it notices a disconnect while sending data.
+     * The setting cannot be used together with the clean session flag.
+     *
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
+     */
+    public function setReconnectAutomatically(bool $reconnectAutomatically): ConnectionSettings
+    {
+        $copy = clone $this;
+
+        $copy->reconnectAutomatically = $reconnectAutomatically;
+
+        return $copy;
+    }
+
+    public function shouldReconnectAutomatically(): bool
+    {
+        return $this->reconnectAutomatically;
+    }
+
+    /**
+     * Defines the maximum number of reconnect attempts until the client gives up. This setting
+     * is only relevant if {@see setReconnectAutomatically()} is set to true.
+     *
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
+     */
+    public function setMaxReconnectAttempts(int $maxReconnectAttempts): ConnectionSettings
+    {
+        $copy = clone $this;
+
+        $copy->maxReconnectAttempts = $maxReconnectAttempts;
+
+        return $copy;
+    }
+
+    public function getMaxReconnectAttempts(): int
+    {
+        return $this->maxReconnectAttempts;
+    }
+
+    /**
+     * Defines the delay between reconnect attempts in milliseconds.
+     * This setting is only relevant if {@see setReconnectAutomatically()} is set to true.
+     *
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
+     */
+    public function setDelayBetweenReconnectAttempts(int $delayBetweenReconnectAttempts): ConnectionSettings
+    {
+        $copy = clone $this;
+
+        $copy->delayBetweenReconnectAttempts = $delayBetweenReconnectAttempts;
+
+        return $copy;
+    }
+
+    public function getDelayBetweenReconnectAttempts(): int
+    {
+        return $this->delayBetweenReconnectAttempts;
     }
 
     /**
@@ -182,8 +250,7 @@ class ConnectionSettings
      * A last will message will only be published if both this setting as well as the last will
      * message are configured.
      *
-     * @param string|null $lastWillTopic
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setLastWillTopic(?string $lastWillTopic): ConnectionSettings
     {
@@ -194,9 +261,6 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return string|null
-     */
     public function getLastWillTopic(): ?string
     {
         return $this->lastWillTopic;
@@ -209,8 +273,7 @@ class ConnectionSettings
      * A last will message will only be published if both this setting as well as the last will
      * topic are configured.
      *
-     * @param string|null $lastWillMessage
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setLastWillMessage(?string $lastWillMessage): ConnectionSettings
     {
@@ -221,9 +284,6 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return string|null
-     */
     public function getLastWillMessage(): ?string
     {
         return $this->lastWillMessage;
@@ -231,8 +291,6 @@ class ConnectionSettings
 
     /**
      * Determines whether the client has a last will.
-     *
-     * @return bool
      */
     public function hasLastWill(): bool
     {
@@ -243,8 +301,7 @@ class ConnectionSettings
      * The quality of service level the last will message of the client will be published with,
      * if it gets triggered.
      *
-     * @param int $lastWillQualityOfService
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setLastWillQualityOfService(int $lastWillQualityOfService): ConnectionSettings
     {
@@ -255,9 +312,6 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return int
-     */
     public function getLastWillQualityOfService(): int
     {
         return $this->lastWillQualityOfService;
@@ -268,8 +322,7 @@ class ConnectionSettings
      * triggered. Using this setting can be handy to signal that a client is offline by publishing
      * a retained offline state in the last will and an online state as first message on connect.
      *
-     * @param bool $lastWillRetain
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setRetainLastWill(bool $lastWillRetain): ConnectionSettings
     {
@@ -280,9 +333,6 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return bool
-     */
     public function shouldRetainLastWill(): bool
     {
         return $this->lastWillRetain;
@@ -292,8 +342,7 @@ class ConnectionSettings
      * This flag determines if TLS should be used for the connection. The port which is used to
      * connect to the broker must support TLS connections.
      *
-     * @param bool $useTls
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setUseTls(bool $useTls): ConnectionSettings
     {
@@ -304,9 +353,6 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return bool
-     */
     public function shouldUseTls(): bool
     {
         return $this->useTls;
@@ -315,8 +361,7 @@ class ConnectionSettings
     /**
      * This flag determines if the peer certificate is verified, if TLS is used.
      *
-     * @param bool $tlsVerifyPeer
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setTlsVerifyPeer(bool $tlsVerifyPeer): ConnectionSettings
     {
@@ -327,9 +372,6 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return bool
-     */
     public function shouldTlsVerifyPeer(): bool
     {
         return $this->tlsVerifyPeer;
@@ -338,8 +380,7 @@ class ConnectionSettings
     /**
      * This flag determines if the peer name is verified, if TLS is used.
      *
-     * @param bool $tlsVerifyPeerName
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setTlsVerifyPeerName(bool $tlsVerifyPeerName): ConnectionSettings
     {
@@ -350,9 +391,6 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return bool
-     */
     public function shouldTlsVerifyPeerName(): bool
     {
         return $this->tlsVerifyPeerName;
@@ -363,8 +401,7 @@ class ConnectionSettings
      * Setting this to TRUE implies a security risk and should be avoided for production
      * scenarios and public services.
      *
-     * @param bool $tlsSelfSignedAllowed
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setTlsSelfSignedAllowed(bool $tlsSelfSignedAllowed): ConnectionSettings
     {
@@ -375,9 +412,6 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return bool
-     */
     public function isTlsSelfSignedAllowed(): bool
     {
         return $this->tlsSelfSignedAllowed;
@@ -387,8 +421,7 @@ class ConnectionSettings
      * The path to a Certificate Authority certificate which is used to verify the peer
      * certificate, if TLS is used.
      *
-     * @param string|null $tlsCertificateAuthorityFile
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setTlsCertificateAuthorityFile(?string $tlsCertificateAuthorityFile): ConnectionSettings
     {
@@ -399,9 +432,6 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTlsCertificateAuthorityFile(): ?string
     {
         return $this->tlsCertificateAuthorityFile;
@@ -416,8 +446,7 @@ class ConnectionSettings
      * openssl_x509_parse() function, which returns an array. The hash can be found in the
      * array under the key "hash".
      *
-     * @param string|null $tlsCertificateAuthorityPath
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setTlsCertificateAuthorityPath(?string $tlsCertificateAuthorityPath): ConnectionSettings
     {
@@ -428,9 +457,6 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTlsCertificateAuthorityPath(): ?string
     {
         return $this->tlsCertificateAuthorityPath;
@@ -444,8 +470,7 @@ class ConnectionSettings
      * file or in a separate file ({@see ConnectionSettings::setTlsClientCertificateKeyFile()}).
      * A passphrase can be configured using {@see ConnectionSettings::setTlsClientCertificateKeyPassphrase()}.
      *
-     * @param string|null $tlsClientCertificateFile
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setTlsClientCertificateFile(?string $tlsClientCertificateFile): ConnectionSettings
     {
@@ -456,9 +481,6 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTlsClientCertificateFile(): ?string
     {
         return $this->tlsClientCertificateFile;
@@ -470,8 +492,7 @@ class ConnectionSettings
      * This option requires {@see ConnectionSettings::setTlsClientCertificateFile()}
      * to be used as well.
      *
-     * @param string|null $tlsClientCertificateKeyFile
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setTlsClientCertificateKeyFile(?string $tlsClientCertificateKeyFile): ConnectionSettings
     {
@@ -482,9 +503,6 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTlsClientCertificateKeyFile(): ?string
     {
         return $this->tlsClientCertificateKeyFile;
@@ -499,8 +517,7 @@ class ConnectionSettings
      *
      * Please be aware that your passphrase is not stored in secure memory when using this option.
      *
-     * @param string|null $tlsClientCertificateKeyPassphrase
-     * @return ConnectionSettings
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
      */
     public function setTlsClientCertificateKeyPassphrase(?string $tlsClientCertificateKeyPassphrase): ConnectionSettings
     {
@@ -511,11 +528,28 @@ class ConnectionSettings
         return $copy;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTlsClientCertificateKeyPassphrase(): ?string
     {
         return $this->tlsClientCertificateKeyPassphrase;
+    }
+
+    /**
+     * The TLS ALPN is used to establish a TLS encrypted mqtt connection on port 443,
+     * which usually is reserved for TLS encrypted HTTP traffic.
+     *
+     * @return ConnectionSettings A copy of the original object with the new setting applied.
+     */
+    public function setTlsAlpn(?string $tlsAlpn): ConnectionSettings
+    {
+        $copy = clone $this;
+
+        $copy->tlsAlpn = $tlsAlpn;
+
+        return $copy;
+    }
+
+    public function getTlsAlpn(): ?string
+    {
+        return $this->tlsAlpn;
     }
 }

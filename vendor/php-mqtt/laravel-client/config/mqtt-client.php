@@ -55,6 +55,10 @@ return [
             // with the log level as configured.
             'enable_logging' => env('MQTT_ENABLE_LOGGING', true),
 
+            // Which logging channel to use for logs produced by the MQTT client.
+            // If left empty, the default log channel or stack is being used.
+            'log_channel' => env('MQTT_LOG_CHANNEL', null),
+
             // Defines which repository implementation shall be used. Currently,
             // only a MemoryRepository is supported.
             'repository' => MemoryRepository::class,
@@ -101,6 +105,14 @@ return [
                 // The interval (in seconds) in which the client will send a ping to the broker,
                 // if no other message has been sent.
                 'keep_alive_interval' => env('MQTT_KEEP_ALIVE_INTERVAL', 10),
+
+                // Additional settings for the optional auto-reconnect. The delay between reconnect attempts is in seconds.
+                'auto_reconnect' => [
+                    'enabled' => env('MQTT_AUTO_RECONNECT_ENABLED', false),
+                    'max_reconnect_attempts' => env('MQTT_AUTO_RECONNECT_MAX_RECONNECT_ATTEMPTS', 3),
+                    'delay_between_reconnect_attempts' => env('MQTT_AUTO_RECONNECT_DELAY_BETWEEN_RECONNECT_ATTEMPTS', 0),
+                ],
+
             ],
 
         ],

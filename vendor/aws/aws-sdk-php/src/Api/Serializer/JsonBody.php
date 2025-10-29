@@ -28,22 +28,39 @@ class JsonBody
      */
     public static function getContentType(Service $service)
     {
-        return 'application/x-amz-json-'
-            . number_format($service->getMetadata('jsonVersion'), 1);
+        if ($service->getMetadata('protocol') === 'rest-json') {
+            return 'application/json';
+        }
+
+        $jsonVersion = $service->getMetadata('jsonVersion');
+        if (empty($jsonVersion)) {
+            throw new \InvalidArgumentException('invalid json');
+        } else {
+            return 'application/x-amz-json-'
+                . @number_format($service->getMetadata('jsonVersion'), 1);
+        }
     }
 
     /**
      * Builds the JSON body based on an array of arguments.
      *
      * @param Shape $shape Operation being constructed
-     * @param array $args  Associative array of arguments
+     * @param array|string $args  Associative array of arguments, or a string.
      *
      * @return string
      */
-    public function build(Shape $shape, array $args)
+    public function build(Shape $shape, array|string $args)
     {
-        $result = json_encode($this->format($shape, $args));
-        return $result == '[]' ? '{}' : $result;
+        try {
+            $result = json_encode($this->format($shape, $args), JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            throw new InvalidJsonException(
+                'Unable to encode JSON document ' . $shape->getName() . ': ' .
+                $e->getMessage() . PHP_EOL
+            );
+        }
+
+        return $result === '[]' ? '{}' : $result;
     }
 
     private function format(Shape $shape, $value)
@@ -51,7 +68,7 @@ class JsonBody
         switch ($shape['type']) {
             case 'structure':
                 $data = [];
-                if (isset($shape['document']) && $shape['document']) {
+                if ($shape['document'] ?? false) {
                     return $value;
                 }
                 foreach ($value as $k => $v) {

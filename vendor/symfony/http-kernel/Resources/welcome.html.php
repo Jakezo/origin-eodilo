@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="ko">
+<html dir="ltr" lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noodp,notranslate,noimageindex" />
